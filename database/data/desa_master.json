@@ -1,0 +1,1675 @@
+[
+  {
+    "kode_desa": "33.03.01.2001",
+    "nama_desa": "Kedungbenda",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.476425,
+    "longitude": 109.333039
+  },
+  {
+    "kode_desa": "33.03.01.2002",
+    "nama_desa": "Bokol",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.476604,
+    "longitude": 109.352799
+  },
+  {
+    "kode_desa": "33.03.01.2003",
+    "nama_desa": "Pelumutan",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.479675,
+    "longitude": 109.365815
+  },
+  {
+    "kode_desa": "33.03.01.2004",
+    "nama_desa": "Majatengah",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.469329,
+    "longitude": 109.385441
+  },
+  {
+    "kode_desa": "33.03.01.2005",
+    "nama_desa": "Kedunglegok",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.463756,
+    "longitude": 109.39671
+  },
+  {
+    "kode_desa": "33.03.01.2006",
+    "nama_desa": "Kemangkon",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.466395,
+    "longitude": 109.40973
+  },
+  {
+    "kode_desa": "33.03.01.2007",
+    "nama_desa": "Panican",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.443382,
+    "longitude": 109.39302
+  },
+  {
+    "kode_desa": "33.03.01.2008",
+    "nama_desa": "Bakulan",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.445971,
+    "longitude": 109.384144
+  },
+  {
+    "kode_desa": "33.03.01.2009",
+    "nama_desa": "Karangkemiri",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.447841,
+    "longitude": 109.376688
+  },
+  {
+    "kode_desa": "33.03.01.2010",
+    "nama_desa": "Pegandekan",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.456279,
+    "longitude": 109.368766
+  },
+  {
+    "kode_desa": "33.03.01.2011",
+    "nama_desa": "Senon",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.465877,
+    "longitude": 109.368989
+  },
+  {
+    "kode_desa": "33.03.01.2012",
+    "nama_desa": "Sumilir",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.462766,
+    "longitude": 109.352395
+  },
+  {
+    "kode_desa": "33.03.01.2013",
+    "nama_desa": "Kalialang",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.461844,
+    "longitude": 109.341178
+  },
+  {
+    "kode_desa": "33.03.01.2014",
+    "nama_desa": "Karangtengah",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.444628,
+    "longitude": 109.348363
+  },
+  {
+    "kode_desa": "33.03.01.2015",
+    "nama_desa": "Muntang",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.445679,
+    "longitude": 109.363058
+  },
+  {
+    "kode_desa": "33.03.01.2016",
+    "nama_desa": "Gambarsari",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.432986,
+    "longitude": 109.361526
+  },
+  {
+    "kode_desa": "33.03.01.2017",
+    "nama_desa": "Toyareka",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.426228,
+    "longitude": 109.372435
+  },
+  {
+    "kode_desa": "33.03.01.2018",
+    "nama_desa": "Jetis",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.429115,
+    "longitude": 109.383275
+  },
+  {
+    "kode_desa": "33.03.01.2019",
+    "nama_desa": "Majasem",
+    "kecamatan": "Kemangkon",
+    "latitude": -7.432028,
+    "longitude": 109.397165
+  },
+  {
+    "kode_desa": "33.03.02.2001",
+    "nama_desa": "Tidu",
+    "kecamatan": "Bukateja",
+    "latitude": -7.444931,
+    "longitude": 109.406619
+  },
+  {
+    "kode_desa": "33.03.02.2002",
+    "nama_desa": "Wirasaba",
+    "kecamatan": "Bukateja",
+    "latitude": -7.455247,
+    "longitude": 109.415753
+  },
+  {
+    "kode_desa": "33.03.02.2003",
+    "nama_desa": "Kembangan",
+    "kecamatan": "Bukateja",
+    "latitude": -7.449497,
+    "longitude": 109.434021
+  },
+  {
+    "kode_desa": "33.03.02.2004",
+    "nama_desa": "Cipawon",
+    "kecamatan": "Bukateja",
+    "latitude": -7.441045,
+    "longitude": 109.457184
+  },
+  {
+    "kode_desa": "33.03.02.2005",
+    "nama_desa": "Karangcengis",
+    "kecamatan": "Bukateja",
+    "latitude": -7.438969,
+    "longitude": 109.475669
+  },
+  {
+    "kode_desa": "33.03.02.2006",
+    "nama_desa": "Karanggedang",
+    "kecamatan": "Bukateja",
+    "latitude": -7.441181,
+    "longitude": 109.497362
+  },
+  {
+    "kode_desa": "33.03.02.2007",
+    "nama_desa": "Karangnangka",
+    "kecamatan": "Bukateja",
+    "latitude": -7.427364,
+    "longitude": 109.503637
+  },
+  {
+    "kode_desa": "33.03.02.2008",
+    "nama_desa": "Kutawis",
+    "kecamatan": "Bukateja",
+    "latitude": -7.422075,
+    "longitude": 109.494427
+  },
+  {
+    "kode_desa": "33.03.02.2009",
+    "nama_desa": "Kebutuh",
+    "kecamatan": "Bukateja",
+    "latitude": -7.423755,
+    "longitude": 109.474989
+  },
+  {
+    "kode_desa": "33.03.02.2010",
+    "nama_desa": "Penaruban",
+    "kecamatan": "Bukateja",
+    "latitude": -7.428759,
+    "longitude": 109.458471
+  },
+  {
+    "kode_desa": "33.03.02.2011",
+    "nama_desa": "Kedungjati",
+    "kecamatan": "Bukateja",
+    "latitude": -7.430999,
+    "longitude": 109.443436
+  },
+  {
+    "kode_desa": "33.03.02.2012",
+    "nama_desa": "Bukateja",
+    "kecamatan": "Bukateja",
+    "latitude": -7.421547,
+    "longitude": 109.424799
+  },
+  {
+    "kode_desa": "33.03.02.2013",
+    "nama_desa": "Majasari",
+    "kecamatan": "Bukateja",
+    "latitude": -7.435273,
+    "longitude": 109.423967
+  },
+  {
+    "kode_desa": "33.03.02.2014",
+    "nama_desa": "Bajong",
+    "kecamatan": "Bukateja",
+    "latitude": -7.427634,
+    "longitude": 109.408941
+  },
+  {
+    "kode_desa": "33.03.03.2001",
+    "nama_desa": "Bandingan",
+    "kecamatan": "Kejobong",
+    "latitude": -7.4032,
+    "longitude": 109.435839
+  },
+  {
+    "kode_desa": "33.03.03.2002",
+    "nama_desa": "Lamuk",
+    "kecamatan": "Kejobong",
+    "latitude": -7.409923,
+    "longitude": 109.428348
+  },
+  {
+    "kode_desa": "33.03.03.2003",
+    "nama_desa": "Sokanegara",
+    "kecamatan": "Kejobong",
+    "latitude": -7.415084,
+    "longitude": 109.450632
+  },
+  {
+    "kode_desa": "33.03.03.2004",
+    "nama_desa": "Gumiwang",
+    "kecamatan": "Kejobong",
+    "latitude": -7.402374,
+    "longitude": 109.45278
+  },
+  {
+    "kode_desa": "33.03.03.2005",
+    "nama_desa": "Krenceng",
+    "kecamatan": "Kejobong",
+    "latitude": -7.411179,
+    "longitude": 109.464263
+  },
+  {
+    "kode_desa": "33.03.03.2006",
+    "nama_desa": "Nangkasawit",
+    "kecamatan": "Kejobong",
+    "latitude": -7.400902,
+    "longitude": 109.477339
+  },
+  {
+    "kode_desa": "33.03.03.2007",
+    "nama_desa": "Pandansari",
+    "kecamatan": "Kejobong",
+    "latitude": -7.409097,
+    "longitude": 109.481209
+  },
+  {
+    "kode_desa": "33.03.03.2008",
+    "nama_desa": "Kejobong",
+    "kecamatan": "Kejobong",
+    "latitude": -7.397131,
+    "longitude": 109.503759
+  },
+  {
+    "kode_desa": "33.03.03.2009",
+    "nama_desa": "Langgar",
+    "kecamatan": "Kejobong",
+    "latitude": -7.403601,
+    "longitude": 109.518038
+  },
+  {
+    "kode_desa": "33.03.03.2010",
+    "nama_desa": "Timbang",
+    "kecamatan": "Kejobong",
+    "latitude": -7.399569,
+    "longitude": 109.538952
+  },
+  {
+    "kode_desa": "33.03.03.2011",
+    "nama_desa": "Nangkod",
+    "kecamatan": "Kejobong",
+    "latitude": -7.385906,
+    "longitude": 109.532353
+  },
+  {
+    "kode_desa": "33.03.03.2012",
+    "nama_desa": "Kedarpan",
+    "kecamatan": "Kejobong",
+    "latitude": -7.383624,
+    "longitude": 109.520581
+  },
+  {
+    "kode_desa": "33.03.03.2013",
+    "nama_desa": "Pangempon",
+    "kecamatan": "Kejobong",
+    "latitude": -7.389615,
+    "longitude": 109.495489
+  },
+  {
+    "kode_desa": "33.03.04.2001",
+    "nama_desa": "Lamongan",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.406832,
+    "longitude": 109.394707
+  },
+  {
+    "kode_desa": "33.03.04.2002",
+    "nama_desa": "Tejasari",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.409159,
+    "longitude": 109.404921
+  },
+  {
+    "kode_desa": "33.03.04.2003",
+    "nama_desa": "Cilapar",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.396695,
+    "longitude": 109.413652
+  },
+  {
+    "kode_desa": "33.03.04.2004",
+    "nama_desa": "Penolih",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.392801,
+    "longitude": 109.428604
+  },
+  {
+    "kode_desa": "33.03.04.2005",
+    "nama_desa": "Sinduraja",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.386355,
+    "longitude": 109.446074
+  },
+  {
+    "kode_desa": "33.03.04.2006",
+    "nama_desa": "Selakambang",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.371654,
+    "longitude": 109.436635
+  },
+  {
+    "kode_desa": "33.03.04.2007",
+    "nama_desa": "Selanegara",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.379395,
+    "longitude": 109.419893
+  },
+  {
+    "kode_desa": "33.03.04.2008",
+    "nama_desa": "Kaligondang",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.381248,
+    "longitude": 109.406155
+  },
+  {
+    "kode_desa": "33.03.04.2009",
+    "nama_desa": "Brecek",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.395015,
+    "longitude": 109.400799
+  },
+  {
+    "kode_desa": "33.03.04.2010",
+    "nama_desa": "Sempor Lor",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.389682,
+    "longitude": 109.391211
+  },
+  {
+    "kode_desa": "33.03.04.2011",
+    "nama_desa": "Penaruban",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.386623,
+    "longitude": 109.379308
+  },
+  {
+    "kode_desa": "33.03.04.2012",
+    "nama_desa": "Kalikajar",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.376978,
+    "longitude": 109.381204
+  },
+  {
+    "kode_desa": "33.03.04.2013",
+    "nama_desa": "Kembaran Wetan",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.377055,
+    "longitude": 109.394237
+  },
+  {
+    "kode_desa": "33.03.04.2014",
+    "nama_desa": "Slinga",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.362035,
+    "longitude": 109.389219
+  },
+  {
+    "kode_desa": "33.03.04.2015",
+    "nama_desa": "Arenan",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.360346,
+    "longitude": 109.407872
+  },
+  {
+    "kode_desa": "33.03.04.2016",
+    "nama_desa": "Sidanegara",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.361259,
+    "longitude": 109.421519
+  },
+  {
+    "kode_desa": "33.03.04.2017",
+    "nama_desa": "Pagerandong",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.354135,
+    "longitude": 109.431852
+  },
+  {
+    "kode_desa": "33.03.04.2018",
+    "nama_desa": "Sidareja",
+    "kecamatan": "Kaligondang",
+    "latitude": -7.353989,
+    "longitude": 109.446925
+  },
+  {
+    "kode_desa": "33.03.05.1001",
+    "nama_desa": "Bojong",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.413967,
+    "longitude": 109.376123
+  },
+  {
+    "kode_desa": "33.03.05.2002",
+    "nama_desa": "Toyareja",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.417494,
+    "longitude": 109.391809
+  },
+  {
+    "kode_desa": "33.03.05.1003",
+    "nama_desa": "Kedungmenjangan",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.404133,
+    "longitude": 109.377694
+  },
+  {
+    "kode_desa": "33.03.05.2004",
+    "nama_desa": "Jatisaba",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.400977,
+    "longitude": 109.388012
+  },
+  {
+    "kode_desa": "33.03.05.1005",
+    "nama_desa": "Bancar",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.393056,
+    "longitude": 109.376064
+  },
+  {
+    "kode_desa": "33.03.05.1006",
+    "nama_desa": "Purbalingga Wetan",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.392921,
+    "longitude": 109.369127
+  },
+  {
+    "kode_desa": "33.03.05.1007",
+    "nama_desa": "Penambongan",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.401194,
+    "longitude": 109.368606
+  },
+  {
+    "kode_desa": "33.03.05.1008",
+    "nama_desa": "Purbalingga Kidul",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.393894,
+    "longitude": 109.360235
+  },
+  {
+    "kode_desa": "33.03.05.1009",
+    "nama_desa": "Kandanggampang",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.392767,
+    "longitude": 109.351947
+  },
+  {
+    "kode_desa": "33.03.05.1010",
+    "nama_desa": "Purbalingga Kulon",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.387444,
+    "longitude": 109.353638
+  },
+  {
+    "kode_desa": "33.03.05.1011",
+    "nama_desa": "Purbalingga Lor",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.386666,
+    "longitude": 109.359874
+  },
+  {
+    "kode_desa": "33.03.05.1012",
+    "nama_desa": "Kembaran Kulon",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.379377,
+    "longitude": 109.358364
+  },
+  {
+    "kode_desa": "33.03.05.1013",
+    "nama_desa": "Wirasana",
+    "kecamatan": "Purbalingga",
+    "latitude": -7.380982,
+    "longitude": 109.368778
+  },
+  {
+    "kode_desa": "33.03.06.2001",
+    "nama_desa": "Jompo",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.439901,
+    "longitude": 109.336399
+  },
+  {
+    "kode_desa": "33.03.06.2002",
+    "nama_desa": "Rabak",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.434963,
+    "longitude": 109.34821
+  },
+  {
+    "kode_desa": "33.03.06.2003",
+    "nama_desa": "Blater",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.426012,
+    "longitude": 109.335794
+  },
+  {
+    "kode_desa": "33.03.06.2004",
+    "nama_desa": "Manduraga",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.418009,
+    "longitude": 109.324637
+  },
+  {
+    "kode_desa": "33.03.06.2005",
+    "nama_desa": "Karangsari",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.410874,
+    "longitude": 109.327079
+  },
+  {
+    "kode_desa": "33.03.06.2006",
+    "nama_desa": "Kalimanah Kulon",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.416932,
+    "longitude": 109.337061
+  },
+  {
+    "kode_desa": "33.03.06.2007",
+    "nama_desa": "Sidakangen",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.42452,
+    "longitude": 109.344613
+  },
+  {
+    "kode_desa": "33.03.06.2008",
+    "nama_desa": "Karangpetir",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.422439,
+    "longitude": 109.353641
+  },
+  {
+    "kode_desa": "33.03.06.2009",
+    "nama_desa": "Kalimanah Wetan",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.414062,
+    "longitude": 109.343927
+  },
+  {
+    "kode_desa": "33.03.06.2010",
+    "nama_desa": "Grecol",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.41435,
+    "longitude": 109.359356
+  },
+  {
+    "kode_desa": "33.03.06.1011",
+    "nama_desa": "Mewek",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.410621,
+    "longitude": 109.366875
+  },
+  {
+    "kode_desa": "33.03.06.1012",
+    "nama_desa": "Karangmanyar",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.402404,
+    "longitude": 109.361391
+  },
+  {
+    "kode_desa": "33.03.06.1013",
+    "nama_desa": "Kalikabong",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.401209,
+    "longitude": 109.353388
+  },
+  {
+    "kode_desa": "33.03.06.2014",
+    "nama_desa": "Selabaya",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.406186,
+    "longitude": 109.34524
+  },
+  {
+    "kode_desa": "33.03.06.2015",
+    "nama_desa": "Klapasawit",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.401981,
+    "longitude": 109.333843
+  },
+  {
+    "kode_desa": "33.03.06.2016",
+    "nama_desa": "Kedungwuluh",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.403082,
+    "longitude": 109.322736
+  },
+  {
+    "kode_desa": "33.03.06.2017",
+    "nama_desa": "Babakan",
+    "kecamatan": "Kalimanah",
+    "latitude": -7.394272,
+    "longitude": 109.342051
+  },
+  {
+    "kode_desa": "33.03.07.2001",
+    "nama_desa": "Karanglewas",
+    "kecamatan": "Kutasari",
+    "latitude": -7.368185,
+    "longitude": 109.342344
+  },
+  {
+    "kode_desa": "33.03.07.2002",
+    "nama_desa": "Munjul",
+    "kecamatan": "Kutasari",
+    "latitude": -7.362283,
+    "longitude": 109.335835
+  },
+  {
+    "kode_desa": "33.03.07.2003",
+    "nama_desa": "Sumingkir",
+    "kecamatan": "Kutasari",
+    "latitude": -7.339559,
+    "longitude": 109.328087
+  },
+  {
+    "kode_desa": "33.03.07.2004",
+    "nama_desa": "Meri",
+    "kecamatan": "Kutasari",
+    "latitude": -7.341932,
+    "longitude": 109.314518
+  },
+  {
+    "kode_desa": "33.03.07.2005",
+    "nama_desa": "Kutasari",
+    "kecamatan": "Kutasari",
+    "latitude": -7.352858,
+    "longitude": 109.325187
+  },
+  {
+    "kode_desa": "33.03.07.2006",
+    "nama_desa": "Karangklesem",
+    "kecamatan": "Kutasari",
+    "latitude": -7.359818,
+    "longitude": 109.317302
+  },
+  {
+    "kode_desa": "33.03.07.2007",
+    "nama_desa": "Karangreja",
+    "kecamatan": "Kutasari",
+    "latitude": -7.349071,
+    "longitude": 109.307665
+  },
+  {
+    "kode_desa": "33.03.07.2008",
+    "nama_desa": "Karangaren",
+    "kecamatan": "Kutasari",
+    "latitude": -7.356378,
+    "longitude": 109.302516
+  },
+  {
+    "kode_desa": "33.03.07.2009",
+    "nama_desa": "Limbangan",
+    "kecamatan": "Kutasari",
+    "latitude": -7.349259,
+    "longitude": 109.293293
+  },
+  {
+    "kode_desa": "33.03.07.2010",
+    "nama_desa": "Cendana",
+    "kecamatan": "Kutasari",
+    "latitude": -7.320522,
+    "longitude": 109.276767
+  },
+  {
+    "kode_desa": "33.03.07.2011",
+    "nama_desa": "Candiwulan",
+    "kecamatan": "Kutasari",
+    "latitude": -7.297734,
+    "longitude": 109.271213
+  },
+  {
+    "kode_desa": "33.03.07.2012",
+    "nama_desa": "Karangcegak",
+    "kecamatan": "Kutasari",
+    "latitude": -7.317614,
+    "longitude": 109.293248
+  },
+  {
+    "kode_desa": "33.03.07.2013",
+    "nama_desa": "Candinata",
+    "kecamatan": "Kutasari",
+    "latitude": -7.308631,
+    "longitude": 109.289789
+  },
+  {
+    "kode_desa": "33.03.07.2014",
+    "nama_desa": "Karangjengkol",
+    "kecamatan": "Kutasari",
+    "latitude": -7.295357,
+    "longitude": 109.283814
+  },
+  {
+    "kode_desa": "33.03.08.2001",
+    "nama_desa": "Karangturi",
+    "kecamatan": "Mrebet",
+    "latitude": -7.342576,
+    "longitude": 109.363186
+  },
+  {
+    "kode_desa": "33.03.08.2002",
+    "nama_desa": "Onje",
+    "kecamatan": "Mrebet",
+    "latitude": -7.333934,
+    "longitude": 109.373652
+  },
+  {
+    "kode_desa": "33.03.08.2003",
+    "nama_desa": "Sindang",
+    "kecamatan": "Mrebet",
+    "latitude": -7.344557,
+    "longitude": 109.394866
+  },
+  {
+    "kode_desa": "33.03.08.2004",
+    "nama_desa": "Tangkisan",
+    "kecamatan": "Mrebet",
+    "latitude": -7.329965,
+    "longitude": 109.390608
+  },
+  {
+    "kode_desa": "33.03.08.2005",
+    "nama_desa": "Kradenan",
+    "kecamatan": "Mrebet",
+    "latitude": -7.321425,
+    "longitude": 109.372352
+  },
+  {
+    "kode_desa": "33.03.08.2006",
+    "nama_desa": "Lambur",
+    "kecamatan": "Mrebet",
+    "latitude": -7.308424,
+    "longitude": 109.355718
+  },
+  {
+    "kode_desa": "33.03.08.2007",
+    "nama_desa": "Selaganggeng",
+    "kecamatan": "Mrebet",
+    "latitude": -7.322805,
+    "longitude": 109.359374
+  },
+  {
+    "kode_desa": "33.03.08.2008",
+    "nama_desa": "Mangunegara",
+    "kecamatan": "Mrebet",
+    "latitude": -7.333805,
+    "longitude": 109.359689
+  },
+  {
+    "kode_desa": "33.03.08.2009",
+    "nama_desa": "Karangnangka",
+    "kecamatan": "Mrebet",
+    "latitude": -7.326986,
+    "longitude": 109.348349
+  },
+  {
+    "kode_desa": "33.03.08.2010",
+    "nama_desa": "Mrebet",
+    "kecamatan": "Mrebet",
+    "latitude": -7.316302,
+    "longitude": 109.349324
+  },
+  {
+    "kode_desa": "33.03.08.2011",
+    "nama_desa": "Bojong",
+    "kecamatan": "Mrebet",
+    "latitude": -7.305095,
+    "longitude": 109.341697
+  },
+  {
+    "kode_desa": "33.03.08.2012",
+    "nama_desa": "Serayu Karanganyar",
+    "kecamatan": "Mrebet",
+    "latitude": -7.296117,
+    "longitude": 109.338943
+  },
+  {
+    "kode_desa": "33.03.08.2013",
+    "nama_desa": "Serayu Larangan",
+    "kecamatan": "Mrebet",
+    "latitude": -7.288753,
+    "longitude": 109.330221
+  },
+  {
+    "kode_desa": "33.03.08.2014",
+    "nama_desa": "Campakoah",
+    "kecamatan": "Mrebet",
+    "latitude": -7.288564,
+    "longitude": 109.320583
+  },
+  {
+    "kode_desa": "33.03.08.2015",
+    "nama_desa": "Pagerandong",
+    "kecamatan": "Mrebet",
+    "latitude": -7.305716,
+    "longitude": 109.329707
+  },
+  {
+    "kode_desa": "33.03.08.2016",
+    "nama_desa": "Cipaku",
+    "kecamatan": "Mrebet",
+    "latitude": -7.313539,
+    "longitude": 109.328415
+  },
+  {
+    "kode_desa": "33.03.08.2017",
+    "nama_desa": "Binangun",
+    "kecamatan": "Mrebet",
+    "latitude": -7.280295,
+    "longitude": 109.29799
+  },
+  {
+    "kode_desa": "33.03.08.2018",
+    "nama_desa": "Pengalusan",
+    "kecamatan": "Mrebet",
+    "latitude": -7.283918,
+    "longitude": 109.308297
+  },
+  {
+    "kode_desa": "33.03.08.2019",
+    "nama_desa": "Sangkanayu",
+    "kecamatan": "Mrebet",
+    "latitude": -7.272156,
+    "longitude": 109.321371
+  },
+  {
+    "kode_desa": "33.03.09.2001",
+    "nama_desa": "Gandasuli",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.313416,
+    "longitude": 109.368802
+  },
+  {
+    "kode_desa": "33.03.09.2002",
+    "nama_desa": "Kalapacung",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.312897,
+    "longitude": 109.381362
+  },
+  {
+    "kode_desa": "33.03.09.2003",
+    "nama_desa": "Karangmalang",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.313382,
+    "longitude": 109.390724
+  },
+  {
+    "kode_desa": "33.03.09.2004",
+    "nama_desa": "Banjarsari",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.289746,
+    "longitude": 109.380523
+  },
+  {
+    "kode_desa": "33.03.09.2005",
+    "nama_desa": "Majapura",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.304668,
+    "longitude": 109.37605
+  },
+  {
+    "kode_desa": "33.03.09.2006",
+    "nama_desa": "Bobotsari",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.305228,
+    "longitude": 109.364959
+  },
+  {
+    "kode_desa": "33.03.09.2007",
+    "nama_desa": "Karangduren",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.297738,
+    "longitude": 109.35755
+  },
+  {
+    "kode_desa": "33.03.09.2008",
+    "nama_desa": "Pakuncen",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.295688,
+    "longitude": 109.369122
+  },
+  {
+    "kode_desa": "33.03.09.2009",
+    "nama_desa": "Karangtalun",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.287714,
+    "longitude": 109.367979
+  },
+  {
+    "kode_desa": "33.03.09.2010",
+    "nama_desa": "Gunungkarang",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.291686,
+    "longitude": 109.352822
+  },
+  {
+    "kode_desa": "33.03.09.2011",
+    "nama_desa": "Talagening",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.284051,
+    "longitude": 109.340643
+  },
+  {
+    "kode_desa": "33.03.09.2012",
+    "nama_desa": "Tlagayasa",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.276601,
+    "longitude": 109.343901
+  },
+  {
+    "kode_desa": "33.03.09.2013",
+    "nama_desa": "Dagan",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.279582,
+    "longitude": 109.36137
+  },
+  {
+    "kode_desa": "33.03.09.2014",
+    "nama_desa": "Palumbungan",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.267802,
+    "longitude": 109.358285
+  },
+  {
+    "kode_desa": "33.03.09.2015",
+    "nama_desa": "Limbasari",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.257584,
+    "longitude": 109.378696
+  },
+  {
+    "kode_desa": "33.03.09.2016",
+    "nama_desa": "Palumbungan Wetan",
+    "kecamatan": "Bobotsari",
+    "latitude": -7.256769,
+    "longitude": 109.364934
+  },
+  {
+    "kode_desa": "33.03.10.2001",
+    "nama_desa": "Serang",
+    "kecamatan": "Karangreja",
+    "latitude": -7.244225,
+    "longitude": 109.279768
+  },
+  {
+    "kode_desa": "33.03.10.2002",
+    "nama_desa": "Kutabawa",
+    "kecamatan": "Karangreja",
+    "latitude": -7.235226,
+    "longitude": 109.302616
+  },
+  {
+    "kode_desa": "33.03.10.2003",
+    "nama_desa": "Siwarak",
+    "kecamatan": "Karangreja",
+    "latitude": -7.224734,
+    "longitude": 109.320006
+  },
+  {
+    "kode_desa": "33.03.10.2004",
+    "nama_desa": "Tlahab Lor",
+    "kecamatan": "Karangreja",
+    "latitude": -7.246357,
+    "longitude": 109.331764
+  },
+  {
+    "kode_desa": "33.03.10.2005",
+    "nama_desa": "Tlahab Kidul",
+    "kecamatan": "Karangreja",
+    "latitude": -7.255572,
+    "longitude": 109.346479
+  },
+  {
+    "kode_desa": "33.03.10.2006",
+    "nama_desa": "Karangreja",
+    "kecamatan": "Karangreja",
+    "latitude": -7.223716,
+    "longitude": 109.336674
+  },
+  {
+    "kode_desa": "33.03.10.2007",
+    "nama_desa": "Gondang",
+    "kecamatan": "Karangreja",
+    "latitude": -7.222023,
+    "longitude": 109.3497
+  },
+  {
+    "kode_desa": "33.03.11.2001",
+    "nama_desa": "Ponjen",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.262022,
+    "longitude": 109.397905
+  },
+  {
+    "kode_desa": "33.03.11.2002",
+    "nama_desa": "Buara",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.273614,
+    "longitude": 109.385311
+  },
+  {
+    "kode_desa": "33.03.11.2003",
+    "nama_desa": "Brakas",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.277411,
+    "longitude": 109.395185
+  },
+  {
+    "kode_desa": "33.03.11.2004",
+    "nama_desa": "Bungkanel",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.287022,
+    "longitude": 109.399696
+  },
+  {
+    "kode_desa": "33.03.11.2005",
+    "nama_desa": "Lumpang",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.291509,
+    "longitude": 109.38685
+  },
+  {
+    "kode_desa": "33.03.11.2006",
+    "nama_desa": "Karanggedang",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.297438,
+    "longitude": 109.396722
+  },
+  {
+    "kode_desa": "33.03.11.2007",
+    "nama_desa": "Kabunderan",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.293522,
+    "longitude": 109.395624
+  },
+  {
+    "kode_desa": "33.03.11.2008",
+    "nama_desa": "Jambudesa",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.294481,
+    "longitude": 109.416073
+  },
+  {
+    "kode_desa": "33.03.11.2009",
+    "nama_desa": "Maribaya",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.278198,
+    "longitude": 109.410511
+  },
+  {
+    "kode_desa": "33.03.11.2010",
+    "nama_desa": "Karanganyar",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.30994,
+    "longitude": 109.408671
+  },
+  {
+    "kode_desa": "33.03.11.2012",
+    "nama_desa": "Banjarkerta",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.307442,
+    "longitude": 109.400397
+  },
+  {
+    "kode_desa": "33.03.11.2013",
+    "nama_desa": "Kalijaran",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.320142,
+    "longitude": 109.414609
+  },
+  {
+    "kode_desa": "33.03.11.2014",
+    "nama_desa": "Kaliori",
+    "kecamatan": "Karanganyar",
+    "latitude": -7.338135,
+    "longitude": 109.418363
+  },
+  {
+    "kode_desa": "33.03.12.2001",
+    "nama_desa": "Karangsari",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.325174,
+    "longitude": 109.447431
+  },
+  {
+    "kode_desa": "33.03.12.2002",
+    "nama_desa": "Pepedan",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.330699,
+    "longitude": 109.457179
+  },
+  {
+    "kode_desa": "33.03.12.2003",
+    "nama_desa": "Pekiringan",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.321053,
+    "longitude": 109.469711
+  },
+  {
+    "kode_desa": "33.03.12.2004",
+    "nama_desa": "Grantung",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.325986,
+    "longitude": 109.477464
+  },
+  {
+    "kode_desa": "33.03.12.2005",
+    "nama_desa": "Rajawana",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.291927,
+    "longitude": 109.489463
+  },
+  {
+    "kode_desa": "33.03.12.2006",
+    "nama_desa": "Tajug",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.300009,
+    "longitude": 109.479285
+  },
+  {
+    "kode_desa": "33.03.12.2007",
+    "nama_desa": "Tamansari",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.298194,
+    "longitude": 109.467108
+  },
+  {
+    "kode_desa": "33.03.12.2008",
+    "nama_desa": "Baleraksa",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.295983,
+    "longitude": 109.455043
+  },
+  {
+    "kode_desa": "33.03.12.2009",
+    "nama_desa": "Tunjungmuli",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.266124,
+    "longitude": 109.471474
+  },
+  {
+    "kode_desa": "33.03.12.2010",
+    "nama_desa": "Kramat",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.24746,
+    "longitude": 109.460011
+  },
+  {
+    "kode_desa": "33.03.12.2011",
+    "nama_desa": "Sirau",
+    "kecamatan": "Karangmoncol",
+    "latitude": -7.211121,
+    "longitude": 109.453827
+  },
+  {
+    "kode_desa": "33.03.13.2001",
+    "nama_desa": "Wlahar",
+    "kecamatan": "Rembang",
+    "latitude": -7.345883,
+    "longitude": 109.501707
+  },
+  {
+    "kode_desa": "33.03.13.2002",
+    "nama_desa": "Bantarbarang",
+    "kecamatan": "Rembang",
+    "latitude": -7.324068,
+    "longitude": 109.529214
+  },
+  {
+    "kode_desa": "33.03.13.2003",
+    "nama_desa": "Karangbawang",
+    "kecamatan": "Rembang",
+    "latitude": -7.319877,
+    "longitude": 109.558163
+  },
+  {
+    "kode_desa": "33.03.13.2004",
+    "nama_desa": "Gunungwuled",
+    "kecamatan": "Rembang",
+    "latitude": -7.282785,
+    "longitude": 109.560967
+  },
+  {
+    "kode_desa": "33.03.13.2005",
+    "nama_desa": "Losari",
+    "kecamatan": "Rembang",
+    "latitude": -7.302554,
+    "longitude": 109.535165
+  },
+  {
+    "kode_desa": "33.03.13.2006",
+    "nama_desa": "Bodaskarangjati",
+    "kecamatan": "Rembang",
+    "latitude": -7.31397,
+    "longitude": 109.509813
+  },
+  {
+    "kode_desa": "33.03.13.2007",
+    "nama_desa": "Wanogara Wetan",
+    "kecamatan": "Rembang",
+    "latitude": -7.327264,
+    "longitude": 109.498326
+  },
+  {
+    "kode_desa": "33.03.13.2008",
+    "nama_desa": "Wanogara Kulon",
+    "kecamatan": "Rembang",
+    "latitude": -7.328142,
+    "longitude": 109.487289
+  },
+  {
+    "kode_desa": "33.03.13.2009",
+    "nama_desa": "Makam",
+    "kecamatan": "Rembang",
+    "latitude": -7.307355,
+    "longitude": 109.49592
+  },
+  {
+    "kode_desa": "33.03.13.2010",
+    "nama_desa": "Sumampir",
+    "kecamatan": "Rembang",
+    "latitude": -7.292058,
+    "longitude": 109.513284
+  },
+  {
+    "kode_desa": "33.03.13.2011",
+    "nama_desa": "Tanalum",
+    "kecamatan": "Rembang",
+    "latitude": -7.268235,
+    "longitude": 109.534706
+  },
+  {
+    "kode_desa": "33.03.13.2012",
+    "nama_desa": "Panusupan",
+    "kecamatan": "Rembang",
+    "latitude": -7.256537,
+    "longitude": 109.503887
+  },
+  {
+    "kode_desa": "33.03.14.2001",
+    "nama_desa": "Brobot",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.371079,
+    "longitude": 109.355407
+  },
+  {
+    "kode_desa": "33.03.14.2002",
+    "nama_desa": "Gembong",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.36558,
+    "longitude": 109.359058
+  },
+  {
+    "kode_desa": "33.03.14.2003",
+    "nama_desa": "Galuh",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.369615,
+    "longitude": 109.36933
+  },
+  {
+    "kode_desa": "33.03.14.2004",
+    "nama_desa": "Banjaran",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.355014,
+    "longitude": 109.375456
+  },
+  {
+    "kode_desa": "33.03.14.2005",
+    "nama_desa": "Patemon",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.351609,
+    "longitude": 109.36648
+  },
+  {
+    "kode_desa": "33.03.14.2006",
+    "nama_desa": "Bojongsari",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.34572,
+    "longitude": 109.351984
+  },
+  {
+    "kode_desa": "33.03.14.2007",
+    "nama_desa": "Kajongan",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.357978,
+    "longitude": 109.348494
+  },
+  {
+    "kode_desa": "33.03.14.2008",
+    "nama_desa": "Karangbanjar",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.351424,
+    "longitude": 109.33807
+  },
+  {
+    "kode_desa": "33.03.14.2009",
+    "nama_desa": "Beji",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.342797,
+    "longitude": 109.339649
+  },
+  {
+    "kode_desa": "33.03.14.2010",
+    "nama_desa": "Pagedangan",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.333503,
+    "longitude": 109.341142
+  },
+  {
+    "kode_desa": "33.03.14.2011",
+    "nama_desa": "Pekalongan",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.323212,
+    "longitude": 109.327443
+  },
+  {
+    "kode_desa": "33.03.14.2012",
+    "nama_desa": "Metenggeng",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.328022,
+    "longitude": 109.320902
+  },
+  {
+    "kode_desa": "33.03.14.2013",
+    "nama_desa": "Bumisari",
+    "kecamatan": "Bojongsari",
+    "latitude": -7.271071,
+    "longitude": 109.272767
+  },
+  {
+    "kode_desa": "33.03.15.2001",
+    "nama_desa": "Karangpule",
+    "kecamatan": "Padamara",
+    "latitude": -7.399802,
+    "longitude": 109.313264
+  },
+  {
+    "kode_desa": "33.03.15.2002",
+    "nama_desa": "Sokawera",
+    "kecamatan": "Padamara",
+    "latitude": -7.392927,
+    "longitude": 109.318884
+  },
+  {
+    "kode_desa": "33.03.15.2003",
+    "nama_desa": "Karangjambe",
+    "kecamatan": "Padamara",
+    "latitude": -7.390679,
+    "longitude": 109.328708
+  },
+  {
+    "kode_desa": "33.03.15.1004",
+    "nama_desa": "Karangsentul",
+    "kecamatan": "Padamara",
+    "latitude": -7.386286,
+    "longitude": 109.347484
+  },
+  {
+    "kode_desa": "33.03.15.2005",
+    "nama_desa": "Bojanegara",
+    "kecamatan": "Padamara",
+    "latitude": -7.381662,
+    "longitude": 109.334041
+  },
+  {
+    "kode_desa": "33.03.15.2006",
+    "nama_desa": "Gemuruh",
+    "kecamatan": "Padamara",
+    "latitude": -7.375777,
+    "longitude": 109.342384
+  },
+  {
+    "kode_desa": "33.03.15.2007",
+    "nama_desa": "Dawuhan",
+    "kecamatan": "Padamara",
+    "latitude": -7.3679,
+    "longitude": 109.327819
+  },
+  {
+    "kode_desa": "33.03.15.2008",
+    "nama_desa": "Prigi",
+    "kecamatan": "Padamara",
+    "latitude": -7.373553,
+    "longitude": 109.319867
+  },
+  {
+    "kode_desa": "33.03.15.2009",
+    "nama_desa": "Padamara",
+    "kecamatan": "Padamara",
+    "latitude": -7.383072,
+    "longitude": 109.318611
+  },
+  {
+    "kode_desa": "33.03.15.2010",
+    "nama_desa": "Purbayasa",
+    "kecamatan": "Padamara",
+    "latitude": -7.37379,
+    "longitude": 109.312847
+  },
+  {
+    "kode_desa": "33.03.15.2011",
+    "nama_desa": "Kalitinggar",
+    "kecamatan": "Padamara",
+    "latitude": -7.377314,
+    "longitude": 109.305784
+  },
+  {
+    "kode_desa": "33.03.15.2012",
+    "nama_desa": "Mipiran",
+    "kecamatan": "Padamara",
+    "latitude": -7.362812,
+    "longitude": 109.298423
+  },
+  {
+    "kode_desa": "33.03.15.2013",
+    "nama_desa": "Karanggambas",
+    "kecamatan": "Padamara",
+    "latitude": -7.365788,
+    "longitude": 109.307417
+  },
+  {
+    "kode_desa": "33.03.15.2014",
+    "nama_desa": "Kalitinggar Kidul",
+    "kecamatan": "Padamara",
+    "latitude": -7.385116,
+    "longitude": 109.309326
+  },
+  {
+    "kode_desa": "33.03.16.2001",
+    "nama_desa": "Panunggalan",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.365232,
+    "longitude": 109.525746
+  },
+  {
+    "kode_desa": "33.03.16.2002",
+    "nama_desa": "Larangan",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.373614,
+    "longitude": 109.505924
+  },
+  {
+    "kode_desa": "33.03.16.2003",
+    "nama_desa": "Pasunggingan",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.391145,
+    "longitude": 109.472512
+  },
+  {
+    "kode_desa": "33.03.16.2004",
+    "nama_desa": "Pengadegan",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.37616,
+    "longitude": 109.467434
+  },
+  {
+    "kode_desa": "33.03.16.2005",
+    "nama_desa": "Karangjoho",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.372382,
+    "longitude": 109.487058
+  },
+  {
+    "kode_desa": "33.03.16.2006",
+    "nama_desa": "Bedagas",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.356826,
+    "longitude": 109.510497
+  },
+  {
+    "kode_desa": "33.03.16.2007",
+    "nama_desa": "Tumanggal",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.349844,
+    "longitude": 109.483143
+  },
+  {
+    "kode_desa": "33.03.16.2008",
+    "nama_desa": "Tegalpingen",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.349975,
+    "longitude": 109.469618
+  },
+  {
+    "kode_desa": "33.03.16.2009",
+    "nama_desa": "Tetel",
+    "kecamatan": "Pengadegan",
+    "latitude": -7.352049,
+    "longitude": 109.458044
+  },
+  {
+    "kode_desa": "33.03.17.2001",
+    "nama_desa": "Purbasari",
+    "kecamatan": "Karangjambu",
+    "latitude": -7.227315,
+    "longitude": 109.369516
+  },
+  {
+    "kode_desa": "33.03.17.2002",
+    "nama_desa": "Sirandu",
+    "kecamatan": "Karangjambu",
+    "latitude": -7.208382,
+    "longitude": 109.365584
+  },
+  {
+    "kode_desa": "33.03.17.2003",
+    "nama_desa": "Karangjambu",
+    "kecamatan": "Karangjambu",
+    "latitude": -7.237176,
+    "longitude": 109.408528
+  },
+  {
+    "kode_desa": "33.03.17.2004",
+    "nama_desa": "Sanguwatang",
+    "kecamatan": "Karangjambu",
+    "latitude": -7.207035,
+    "longitude": 109.393651
+  },
+  {
+    "kode_desa": "33.03.17.2005",
+    "nama_desa": "Jingkang",
+    "kecamatan": "Karangjambu",
+    "latitude": -7.212141,
+    "longitude": 109.424981
+  },
+  {
+    "kode_desa": "33.03.17.2006",
+    "nama_desa": "Danasari",
+    "kecamatan": "Karangjambu",
+    "latitude": -7.180953,
+    "longitude": 109.440088
+  },
+  {
+    "kode_desa": "33.03.18.2001",
+    "nama_desa": "Krangean",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.262818,
+    "longitude": 109.416409
+  },
+  {
+    "kode_desa": "33.03.18.2002",
+    "nama_desa": "Darma",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.266169,
+    "longitude": 109.430771
+  },
+  {
+    "kode_desa": "33.03.18.2003",
+    "nama_desa": "Langkap",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.267036,
+    "longitude": 109.440209
+  },
+  {
+    "kode_desa": "33.03.18.2004",
+    "nama_desa": "Adiarsa",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.283339,
+    "longitude": 109.427975
+  },
+  {
+    "kode_desa": "33.03.18.2005",
+    "nama_desa": "Karangasem",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.29276,
+    "longitude": 109.441708
+  },
+  {
+    "kode_desa": "33.03.18.2006",
+    "nama_desa": "Karangpucung",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.296668,
+    "longitude": 109.42645
+  },
+  {
+    "kode_desa": "33.03.18.2007",
+    "nama_desa": "Condong",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.303413,
+    "longitude": 109.434629
+  },
+  {
+    "kode_desa": "33.03.18.2008",
+    "nama_desa": "Kasih",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.310608,
+    "longitude": 109.427773
+  },
+  {
+    "kode_desa": "33.03.18.2009",
+    "nama_desa": "Karangtengah",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.311046,
+    "longitude": 109.443005
+  },
+  {
+    "kode_desa": "33.03.18.2010",
+    "nama_desa": "Kertanegara",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.323364,
+    "longitude": 109.432578
+  },
+  {
+    "kode_desa": "33.03.18.2011",
+    "nama_desa": "Mergasana",
+    "kecamatan": "Kertanegara",
+    "latitude": -7.334169,
+    "longitude": 109.43178
+  }
+]
