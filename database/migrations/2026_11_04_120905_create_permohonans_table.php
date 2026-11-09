@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('permohonans', function (Blueprint $table) {
             $table->id();
             $table->string('nomor_tiket')->unique(); // contoh: TKT-202611-001
-            $table->foreignId('desa_id')->constrained('desas')->onDelete('cascade');
+            $table->string('desa_id', 15);
+$table->foreign('desa_id')->references('kode_desa')->on('desas')->onDelete('cascade');
             $table->enum('status', ['Menunggu Verifikasi', 'Disetujui', 'Ditolak', 'Revisi'])->default('Menunggu Verifikasi');
             
             // Kondisi Lapangan (Persis sesuai Form Fitur 2 Cek Kelayakan)

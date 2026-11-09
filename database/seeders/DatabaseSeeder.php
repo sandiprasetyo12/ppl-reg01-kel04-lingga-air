@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+<<<<<<< HEAD
 use App\Models\User;
 use App\Models\Desa;
 use App\Models\Permohonan;
+=======
+>>>>>>> main
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,6 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+<<<<<<< HEAD
         // 1. Akun Admin BPBD Purbalingga
         User::firstOrCreate(
             ['email' => 'admin@bpbd.purbalinggakab.go.id'],
@@ -209,5 +213,9 @@ class DatabaseSeeder extends Seeder
         // Status AMAN menonaktifkan akses pengajuan sehingga desa TIDAK DAPAT melanjutkan ke tahap F-03.
         // Dengan demikian, antrean verifikasi BPBD (F-04) secara konsisten HANYA memproses permohonan yang lolos skrining (KRITIS & WASPADA).
         Permohonan::where('nomor_tiket', 'TKT-202611-005')->delete();
+=======
+        // Panggil seeder master desa Purbalingga
+        $this->call([DesaSeeder::class]);
+>>>>>>> main
     }
 }
