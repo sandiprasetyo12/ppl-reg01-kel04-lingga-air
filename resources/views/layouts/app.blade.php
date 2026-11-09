@@ -293,6 +293,61 @@
         </div>
     </footer>
 
+    <!-- MODAL POP-UP KELAYAKAN STATUS AMAN (TIDAK DAPAT AKSES PENGAJUAN) -->
+    @if(session('modal_kelayakan_aman'))
+        @php
+            $modalAman = session('modal_kelayakan_aman');
+        @endphp
+        <div id="modalKelayakanAman" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                <!-- Header Gambar / Icon -->
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-600 p-6 text-center text-white relative">
+                    <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto mb-3 shadow-inner">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-white/25 text-white border border-white/30 mb-1">
+                        Status Cek Kelayakan: AMAN
+                    </span>
+                    <h3 class="text-xl font-extrabold">Pengajuan Tidak Dapat Diproses</h3>
+                    <p class="text-xs text-emerald-100 mt-1">Desa {{ $modalAman['desa'] ?? (Auth::user()?->desa?->nama_desa ?? '') }}</p>
+                </div>
+
+                <!-- Body Konten -->
+                <div class="p-6 space-y-4">
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider block">Skor Prioritas SPK (AHP-SAW)</span>
+                            <span class="text-2xl font-extrabold text-emerald-700">{{ number_format($modalAman['skor'] ?? 48.1, 1) }}</span>
+                            <span class="text-xs font-semibold text-emerald-600">/ 100 (Kategori Aman)</span>
+                        </div>
+                        <span class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-sm">
+                            Kondisi Terkendali
+                        </span>
+                    </div>
+
+                    <div class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                        <p class="font-medium text-slate-800">
+                            {{ $modalAman['pesan'] ?? 'Berdasarkan hasil Cek Kelayakan Mandiri (F-02), kondisi ketersediaan air di desa Anda dinyatakan dalam kondisi AMAN.' }}
+                        </p>
+                        <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3 text-[11px] text-slate-500">
+                            <span class="font-bold text-slate-700 block mb-0.5">Ketentuan SOP Bantuan Air BPBD:</span>
+                            Armada tangki distribusi air bersih hanya diprioritaskan bagi desa yang berada pada status <strong class="text-rose-600">KRITIS</strong> atau <strong class="text-amber-600">WASPADA</strong>. Desa dengan status <strong>AMAN</strong> tidak dapat mengakses formulir pengajuan bantuan.
+                        </div>
+                    </div>
+
+                    <!-- Tombol Aksi -->
+                    <div class="flex items-center space-x-3 pt-2">
+                        <button type="button" onclick="document.getElementById('modalKelayakanAman').classList.add('hidden')" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition text-center">
+                            Mengerti & Kembali
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- Close dropdown on click outside -->
     <script>
         document.addEventListener('click', function(e) {

@@ -57,7 +57,7 @@ class PengajuanController extends Controller
      * PBI-007: Menampilkan formulir penyusunan pengajuan baru
      * Formulir terisi otomatis (pre-filled) dari hasil cek kelayakan mandiri
      */
-    public function create(Request $request): View
+    public function create(Request $request): View|RedirectResponse
     {
         $user = Auth::user();
         $desa = $user->desa;
@@ -76,6 +76,17 @@ class PengajuanController extends Controller
 
         if (!$simulasi) {
             $simulasi = $desa->latestSimulasi;
+        }
+
+        // Revisi 1: Jika hasil cek kelayakan berstatus 'Aman', tolak akses ke halaman pengajuan dan tampilkan pop-up modal
+        if ($simulasi && $simulasi->status_kelayakan === 'Aman') {
+            return redirect()->route('pengajuan.index')->with('modal_kelayakan_aman', [
+                'desa' => $desa->nama_desa,
+                'skor' => $simulasi->skor_ahp_saw,
+                'status' => $simulasi->status_kelayakan,
+                'rekomendasi' => $simulasi->rekomendasi ?? 'Kondisi air desa masih dalam batas aman terkendali.',
+                'pesan' => 'Hasil Cek Kelayakan Mandiri desa Anda berstatus AMAN (Skor SPK: ' . number_format($simulasi->skor_ahp_saw, 1) . ' / 100). Sesuai ketentuan SOP Penanggulangan Darurat Air BPBD, armada tangki bantuan hanya diprioritaskan untuk desa dengan status Kritis atau Waspada. Anda tidak dapat mengakses formulir pengajuan bantuan.',
+            ]);
         }
 
         // Jika belum ada simulasi sama sekali, sediakan instance default agar form tetap berfungsi
@@ -155,6 +166,17 @@ class PengajuanController extends Controller
         }
         if (!$simulasi) {
             $simulasi = $desa->latestSimulasi;
+        }
+
+        // Revisi 1: Jika status kelayakan desa adalah 'Aman', tolak akses dan tampilkan pop-up modal
+        if ($simulasi && $simulasi->status_kelayakan === 'Aman') {
+            return redirect()->route('pengajuan.index')->with('modal_kelayakan_aman', [
+                'desa' => $desa->nama_desa,
+                'skor' => $simulasi->skor_ahp_saw,
+                'status' => $simulasi->status_kelayakan,
+                'rekomendasi' => $simulasi->rekomendasi ?? 'Kondisi air desa masih dalam batas aman terkendali.',
+                'pesan' => 'Pengajuan ditolak. Berdasarkan hasil Cek Kelayakan Mandiri (F-02), desa Anda berstatus AMAN. Pengajuan bantuan air bersih hanya dapat diproses untuk status Kritis atau Waspada.',
+            ]);
         }
 
         // PBI-009: Jika aksi adalah 'kirim', jalankan validasi kelayakan dan tiket aktif

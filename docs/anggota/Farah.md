@@ -24,6 +24,6 @@
 #### 3. PBI-009: Kirim Pengajuan ke Antrean Verifikasi
 - **Penerbitan Nomor Tiket Unik**: Sistem menerbitkan format nomor tiket unik `LA-YYYYMMDD-XXX` saat pengajuan dikirim.
 - **Antrean Verifikasi Admin**: Status pengajuan otomatis beralih menjadi `Diajukan` dan masuk ke antrean verifikasi Admin BPBD.
-- **Validasi Kedaruratan**: Memvalidasi hasil cek berstatus `Kritis` atau `Waspada` sebelum dapat dikirim (menolak jika status `Aman`).
+- **Validasi Kedaruratan & Pop-up Status Aman**: Jika desa berstatus **Aman**, sistem secara preventif menolak akses ke formulir pengajuan dan langsung memunculkan pop-up modal penjelasan bahwa bantuan diprioritaskan untuk status Kritis/Waspada.
 - **Batasan Tiket Aktif (Anti-Spam)**: Sistem menolak pengiriman pengajuan baru jika desa bersangkutan masih memiliki tiket bantuan aktif yang belum terselesaikan.
 - **Komponen Konfirmasi & Halaman Sukses**: Jendela modal konfirmasi kirim dan halaman "Pengajuan Berhasil Dikirim" sesuai mockup proposal halaman 58, 59, dan 60.

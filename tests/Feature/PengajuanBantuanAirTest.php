@@ -102,6 +102,7 @@ class PengajuanBantuanAirTest extends TestCase
 
     /**
      * PBI-007: Formulir terisi otomatis dari hasil cek kelayakan
+     * Tidak menampilkan label "* Wajib diisi" pada header data otomatis
      */
     public function test_formulir_pengajuan_terisi_otomatis_dari_hasil_cek_kelayakan(): void
     {
@@ -114,6 +115,8 @@ class PengajuanBantuanAirTest extends TestCase
         $response->assertSee('120'); // KK terdampak prefilled
         $response->assertSee('14');  // Hari tanpa air prefilled
         $response->assertSee('1200'); // Jarak sumber air prefilled
+        $response->assertDontSee('* Wajib diisi');
+        $response->assertSee('Data tersinkron dari Cek Kelayakan');
     }
 
     /**
@@ -357,6 +360,26 @@ class PengajuanBantuanAirTest extends TestCase
         // Coba delete via DELETE -> 403
         $deleteResponse = $this->actingAs($this->userDesaA)->delete(route('pengajuan.destroy', $pengajuanTerkirim->id));
         $deleteResponse->assertStatus(403);
+    }
+
+    /**
+     * Revisi 1 & PBI-009: Desa dengan status kelayakan Aman tidak dapat mengakses formulir pengajuan dan langsung diarahkan dengan pop-up modal
+     */
+    public function test_desa_dengan_status_kelayakan_aman_tidak_dapat_mengakses_halaman_pengajuan_dan_muncul_modal_pop_up(): void
+    {
+        // User Desa B (Desa Bodas, status simulasi Aman) mencoba membuka halaman /pengajuan/create
+        $response = $this->actingAs($this->userDesaB)->get(route('pengajuan.create'));
+
+        $response->assertRedirect(route('pengajuan.index'));
+        $response->assertSessionHas('modal_kelayakan_aman');
+
+        // Saat redirect diikuti ke halaman index, pop-up modal kelayakan aman muncul
+        $indexResponse = $this->followRedirects($response);
+        $indexResponse->assertStatus(200);
+        $indexResponse->assertSee('modalKelayakanAman');
+        $indexResponse->assertSee('Status Cek Kelayakan: AMAN');
+        $indexResponse->assertSee('Pengajuan Tidak Dapat Diproses');
+        $indexResponse->assertSee('Kondisi Terkendali');
     }
 
     /**
