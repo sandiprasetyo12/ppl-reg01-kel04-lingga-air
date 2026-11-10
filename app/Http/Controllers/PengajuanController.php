@@ -19,6 +19,146 @@ use Illuminate\View\View;
 class PengajuanController extends Controller
 {
     /**
+     * Dapatkan desa aktif untuk simulasi (mendukung mode tanpa login)
+     */
+    public function getActiveDesa(): Desa
+    {
+        // 1. Jika pengguna sedang login dan terhubung dengan data desa
+        if (Auth::check() && Auth::user()->desa) {
+            return Auth::user()->desa;
+        }
+
+        // 2. Jika ada kode desa di session simulasi
+        $kodeDesa = session('simulasi_desa_kode');
+        if ($kodeDesa) {
+            $desa = Desa::where('kode_desa', $kodeDesa)->first();
+            if ($desa) {
+                return $desa;
+            }
+        }
+
+        // 3. Default ke Desa Serang (Simulasi Waspada) atau Desa Tanalum (Kritis)
+        $defaultDesa = Desa::where('nama_desa', 'like', '%Serang%')->first()
+            ?: (Desa::where('nama_desa', 'like', '%Tanalum%')->first() ?: Desa::first());
+
+        if (!$defaultDesa) {
+            $defaultDesa = Desa::create([
+                'kode_desa' => '33.03.10.2001',
+                'nama_desa' => 'Desa Serang',
+                'kecamatan' => 'Karangreja',
+                'jumlah_kk_total' => 750,
+                'jumlah_jiwa_total' => 2800,
+                'jumlah_balita' => 110,
+                'jumlah_lansia' => 90,
+                'jumlah_disabilitas' => 15,
+                'titik_drop_air' => 'Posko Mandiri RT 01 RW 04 Desa Serang',
+                'nama_pj_darurat' => 'Agus Hendra',
+                'no_wa_darurat' => '081398765432',
+                'latitude' => -7.244225,
+                'longitude' => 109.279768,
+            ]);
+
+            SimulasiKelayakan::firstOrCreate(
+                ['kode_desa' => $defaultDesa->kode_desa, 'status_kelayakan' => 'Waspada'],
+                [
+                    'kk_terdampak' => 85,
+                    'jiwa_rentan' => 25,
+                    'hari_tanpa_air' => 8,
+                    'jarak_sumber_air' => 800,
+                    'skor_ahp_saw' => 74.80,
+                    'rekomendasi' => 'Penuhi syarat administrasi dan siapkan titik tandon untuk pengajuan bantuan pasokan.',
+                ]
+            );
+        }
+
+        session(['simulasi_desa_kode' => $defaultDesa->kode_desa, 'simulasi_mode' => 'waspada']);
+        return $defaultDesa;
+    }
+
+    /**
+     * Beralih mode simulasi status kelayakan (Aman / Waspada / Kritis) tanpa perlu login
+     */
+    public function switchSimulasi(string $mode): RedirectResponse
+    {
+        $mode = strtolower($mode);
+
+        if ($mode === 'aman') {
+            $desa = Desa::where('nama_desa', 'like', '%Bodas%')->first()
+                ?: (Desa::where('kecamatan', 'Karangjambu')->first()
+                    ?: Desa::firstOrCreate(
+                        ['kode_desa' => '33.03.17.2001'],
+                        ['nama_desa' => 'Desa Bodas', 'kecamatan' => 'Karangjambu', 'jumlah_kk_total' => 400]
+                    ));
+
+            // Pastikan memiliki simulasi Aman
+            SimulasiKelayakan::updateOrCreate(
+                ['kode_desa' => $desa->kode_desa],
+                [
+                    'status_kelayakan' => 'Aman',
+                    'skor_ahp_saw' => 48.10,
+                    'kk_terdampak' => 20,
+                    'jiwa_rentan' => 5,
+                    'hari_tanpa_air' => 2,
+                    'jarak_sumber_air' => 200,
+                    'rekomendasi' => 'Kondisi pasokan air masih terkendali secara mandiri di tingkat lingkungan.',
+                ]
+            );
+
+            session(['simulasi_desa_kode' => $desa->kode_desa, 'simulasi_mode' => 'aman']);
+
+            return redirect()->route('pengajuan.index')
+                ->with('info', 'Beralih ke Simulasi Status AMAN (' . $desa->nama_desa . '). Coba klik tombol "Buat Pengajuan Baru" untuk melihat pencegahan pop-up penolakan!');
+        }
+
+        if ($mode === 'kritis') {
+            $desa = Desa::where('nama_desa', 'like', '%Tanalum%')->first()
+                ?: Desa::first();
+
+            if ($desa) {
+                SimulasiKelayakan::updateOrCreate(
+                    ['kode_desa' => $desa->kode_desa],
+                    [
+                        'status_kelayakan' => 'Kritis',
+                        'skor_ahp_saw' => 92.40,
+                        'kk_terdampak' => 120,
+                        'jiwa_rentan' => 40,
+                        'hari_tanpa_air' => 14,
+                        'jarak_sumber_air' => 1200,
+                        'rekomendasi' => 'Segera ajukan pasokan air bersih darurat untuk kebutuhan warga terdampak.',
+                    ]
+                );
+                session(['simulasi_desa_kode' => $desa->kode_desa, 'simulasi_mode' => 'kritis']);
+            }
+
+            return redirect()->route('pengajuan.index')
+                ->with('info', 'Beralih ke Simulasi Status KRITIS (' . ($desa?->nama_desa ?? 'Desa Tanalum') . ').');
+        }
+
+        // Default: Waspada (Desa Serang)
+        $desa = Desa::where('nama_desa', 'like', '%Serang%')->first()
+            ?: Desa::first();
+
+        if ($desa) {
+            SimulasiKelayakan::updateOrCreate(
+                ['kode_desa' => $desa->kode_desa],
+                [
+                    'status_kelayakan' => 'Waspada',
+                    'skor_ahp_saw' => 74.80,
+                    'kk_terdampak' => 85,
+                    'jiwa_rentan' => 25,
+                    'hari_tanpa_air' => 8,
+                    'jarak_sumber_air' => 800,
+                    'rekomendasi' => 'Penuhi syarat administrasi dan siapkan titik tandon untuk pengajuan bantuan pasokan.',
+                ]
+            );
+            session(['simulasi_desa_kode' => $desa->kode_desa, 'simulasi_mode' => 'waspada']);
+        }
+
+        return redirect()->route('pengajuan.index')
+            ->with('info', 'Beralih ke Simulasi Status WASPADA (' . ($desa?->nama_desa ?? 'Desa Serang') . ').');
+    }
+
+    /**
      * PBI-008: Menampilkan daftar draf pengajuan dan status permohonan desa
      * Acceptance Criteria:
      * - Draf desa lain tidak terlihat
@@ -26,22 +166,17 @@ class PengajuanController extends Controller
      */
     public function index(Request $request): View
     {
-        $user = Auth::user();
-        $desa = $user->desa;
+        $desa = $this->getActiveDesa();
 
-        if (!$desa) {
-            abort(403, 'Akun Anda belum terhubung dengan data desa resmi.');
-        }
-
-        // Ambil hanya draf milik desa pengguna yang sedang login
-        $drafList = Pengajuan::where('desa_id', $desa->id)
+        // Ambil hanya draf milik desa aktif
+        $drafList = Pengajuan::where('kode_desa', $desa->kode_desa)
             ->where('status', 'Draf')
             ->with(['simulasi', 'berkas'])
             ->latest()
             ->paginate(10, ['*'], 'draf_page');
 
         // Ambil riwayat pengajuan yang sudah dikirim (non-draf)
-        $riwayatList = Pengajuan::where('desa_id', $desa->id)
+        $riwayatList = Pengajuan::where('kode_desa', $desa->kode_desa)
             ->where('status', '!=', 'Draf')
             ->with(['simulasi', 'berkas'])
             ->latest()
@@ -59,17 +194,12 @@ class PengajuanController extends Controller
      */
     public function create(Request $request): View|RedirectResponse
     {
-        $user = Auth::user();
-        $desa = $user->desa;
-
-        if (!$desa) {
-            abort(403, 'Akun Anda belum terhubung dengan data desa resmi.');
-        }
+        $desa = $this->getActiveDesa();
 
         // Ambil hasil simulasi kelayakan (bisa via id atau yang terbaru)
         $simulasi = null;
         if ($request->has('simulasi_id')) {
-            $simulasi = SimulasiKelayakan::where('desa_id', $desa->id)
+            $simulasi = SimulasiKelayakan::where('kode_desa', $desa->kode_desa)
                 ->where('id', $request->query('simulasi_id'))
                 ->first();
         }
@@ -85,21 +215,21 @@ class PengajuanController extends Controller
                 'skor' => $simulasi->skor_ahp_saw,
                 'status' => $simulasi->status_kelayakan,
                 'rekomendasi' => $simulasi->rekomendasi ?? 'Kondisi air desa masih dalam batas aman terkendali.',
-                'pesan' => 'Hasil Cek Kelayakan Mandiri desa Anda berstatus AMAN (Skor SPK: ' . number_format($simulasi->skor_ahp_saw, 1) . ' / 100). Sesuai ketentuan SOP Penanggulangan Darurat Air BPBD, armada tangki bantuan hanya diprioritaskan untuk desa dengan status Kritis atau Waspada. Anda tidak dapat mengakses formulir pengajuan bantuan.',
+                'pesan' => 'Hasil Cek Kelayakan Mandiri desa Anda saat ini berstatus AMAN (Skor SPK: ' . number_format($simulasi->skor_ahp_saw, 1) . ' / 100). Sesuai ketentuan SOP Penanggulangan Darurat Air BPBD, armada tangki bantuan hanya diprioritaskan untuk desa dengan status Kritis atau Waspada. Anda tidak dapat mengakses formulir pengajuan bantuan.',
             ]);
         }
 
         // Jika belum ada simulasi sama sekali, sediakan instance default agar form tetap berfungsi
         if (!$simulasi) {
             $simulasi = new SimulasiKelayakan([
-                'desa_id' => $desa->id,
-                'kk_terdampak' => 120,
+                'kode_desa' => $desa->kode_desa,
+                'kk_terdampak' => 85,
                 'jiwa_rentan' => ($desa->jumlah_balita + $desa->jumlah_lansia + $desa->jumlah_disabilitas),
-                'hari_tanpa_air' => 14,
-                'jarak_sumber_air' => 1200,
-                'skor_ahp_saw' => 92.40,
-                'status_kelayakan' => 'Kritis',
-                'rekomendasi' => 'Segera ajukan bantuan pasokan air bersih untuk kebutuhan warga terdampak.',
+                'hari_tanpa_air' => 8,
+                'jarak_sumber_air' => 800,
+                'skor_ahp_saw' => 74.80,
+                'status_kelayakan' => 'Waspada',
+                'rekomendasi' => 'Penuhi syarat administrasi dan siapkan titik tandon untuk pengajuan bantuan pasokan.',
             ]);
         }
 
@@ -114,13 +244,7 @@ class PengajuanController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $user = Auth::user();
-        $desa = $user->desa;
-
-        if (!$desa) {
-            abort(403, 'Akun Anda belum terhubung dengan data desa resmi.');
-        }
-
+        $desa = $this->getActiveDesa();
         $action = $request->input('action', 'draf'); // 'draf' atau 'kirim'
 
         // Validasi input
@@ -162,7 +286,7 @@ class PengajuanController extends Controller
         // Ambil data simulasi kelayakan yang terkait
         $simulasi = null;
         if (!empty($validated['simulasi_id'])) {
-            $simulasi = SimulasiKelayakan::where('desa_id', $desa->id)->find($validated['simulasi_id']);
+            $simulasi = SimulasiKelayakan::where('kode_desa', $desa->kode_desa)->find($validated['simulasi_id']);
         }
         if (!$simulasi) {
             $simulasi = $desa->latestSimulasi;
@@ -216,7 +340,7 @@ class PengajuanController extends Controller
 
             $pengajuan = Pengajuan::create([
                 'nomor_tiket' => $nomorTiket,
-                'desa_id' => $desa->id,
+                'kode_desa' => $desa->kode_desa,
                 'simulasi_id' => $simulasi?->id,
                 'status' => $status,
                 'jumlah_kk' => $jumlahKk,
@@ -281,7 +405,7 @@ class PengajuanController extends Controller
         Gate::authorize('view', $pengajuan);
 
         $pengajuan->load(['desa', 'simulasi', 'berkas']);
-        $desa = $pengajuan->desa;
+        $desa = $pengajuan->desa ?: $this->getActiveDesa();
 
         return view('pengajuan.show', compact('pengajuan', 'desa'));
     }
@@ -297,7 +421,7 @@ class PengajuanController extends Controller
         Gate::authorize('update', $pengajuan);
 
         $pengajuan->load(['desa', 'simulasi', 'berkas']);
-        $desa = $pengajuan->desa;
+        $desa = $pengajuan->desa ?: $this->getActiveDesa();
         $simulasi = $pengajuan->simulasi ?: $desa->latestSimulasi;
 
         return view('pengajuan.edit', compact('pengajuan', 'desa', 'simulasi'));
@@ -310,7 +434,7 @@ class PengajuanController extends Controller
     {
         Gate::authorize('update', $pengajuan);
 
-        $desa = $pengajuan->desa;
+        $desa = $pengajuan->desa ?: $this->getActiveDesa();
         $action = $request->input('action', 'draf');
 
         $rules = [
@@ -337,7 +461,6 @@ class PengajuanController extends Controller
         ];
 
         $validated = $request->validate($rules, $messages);
-
         $simulasi = $pengajuan->simulasi ?: $desa->latestSimulasi;
 
         if ($action === 'kirim') {
@@ -404,18 +527,17 @@ class PengajuanController extends Controller
                         'path_file' => $path,
                         'mime_type' => $foto->getMimeType() ?: 'image/jpeg',
                         'ukuran_file' => $foto->getSize(),
-                        'keterangan' => 'Foto bukti kondisi lapangan #' . ($currentCount + 1),
+                        'keterangan' => 'Foto bukti kondisi lapangan tambahan',
                     ]);
                     $currentCount++;
                 }
             }
 
-            // Update surat pengantar Kepala Desa jika diunggah baru
+            // Ganti surat pengantar Kepala Desa jika diunggah baru
             if ($request->hasFile('surat_kepala_desa')) {
-                // Hapus surat lama jika ada
-                if ($oldSurat = $pengajuan->suratKepalaDesa) {
-                    Storage::disk('public')->delete($oldSurat->path_file);
-                    $oldSurat->delete();
+                if ($pengajuan->suratKepalaDesa) {
+                    Storage::disk('public')->delete($pengajuan->suratKepalaDesa->path_file);
+                    $pengajuan->suratKepalaDesa->delete();
                 }
 
                 $surat = $request->file('surat_kepala_desa');
@@ -474,7 +596,7 @@ class PengajuanController extends Controller
     {
         Gate::authorize('submit', $pengajuan);
 
-        $desa = $pengajuan->desa;
+        $desa = $pengajuan->desa ?: $this->getActiveDesa();
         $simulasi = $pengajuan->simulasi ?: $desa->latestSimulasi;
 
         // 1. Validasi hasil cek kelayakan berstatus Kritis atau Waspada
@@ -519,21 +641,16 @@ class PengajuanController extends Controller
     {
         Gate::authorize('view', $pengajuan);
 
-        // Jika masih draf, arahkan kembali ke detail draf
-        if ($pengajuan->isDraft()) {
-            return redirect()->route('pengajuan.show', $pengajuan->id);
-        }
-
         $pengajuan->load(['desa', 'simulasi', 'berkas']);
-        $desa = $pengajuan->desa;
+        $desa = $pengajuan->desa ?: $this->getActiveDesa();
 
         return view('pengajuan.success', compact('pengajuan', 'desa'));
     }
 
     /**
-     * Hapus satu berkas lampiran dari draf
+     * Hapus berkas lampiran secara individual via AJAX
      */
-    public function destroyBerkas(BerkasPengajuan $berkas): JsonResponse|RedirectResponse
+    public function destroyBerkas(BerkasPengajuan $berkas): JsonResponse
     {
         $pengajuan = $berkas->pengajuan;
         Gate::authorize('update', $pengajuan);
@@ -541,11 +658,9 @@ class PengajuanController extends Controller
         Storage::disk('public')->delete($berkas->path_file);
         $berkas->delete();
 
-        if (request()->wantsJson()) {
-            return response()->json(['success' => true, 'message' => 'Berkas berhasil dihapus.']);
-        }
-
-        return back()->with('success', 'Berkas berhasil dihapus dari draf.');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Berkas berhasil dihapus.',
+        ]);
     }
 }
-

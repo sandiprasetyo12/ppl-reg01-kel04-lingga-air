@@ -54,7 +54,7 @@ class PengajuanBantuanAirTest extends TestCase
         ]);
 
         $this->simulasiA = SimulasiKelayakan::create([
-            'desa_id' => $this->desaA->id,
+            'kode_desa' => $this->desaA->kode_desa,
             'kk_terdampak' => 120,
             'jiwa_rentan' => 40,
             'hari_tanpa_air' => 14,
@@ -73,23 +73,23 @@ class PengajuanBantuanAirTest extends TestCase
 
         $this->desaB = Desa::create([
             'user_id' => $this->userDesaB->id,
-            'kode_desa' => '330313' . rand(1000, 9999),
+            'kode_desa' => '33.03.17.' . rand(1000, 9999),
             'nama_desa' => 'Desa Bodas',
             'kecamatan' => 'Karangjambu',
-            'jumlah_kk' => 400,
-            'jumlah_jiwa' => 1500,
+            'jumlah_kk_total' => 400,
+            'jumlah_jiwa_total' => 1500,
             'jumlah_balita' => 40,
             'jumlah_lansia' => 30,
             'jumlah_disabilitas' => 5,
-            'nama_pj' => 'Slamet',
-            'no_wa' => '081543219876',
-            'lokasi_drop_point' => 'Balai RW 02',
+            'nama_pj_darurat' => 'Slamet',
+            'no_wa_darurat' => '081543219876',
+            'titik_drop_air' => 'Balai RW 02',
             'latitude' => -7.2201000,
             'longitude' => 109.4102000,
         ]);
 
         $this->simulasiB = SimulasiKelayakan::create([
-            'desa_id' => $this->desaB->id,
+            'kode_desa' => $this->desaB->kode_desa,
             'kk_terdampak' => 20,
             'jiwa_rentan' => 5,
             'hari_tanpa_air' => 2,
@@ -149,13 +149,13 @@ class PengajuanBantuanAirTest extends TestCase
         $response->assertSessionHas('success');
 
         $this->assertDatabaseHas('pengajuan', [
-            'desa_id' => $this->desaA->id,
+            'kode_desa' => $this->desaA->kode_desa,
             'status' => 'Draf',
             'nomor_tiket' => null,
             'jumlah_kk' => 120,
         ]);
 
-        $pengajuan = Pengajuan::where('desa_id', $this->desaA->id)->latest()->first();
+        $pengajuan = Pengajuan::where('kode_desa', $this->desaA->kode_desa)->latest()->first();
         $this->assertEquals(2, $pengajuan->fotoKondisi()->count());
         $this->assertNotNull($pengajuan->suratKepalaDesa);
     }
@@ -497,5 +497,38 @@ class PengajuanBantuanAirTest extends TestCase
 
         $response->assertSessionHasErrors(['tiket_aktif']);
         $this->assertEquals('Draf', $drafKedua->fresh()->status);
+    }
+
+    /**
+     * Revisi Baru: Pengguna dapat mengakses pengajuan dan beralih simulasi (Aman & Waspada) tanpa login
+     */
+    public function test_pengguna_dapat_mengakses_halaman_pengajuan_dan_simulasi_tanpa_login(): void
+    {
+        // 1. Akses halaman index tanpa login -> Berhasil 200
+        $responseIndex = $this->get(route('pengajuan.index'));
+        $responseIndex->assertStatus(200);
+        $responseIndex->assertSee('Draf & Status Pengajuan', false);
+        $responseIndex->assertSee('Waspada');
+        $responseIndex->assertSee('Aman');
+
+        // 2. Beralih ke simulasi AMAN via route simulasi.switch
+        $responseAman = $this->get(route('simulasi.switch', 'aman'));
+        $responseAman->assertRedirect(route('pengajuan.index'));
+
+        // Coba buat pengajuan saat simulasi AMAN aktif -> ditolak dan muncul pop-up
+        $responseCreateAman = $this->withSession(['simulasi_desa_kode' => $this->desaB->kode_desa])
+            ->get(route('pengajuan.create'));
+        $responseCreateAman->assertRedirect(route('pengajuan.index'));
+        $responseCreateAman->assertSessionHas('modal_kelayakan_aman');
+
+        // 3. Beralih ke simulasi WASPADA
+        $responseWaspada = $this->get(route('simulasi.switch', 'waspada'));
+        $responseWaspada->assertRedirect(route('pengajuan.index'));
+
+        // Akses form pengajuan saat simulasi WASPADA aktif -> Berhasil 200
+        $responseCreateWaspada = $this->withSession(['simulasi_desa_kode' => $this->desaA->kode_desa])
+            ->get(route('pengajuan.create'));
+        $responseCreateWaspada->assertStatus(200);
+        $responseCreateWaspada->assertSee('Pengajuan Bantuan Air Bersih');
     }
 }

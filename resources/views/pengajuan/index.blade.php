@@ -294,9 +294,7 @@
 
 </div>
 
-<!-- ============================================== -->
-<!-- MODAL KONFIRMASI HAPUS DRAF (PBI-008) -->
-<!-- ============================================== -->
+<!-- Modal konfirmasi hapus draf -->
 <div id="modalHapus" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4 animate-in fade-in zoom-in-95 duration-200">
         <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">

@@ -32,7 +32,7 @@ class Desa extends Model
         ];
     }
 
-    // Accessors untuk fleksibilitas pemanggilan field
+    // Accessors & Mutators untuk kompatibilitas field
     public function getIdAttribute(): string
     {
         return $this->kode_desa;
@@ -43,9 +43,19 @@ class Desa extends Model
         return (int) ($this->jumlah_kk_total ?? 0);
     }
 
+    public function setJumlahKkAttribute($value): void
+    {
+        $this->attributes['jumlah_kk_total'] = $value;
+    }
+
     public function getJumlahJiwaAttribute(): int
     {
         return (int) ($this->jumlah_jiwa_total ?? 0);
+    }
+
+    public function setJumlahJiwaAttribute($value): void
+    {
+        $this->attributes['jumlah_jiwa_total'] = $value;
     }
 
     public function getLokasiDropPointAttribute(): ?string
@@ -53,14 +63,29 @@ class Desa extends Model
         return $this->titik_drop_air;
     }
 
+    public function setLokasiDropPointAttribute($value): void
+    {
+        $this->attributes['titik_drop_air'] = $value;
+    }
+
     public function getNamaPjAttribute(): ?string
     {
         return $this->nama_pj_darurat;
     }
 
+    public function setNamaPjAttribute($value): void
+    {
+        $this->attributes['nama_pj_darurat'] = $value;
+    }
+
     public function getNoWaAttribute(): ?string
     {
         return $this->no_wa_darurat;
+    }
+
+    public function setNoWaAttribute($value): void
+    {
+        $this->attributes['no_wa_darurat'] = $value;
     }
 
     // Fitur F-09: Pemetaan Desa (dari branch main)

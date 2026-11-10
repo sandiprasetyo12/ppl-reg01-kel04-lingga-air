@@ -416,9 +416,7 @@
 
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL JENDELA KONFIRMASI KIRIM (MOCKUP HALAMAN 58 & 59) -->
-<!-- ========================================== -->
+<!-- Modal konfirmasi kirim pengajuan -->
 <div id="modalKirim" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8 animate-in fade-in zoom-in-95 duration-200">
         

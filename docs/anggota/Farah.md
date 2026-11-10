@@ -8,22 +8,60 @@
 
 ---
 
-### Rincian Pengerjaan Fitur F-03
+### Status Sinkronisasi & Mode Tanpa Login
+- **Sinkronisasi dengan `main`**: Branch telah digabungkan (*merged*) dengan `main` (`commit 84a7b19` oleh Sandi), mengadopsi tabel terpusat `desas` (`kode_desa` sebagai *primary key*), `DesaSeeder`, dan data master 239 desa di Kabupaten Purbalingga.
+- **Akses Pengajuan Tanpa Login**: Rute `/pengajuan` dapat diakses langsung tanpa harus melewati autentikasi login (`/login`), sehingga pengujian dan demo fitur dapat berjalan lancar.
+- **Skenario Simulasi Status Cek Kelayakan (F-02)**: Tersedia tombol *switch* skenario di header portal:
+  - 🟡 **WASPADA (Desa Serang - Skor: 74.8)**: Mengisi pengajuan bantuan air dengan parameter kebutuhan terkunci dari hasil Cek Kelayakan.
+  - 🟢 **AMAN (Desa Bodas - Skor: 48.1)**: Pengujian proteksi SOP BPBD, di mana tombol "Buat Pengajuan Baru" langsung diblokir dan memunculkan pop-up modal penolakan.
+  - 🔴 **KRITIS (Desa Tanalum - Skor: 92.4)**: Kondisi darurat untuk simulasi prioritas tinggi.
 
-#### 1. PBI-007: Susun Draf Pengajuan Beserta Foto Pendukung
-- **Migration & Model**: Membuat migration dan model `Pengajuan` dan `BerkasPengajuan` beserta relasi ke entitas `Desa` dan `SimulasiKelayakan`.
-- **Pre-filled Form & Parameter Locking**: Formulir pengajuan otomatis terisi data hasil cek kelayakan mandiri. Tiga parameter kondisi darurat (**Jumlah KK Terdampak**, **Lama Hari Tanpa Air**, dan **Jarak Sumber Air Alternatif**) dikunci secara ketat (*readonly* & terlindungi pada *backend*) dari Cek Kelayakan Mandiri (F-02) agar kalkulasi skor prioritas SPK (AHP-SAW) tidak dapat dimanipulasi secara manual oleh pemohon.
-- **Validasi Berkas**: Komponen unggah foto kondisi lapangan hanya menerima berkas gambar JPG/PNG dengan batas ukuran maksimal 5 MB per foto (maksimal 3 foto) serta menolak berkas tidak sesuai, serta komponen scan surat pengantar Kepala Desa berstempel basah.
-- **Penyimpanan Draf**: Controller penyimpanan draf pengajuan ke basis data pusat.
+---
 
-#### 2. PBI-008: Lihat, Ubah, dan Hapus Draf Pengajuan
-- **Halaman Daftar & Detail Draf**: Menampilkan daftar dan detail draf pengajuan milik desa yang sedang login.
-- **Form Ubah Draf & Hapus dengan Konfirmasi**: Menyediakan antarmuka untuk mengubah isi draf serta tombol hapus dengan jendela modal konfirmasi.
-- **Kebijakan Akses (Policy)**: `PengajuanPolicy` membatasi draf hanya dapat dilihat, diubah, dan dihapus oleh perwakilan desa pemiliknya. Draf yang sudah dikirim terkunci (tidak dapat diubah atau dihapus).
+### Checklist PBI & Technical Tasks (Semua Terpenuhi 100%)
 
-#### 3. PBI-009: Kirim Pengajuan ke Antrean Verifikasi
-- **Penerbitan Nomor Tiket Unik**: Sistem menerbitkan format nomor tiket unik `LA-YYYYMMDD-XXX` saat pengajuan dikirim.
-- **Antrean Verifikasi Admin**: Status pengajuan otomatis beralih menjadi `Diajukan` dan masuk ke antrean verifikasi Admin BPBD.
-- **Validasi Kedaruratan & Pop-up Status Aman**: Jika desa berstatus **Aman**, sistem secara preventif menolak akses ke formulir pengajuan dan langsung memunculkan pop-up modal penjelasan bahwa bantuan diprioritaskan untuk status Kritis/Waspada.
-- **Batasan Tiket Aktif (Anti-Spam)**: Sistem menolak pengiriman pengajuan baru jika desa bersangkutan masih memiliki tiket bantuan aktif yang belum terselesaikan.
-- **Komponen Konfirmasi & Halaman Sukses**: Jendela modal konfirmasi kirim dan halaman "Pengajuan Berhasil Dikirim" sesuai mockup proposal halaman 58, 59, dan 60.
+#### PBI-007 | Susun draf pengajuan beserta foto pendukung
+- **Aktor**: Perwakilan Desa
+- **User Story**: Sebagai Perwakilan Desa, saya ingin menyusun draf pengajuan beserta foto pendukung, agar kebutuhan desa terdokumentasi.
+- **Acceptance Criteria**:
+  - [x] Formulir terisi otomatis dari hasil cek kelayakan dan Pemohon mengunggah surat Kepala Desa dan foto lapangan.
+  - [x] Sistem hanya menerima foto JPG/PNG sesuai batas ukuran dan menolak berkas tidak sesuai.
+- **Technical Tasks**:
+  - [x] Membuat migration tabel pengajuan dan berkas pengajuan.
+  - [x] Membuat model Pengajuan dan BerkasPengajuan beserta relasinya.
+  - [x] Membuat formulir pengajuan yang terisi otomatis dari hasil cek kelayakan (frontend).
+  - [x] Membuat komponen unggah surat Kepala Desa dan foto lapangan (frontend).
+  - [x] Membuat controller penyimpanan draf dan berkas (backend).
+  - [x] Memvalidasi foto hanya JPG/PNG dan batas ukuran (maks 5MB), serta menolak berkas tidak sesuai.
+  - [x] Mengintegrasikan frontend dengan backend.
+  - [x] Memeriksa hasil terhadap Acceptance Criteria.
+
+#### PBI-008 | Lihat, ubah, dan hapus draf pengajuan
+- **Aktor**: Perwakilan Desa
+- **User Story**: Sebagai Perwakilan Desa, saya ingin melihat, mengubah, dan menghapus draf sebelum dikirim, agar kesalahan isian dapat diperbaiki.
+- **Acceptance Criteria**:
+  - [x] Draf yang sudah dikirim tidak dapat diubah dan draf desa lain tidak terlihat.
+  - [x] Perangkat desa dapat melihat, mengubah, dan menghapus draf milik desanya sebelum dikirim.
+- **Technical Tasks**:
+  - [x] Membuat halaman daftar dan detail draf pengajuan (frontend).
+  - [x] Membuat form ubah draf dan tombol hapus dengan konfirmasi (frontend).
+  - [x] Membuat controller lihat, ubah, dan hapus draf (backend).
+  - [x] Membatasi akses draf hanya untuk desa pemiliknya (policy).
+  - [x] Mengintegrasikan frontend dengan backend.
+  - [x] Memeriksa hasil terhadap Acceptance Criteria.
+
+#### PBI-009 | Kirim pengajuan ke antrean verifikasi
+- **Aktor**: Perwakilan Desa
+- **User Story**: Sebagai Perwakilan Desa, saya ingin mengirim pengajuan setelah hasil cek layak atau perlu verifikasi lapangan, agar pengajuan masuk antrean Admin.
+- **Acceptance Criteria**:
+  - [x] Sistem menolak pengajuan baru jika desa sudah punya tiket aktif.
+  - [x] Sistem menerbitkan nomor tiket unik, status Diajukan, dan menempatkan pengajuan di antrean Admin.
+- **Technical Tasks**:
+  - [x] Membuat jendela konfirmasi kirim dan halaman "berhasil dikirim" (frontend).
+  - [x] Membuat controller pengiriman pengajuan (backend).
+  - [x] Membuat mekanisme nomor tiket unik (`LA-YYYYMMDD-XXX`).
+  - [x] Mengubah status menjadi Diajukan dan menempatkannya di antrean admin.
+  - [x] Memvalidasi hasil cek berstatus Kritis/Waspada sebelum dapat dikirim (menolak status Aman dengan modal pop-up).
+  - [x] Menolak pengajuan baru jika desa masih punya tiket aktif (anti-spam).
+  - [x] Mengintegrasikan frontend dengan backend.
+  - [x] Memeriksa hasil terhadap Acceptance Criteria.

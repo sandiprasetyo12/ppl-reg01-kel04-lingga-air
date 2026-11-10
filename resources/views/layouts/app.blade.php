@@ -72,67 +72,48 @@
                     </a>
                 </div>
 
-                <!-- Right Nav / User Info & Quick Switcher -->
-                <div class="flex items-center space-x-3">
-                    @auth
-                        <!-- Village / User badge -->
-                        <div class="hidden sm:flex flex-col text-right">
-                            <span class="text-sm font-semibold text-white">
-                                {{ Auth::user()->desa ? Auth::user()->desa->nama_desa : Auth::user()->name }}
-                            </span>
-                            <span class="text-xs text-sky-200">
-                                {{ Auth::user()->desa ? 'Kec. ' . Auth::user()->desa->kecamatan : ucfirst(Auth::user()->role) }}
-                            </span>
-                        </div>
+                <!-- SIMULASI KELAYAKAN SELECTOR (Mode Tanpa Login: Aman, Waspada, Kritis) -->
+                @php
+                    $activeDesaKode = session('simulasi_desa_kode');
+                    $activeMode = session('simulasi_mode', 'waspada');
+                    $currentDesa = \App\Models\Desa::where('kode_desa', $activeDesaKode)->first() 
+                        ?: (\App\Models\Desa::where('nama_desa', 'like', '%Serang%')->first() ?: \App\Models\Desa::first());
+                @endphp
 
-                        <!-- Quick Role Switcher (Sangat berguna untuk pengujian fitur) -->
-                        <div class="relative inline-block text-left" id="userSwitcherDropdown">
-                            <button type="button" onclick="document.getElementById('switchMenu').classList.toggle('hidden')" class="flex items-center space-x-1.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition">
-                                <svg class="w-4 h-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                </svg>
-                                <span>Ganti Akun Demo</span>
-                                <svg class="w-3.5 h-3.5 text-sky-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </button>
+                <div class="flex items-center space-x-2">
+                    <div class="hidden sm:flex flex-col text-right pr-2 border-r border-sky-800">
+                        <span class="text-xs font-bold text-white flex items-center justify-end gap-1.5">
+                            <span class="w-2 h-2 rounded-full {{ $activeMode === 'aman' ? 'bg-emerald-400' : ($activeMode === 'kritis' ? 'bg-rose-400' : 'bg-amber-400') }}"></span>
+                            {{ $currentDesa ? $currentDesa->nama_desa : 'Desa Serang' }}
+                        </span>
+                        <span class="text-[10px] text-sky-200">
+                            Simulasi: <strong class="uppercase">{{ $activeMode }}</strong>
+                        </span>
+                    </div>
 
-                            <!-- Dropdown Menu -->
-                            <div id="switchMenu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 text-slate-700">
-                                <div class="px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
-                                    Pilih Akun Simulasi
-                                </div>
-                                @php
-                                    $demoUsers = \App\Models\User::with('desa')->get();
-                                @endphp
-                                @foreach($demoUsers as $dUser)
-                                    <a href="{{ route('auth.switch', $dUser->id) }}" class="flex items-center justify-between px-3 py-2 text-xs hover:bg-sky-50 transition {{ Auth::id() === $dUser->id ? 'bg-sky-50 font-bold text-sky-800' : '' }}">
-                                        <div>
-                                            <p class="font-medium text-slate-800">{{ $dUser->desa ? $dUser->desa->nama_desa : $dUser->name }}</p>
-                                            <p class="text-[11px] text-slate-500">{{ $dUser->role === 'pemohon' ? 'Pemohon (' . ($dUser->desa?->kecamatan ?? '-') . ')' : 'Admin BPBD' }}</p>
-                                        </div>
-                                        @if(Auth::id() === $dUser->id)
-                                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                                        @endif
-                                    </a>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <!-- Logout -->
-                        <form action="{{ route('logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" title="Keluar" class="p-2 text-sky-200 hover:text-white hover:bg-white/10 rounded-lg transition">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                </svg>
-                            </button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-sm transition">
-                            Masuk ke Akun Desa
+                    <!-- Pilihan simulasi status kelayakan -->
+                    <div class="flex items-center bg-sky-950/60 p-1 rounded-xl border border-sky-700/50 space-x-1 text-xs">
+                        <a href="{{ route('simulasi.switch', 'waspada') }}" 
+                           class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1.5 {{ $activeMode === 'waspada' ? 'bg-amber-400 text-slate-900 shadow-sm' : 'text-amber-200 hover:bg-white/10' }}" 
+                           title="Simulasi Status Waspada (Siap Mengajukan)">
+                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                            <span class="hidden md:inline">Waspada</span>
                         </a>
-                    @endauth
+
+                        <a href="{{ route('simulasi.switch', 'aman') }}" 
+                           class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1.5 {{ $activeMode === 'aman' ? 'bg-emerald-500 text-white shadow-sm' : 'text-emerald-200 hover:bg-white/10' }}" 
+                           title="Simulasi Status Aman (Akan Ditolak Pop-up)">
+                            <span class="w-2 h-2 rounded-full bg-emerald-300"></span>
+                            <span class="hidden md:inline">Aman</span>
+                        </a>
+
+                        <a href="{{ route('simulasi.switch', 'kritis') }}" 
+                           class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1.5 {{ $activeMode === 'kritis' ? 'bg-rose-600 text-white shadow-sm' : 'text-rose-200 hover:bg-white/10' }}" 
+                           title="Simulasi Status Kritis (Darurat)">
+                            <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                            <span class="hidden md:inline">Kritis</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -206,35 +187,36 @@
                     </div>
                 </div>
 
-                <!-- Info Desa Singkat -->
-                @auth
-                    @if(Auth::user()->desa)
-                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 text-xs space-y-2">
-                            <div class="flex items-center justify-between font-semibold text-slate-800">
-                                <span>Profil Desa</span>
-                                <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-[10px] font-bold">Terdaftar</span>
+                <!-- Info Desa Singkat (Mendukung mode tanpa login) -->
+                @php
+                    $sidebarDesa = isset($desa) ? $desa : ($currentDesa ?? null);
+                @endphp
+                @if($sidebarDesa)
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 text-xs space-y-2">
+                        <div class="flex items-center justify-between font-semibold text-slate-800">
+                            <span>Profil Desa</span>
+                            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-[10px] font-bold">Terdaftar</span>
+                        </div>
+                        <div class="text-slate-600 space-y-1">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Kode Desa:</span>
+                                <span class="font-mono font-medium">{{ $sidebarDesa->kode_desa }}</span>
                             </div>
-                            <div class="text-slate-600 space-y-1">
-                                <div class="flex justify-between">
-                                    <span class="text-slate-400">Kode Desa:</span>
-                                    <span class="font-mono font-medium">{{ Auth::user()->desa->kode_desa }}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-slate-400">Total KK:</span>
-                                    <span class="font-medium">{{ Auth::user()->desa->jumlah_kk }} KK</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-slate-400">PJ Darurat:</span>
-                                    <span class="font-medium">{{ Auth::user()->desa->nama_pj }}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-slate-400">WhatsApp:</span>
-                                    <span class="font-medium">{{ Auth::user()->desa->no_wa }}</span>
-                                </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Total KK:</span>
+                                <span class="font-medium">{{ $sidebarDesa->jumlah_kk }} KK</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">PJ Darurat:</span>
+                                <span class="font-medium">{{ $sidebarDesa->nama_pj ?? 'PJ Darurat Lapangan' }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">WhatsApp:</span>
+                                <span class="font-medium">{{ $sidebarDesa->no_wa ?? '081398765432' }}</span>
                             </div>
                         </div>
-                    @endif
-                @endauth
+                    </div>
+                @endif
             </aside>
 
             <!-- MAIN CONTENT AREA -->
@@ -347,17 +329,6 @@
             </div>
         </div>
     @endif
-
-    <!-- Close dropdown on click outside -->
-    <script>
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('userSwitcherDropdown');
-            const menu = document.getElementById('switchMenu');
-            if (dropdown && menu && !dropdown.contains(e.target)) {
-                menu.classList.add('hidden');
-            }
-        });
-    </script>
 
     @stack('scripts')
 </body>
