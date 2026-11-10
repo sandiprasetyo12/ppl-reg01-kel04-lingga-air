@@ -117,23 +117,19 @@ class PengajuanController extends Controller
         // Ambil riwayat cek kelayakan (dari query riwayat_id atau yang terbaru dari desa ini)
         $riwayat = null;
         if ($request->filled('riwayat_id')) {
-            $riwayat = RiwayatCekKelayakan::where('kode_desa', $desa->kode_desa)
-                ->where('id', $request->query('riwayat_id'))
-                ->first();
+            $riwayat = RiwayatCekKelayakan::find($request->query('riwayat_id'));
+            if ($riwayat && $riwayat->desa) {
+                $desa = $riwayat->desa;
+                session(['active_desa_kode' => $desa->kode_desa]);
+            }
         }
 
         if (!$riwayat) {
             $riwayat = $desa->latestRiwayatKelayakan;
         }
 
-        // Jika desa belum memiliki riwayat cek kelayakan, arahkan ke Cek Kelayakan (F-02)
-        if (!$riwayat) {
-            return redirect()->route('cek-kelayakan.index')
-                ->with('info', 'Silakan jalankan Cek Kelayakan Mandiri terlebih dahulu untuk Desa ' . $desa->nama_desa . ' sebelum menyusun pengajuan bantuan air.');
-        }
-
         // Jika hasil cek kelayakan berstatus Aman, tolak akses dan tampilkan modal pop-up
-        if (strtolower($riwayat->status) === 'aman') {
+        if ($riwayat && strtolower($riwayat->status) === 'aman') {
             return redirect()->route('pengajuan.index')->with('modal_kelayakan_aman', [
                 'desa' => $desa->nama_desa,
                 'skor' => $riwayat->skor,

@@ -26,6 +26,22 @@
         </div>
     @endif
 
+    <!-- PERINGATAN BILA BELUM CEK KELAYAKAN -->
+    @if(!$simulasi)
+        <div class="card p-4 border-amber-300 bg-amber-50 text-amber-900 flex items-start gap-3">
+            <span class="text-xl leading-none font-bold text-amber-700">ℹ</span>
+            <div class="text-xs">
+                <p class="font-bold text-sm text-amber-950">Data Cek Kelayakan Belum Diisi</p>
+                <p class="mt-1 text-slate-700">
+                    Formulir pengajuan bantuan air membutuhkan data dari hasil <strong>Cek Kelayakan Mandiri (F-02)</strong>. Nilai parameter kebutuhan akan terkunci dan terisi otomatis setelah Anda menjalankan simulasi kelayakan untuk desa Anda.
+                </p>
+                <a href="{{ route('cek-kelayakan.index') }}" class="submit mt-2 text-xs py-1.5 px-3 inline-flex">
+                    Mulai Cek Kelayakan Sekarang →
+                </a>
+            </div>
+        </div>
+    @endif
+
     <!-- RINGKASAN HASIL CEK KELAYAKAN (SESUAI DESAIN HASIL CEK KELAYAKAN MANDIRI) -->
     <div class="card p-5" style="border-color: #cae4ef; background: #f0f8fb;">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
@@ -35,7 +51,7 @@
                 <div class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-center shadow-xs">
                     <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">SKOR PRIORITAS</span>
                     <span class="text-3xl font-extrabold tracking-tight" style="color: #086288; font-variant-numeric: tabular-nums;" id="disp-skor">
-                        {{ number_format($simulasi->skor_ahp_saw ?? 92.4, 1) }}
+                        {{ $simulasi ? number_format($simulasi->skor_ahp_saw, 1) : '-' }}
                     </span>
                     <span class="text-xs font-semibold text-slate-400">/ 100</span>
                 </div>
@@ -44,11 +60,12 @@
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-bold text-slate-600">Hasil Cek Kelayakan:</span>
                         @php
-                            $status = $simulasi->status_kelayakan ?? 'Kritis';
+                            $status = $simulasi ? $simulasi->status_kelayakan : 'Belum Cek';
                             $statusClass = match(strtolower($status)) {
                                 'kritis' => 'status-kritis',
                                 'waspada' => 'status-waspada',
-                                default => 'status-aman',
+                                'aman' => 'status-aman',
+                                default => 'status-draf',
                             };
                         @endphp
                         <span class="status-badge {{ $statusClass }}" id="disp-status">
@@ -56,7 +73,7 @@
                         </span>
                     </div>
                     <p class="text-xs font-medium text-slate-700 mt-1.5" id="disp-rekomendasi">
-                        {{ $simulasi->rekomendasi ?? 'Segera ajukan bantuan pasokan air bersih untuk kebutuhan warga terdampak.' }}
+                        {{ $simulasi ? ($simulasi->rekomendasi ?? 'Segera ajukan bantuan pasokan air bersih untuk kebutuhan warga terdampak.') : 'Data Cek Kelayakan belum tersedia. Silakan jalankan Cek Kelayakan Mandiri terlebih dahulu.' }}
                     </p>
                 </div>
             </div>
@@ -131,11 +148,12 @@
                             <input 
                                 type="text" 
                                 id="jumlah_kk_display" 
-                                value="{{ $simulasi->kk_terdampak ?? 120 }}" 
+                                value="{{ $simulasi?->kk_terdampak ?? '' }}" 
+                                placeholder="Belum ada data"
                                 readonly 
                                 class="font-bold text-slate-900"
                             >
-                            <input type="hidden" name="jumlah_kk" id="jumlah_kk" value="{{ $simulasi->kk_terdampak ?? 120 }}">
+                            <input type="hidden" name="jumlah_kk" id="jumlah_kk" value="{{ $simulasi?->kk_terdampak ?? '' }}">
                             <span class="unit">KK 🔒</span>
                         </div>
                         <p class="hint">Tersinkron dari Cek Kelayakan (total {{ $desa->jumlah_kk }} KK)</p>
@@ -148,11 +166,12 @@
                             <input 
                                 type="text" 
                                 id="hari_tanpa_air_display" 
-                                value="{{ $simulasi->hari_tanpa_air ?? 14 }}" 
+                                value="{{ $simulasi?->hari_tanpa_air ?? '' }}" 
+                                placeholder="Belum ada data"
                                 readonly 
                                 class="font-bold text-slate-900"
                             >
-                            <input type="hidden" name="hari_tanpa_air" id="hari_tanpa_air" value="{{ $simulasi->hari_tanpa_air ?? 14 }}">
+                            <input type="hidden" name="hari_tanpa_air" id="hari_tanpa_air" value="{{ $simulasi?->hari_tanpa_air ?? '' }}">
                             <span class="unit">Hari 🔒</span>
                         </div>
                         <p class="hint">Durasi ketiadaan suplai air hasil simulasi</p>
@@ -165,11 +184,12 @@
                             <input 
                                 type="text" 
                                 id="jarak_sumber_air_display" 
-                                value="{{ $simulasi->jarak_sumber_air ?? 1200 }}" 
+                                value="{{ $simulasi?->jarak_sumber_air ?? '' }}" 
+                                placeholder="Belum ada data"
                                 readonly 
                                 class="font-bold text-slate-900"
                             >
-                            <input type="hidden" name="jarak_sumber_air" id="jarak_sumber_air" value="{{ $simulasi->jarak_sumber_air ?? 1200 }}">
+                            <input type="hidden" name="jarak_sumber_air" id="jarak_sumber_air" value="{{ $simulasi?->jarak_sumber_air ?? '' }}">
                             <span class="unit">Meter 🔒</span>
                         </div>
                         <p class="hint">Jarak tempuh warga ke sumber alternatif</p>
@@ -196,7 +216,7 @@
                     rows="3" 
                     required 
                     placeholder="Contoh: Sumber air sumur gali dan mata air desa mengering total selama dua minggu terakhir akibat musim kemarau panjang. Warga terpaksa membeli air pikulan..." 
-                >{{ old('alasan_pengajuan', 'Sumber air sumur gali dan mata air desa mengering total selama dua minggu terakhir akibat musim kemarau panjang. Warga membutuhkan pasokan air bersih darurat untuk kebutuhan harian.') }}</textarea>
+                >{{ old('alasan_pengajuan') }}</textarea>
                 <p class="hint">Jelaskan kondisi riil sumur, embung, atau aliran air pipa warga saat ini.</p>
             </div>
 
@@ -326,7 +346,13 @@
                 <button 
                     type="button" 
                     onclick="submitAsDraft()" 
-                    class="reset flex-1 sm:flex-none font-bold"
+                    @if(!$simulasi) 
+                        disabled 
+                        title="Silakan lakukan Cek Kelayakan terlebih dahulu" 
+                        class="reset flex-1 sm:flex-none font-bold opacity-50 cursor-not-allowed"
+                    @else
+                        class="reset flex-1 sm:flex-none font-bold"
+                    @endif
                 >
                     Simpan sebagai Draf
                 </button>
@@ -335,7 +361,11 @@
                 <button 
                     type="button" 
                     onclick="openKirimModal()" 
-                    @if($hasActiveTicket) 
+                    @if(!$simulasi)
+                        disabled
+                        title="Silakan lakukan Cek Kelayakan terlebih dahulu"
+                        class="submit flex-1 sm:flex-none opacity-50 cursor-not-allowed"
+                    @elseif($hasActiveTicket) 
                         disabled 
                         title="Desa masih memiliki tiket aktif" 
                         class="submit flex-1 sm:flex-none opacity-50 cursor-not-allowed"
@@ -382,7 +412,7 @@
                     <span class="text-slate-400">({{ $desa->kecamatan }})</span>
                 </div>
                 <span class="status-badge {{ $statusClass }} text-[10px]">
-                    {{ $status }} (Skor {{ number_format($simulasi->skor_ahp_saw ?? 92.4, 1) }})
+                    {{ $status }} (Skor {{ $simulasi ? number_format($simulasi->skor_ahp_saw, 1) : '-' }})
                 </span>
             </div>
 
@@ -390,15 +420,15 @@
             <div class="grid grid-cols-3 gap-2 text-center bg-slate-50 p-3 rounded-xl border border-slate-200">
                 <div>
                     <span class="text-slate-400 block text-[10px] uppercase font-bold">KK Terdampak</span>
-                    <span class="text-sm font-extrabold text-slate-800" id="modal-disp-kk">120 KK</span>
+                    <span class="text-sm font-extrabold text-slate-800" id="modal-disp-kk">-</span>
                 </div>
                 <div>
                     <span class="text-slate-400 block text-[10px] uppercase font-bold">Tanpa Air</span>
-                    <span class="text-sm font-extrabold text-slate-800" id="modal-disp-hari">14 Hari</span>
+                    <span class="text-sm font-extrabold text-slate-800" id="modal-disp-hari">-</span>
                 </div>
                 <div>
                     <span class="text-slate-400 block text-[10px] uppercase font-bold">Jarak Sumber</span>
-                    <span class="text-sm font-extrabold text-slate-800" id="modal-disp-jarak">1.200 Meter</span>
+                    <span class="text-sm font-extrabold text-slate-800" id="modal-disp-jarak">-</span>
                 </div>
             </div>
 
@@ -563,11 +593,19 @@
 
     // Submission triggers
     function submitAsDraft() {
+        @if(!$simulasi)
+            alert('Silakan lakukan Cek Kelayakan Mandiri terlebih dahulu sebelum menyimpan draf.');
+            return;
+        @endif
         document.getElementById('formActionInput').value = 'draf';
         document.getElementById('formPengajuan').submit();
     }
 
     function openKirimModal() {
+        @if(!$simulasi)
+            alert('Silakan lakukan Cek Kelayakan Mandiri terlebih dahulu sebelum mengirim pengajuan.');
+            return;
+        @endif
         const kk = document.getElementById('jumlah_kk').value;
         const hari = document.getElementById('hari_tanpa_air').value;
         const jarak = document.getElementById('jarak_sumber_air').value;
