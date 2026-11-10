@@ -17,6 +17,7 @@ class Pengajuan extends Model
 
     protected $fillable = [
         'nomor_tiket',
+        'kode_desa',
         'desa_id',
         'simulasi_id',
         'status',
@@ -45,7 +46,17 @@ class Pengajuan extends Model
 
     public function desa(): BelongsTo
     {
-        return $this->belongsTo(Desa::class);
+        return $this->belongsTo(Desa::class, 'kode_desa', 'kode_desa');
+    }
+
+    public function getDesaIdAttribute(): ?string
+    {
+        return $this->kode_desa;
+    }
+
+    public function setDesaIdAttribute($value): void
+    {
+        $this->attributes['kode_desa'] = $value;
     }
 
     public function simulasi(): BelongsTo

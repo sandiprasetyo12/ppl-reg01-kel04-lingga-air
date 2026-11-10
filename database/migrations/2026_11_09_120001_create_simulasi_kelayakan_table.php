@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('simulasi_kelayakan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('desa_id')->constrained('desa')->cascadeOnDelete();
+            $table->string('kode_desa', 15);
+            $table->foreign('kode_desa')->references('kode_desa')->on('desas')->cascadeOnDelete();
             $table->unsignedInteger('kk_terdampak');
             $table->unsignedInteger('jiwa_rentan')->default(0);
             $table->unsignedInteger('hari_tanpa_air');
@@ -33,4 +34,3 @@ return new class extends Migration
         Schema::dropIfExists('simulasi_kelayakan');
     }
 };
-

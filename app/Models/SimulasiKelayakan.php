@@ -14,6 +14,7 @@ class SimulasiKelayakan extends Model
     protected $table = 'simulasi_kelayakan';
 
     protected $fillable = [
+        'kode_desa',
         'desa_id',
         'kk_terdampak',
         'jiwa_rentan',
@@ -37,7 +38,17 @@ class SimulasiKelayakan extends Model
 
     public function desa(): BelongsTo
     {
-        return $this->belongsTo(Desa::class);
+        return $this->belongsTo(Desa::class, 'kode_desa', 'kode_desa');
+    }
+
+    public function getDesaIdAttribute(): ?string
+    {
+        return $this->kode_desa;
+    }
+
+    public function setDesaIdAttribute($value): void
+    {
+        $this->attributes['kode_desa'] = $value;
     }
 
     public function pengajuan(): HasMany
@@ -53,4 +64,3 @@ class SimulasiKelayakan extends Model
         return in_array($this->status_kelayakan, ['Kritis', 'Waspada']);
     }
 }
-

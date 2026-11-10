@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Admin BPBD Purbalingga
+        // 1. Panggil seeder master desa Purbalingga (dari branch main)
+        $this->call([DesaSeeder::class]);
+
+        // 2. Admin BPBD Purbalingga
         $admin = User::firstOrCreate(
             ['email' => 'admin@bpbd.purbalinggakab.go.id'],
             [
@@ -27,66 +30,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 2. Pemohon Desa Tanalum (Kecamatan Rembang) - Sesuai Mockup Proposal Halaman 47, 55, 56, 57
-        $userTanalum = User::firstOrCreate(
-            ['email' => 'desa.tanalum@purbalinggakab.go.id'],
-            [
-                'name' => 'Pemerintah Desa Tanalum',
-                'password' => Hash::make('password'),
-                'role' => 'pemohon',
-                'phone' => '081234567890',
-            ]
-        );
-
-        $desaTanalum = Desa::firstOrCreate(
-            ['kode_desa' => '3303132005'],
-            [
-                'user_id' => $userTanalum->id,
-                'nama_desa' => 'Desa Tanalum',
-                'kecamatan' => 'Rembang',
-                'jumlah_kk' => 600,
-                'jumlah_jiwa' => 2400,
-                'jumlah_balita' => 95,
-                'jumlah_lansia' => 80,
-                'jumlah_disabilitas' => 12,
-                'nama_pj' => 'Budi Santoso',
-                'no_wa' => '081234567890',
-                'lokasi_drop_point' => 'Halaman Balai Desa Tanalum, Dusun Krajan RT 02 / RW 03',
-                'latitude' => -7.2845100,
-                'longitude' => 109.4321000,
-            ]
-        );
-
-        // Simulasi Kelayakan Kritis untuk Desa Tanalum (Skor 92.40 - Kritis)
-        $simulasiTanalum = SimulasiKelayakan::create([
-            'desa_id' => $desaTanalum->id,
-            'kk_terdampak' => 120,
-            'jiwa_rentan' => 40,
-            'hari_tanpa_air' => 14,
-            'jarak_sumber_air' => 1200,
-            'skor_ahp_saw' => 92.40,
-            'status_kelayakan' => 'Kritis',
-            'rekomendasi' => 'Segera ajukan pasokan air bersih darurat untuk kebutuhan 120 KK terdampak.',
-        ]);
-
-        // Draf awal untuk Desa Tanalum
-        $drafTanalum = Pengajuan::create([
-            'nomor_tiket' => null, // Belum dikirim
-            'desa_id' => $desaTanalum->id,
-            'simulasi_id' => $simulasiTanalum->id,
-            'status' => 'Draf',
-            'jumlah_kk' => 120,
-            'hari_tanpa_air' => 14,
-            'jarak_sumber_air' => 1200,
-            'alasan_pengajuan' => 'Sumber air sumur gali dan mata air desa mengering total selama dua minggu terakhir akibat kemarau panjang. Warga terpaksa membeli air pikulan.',
-            'lokasi_pengantaran' => 'Halaman Balai Desa Tanalum, Dusun Krajan',
-            'latitude' => -7.2845100,
-            'longitude' => 109.4321000,
-            'catatan_tambahan' => 'Akses mobil tangki muat melalui gerbang utama balai desa. Jalan beraspal lebar 4 meter.',
-            'tanggal_pengajuan' => null,
-        ]);
-
-        // 3. Pemohon Desa Serang (Kecamatan Karangreja) - Status Waspada
+        // 3. Desa Serang (Kecamatan Karangreja) - SIMULASI STATUS WASPADA (Skor 74.80)
         $userSerang = User::firstOrCreate(
             ['email' => 'desa.serang@purbalinggakab.go.id'],
             [
@@ -97,37 +41,42 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $desaSerang = Desa::firstOrCreate(
-            ['kode_desa' => '3303082001'],
+        $desaSerang = Desa::where('nama_desa', 'Serang')->first()
+            ?: Desa::firstOrCreate(['kode_desa' => '33.03.10.2001'], ['nama_desa' => 'Serang', 'kecamatan' => 'Karangreja']);
+
+        $desaSerang->update([
+            'user_id' => $userSerang->id,
+            'nama_desa' => 'Desa Serang',
+            'kecamatan' => 'Karangreja',
+            'jumlah_kk_total' => 750,
+            'jumlah_jiwa_total' => 2800,
+            'jumlah_balita' => 110,
+            'jumlah_lansia' => 90,
+            'jumlah_disabilitas' => 15,
+            'nama_pj_darurat' => 'Agus Hendra',
+            'no_wa_darurat' => '081398765432',
+            'titik_drop_air' => 'Posko Mandiri RT 01 RW 04 Desa Serang',
+            'latitude' => $desaSerang->latitude ?: -7.244225,
+            'longitude' => $desaSerang->longitude ?: 109.279768,
+        ]);
+
+        SimulasiKelayakan::firstOrCreate(
             [
-                'user_id' => $userSerang->id,
-                'nama_desa' => 'Desa Serang',
-                'kecamatan' => 'Karangreja',
-                'jumlah_kk' => 750,
-                'jumlah_jiwa' => 2800,
-                'jumlah_balita' => 110,
-                'jumlah_lansia' => 90,
-                'jumlah_disabilitas' => 15,
-                'nama_pj' => 'Agus Hendra',
-                'no_wa' => '081398765432',
-                'lokasi_drop_point' => 'Posko Mandiri RT 01 RW 04 Desa Serang',
-                'latitude' => -7.2512000,
-                'longitude' => 109.3120000,
+                'kode_desa' => $desaSerang->kode_desa,
+                'status_kelayakan' => 'Waspada',
+            ],
+            [
+                'kk_terdampak' => 85,
+                'jiwa_rentan' => 25,
+                'hari_tanpa_air' => 8,
+                'jarak_sumber_air' => 800,
+                'skor_ahp_saw' => 74.80,
+                'rekomendasi' => 'Penuhi syarat administrasi dan siapkan titik tandon untuk pengajuan bantuan pasokan.',
             ]
         );
 
-        $simulasiSerang = SimulasiKelayakan::create([
-            'desa_id' => $desaSerang->id,
-            'kk_terdampak' => 85,
-            'jiwa_rentan' => 25,
-            'hari_tanpa_air' => 8,
-            'jarak_sumber_air' => 800,
-            'skor_ahp_saw' => 74.80,
-            'status_kelayakan' => 'Waspada',
-            'rekomendasi' => 'Penuhi syarat administrasi dan siapkan titik tandon untuk pengajuan bantuan pasokan.',
-        ]);
-
-        // 4. Pemohon Desa Bodas (Status Aman) untuk tes penolakan pengiriman status Aman
+        // 4. Desa Bodas / Danasari - SIMULASI STATUS AMAN (Skor 48.10)
+        // Digunakan untuk pengujian: status Aman tidak boleh membuat pengajuan dan langsung memunculkan pop-up modal
         $userBodas = User::firstOrCreate(
             ['email' => 'desa.bodas@purbalinggakab.go.id'],
             [
@@ -138,34 +87,104 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $desaBodas = Desa::firstOrCreate(
-            ['kode_desa' => '3303132008'],
+        $desaBodas = Desa::where('nama_desa', 'like', '%Bodas%')->first()
+            ?: (Desa::where('kecamatan', 'Karangjambu')->first()
+                ?: Desa::firstOrCreate(['kode_desa' => '33.03.17.2001'], ['nama_desa' => 'Desa Bodas', 'kecamatan' => 'Karangjambu']));
+
+        $desaBodas->update([
+            'user_id' => $userBodas->id,
+            'nama_desa' => 'Desa Bodas',
+            'kecamatan' => 'Karangjambu',
+            'jumlah_kk_total' => 400,
+            'jumlah_jiwa_total' => 1500,
+            'jumlah_balita' => 45,
+            'jumlah_lansia' => 30,
+            'jumlah_disabilitas' => 5,
+            'nama_pj_darurat' => 'Slamet Riyadi',
+            'no_wa_darurat' => '081543219876',
+            'titik_drop_air' => 'Depan Balai Pertemuan RW 02',
+            'latitude' => $desaBodas->latitude ?: -7.220100,
+            'longitude' => $desaBodas->longitude ?: 109.410200,
+        ]);
+
+        SimulasiKelayakan::firstOrCreate(
             [
-                'user_id' => $userBodas->id,
-                'nama_desa' => 'Desa Bodas',
-                'kecamatan' => 'Karangjambu',
-                'jumlah_kk' => 400,
-                'jumlah_jiwa' => 1500,
-                'jumlah_balita' => 45,
-                'jumlah_lansia' => 30,
-                'jumlah_disabilitas' => 5,
-                'nama_pj' => 'Slamet Riyadi',
-                'no_wa' => '081543219876',
-                'lokasi_drop_point' => 'Depan Balai Pertemuan RW 02',
-                'latitude' => -7.2201000,
-                'longitude' => 109.4102000,
+                'kode_desa' => $desaBodas->kode_desa,
+                'status_kelayakan' => 'Aman',
+            ],
+            [
+                'kk_terdampak' => 20,
+                'jiwa_rentan' => 5,
+                'hari_tanpa_air' => 2,
+                'jarak_sumber_air' => 200,
+                'skor_ahp_saw' => 48.10,
+                'rekomendasi' => 'Kondisi pasokan air masih terkendali secara mandiri di tingkat lingkungan.',
             ]
         );
 
-        $simulasiBodas = SimulasiKelayakan::create([
-            'desa_id' => $desaBodas->id,
-            'kk_terdampak' => 20,
-            'jiwa_rentan' => 5,
-            'hari_tanpa_air' => 2,
-            'jarak_sumber_air' => 200,
-            'skor_ahp_saw' => 48.10,
-            'status_kelayakan' => 'Aman',
-            'rekomendasi' => 'Kondisi pasokan air masih terkendali secara mandiri di tingkat lingkungan.',
+        // 5. Desa Tanalum (Kecamatan Rembang) - SIMULASI STATUS KRITIS (Skor 92.40)
+        $userTanalum = User::firstOrCreate(
+            ['email' => 'desa.tanalum@purbalinggakab.go.id'],
+            [
+                'name' => 'Pemerintah Desa Tanalum',
+                'password' => Hash::make('password'),
+                'role' => 'pemohon',
+                'phone' => '081234567890',
+            ]
+        );
+
+        $desaTanalum = Desa::where('nama_desa', 'like', '%Tanalum%')->first()
+            ?: Desa::firstOrCreate(['kode_desa' => '33.03.13.2011'], ['nama_desa' => 'Desa Tanalum', 'kecamatan' => 'Rembang']);
+
+        $desaTanalum->update([
+            'user_id' => $userTanalum->id,
+            'nama_desa' => 'Desa Tanalum',
+            'kecamatan' => 'Rembang',
+            'jumlah_kk_total' => 600,
+            'jumlah_jiwa_total' => 2400,
+            'jumlah_balita' => 95,
+            'jumlah_lansia' => 80,
+            'jumlah_disabilitas' => 12,
+            'nama_pj_darurat' => 'Budi Santoso',
+            'no_wa_darurat' => '081234567890',
+            'titik_drop_air' => 'Halaman Balai Desa Tanalum, Dusun Krajan RT 02 / RW 03',
+            'latitude' => $desaTanalum->latitude ?: -7.268235,
+            'longitude' => $desaTanalum->longitude ?: 109.534706,
         ]);
+
+        $simulasiTanalum = SimulasiKelayakan::firstOrCreate(
+            [
+                'kode_desa' => $desaTanalum->kode_desa,
+                'status_kelayakan' => 'Kritis',
+            ],
+            [
+                'kk_terdampak' => 120,
+                'jiwa_rentan' => 40,
+                'hari_tanpa_air' => 14,
+                'jarak_sumber_air' => 1200,
+                'skor_ahp_saw' => 92.40,
+                'rekomendasi' => 'Segera ajukan pasokan air bersih darurat untuk kebutuhan 120 KK terdampak.',
+            ]
+        );
+
+        // Draf contoh untuk Desa Tanalum
+        Pengajuan::firstOrCreate(
+            [
+                'kode_desa' => $desaTanalum->kode_desa,
+                'status' => 'Draf',
+            ],
+            [
+                'nomor_tiket' => null,
+                'simulasi_id' => $simulasiTanalum->id,
+                'jumlah_kk' => 120,
+                'hari_tanpa_air' => 14,
+                'jarak_sumber_air' => 1200,
+                'alasan_pengajuan' => 'Sumber air sumur gali dan mata air desa mengering total selama dua minggu terakhir akibat kemarau panjang. Warga terpaksa membeli air pikulan.',
+                'lokasi_pengantaran' => 'Halaman Balai Desa Tanalum, Dusun Krajan',
+                'latitude' => $desaTanalum->latitude ?: -7.268235,
+                'longitude' => $desaTanalum->longitude ?: 109.534706,
+                'catatan_tambahan' => 'Akses mobil tangki muat melalui gerbang utama balai desa. Jalan beraspal lebar 4 meter.',
+            ]
+        );
     }
 }

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('pengajuan', function (Blueprint $table) {
             $table->id();
             $table->string('nomor_tiket')->nullable()->unique();
-            $table->foreignId('desa_id')->constrained('desa')->cascadeOnDelete();
+            $table->string('kode_desa', 15);
+            $table->foreign('kode_desa')->references('kode_desa')->on('desas')->cascadeOnDelete();
             $table->foreignId('simulasi_id')->nullable()->constrained('simulasi_kelayakan')->nullOnDelete();
             $table->enum('status', [
                 'Draf',
@@ -47,4 +48,3 @@ return new class extends Migration
         Schema::dropIfExists('pengajuan');
     }
 };
-
