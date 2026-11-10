@@ -309,8 +309,8 @@
                         type="text" 
                         name="lokasi_pengantaran" 
                         id="lokasi_pengantaran" 
-                        value="{{ old('lokasi_pengantaran', $desa->lokasi_drop_point ?? 'Halaman Balai Desa ' . $desa->nama_desa) }}" 
-                        placeholder="Contoh: Halaman Balai Desa Tanalum, RT 02 / RW 03"
+                        value="{{ old('lokasi_pengantaran') }}" 
+                        placeholder="Contoh: Halaman Balai Desa ... Kecamatan ..., RT 02 / RW 03"
                     >
                 </div>
 
