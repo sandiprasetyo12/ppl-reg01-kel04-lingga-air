@@ -18,6 +18,7 @@
   3. Mengklik tombol tersebut mengarahkan pengguna ke `/pengajuan/create?riwayat_id={id}`, di mana formulir terisi otomatis dan parameter kebutuhan (KK terdampak, lama hari tanpa air, jarak sumber air) terkunci langsung dari hasil perhitungan.
   4. Apabila berstatus **AMAN**, sistem secara ketat membatasi pengajuan sesuai SOP BPBD dengan pop-up modal informasi.
 - **Navigasi Dua Arah**: Sidebar pada Cek Kelayakan dan Pengajuan Bantuan Air telah disinkronkan dan dapat diakses bolak-balik tanpa kendala login.
+- **Standarisasi UI/UX Seragam**: Tampilan antarmuka layout, header, sidebar, tipografi (Google Fonts Poppins), palet warna (Primary `#086288`), kartu, formulir, dan tombol pada seluruh halaman Fitur F-03 (`pengajuan.index`, `create`, `edit`, `show`, `success`) diselaraskan 100% dengan desain Cek Kelayakan Mandiri (F-02).
 
 ---
 
