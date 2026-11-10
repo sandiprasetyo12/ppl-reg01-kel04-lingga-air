@@ -33,7 +33,7 @@ class CekKelayakanController extends Controller
             (int) $input['jarak_sumber_meter'],
         );
 
-        RiwayatCekKelayakan::create([
+        $riwayat = RiwayatCekKelayakan::create([
             'kode_desa' => $desa->kode_desa,
             'jumlah_kk_total' => $desa->jumlah_kk_total,
             'jumlah_jiwa_total' => $desa->jumlah_jiwa_total,
@@ -58,6 +58,7 @@ class CekKelayakanController extends Controller
 
         return view('cek-kelayakan.index', array_merge($this->formData(), [
             'result' => $result,
+            'riwayat' => $riwayat,
             'input' => array_merge($input, [
                 'jumlah_kk_total' => $desa->jumlah_kk_total,
                 'jumlah_jiwa_total' => $desa->jumlah_jiwa_total,

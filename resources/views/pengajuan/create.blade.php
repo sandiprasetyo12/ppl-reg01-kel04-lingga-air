@@ -75,7 +75,12 @@
             <div class="text-right sm:border-l sm:border-amber-200 sm:pl-4">
                 <span class="text-[11px] text-slate-500 block">Metode SPK Kemanusiaan:</span>
                 <span class="text-xs font-bold text-slate-700">AHP - Simple Additive Weighting (SAW)</span>
-                @if(($simulasi->status_kelayakan ?? '') === 'Aman')
+                <div class="mt-1">
+                    <a href="{{ route('cek-kelayakan.index') }}" class="text-[11px] text-sky-700 font-bold hover:underline">
+                        Cek Kelayakan Ulang &rarr;
+                    </a>
+                </div>
+                @if(strtolower($simulasi->status_kelayakan ?? '') === 'aman')
                     <span class="mt-1 inline-block text-[11px] text-rose-600 font-bold bg-rose-100 px-2 py-0.5 rounded">
                         Pengiriman Ditolak (Status Aman)
                     </span>
@@ -88,6 +93,7 @@
     <!-- FORMULIR PENGAJUAN RESMI (MOCKUP HALAMAN 57) -->
     <form id="formPengajuan" action="{{ route('pengajuan.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
+        <input type="hidden" name="riwayat_id" value="{{ $riwayat->id ?? ($simulasi->id ?? '') }}">
         <input type="hidden" name="simulasi_id" value="{{ $simulasi->id ?? '' }}">
         <input type="hidden" name="action" id="formActionInput" value="draf">
 

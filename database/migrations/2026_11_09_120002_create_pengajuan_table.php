@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nomor_tiket')->nullable()->unique();
             $table->string('kode_desa', 15);
             $table->foreign('kode_desa')->references('kode_desa')->on('desas')->cascadeOnDelete();
-            $table->foreignId('simulasi_id')->nullable()->constrained('simulasi_kelayakan')->nullOnDelete();
+            $table->foreignId('riwayat_cek_kelayakan_id')->nullable()->constrained('riwayat_cek_kelayakan')->nullOnDelete();
             $table->enum('status', [
                 'Draf',
                 'Diajukan',

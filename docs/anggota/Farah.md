@@ -8,13 +8,16 @@
 
 ---
 
-### Status Sinkronisasi & Mode Tanpa Login
+### Status Sinkronisasi & Integrasi F-02 (Cek Kelayakan Mandiri)
 - **Sinkronisasi dengan `main`**: Branch telah digabungkan (*merged*) dengan `main` (`commit 84a7b19` oleh Sandi), mengadopsi tabel terpusat `desas` (`kode_desa` sebagai *primary key*), `DesaSeeder`, dan data master 239 desa di Kabupaten Purbalingga.
-- **Akses Pengajuan Tanpa Login**: Rute `/pengajuan` dapat diakses langsung tanpa harus melewati autentikasi login (`/login`), sehingga pengujian dan demo fitur dapat berjalan lancar.
-- **Skenario Simulasi Status Cek Kelayakan (F-02)**: Tersedia tombol *switch* skenario di header portal:
-  - 🟡 **WASPADA (Desa Serang - Skor: 74.8)**: Mengisi pengajuan bantuan air dengan parameter kebutuhan terkunci dari hasil Cek Kelayakan.
-  - 🟢 **AMAN (Desa Bodas - Skor: 48.1)**: Pengujian proteksi SOP BPBD, di mana tombol "Buat Pengajuan Baru" langsung diblokir dan memunculkan pop-up modal penolakan.
-  - 🔴 **KRITIS (Desa Tanalum - Skor: 92.4)**: Kondisi darurat untuk simulasi prioritas tinggi.
+- **Integrasi Penuh dengan Fitur F-02**: Branch telah digabungkan (*merged*) dengan `origin/feature/F-02-cek-kelayakan-mandiri` (oleh Ghefira).
+- **Penghapusan Model/Tabel Dummy**: Model dan tabel sementara `simulasi_kelayakan` telah dihapus seutuhnya. Pengajuan bantuan air kini terhubung langsung ke tabel resmi `riwayat_cek_kelayakan` dan model `RiwayatCekKelayakan`.
+- **Alur Kerja Terintegrasi**:
+  1. Perwakilan desa melakukan Cek Kelayakan Mandiri di `/cek-kelayakan`.
+  2. Apabila hasil perhitungan AHP-SAW berstatus **WASPADA** atau **KRITIS**, muncul tombol aksi untuk melanjutkan pengajuan.
+  3. Mengklik tombol tersebut mengarahkan pengguna ke `/pengajuan/create?riwayat_id={id}`, di mana formulir terisi otomatis dan parameter kebutuhan (KK terdampak, lama hari tanpa air, jarak sumber air) terkunci langsung dari hasil perhitungan.
+  4. Apabila berstatus **AMAN**, sistem secara ketat membatasi pengajuan sesuai SOP BPBD dengan pop-up modal informasi.
+- **Navigasi Dua Arah**: Sidebar pada Cek Kelayakan dan Pengajuan Bantuan Air telah disinkronkan dan dapat diakses bolak-balik tanpa kendala login.
 
 ---
 

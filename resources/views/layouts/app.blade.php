@@ -72,48 +72,37 @@
                     </a>
                 </div>
 
-                <!-- SIMULASI KELAYAKAN SELECTOR (Mode Tanpa Login: Aman, Waspada, Kritis) -->
+                <!-- Info Desa & Tautan Cek Kelayakan (F-02) -->
                 @php
-                    $activeDesaKode = session('simulasi_desa_kode');
-                    $activeMode = session('simulasi_mode', 'waspada');
-                    $currentDesa = \App\Models\Desa::where('kode_desa', $activeDesaKode)->first() 
-                        ?: (\App\Models\Desa::where('nama_desa', 'like', '%Serang%')->first() ?: \App\Models\Desa::first());
+                    $activeDesaKode = session('active_desa_kode');
+                    $currentDesa = $desa ?? (\App\Models\Desa::where('kode_desa', $activeDesaKode)->first() 
+                        ?: (\App\Models\Desa::where('nama_desa', 'like', '%Serang%')->first() ?: \App\Models\Desa::first()));
+                    $latestRiwayat = $currentDesa?->latestRiwayatKelayakan;
                 @endphp
 
-                <div class="flex items-center space-x-2">
-                    <div class="hidden sm:flex flex-col text-right pr-2 border-r border-sky-800">
+                <div class="flex items-center space-x-3">
+                    <div class="hidden sm:flex flex-col text-right pr-3 border-r border-sky-700/60">
                         <span class="text-xs font-bold text-white flex items-center justify-end gap-1.5">
-                            <span class="w-2 h-2 rounded-full {{ $activeMode === 'aman' ? 'bg-emerald-400' : ($activeMode === 'kritis' ? 'bg-rose-400' : 'bg-amber-400') }}"></span>
+                            <span class="w-2 h-2 rounded-full {{ ($latestRiwayat?->status === 'aman') ? 'bg-emerald-400' : (($latestRiwayat?->status === 'kritis') ? 'bg-rose-400' : 'bg-amber-400') }}"></span>
                             {{ $currentDesa ? $currentDesa->nama_desa : 'Desa Serang' }}
                         </span>
                         <span class="text-[10px] text-sky-200">
-                            Simulasi: <strong class="uppercase">{{ $activeMode }}</strong>
+                            @if($latestRiwayat)
+                                Status: <strong class="uppercase">{{ $latestRiwayat->status }} ({{ number_format($latestRiwayat->skor, 1) }})</strong>
+                            @else
+                                Belum Cek Kelayakan
+                            @endif
                         </span>
                     </div>
 
-                    <!-- Pilihan simulasi status kelayakan -->
-                    <div class="flex items-center bg-sky-950/60 p-1 rounded-xl border border-sky-700/50 space-x-1 text-xs">
-                        <a href="{{ route('simulasi.switch', 'waspada') }}" 
-                           class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1.5 {{ $activeMode === 'waspada' ? 'bg-amber-400 text-slate-900 shadow-sm' : 'text-amber-200 hover:bg-white/10' }}" 
-                           title="Simulasi Status Waspada (Siap Mengajukan)">
-                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                            <span class="hidden md:inline">Waspada</span>
-                        </a>
-
-                        <a href="{{ route('simulasi.switch', 'aman') }}" 
-                           class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1.5 {{ $activeMode === 'aman' ? 'bg-emerald-500 text-white shadow-sm' : 'text-emerald-200 hover:bg-white/10' }}" 
-                           title="Simulasi Status Aman (Akan Ditolak Pop-up)">
-                            <span class="w-2 h-2 rounded-full bg-emerald-300"></span>
-                            <span class="hidden md:inline">Aman</span>
-                        </a>
-
-                        <a href="{{ route('simulasi.switch', 'kritis') }}" 
-                           class="px-2.5 py-1 rounded-lg font-bold transition flex items-center gap-1.5 {{ $activeMode === 'kritis' ? 'bg-rose-600 text-white shadow-sm' : 'text-rose-200 hover:bg-white/10' }}" 
-                           title="Simulasi Status Kritis (Darurat)">
-                            <span class="w-2 h-2 rounded-full bg-rose-400"></span>
-                            <span class="hidden md:inline">Kritis</span>
-                        </a>
-                    </div>
+                    <a href="{{ route('cek-kelayakan.index') }}" 
+                       class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs shadow-xs transition"
+                       title="Buka Formulir Cek Kelayakan Mandiri (F-02)">
+                        <svg class="w-3.5 h-3.5 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        <span>Cek Kelayakan</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -148,12 +137,12 @@
                             <div class="h-px bg-slate-200"></div>
                         </div>
 
-                        <div class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <a href="{{ route('cek-kelayakan.index') }}" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+                            <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                             </svg>
                             <span>Cek Kelayakan (F-02)</span>
-                        </div>
+                        </a>
 
                         <div class="flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-400">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

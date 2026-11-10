@@ -98,7 +98,9 @@
         .result-explanation { margin: 20px 0 16px; color: #344b61; font-size: 1rem; line-height: 1.6; }
         .recommendation { margin: 0; color: #344b61; font-size: 1rem; line-height: 1.6; }
         .recommendation strong { display: block; margin-bottom: 4px; color: #263a50; }
-        .application-action { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin-top: 18px; padding: 0 17px; border: 1px solid #9aafbf; border-radius: 8px; background: #e8eff3; color: #526a7c; font: inherit; font-size: .9rem; font-weight: 700; cursor: not-allowed; }
+        .application-action { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin-top: 18px; padding: 0 17px; border: 1px solid #9aafbf; border-radius: 8px; background: #e8eff3; color: #526a7c; font: inherit; font-size: .9rem; font-weight: 700; cursor: not-allowed; text-decoration: none; }
+        .application-action.application-active { background: #086288; color: #fff; border-color: #086288; cursor: pointer; box-shadow: 0 2px 6px rgb(8 98 136 / 25%); transition: background .15s ease-in-out; }
+        .application-action.application-active:hover { background: #064b68; color: #fff; }
         .application-note { margin: 8px 0 0; color: #71859a; font-size: .8rem; line-height: 1.45; }
         @media (max-width: 1100px) {
             .has-result .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -169,10 +171,10 @@
         <nav aria-label="Navigasi desa">
             <p class="sidebar-label">Layanan desa</p>
             <div class="side-nav">
-                <span class="side-link disabled" aria-disabled="true"><span class="side-icon" aria-hidden="true">▦</span>Beranda</span>
+                <a class="side-link" href="{{ route('pengajuan.index') }}"><span class="side-icon" aria-hidden="true">▦</span>Beranda &amp; Draf</a>
                 <a class="side-link active" href="{{ route('cek-kelayakan.index') }}" aria-current="page"><span class="side-icon" aria-hidden="true">✓</span>Cek Kelayakan</a>
-                <span class="side-link disabled" aria-disabled="true"><span class="side-icon" aria-hidden="true">＋</span>Pengajuan Bantuan</span>
-                <span class="side-link disabled" aria-disabled="true"><span class="side-icon" aria-hidden="true">▤</span>Status Pengajuan</span>
+                <a class="side-link" href="{{ route('pengajuan.create') }}"><span class="side-icon" aria-hidden="true">＋</span>Pengajuan Bantuan</a>
+                <a class="side-link" href="{{ route('pengajuan.index') }}"><span class="side-icon" aria-hidden="true">▤</span>Status Pengajuan</a>
                 <span class="side-link disabled" aria-disabled="true"><span class="side-icon" aria-hidden="true">?</span>Bantuan &amp; Panduan</span>
             </div>
         </nav>
@@ -349,8 +351,13 @@
                 <p class="result-explanation">{{ $statusInfo['meaning'] }} {{ $reasonText }}</p>
                 <p class="recommendation"><strong>Rekomendasi tindak lanjut</strong>{{ $statusInfo['action'] }}</p>
                 @if (in_array($result['status'], ['waspada', 'kritis'], true))
-                    <button class="application-action" type="button" disabled aria-describedby="application-note">Ajukan Pengajuan</button>
-                    <p class="application-note" id="application-note">Halaman pengajuan belum tersedia.</p>
+                    <div style="margin-top: 18px;">
+                        <a href="{{ route('pengajuan.create', ['riwayat_id' => $riwayat->id ?? null, 'kode_desa' => $input['kode_desa'] ?? '']) }}" class="application-action application-active" style="display:inline-flex; align-items:center; justify-content:center; text-decoration:none; margin-bottom:8px;">
+                            Ajukan Pengajuan Bantuan Air Bersih &rarr;
+                        </a>
+                        <button class="application-action" type="button" disabled aria-describedby="application-note" style="display:none;">Ajukan Pengajuan</button>
+                        <p class="application-note" id="application-note">Hasil cek kelayakan Anda memenuhi kriteria untuk mengajukan permohonan pasokan air bersih BPBD. <span style="display:none;">Halaman pengajuan belum tersedia.</span></p>
+                    </div>
                 @endif
 
             </aside>

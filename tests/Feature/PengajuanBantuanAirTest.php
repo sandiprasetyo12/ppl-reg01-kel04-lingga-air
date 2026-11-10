@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Models\BerkasPengajuan;
 use App\Models\Desa;
 use App\Models\Pengajuan;
-use App\Models\SimulasiKelayakan;
+use App\Models\RiwayatCekKelayakan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -18,11 +18,11 @@ class PengajuanBantuanAirTest extends TestCase
 
     protected User $userDesaA;
     protected Desa $desaA;
-    protected SimulasiKelayakan $simulasiA;
+    protected RiwayatCekKelayakan $simulasiA;
 
     protected User $userDesaB;
     protected Desa $desaB;
-    protected SimulasiKelayakan $simulasiB;
+    protected RiwayatCekKelayakan $simulasiB;
 
     protected function setUp(): void
     {
@@ -53,15 +53,27 @@ class PengajuanBantuanAirTest extends TestCase
             'longitude' => 109.4321000,
         ]);
 
-        $this->simulasiA = SimulasiKelayakan::create([
+        $this->simulasiA = RiwayatCekKelayakan::create([
             'kode_desa' => $this->desaA->kode_desa,
+            'jumlah_kk_total' => 600,
+            'jumlah_jiwa_total' => 2400,
+            'jumlah_balita' => 95,
+            'jumlah_lansia' => 80,
+            'jumlah_disabilitas' => 12,
             'kk_terdampak' => 120,
-            'jiwa_rentan' => 40,
             'hari_tanpa_air' => 14,
-            'jarak_sumber_air' => 1200,
-            'skor_ahp_saw' => 92.40,
-            'status_kelayakan' => 'Kritis',
-            'rekomendasi' => 'Segera ajukan bantuan air bersih.',
+            'jarak_sumber_meter' => 1200,
+            'c1' => 0.2,
+            'c2' => 0.52,
+            'c3' => 1.0,
+            'c4' => 0.6,
+            'bobot_c1' => 0.35,
+            'bobot_c2' => 0.25,
+            'bobot_c3' => 0.25,
+            'bobot_c4' => 0.15,
+            'rasio_konsistensi' => 0.02,
+            'skor' => 92.40,
+            'status' => 'kritis',
         ]);
 
         // Setup Desa B (Bodas - Status Aman)
@@ -88,15 +100,27 @@ class PengajuanBantuanAirTest extends TestCase
             'longitude' => 109.4102000,
         ]);
 
-        $this->simulasiB = SimulasiKelayakan::create([
+        $this->simulasiB = RiwayatCekKelayakan::create([
             'kode_desa' => $this->desaB->kode_desa,
+            'jumlah_kk_total' => 400,
+            'jumlah_jiwa_total' => 1500,
+            'jumlah_balita' => 40,
+            'jumlah_lansia' => 30,
+            'jumlah_disabilitas' => 5,
             'kk_terdampak' => 20,
-            'jiwa_rentan' => 5,
             'hari_tanpa_air' => 2,
-            'jarak_sumber_air' => 200,
-            'skor_ahp_saw' => 48.10,
-            'status_kelayakan' => 'Aman',
-            'rekomendasi' => 'Kondisi air masih aman terkendali.',
+            'jarak_sumber_meter' => 200,
+            'c1' => 0.05,
+            'c2' => 0.35,
+            'c3' => 0.285,
+            'c4' => 0.1,
+            'bobot_c1' => 0.35,
+            'bobot_c2' => 0.25,
+            'bobot_c3' => 0.25,
+            'bobot_c4' => 0.15,
+            'rasio_konsistensi' => 0.02,
+            'skor' => 48.10,
+            'status' => 'aman',
         ]);
     }
 
@@ -112,9 +136,9 @@ class PengajuanBantuanAirTest extends TestCase
         $response->assertSee('Desa Tanalum');
         $response->assertSee('92.4');
         $response->assertSee('Kritis');
-        $response->assertSee('120'); // KK terdampak prefilled
-        $response->assertSee('14');  // Hari tanpa air prefilled
-        $response->assertSee('1200'); // Jarak sumber air prefilled
+        $response->assertSee('120');
+        $response->assertSee('14');
+        $response->assertSee('1200');
         $response->assertDontSee('* Wajib diisi');
         $response->assertSee('Data tersinkron dari Cek Kelayakan');
     }
@@ -124,13 +148,13 @@ class PengajuanBantuanAirTest extends TestCase
      */
     public function test_pemohon_dapat_menyusun_dan_menyimpan_draf_pengajuan(): void
     {
-        $foto1 = UploadedFile::fake()->image('kondisi1.jpg', 600, 400)->size(1500); // 1.5MB
-        $foto2 = UploadedFile::fake()->image('kondisi2.png', 600, 400)->size(1200); // 1.2MB
+        $foto1 = UploadedFile::fake()->image('kondisi1.jpg', 600, 400)->size(1500);
+        $foto2 = UploadedFile::fake()->image('kondisi2.png', 600, 400)->size(1200);
         $surat = UploadedFile::fake()->create('surat_kades.pdf', 500, 'application/pdf');
 
         $payload = [
             'action' => 'draf',
-            'simulasi_id' => $this->simulasiA->id,
+            'riwayat_id' => $this->simulasiA->id,
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
             'jarak_sumber_air' => 1200,
@@ -165,7 +189,7 @@ class PengajuanBantuanAirTest extends TestCase
      */
     public function test_sistem_menolak_foto_bukan_jpg_png_atau_melebihi_batas_ukuran(): void
     {
-        // 1. Ekstensi tidak sesuai (misal .txt)
+        // 1. Ekstensi tidak sesuai
         $invalidFile = UploadedFile::fake()->create('dokumen.txt', 100, 'text/plain');
 
         $payload = [
@@ -180,7 +204,7 @@ class PengajuanBantuanAirTest extends TestCase
         $response = $this->actingAs($this->userDesaA)->post(route('pengajuan.store'), $payload);
         $response->assertSessionHasErrors(['foto_lapangan.0']);
 
-        // 2. Ukuran melebihi 5 MB (6000 KB)
+        // 2. Ukuran melebihi 5 MB
         $oversizedFile = UploadedFile::fake()->image('foto_besar.jpg')->size(6000);
         $payload['foto_lapangan'] = [$oversizedFile];
 
@@ -194,8 +218,8 @@ class PengajuanBantuanAirTest extends TestCase
     public function test_perangkat_desa_dapat_melihat_draf_milik_desanya(): void
     {
         $draf = Pengajuan::create([
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id,
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Draf',
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
@@ -216,8 +240,8 @@ class PengajuanBantuanAirTest extends TestCase
     public function test_draf_desa_lain_tidak_terlihat_oleh_desa_berbeda(): void
     {
         $drafA = Pengajuan::create([
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id,
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Draf',
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
@@ -236,13 +260,12 @@ class PengajuanBantuanAirTest extends TestCase
 
     /**
      * PBI-008: Perangkat desa dapat mengubah draf sebelum dikirim
-     * Parameter kondisi kebutuhan tetap terkunci dari Cek Kelayakan Mandiri
      */
     public function test_perangkat_desa_dapat_mengubah_draf_sebelum_dikirim(): void
     {
         $draf = Pengajuan::create([
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id,
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Draf',
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
@@ -289,8 +312,8 @@ class PengajuanBantuanAirTest extends TestCase
 
         // 2. Cek pada form ubah draf
         $draf = Pengajuan::create([
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id,
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Draf',
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
@@ -311,8 +334,8 @@ class PengajuanBantuanAirTest extends TestCase
     public function test_perangkat_desa_dapat_menghapus_draf_sebelum_dikirim(): void
     {
         $draf = Pengajuan::create([
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id,
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Draf',
             'jumlah_kk' => 80,
             'hari_tanpa_air' => 7,
@@ -333,8 +356,8 @@ class PengajuanBantuanAirTest extends TestCase
     {
         $pengajuanTerkirim = Pengajuan::create([
             'nomor_tiket' => 'LA-20261020-001',
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id,
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Diajukan',
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
@@ -367,7 +390,7 @@ class PengajuanBantuanAirTest extends TestCase
      */
     public function test_desa_dengan_status_kelayakan_aman_tidak_dapat_mengakses_halaman_pengajuan_dan_muncul_modal_pop_up(): void
     {
-        // User Desa B (Desa Bodas, status simulasi Aman) mencoba membuka halaman /pengajuan/create
+        // User Desa B (Desa Bodas, status riwayat kelayakan Aman) mencoba membuka halaman /pengajuan/create
         $response = $this->actingAs($this->userDesaB)->get(route('pengajuan.create'));
 
         $response->assertRedirect(route('pengajuan.index'));
@@ -388,8 +411,8 @@ class PengajuanBantuanAirTest extends TestCase
     public function test_sistem_menolak_pengiriman_jika_status_kelayakan_aman(): void
     {
         $drafBodas = Pengajuan::create([
-            'desa_id' => $this->desaB->id,
-            'simulasi_id' => $this->simulasiB->id, // Status Aman (Skor 48.10)
+            'kode_desa' => $this->desaB->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiB->id, // Status Aman (Skor 48.10)
             'status' => 'Draf',
             'jumlah_kk' => 20,
             'hari_tanpa_air' => 2,
@@ -419,8 +442,8 @@ class PengajuanBantuanAirTest extends TestCase
     public function test_sistem_menerbitkan_nomor_tiket_unik_dan_status_diajukan_saat_dikirim(): void
     {
         $draf = Pengajuan::create([
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id, // Status Kritis
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Draf',
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
@@ -463,8 +486,8 @@ class PengajuanBantuanAirTest extends TestCase
         // 1. Buat tiket aktif yang sudah diajukan
         Pengajuan::create([
             'nomor_tiket' => 'LA-20261020-001',
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id,
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Diajukan',
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
@@ -475,8 +498,8 @@ class PengajuanBantuanAirTest extends TestCase
 
         // 2. Coba kirim draf kedua
         $drafKedua = Pengajuan::create([
-            'desa_id' => $this->desaA->id,
-            'simulasi_id' => $this->simulasiA->id,
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_cek_kelayakan_id' => $this->simulasiA->id,
             'status' => 'Draf',
             'jumlah_kk' => 120,
             'hari_tanpa_air' => 14,
@@ -500,35 +523,29 @@ class PengajuanBantuanAirTest extends TestCase
     }
 
     /**
-     * Revisi Baru: Pengguna dapat mengakses pengajuan dan beralih simulasi (Aman & Waspada) tanpa login
+     * Integrasi Alur Cek Kelayakan (F-02) ke Pengajuan Bantuan Air (F-03)
      */
-    public function test_pengguna_dapat_mengakses_halaman_pengajuan_dan_simulasi_tanpa_login(): void
+    public function test_alur_cek_kelayakan_terintegrasi_dengan_pengajuan_bantuan_air(): void
     {
-        // 1. Akses halaman index tanpa login -> Berhasil 200
+        // 1. Akses halaman index pengajuan tanpa login -> Berhasil 200
         $responseIndex = $this->get(route('pengajuan.index'));
         $responseIndex->assertStatus(200);
         $responseIndex->assertSee('Draf & Status Pengajuan', false);
-        $responseIndex->assertSee('Waspada');
-        $responseIndex->assertSee('Aman');
 
-        // 2. Beralih ke simulasi AMAN via route simulasi.switch
-        $responseAman = $this->get(route('simulasi.switch', 'aman'));
-        $responseAman->assertRedirect(route('pengajuan.index'));
-
-        // Coba buat pengajuan saat simulasi AMAN aktif -> ditolak dan muncul pop-up
-        $responseCreateAman = $this->withSession(['simulasi_desa_kode' => $this->desaB->kode_desa])
-            ->get(route('pengajuan.create'));
+        // 2. Akses halaman buat pengajuan dengan riwayat Desa B (status aman) -> ditolak modal pop-up
+        $responseCreateAman = $this->get(route('pengajuan.create', ['kode_desa' => $this->desaB->kode_desa]));
         $responseCreateAman->assertRedirect(route('pengajuan.index'));
         $responseCreateAman->assertSessionHas('modal_kelayakan_aman');
 
-        // 3. Beralih ke simulasi WASPADA
-        $responseWaspada = $this->get(route('simulasi.switch', 'waspada'));
-        $responseWaspada->assertRedirect(route('pengajuan.index'));
-
-        // Akses form pengajuan saat simulasi WASPADA aktif -> Berhasil 200
-        $responseCreateWaspada = $this->withSession(['simulasi_desa_kode' => $this->desaA->kode_desa])
-            ->get(route('pengajuan.create'));
-        $responseCreateWaspada->assertStatus(200);
-        $responseCreateWaspada->assertSee('Pengajuan Bantuan Air Bersih');
+        // 3. Akses halaman buat pengajuan dengan riwayat Desa A (status kritis) via query riwayat_id -> Berhasil 200
+        $responseCreateKritis = $this->get(route('pengajuan.create', [
+            'kode_desa' => $this->desaA->kode_desa,
+            'riwayat_id' => $this->simulasiA->id,
+        ]));
+        $responseCreateKritis->assertStatus(200);
+        $responseCreateKritis->assertSee('Pengajuan Bantuan Air Bersih');
+        $responseCreateKritis->assertSee('120'); // KK terdampak prefilled
+        $responseCreateKritis->assertSee('14');  // Hari tanpa air prefilled
+        $responseCreateKritis->assertSee('1200'); // Jarak sumber air prefilled
     }
 }

@@ -17,7 +17,13 @@
             <p class="text-sm text-slate-500 mt-1">Kelola draf permohonan sebelum diajukan ke antrean verifikasi BPBD.</p>
         </div>
 
-        <div>
+        <div class="flex items-center space-x-2">
+            <a href="{{ route('cek-kelayakan.index') }}" class="inline-flex items-center space-x-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold px-3.5 py-2.5 rounded-xl shadow-xs text-sm transition">
+                <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <span>Cek Kelayakan Mandiri</span>
+            </a>
             <a href="{{ route('pengajuan.create') }}" class="inline-flex items-center space-x-2 bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2.5 rounded-xl shadow-md shadow-sky-600/30 text-sm transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>

@@ -19,6 +19,7 @@ class Pengajuan extends Model
         'nomor_tiket',
         'kode_desa',
         'desa_id',
+        'riwayat_cek_kelayakan_id',
         'simulasi_id',
         'status',
         'jumlah_kk',
@@ -59,9 +60,24 @@ class Pengajuan extends Model
         $this->attributes['kode_desa'] = $value;
     }
 
+    public function riwayatKelayakan(): BelongsTo
+    {
+        return $this->belongsTo(RiwayatCekKelayakan::class, 'riwayat_cek_kelayakan_id');
+    }
+
     public function simulasi(): BelongsTo
     {
-        return $this->belongsTo(SimulasiKelayakan::class, 'simulasi_id');
+        return $this->riwayatKelayakan();
+    }
+
+    public function getSimulasiIdAttribute(): ?int
+    {
+        return $this->riwayat_cek_kelayakan_id;
+    }
+
+    public function setSimulasiIdAttribute($value): void
+    {
+        $this->attributes['riwayat_cek_kelayakan_id'] = $value;
     }
 
     public function berkas(): HasMany
