@@ -122,15 +122,15 @@ class Desa extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Fitur F-03: Relasi Simulasi Kelayakan & Pengajuan Air
-    public function simulasiKelayakan(): HasMany
+    // Relasi Cek Kelayakan (F-02) & Pengajuan Air (F-03)
+    public function riwayatCekKelayakan(): HasMany
     {
-        return $this->hasMany(SimulasiKelayakan::class, 'kode_desa', 'kode_desa')->latest();
+        return $this->hasMany(RiwayatCekKelayakan::class, 'kode_desa', 'kode_desa')->latest();
     }
 
-    public function latestSimulasi(): HasOne
+    public function latestRiwayatKelayakan(): HasOne
     {
-        return $this->hasOne(SimulasiKelayakan::class, 'kode_desa', 'kode_desa')->latestOfMany();
+        return $this->hasOne(RiwayatCekKelayakan::class, 'kode_desa', 'kode_desa')->latestOfMany();
     }
 
     public function pengajuan(): HasMany

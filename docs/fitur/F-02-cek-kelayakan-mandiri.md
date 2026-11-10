@@ -1,0 +1,83 @@
+# F-02 | Cek Kelayakan Mandiri
+
+**Aktor:** Perwakilan Desa  
+**Tujuan:** Membantu perwakilan mengetahui kelayakan desa sebelum mengajukan bantuan.
+
+## Urutan modul implementasi
+
+| Urutan | Modul | Pekerjaan | Hasil |
+|---|---|---|---|
+| 1 | Kontrak data dan aturan | Cocokkan nama tabel/kolom dengan ERD, tetapkan satuan, cara memilih desa, serta kategori kondisi berdasarkan skor. Kriteria, penilaian perbandingan AHP, normalisasi SAW, dan ambang kategori dijabarkan di bawah. | Kontrak data dan kalkulasi jelas; keputusan biner “layak/tidak layak” hanya diterapkan jika kriterianya disepakati. |
+| 2 | Validasi input backend | Buat Form Request untuk memvalidasi empat input. Tolak nilai negatif, tipe yang salah, dan nilai yang secara logis melebihi data acuan (KK terdampak > KK total atau jiwa rentan > jiwa total). | Input tidak masuk akal ditolak dengan pesan kesalahan per kolom. |
+| 3 | Layanan simulasi | Buat service kalkulasi skor sesuai rumus di bawah. Service menerima input lapangan dan data acuan desa sebagai argumen, mengembalikan skor 0–100, dan tidak mengakses database. | Logika skor bisa dikerjakan dan diuji secara mandiri sebelum tabel Desa tersedia. |
+| 4 | Form dan tampilan hasil | Buat halaman input empat data, tampilkan error validasi, dan siapkan komponen hasil. Form dapat dikerjakan sebelum relasi desa terintegrasi. | UI input dan hasil siap diintegrasikan. |
+| 5 | Migration dan relasi riwayat | Buat tabel `riwayat_cek_kelayakan`, kolom bobot AHP, lalu hubungkan `kode_desa` ke primary key `desas.kode_desa`. | Hasil tersimpan dan terhubung ke master Desa. |
+| 6 | Controller dan route | Route submit memvalidasi desa dan kondisi lapangan, membaca profil desa, menghitung skor, menyimpan snapshot, lalu menampilkan hasil. | Alur hitung dan simpan tersambung; otorisasi per desa masih menunggu autentikasi. |
+| 7 | Integrasi dan pengujian | Uji pemilihan desa, penggunaan profil, validasi data tidak lengkap, kalkulasi, penyimpanan dan relasi. | Alur utama dan kasus batas terverifikasi. |
+| 8 | Verifikasi acceptance criteria | Ukur waktu respons end-to-end pada kondisi uji representatif. Pastikan input tidak masuk akal ditolak dan hasil tampil maksimal 5 detik. | Bukti pemenuhan acceptance criteria sebelum digabungkan. |
+
+## Lokasi implementasi
+
+- `database/migrations/*_create_riwayat_cek_kelayakan_table.php`
+- `app/Models/RiwayatCekKelayakan.php`
+- `app/Models/Desa.php`
+- `app/Http/Requests/SimulasiKelayakanRequest.php`
+- `app/Services/CekKelayakanService.php`
+- `app/Http/Controllers/CekKelayakanController.php`
+- `routes/web.php`
+- `resources/views/cek-kelayakan/index.blade.php`
+- `tests/Feature/CekKelayakanTest.php`
+
+## Relasi ke Desa
+
+Riwayat terhubung ke `desas.kode_desa` (varchar 15), yang merupakan primary key model Desa. Migration riwayat dibuat terpisah dari migration foreign key karena tabel `desas` baru dibuat oleh migration F-01.
+
+Rumus, ambang normalisasi, dan kategori kondisi skor sudah tersedia pada spesifikasi tambahan di bawah. Kategori Aman/Waspada/Kritis berbeda dari keputusan biner “layak/tidak layak”; keputusan biner itu belum ditentukan dalam acceptance criteria.
+
+## Status implementasi mandiri
+
+Bagian F-02 yang tidak bergantung pada migration Desa sudah tersedia sebagai kalkulator simulasi mandiri:
+
+- Buka `/cek-kelayakan`, pilih kecamatan untuk memfilter dropdown desa, lalu pilih desa dan isi data lapangan (KK terdampak, hari tanpa air, dan jarak sumber air). Backend memeriksa kecocokan kecamatan dan desa. Lima data acuan kependudukan dibaca dari profil Desa dan ditampilkan read-only.
+- Backend menolak nilai yang bukan bilangan bulat, nilai negatif, jumlah total nol, KK terdampak yang melampaui jumlah KK, serta total kelompok rentan yang melampaui jumlah jiwa.
+- Service menghitung bobot dengan AHP dari matriks perbandingan di `config/cek_kelayakan.php`, lalu menghitung skor SAW dari C1–C4. Setelah form dikirim, panel hasil menampilkan kategori dengan ikon, skor, ringkasan kondisi beserta angka input, dan tindakan yang sesuai status.
+- Skor diklasifikasikan sebagai Aman (0–39,99), Waspada (40–69,99), atau Kritis (70–100). Kategori ini menunjukkan tingkat kondisi, bukan keputusan biner “layak/tidak layak”.
+- Rekomendasi berisi panduan sesuai status. Tombol “Ajukan Pengajuan” hanya ditampilkan untuk Waspada/Kritis dan saat ini nonaktif dengan keterangan bahwa halaman pengajuan belum tersedia; untuk Aman tombol tidak ditampilkan. Karena endpoint pengajuan belum ada, penjagaan server pada proses pengajuan belum dapat diterapkan dan harus ditambahkan saat alur tersebut dibuat.
+- Setiap hasil submit valid disimpan di tabel `riwayat_cek_kelayakan`, termasuk `kode_desa`, snapshot angka acuan, tiga isian kondisi lapangan, komponen C1–C4, bobot AHP yang digunakan, rasio konsistensi, skor, status, dan waktu pemeriksaan. Riwayat terhubung ke master Desa dengan foreign key; data profil yang belum lengkap ditolak agar skor tidak dihitung dari angka kosong.
+- Seed master memuat desa dan nama wilayah. `DesaDemografiDummySeeder` mengisi lima kolom kependudukan dengan data dummy deterministik di lingkungan `local`/`testing` untuk pengujian. Seeder hanya mengisi profil yang kelima kolomnya kosong, menandai nilainya melalui `data_kependudukan_dummy`, dan tidak menimpa profil yang sudah memiliki data. Data dummy ditampilkan sebagai bukan data resmi dan harus diganti sebelum penggunaan operasional.
+- Root `/` mengarah ke halaman kalkulator.
+
+
+Verifikasi mandiri dilakukan melalui `tests/Unit/CekKelayakanServiceTest.php` dan `tests/Feature/CekKelayakanTest.php`, termasuk pilihan Desa, penggunaan profil kependudukan, penolakan profil yang belum lengkap, relasi riwayat, serta batas waktu hasil 5 detik pada test harness. Waktu jaringan dan browser di produksi tetap bergantung pada hosting dan koneksi pengguna. Autentikasi dan pembatasan agar pengguna hanya dapat memilih Desa miliknya tetap menunggu integrasi autentikasi/otorisasi.
+
+## Aturan kalkulasi AHP-SAW
+
+Kriteria C1 adalah proporsi KK terdampak. C2 adalah proporsi penduduk desa dalam kelompok balita, lansia, dan disabilitas; C2 diperlakukan sebagai faktor prioritas/kerentanan meskipun data tidak menyatakan bahwa mereka ikut terdampak. C3 adalah durasi tanpa air dan C4 adalah jarak sumber air.
+
+Penilaian berpasangan AHP awal disimpan di `config/cek_kelayakan.php` dengan urutan C1, C2, C3, C4:
+
+| Pasangan | Penilaian | Makna |
+|---|---:|---|
+| C1 terhadap C2 | 1 | Sama penting |
+| C1 terhadap C3 | 7 | C1 sangat lebih penting |
+| C1 terhadap C4 | 3 | C1 moderat lebih penting |
+| C2 terhadap C3 | 3 | C2 moderat lebih penting |
+| C2 terhadap C4 | 3 | C2 moderat lebih penting |
+| C3 terhadap C4 | 1 | Sama penting |
+
+Matriks menghasilkan bobot AHP sekitar C1 **44,0984%**, C2 **34,7729%**, C3 **9,5378%**, C4 **11,5910%**. Rasio konsistensi (CR) sekitar **0,0337**, di bawah batas 0,10. Penilaian ini adalah bobot awal kebijakan dan sebaiknya dikonfirmasi BPBD sebelum digunakan sebagai keputusan operasional.
+
+Nilai normalisasi SAW dibatasi maksimal 1.0:
+
+- `C1 = min(kk_terdampak / jumlah_kk_total, 1.0)`
+- `rasio_rentan = (jumlah_balita + jumlah_lansia + jumlah_disabilitas) / jumlah_jiwa_total`
+- `C2 = min(rasio_rentan / 0.15, 1.0)`
+- `C3 = min(hari_tanpa_air / 7, 1.0)`
+- `C4 = min(jarak_sumber_meter / 2000, 1.0)`
+- `skor_akhir = (bobot_C1*C1 + bobot_C2*C2 + bobot_C3*C3 + bobot_C4*C4) * 100`
+
+Implementasi perlu menolak pembagi nol (jumlah KK dan jumlah jiwa harus lebih dari nol), nilai negatif, serta jumlah KK terdampak yang melebihi total KK. Nilai hari dan jarak yang melampaui ambang normalisasi tetap sah; kontribusinya dibatasi ke 1.0 sesuai rumus. Pastikan kategori balita, lansia, dan disabilitas tidak saling tumpang tindih; jika tidak, rumus C2 dapat menghitung orang yang sama lebih dari sekali.
+
+Contoh: C1 = 450/600 = 0.75; C2 = (95+80+12)/2400/0.15 = 0.5194; C3 = 5/7 = 0.7143; C4 = min(2500/2000, 1) = 1. Dengan bobot AHP tersebut, skor sekitar **69.54/100** (pembulatan dua desimal), sehingga statusnya Waspada.
+
+Skor dan kategori Aman/Waspada/Kritis mengikuti ambang yang ditampilkan di atas. Keduanya tidak otomatis menentukan label biner “layak” atau “tidak layak”; jangan menyimpulkan label biner sebelum kriterianya disepakati.

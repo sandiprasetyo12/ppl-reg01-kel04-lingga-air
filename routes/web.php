@@ -1,10 +1,15 @@
 <?php
 
+use App\Http\Controllers\CekKelayakanController;
 use App\Http\Controllers\PengajuanController;
 use Illuminate\Support\Facades\Route;
 
-// Halaman utama langsung menampilkan dashboard pengajuan bantuan air bersih tanpa login
-Route::get('/', [PengajuanController::class, 'index'])->name('home');
+// Halaman utama: Cek Kelayakan Mandiri (F-02)
+Route::get('/', [CekKelayakanController::class, 'index'])->name('home');
+
+// Fitur F-02: Cek Kelayakan Mandiri
+Route::get('/cek-kelayakan', [CekKelayakanController::class, 'index'])->name('cek-kelayakan.index');
+Route::post('/cek-kelayakan', [CekKelayakanController::class, 'calculate'])->name('cek-kelayakan.calculate');
 
 // Fitur F-03: Pengajuan Bantuan Air Bersih
 Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
@@ -17,6 +22,3 @@ Route::put('/pengajuan/{pengajuan}', [PengajuanController::class, 'update'])->na
 Route::delete('/pengajuan/{pengajuan}', [PengajuanController::class, 'destroy'])->name('pengajuan.destroy');
 Route::post('/pengajuan/{pengajuan}/kirim', [PengajuanController::class, 'submit'])->name('pengajuan.submit');
 Route::delete('/berkas/{berkas}', [PengajuanController::class, 'destroyBerkas'])->name('berkas.destroy');
-
-// Switch skenario status kelayakan untuk simulasi kondisi Aman dan Waspada
-Route::get('/simulasi/{mode}', [PengajuanController::class, 'switchSimulasi'])->name('simulasi.switch');
