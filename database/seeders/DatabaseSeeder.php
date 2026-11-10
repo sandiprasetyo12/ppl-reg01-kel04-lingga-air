@@ -13,5 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         // Panggil seeder master desa Purbalingga
         $this->call([DesaSeeder::class]);
+
+        if (app()->environment(['local', 'testing'])) {
+            $this->call([DesaDemografiDummySeeder::class]);
+        }
     }
 }
