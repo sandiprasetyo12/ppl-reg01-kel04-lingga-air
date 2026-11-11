@@ -88,6 +88,30 @@
         /* Typography & Headers */
         .eyebrow { color: #0b6d8d; font-size: .76rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
         h1 { margin: 8px 0 8px; font-size: clamp(1.9rem, 4vw, 2.5rem); letter-spacing: -.045em; line-height: 1.15; color: #172c41; font-weight: 800; }
+
+        /* Isolasi z-index Leaflet Map agar tidak menembus/timpang tindih dengan modal dialog */
+        .leaflet-container {
+            z-index: 1 !important;
+            isolation: isolate;
+        }
+        .leaflet-pane {
+            z-index: 2 !important;
+        }
+        .leaflet-tile-pane {
+            z-index: 2 !important;
+        }
+        .leaflet-overlay-pane {
+            z-index: 3 !important;
+        }
+        .leaflet-marker-pane {
+            z-index: 4 !important;
+        }
+        .leaflet-tooltip-pane, .leaflet-popup-pane {
+            z-index: 5 !important;
+        }
+        .leaflet-top, .leaflet-bottom {
+            z-index: 6 !important;
+        }
         .intro { max-width: 800px; margin: 0; color: #667991; font-size: 1.05rem; line-height: 1.6; }
 
         /* Cards & Form Elements */
@@ -384,8 +408,8 @@
         @php
             $modalAman = session('modal_kelayakan_aman');
         @endphp
-        <div id="modalKelayakanAman" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in duration-200">
+        <div id="modalKelayakanAman" class="fixed inset-0 z-[99999] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in duration-200 relative z-[100000]">
                 <div class="p-6 text-center text-white" style="background: #086288;">
                     <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto mb-3 text-2xl">
                         💧

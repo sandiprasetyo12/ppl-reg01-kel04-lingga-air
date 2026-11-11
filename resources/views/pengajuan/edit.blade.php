@@ -179,16 +179,29 @@
 
             <!-- Lokasi Pengantaran -->
             <div class="border-t border-slate-100 pt-5 space-y-3">
-                <label class="mb-0">
-                    Lokasi Pengantaran / Titik Drop Point
-                </label>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <label class="mb-0">
+                        Lokasi Pengantaran / Titik Drop Point
+                    </label>
+                    <a 
+                        id="btnGmapsEdit"
+                        href="https://www.google.com/maps?q={{ $pengajuan->latitude ?? $desa->latitude ?? -7.2845100 }},{{ $pengajuan->longitude ?? $desa->longitude ?? 109.4321000 }}" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="text-[11px] font-bold text-[#086288] hover:underline inline-flex items-center gap-1"
+                    >
+                        <span>🗺</span>
+                        <span>Buka Google Maps ↗</span>
+                    </a>
+                </div>
                 <input 
                     type="text" 
                     name="lokasi_pengantaran" 
                     id="lokasi_pengantaran" 
                     value="{{ old('lokasi_pengantaran', $pengajuan->lokasi_pengantaran) }}" 
+                    autocomplete="off"
                 >
-                <div id="mapEdit" class="h-44 rounded-xl border border-slate-300 overflow-hidden"></div>
+                <div id="mapEdit" class="h-52 rounded-xl border border-slate-300 overflow-hidden" style="position: relative; z-index: 1; isolation: isolate;"></div>
                 <input type="hidden" name="latitude" id="edit_latitude" value="{{ $pengajuan->latitude ?? $desa->latitude }}">
                 <input type="hidden" name="longitude" id="edit_longitude" value="{{ $pengajuan->longitude ?? $desa->longitude }}">
             </div>
@@ -228,14 +241,49 @@
 <script>
     const elLat = {{ $pengajuan->latitude ?? $desa->latitude ?? -7.2845100 }};
     const elLng = {{ $pengajuan->longitude ?? $desa->longitude ?? 109.4321000 }};
-    const editMap = L.map('mapEdit').setView([elLat, elLng], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(editMap);
-    const editMarker = L.marker([elLat, elLng], { draggable: true }).addTo(editMap);
+    const editMap = L.map('mapEdit', { zoomControl: true }).setView([elLat, elLng], 15);
+
+    // Google Maps Layer 1: Roadmap (Peta Jalan Asli)
+    const googleRoadmap = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: '&copy; Google Maps'
+    }).addTo(editMap);
+
+    // Google Maps Layer 2: Hybrid (Satelit)
+    const googleSatellite = L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: '&copy; Google Maps Satelit'
+    });
+
+    L.control.layers({
+        "Google Maps (Peta Jalan)": googleRoadmap,
+        "Google Maps (Satelit)": googleSatellite
+    }, null, { position: 'topright' }).addTo(editMap);
+
+    const editMarker = L.marker([elLat, elLng], { draggable: true, title: "Geser pin untuk ubah lokasi" }).addTo(editMap);
+    editMarker.bindPopup("<b>Titik Tandon Drop Point</b><br><span style='font-size:11px; color:#64748b;'>Geser pin atau klik peta untuk mengubah titik koordinat</span>").openPopup();
+
+    function updateEditCoordinates(pos) {
+        const pLat = pos.lat.toFixed(7);
+        const pLng = pos.lng.toFixed(7);
+        document.getElementById('edit_latitude').value = pLat;
+        document.getElementById('edit_longitude').value = pLng;
+        const btn = document.getElementById('btnGmapsEdit');
+        if (btn) {
+            btn.href = `https://www.google.com/maps?q=${pLat},${pLng}`;
+        }
+    }
 
     editMarker.on('dragend', function (e) {
-        const pos = editMarker.getLatLng();
-        document.getElementById('edit_latitude').value = pos.lat.toFixed(7);
-        document.getElementById('edit_longitude').value = pos.lng.toFixed(7);
+        updateEditCoordinates(editMarker.getLatLng());
+    });
+
+    editMap.on('click', function (e) {
+        editMarker.setLatLng(e.latlng);
+        updateEditCoordinates(e.latlng);
+        editMarker.openPopup();
     });
 
     function hapusBerkasAjax(id) {

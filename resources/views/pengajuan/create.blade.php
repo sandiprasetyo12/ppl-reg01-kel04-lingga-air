@@ -288,20 +288,33 @@
                 </div>
             </div>
 
-            <!-- Field 6: Titik Lokasi Pengantaran & Peta Mini (Leaflet.js) -->
+            <!-- Field 6: Titik Lokasi Pengantaran & Peta Mini (Google Maps Asli) -->
             <div class="border-t border-slate-100 pt-5 space-y-3">
-                <div class="flex items-center justify-between">
+                <div class="flex flex-wrap items-center justify-between gap-2">
                     <div>
                         <label class="mb-0">
                             Lokasi Pengantaran / Titik Drop Point Tandon
                         </label>
                         <p class="hint mt-0.5">
-                            Tandon komunal tempat armada tangki menuangkan air bantuan.
+                            Tandon komunal tempat armada tangki menuangkan air bantuan. Geser pin pada peta Google Maps atau klik lokasi pada peta.
                         </p>
                     </div>
-                    <span class="text-xs font-mono font-bold" style="color: #086288;" id="disp-coord">
-                        {{ $desa->latitude }}, {{ $desa->longitude }}
-                    </span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-mono font-bold" style="color: #086288;" id="disp-coord">
+                            {{ $desa->latitude ?? -7.2845100 }}, {{ $desa->longitude ?? 109.4321000 }}
+                        </span>
+                        <a 
+                            id="btnGmaps" 
+                            href="https://www.google.com/maps?q={{ $desa->latitude ?? -7.2845100 }},{{ $desa->longitude ?? 109.4321000 }}" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold border border-slate-300 hover:border-slate-400 bg-white hover:bg-slate-50 text-slate-700 transition"
+                            title="Buka titik koordinat di Google Maps"
+                        >
+                            <span>🗺</span>
+                            <span>Buka Google Maps ↗</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div>
@@ -315,8 +328,8 @@
                     >
                 </div>
 
-                <!-- Mini Leaflet Map Preview -->
-                <div class="rounded-xl overflow-hidden border border-slate-300 shadow-inner h-48 relative" id="mapPreview"></div>
+                <!-- Google Maps Container (Isolasi CSS agar tidak tembus/timpang tindih ke atas modal) -->
+                <div class="rounded-xl overflow-hidden border border-slate-300 shadow-inner h-60 relative z-0" id="mapPreview" style="position: relative; z-index: 1; isolation: isolate;"></div>
                 <input type="hidden" name="latitude" id="input_latitude" value="{{ $desa->latitude ?? -7.2845100 }}">
                 <input type="hidden" name="longitude" id="input_longitude" value="{{ $desa->longitude ?? 109.4321000 }}">
             </div>
@@ -388,8 +401,8 @@
 </div>
 
 <!-- Modal Konfirmasi Kirim Pengajuan -->
-<div id="modalKirim" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8 animate-in fade-in duration-200">
+<div id="modalKirim" class="fixed inset-0 z-[99999] hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8 animate-in fade-in duration-200 relative z-[100000]">
         
         <!-- Modal Header -->
         <div class="p-6 border-b border-slate-100 flex items-start gap-3" style="background: #fafcfe;">
@@ -487,23 +500,58 @@
 
 @push('scripts')
 <script>
-    // Leaflet Mini Map Preview
+    // Inisialisasi Peta Google Maps Asli (Roadmap & Satelit)
     let lat = {{ $desa->latitude ?? -7.2845100 }};
     let lng = {{ $desa->longitude ?? 109.4321000 }};
 
-    const map = L.map('mapPreview').setView([lat, lng], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+    const map = L.map('mapPreview', {
+        zoomControl: true,
+        attributionControl: true
+    }).setView([lat, lng], 15);
+
+    // Google Maps Layer 1: Roadmap (Peta Jalan Resmi Google)
+    const googleRoadmap = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: '&copy; Google Maps'
     }).addTo(map);
 
-    const marker = L.marker([lat, lng], { draggable: true }).addTo(map);
-    marker.bindPopup("<b>Titik Tandon Komunal</b><br>{{ $desa->nama_desa }}").openPopup();
+    // Google Maps Layer 2: Hybrid (Satelit + Label Jalan Google)
+    const googleSatellite = L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: '&copy; Google Maps Satelit'
+    });
+
+    // Layer switcher control (Pilihan Peta Jalan vs Satelit Google)
+    L.control.layers({
+        "Google Maps (Peta Jalan)": googleRoadmap,
+        "Google Maps (Satelit)": googleSatellite
+    }, null, { position: 'topright' }).addTo(map);
+
+    const marker = L.marker([lat, lng], { draggable: true, title: "Geser pin untuk ubah titik tandon" }).addTo(map);
+    marker.bindPopup("<b>Titik Tandon Komunal</b><br>{{ $desa->nama_desa }}<br><span style='font-size:11px; color:#64748b;'>Geser pin atau klik peta untuk mengubah titik lokasi</span>").openPopup();
+
+    function updateCoordinates(pos) {
+        const pLat = pos.lat.toFixed(7);
+        const pLng = pos.lng.toFixed(7);
+        document.getElementById('input_latitude').value = pLat;
+        document.getElementById('input_longitude').value = pLng;
+        document.getElementById('disp-coord').innerText = Number(pLat).toFixed(6) + ', ' + Number(pLng).toFixed(6);
+        const gmapsBtn = document.getElementById('btnGmaps');
+        if (gmapsBtn) {
+            gmapsBtn.href = `https://www.google.com/maps?q=${pLat},${pLng}`;
+        }
+    }
 
     marker.on('dragend', function (e) {
-        const position = marker.getLatLng();
-        document.getElementById('input_latitude').value = position.lat.toFixed(7);
-        document.getElementById('input_longitude').value = position.lng.toFixed(7);
-        document.getElementById('disp-coord').innerText = position.lat.toFixed(6) + ', ' + position.lng.toFixed(6);
+        updateCoordinates(marker.getLatLng());
+    });
+
+    map.on('click', function (e) {
+        marker.setLatLng(e.latlng);
+        updateCoordinates(e.latlng);
+        marker.openPopup();
     });
 
     // File selection & preview management
@@ -655,11 +703,20 @@
             document.getElementById('modal-disp-surat').innerText = 'Tidak ada surat pengantar tambahan terlampir';
         }
 
+        const mapEl = document.getElementById('mapPreview');
+        if (mapEl) {
+            mapEl.style.visibility = 'hidden';
+        }
+
         document.getElementById('modalKirim').classList.remove('hidden');
     }
 
     function closeKirimModal() {
         document.getElementById('modalKirim').classList.add('hidden');
+        const mapEl = document.getElementById('mapPreview');
+        if (mapEl) {
+            mapEl.style.visibility = 'visible';
+        }
     }
 
     function confirmAndSubmit() {

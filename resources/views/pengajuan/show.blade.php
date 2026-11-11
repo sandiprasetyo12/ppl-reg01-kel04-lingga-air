@@ -203,11 +203,22 @@
 
             <!-- Titik Pengantaran Tandon & Mini Peta -->
             <div class="card p-5 space-y-3">
-                <h3 class="font-bold text-xs text-slate-800 uppercase tracking-wider m-0">Titik Drop Point Pengantaran</h3>
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 uppercase tracking-wider m-0">Titik Drop Point Pengantaran</h3>
+                    <a 
+                        href="https://www.google.com/maps?q={{ $pengajuan->latitude ?? $desa->latitude ?? -7.2845100 }},{{ $pengajuan->longitude ?? $desa->longitude ?? 109.4321000 }}" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="text-[11px] font-bold text-[#086288] hover:underline inline-flex items-center gap-1"
+                    >
+                        <span>🗺</span>
+                        <span>Buka Google Maps ↗</span>
+                    </a>
+                </div>
                 <p class="text-xs font-bold text-slate-800 m-0">{{ $pengajuan->lokasi_pengantaran ?: 'Halaman Balai Desa ' . $desa->nama_desa }}</p>
                 <p class="text-[11px] text-slate-500 font-mono m-0">{{ $pengajuan->latitude ?? $desa->latitude }}, {{ $pengajuan->longitude ?? $desa->longitude }}</p>
 
-                <div id="detailMap" class="h-44 rounded-xl border border-slate-300 overflow-hidden"></div>
+                <div id="detailMap" class="h-44 rounded-xl border border-slate-300 overflow-hidden" style="position: relative; z-index: 1; isolation: isolate;"></div>
             </div>
 
             <!-- Kontak Penanggung Jawab -->
@@ -232,8 +243,8 @@
 </div>
 
 <!-- MODAL KONFIRMASI HAPUS DRAF (PBI-008) -->
-<div id="modalHapus" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4">
+<div id="modalHapus" class="fixed inset-0 z-[99999] hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4 relative z-[100000]">
         <div class="w-12 h-12 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center mx-auto text-xl font-bold">
             ⚠
         </div>
@@ -253,8 +264,8 @@
 </div>
 
 <!-- MODAL KONFIRMASI KIRIM (PBI-009) -->
-<div id="modalKirim" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4">
+<div id="modalKirim" class="fixed inset-0 z-[99999] hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden p-6 space-y-4 relative z-[100000]">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #086288;">
                 ℹ
@@ -298,23 +309,48 @@
 <script>
     const mapLat = {{ $pengajuan->latitude ?? $desa->latitude ?? -7.2845100 }};
     const mapLng = {{ $pengajuan->longitude ?? $desa->longitude ?? 109.4321000 }};
-    const detailMap = L.map('detailMap').setView([mapLat, mapLng], 14);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
+    const detailMap = L.map('detailMap', { zoomControl: true }).setView([mapLat, mapLng], 15);
+
+    // Google Maps Layer 1: Roadmap (Peta Jalan Asli)
+    const googleRoadmap = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: '&copy; Google Maps'
     }).addTo(detailMap);
+
+    // Google Maps Layer 2: Hybrid (Satelit)
+    const googleSatellite = L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: '&copy; Google Maps Satelit'
+    });
+
+    L.control.layers({
+        "Google Maps (Peta Jalan)": googleRoadmap,
+        "Google Maps (Satelit)": googleSatellite
+    }, null, { position: 'topright' }).addTo(detailMap);
+
     L.marker([mapLat, mapLng]).addTo(detailMap).bindPopup("<b>Titik Tandon Air</b><br>{{ $desa->nama_desa }}").openPopup();
 
     function confirmDeleteDraf() {
+        const m = document.getElementById('detailMap');
+        if (m) m.style.visibility = 'hidden';
         document.getElementById('modalHapus').classList.remove('hidden');
     }
     function closeHapusModal() {
         document.getElementById('modalHapus').classList.add('hidden');
+        const m = document.getElementById('detailMap');
+        if (m) m.style.visibility = 'visible';
     }
     function openKirimModal() {
+        const m = document.getElementById('detailMap');
+        if (m) m.style.visibility = 'hidden';
         document.getElementById('modalKirim').classList.remove('hidden');
     }
     function closeKirimModal() {
         document.getElementById('modalKirim').classList.add('hidden');
+        const m = document.getElementById('detailMap');
+        if (m) m.style.visibility = 'visible';
     }
 </script>
 @endpush
