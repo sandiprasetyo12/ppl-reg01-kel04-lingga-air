@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Permohonan;
 use App\Models\KeputusanPermohonan;
+use App\Models\Pengajuan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,57 @@ class VerifikasiController extends Controller
         // Bersihkan data permohonan berstatus 'Aman' (< 40.00) jika masih tersisa dari seeding lama
         // Sesuai aturan PBI-005 AC 2: Status Aman dicegat di F-02 dan TIDAK BISA mengajukan ke F-03/F-04
         Permohonan::where('skor_ahp_saw', '<', 40.00)->delete();
+
+        // -------------------------------------------------------------
+        // SINKRONISASI OTOMATIS: F-03 (Pengajuan Desa) -> F-04 (Antrean Verifikasi BPBD)
+        // -------------------------------------------------------------
+        if (\Illuminate\Support\Facades\Schema::hasTable('pengajuan')) {
+            $pengajuanMasuk = Pengajuan::with(['desa', 'riwayatKelayakan', 'fotoKondisi', 'suratKepalaDesa'])
+                ->where('status', '!=', 'Draf')
+                ->get();
+
+            foreach ($pengajuanMasuk as $p) {
+                $nomorTiket = $p->nomor_tiket ?: ('LA-' . date('Ymd') . '-' . str_pad($p->id, 3, '0', STR_PAD_LEFT));
+                if (empty($p->nomor_tiket)) {
+                    $p->update(['nomor_tiket' => $nomorTiket]);
+                }
+
+                if (!Permohonan::where('nomor_tiket', $nomorTiket)->exists()) {
+                    $desa = $p->desa;
+                    $riwayat = $p->riwayatKelayakan;
+                    $skor = $riwayat ? (float)$riwayat->skor : 75.00;
+                    $statusKelayakan = $riwayat ? ucfirst(strtolower($riwayat->status)) : 'Kritis';
+                    $jiwaRentan = ($desa->jumlah_balita ?? 0) + ($desa->jumlah_lansia ?? 0) + ($desa->jumlah_disabilitas ?? 0);
+
+                    Permohonan::create([
+                        'nomor_tiket' => $nomorTiket,
+                        'kode_desa' => $p->kode_desa,
+                        'status' => match($p->status) {
+                            'Disetujui' => 'Disetujui',
+                            'Ditolak' => 'Ditolak',
+                            'Revisi' => 'Revisi',
+                            default => 'Menunggu Verifikasi',
+                        },
+                        'kk_terdampak' => $p->jumlah_kk ?? ($riwayat->kk_terdampak ?? 100),
+                        'hari_tanpa_air' => $p->hari_tanpa_air ?? ($riwayat->hari_tanpa_air ?? 5),
+                        'jarak_sumber_air' => $p->jarak_sumber_air ?? ($riwayat->jarak_sumber_meter ?? 1000),
+                        'jiwa_rentan' => $jiwaRentan,
+                        'kebutuhan_tangki' => $p->estimasiTangki() ?? 2,
+                        'alasan_permohonan' => $p->alasan_pengajuan ?? 'Permohonan bantuan air bersih darurat kekeringan.',
+                        'skor_ahp_saw' => $skor,
+                        'status_kelayakan' => $statusKelayakan,
+                        'rincian_kriteria' => [
+                            'C1' => (float)($riwayat->c1 ?? 0.50),
+                            'C2' => (float)($riwayat->c2 ?? 0.15),
+                            'C3' => (float)($riwayat->c3 ?? 0.70),
+                            'C4' => (float)($riwayat->c4 ?? 0.50),
+                        ],
+                        'surat_kades' => $p->suratKepalaDesa?->path_file,
+                        'foto_lapangan' => $p->fotoKondisi->first()?->path_file,
+                    ]);
+                }
+            }
+        }
 
         // Query antrean pengajuan diurutkan dari skor AHP-SAW tertinggi ke terendah
         // Memastikan hanya permohonan yang berkategori KRITIS & WASPADA (Skor >= 40.00) yang tampil di antrean verifikasi BPBD
@@ -123,6 +175,13 @@ class VerifikasiController extends Controller
             $permohonan->update([
                 'status' => $request->status_keputusan,
             ]);
+
+            // 3. Sinkronkan status balik ke tabel pengajuan milik F-03 (Desa)
+            if (\Illuminate\Support\Facades\Schema::hasTable('pengajuan')) {
+                Pengajuan::where('nomor_tiket', $permohonan->nomor_tiket)->update([
+                    'status' => $request->status_keputusan,
+                ]);
+            }
         });
 
         // Pesan notifikasi sesuai jenis keputusan
