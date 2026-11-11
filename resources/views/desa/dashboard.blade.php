@@ -11,6 +11,21 @@
 @endphp
 
 <div class="space-y-6">
+    <section class="bg-sky-50 border border-sky-200 rounded-lg p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="space-y-1">
+            <h2 class="text-lg font-semibold text-[#1b1b18]">Periksa kelayakan bantuan air bersih</h2>
+            <p class="text-sm text-[#52525b]">
+                Data kependudukan diambil dari profil Desa. Isi kondisi kekeringan untuk melihat hasil pemeriksaan.
+            </p>
+        </div>
+        <a
+            href="{{ route('cek-kelayakan.index') }}"
+            class="min-h-[44px] inline-flex items-center justify-center px-5 py-2 bg-[#1b1b18] hover:bg-black text-white text-sm font-medium rounded-md transition shrink-0"
+        >
+            Mulai Cek Kelayakan
+        </a>
+    </section>
+
     @if ($desa)
         <section class="bg-white border border-[#e3e3e0] rounded-lg p-6 shadow-sm space-y-6">
             <div class="border-b border-[#e3e3e0] pb-4 flex flex-wrap items-start justify-between gap-3">
@@ -88,37 +103,21 @@
                 </div>
             </dl>
 
-            <!-- Aksi Layanan Darurat Air Bersih -->
+            <!-- Layanan Pengajuan Bantuan Air Bersih (F-03) -->
             <div class="border-t border-[#e3e3e0] pt-6">
-                <h3 class="text-sm font-bold text-[#1b1b18] uppercase tracking-wider mb-4">
-                    Layanan Bantuan Air Bersih
-                </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="border border-[#cae4ef] bg-[#f0f8fb] rounded-xl p-5 space-y-3">
+                <div class="border border-[#cae4ef] bg-[#f0f8fb] rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="space-y-1">
                         <div class="flex items-center gap-2">
                             <span class="text-xl">💧</span>
-                            <h4 class="font-bold text-[#086288] text-base">Cek Kelayakan Air Mandiri</h4>
+                            <h3 class="text-base font-bold text-[#086288] m-0">Layanan Pengajuan Bantuan Air Bersih</h3>
                         </div>
-                        <p class="text-xs text-[#52525b] leading-relaxed">
-                            Simulasi perhitungan skor kedaruratan air desa berbasis metode AHP-SAW untuk menentukan kelayakan bantuan (Aman / Waspada / Kritis).
+                        <p class="text-xs text-[#52525b] m-0 leading-relaxed max-w-2xl">
+                            Susun draf atau kirimkan formulir permohonan pasokan air bersih darurat ke BPBD Kabupaten Purbalingga setelah melakukan pemeriksaan kelayakan.
                         </p>
-                        <a href="{{ route('cek-kelayakan.index') }}" class="inline-flex items-center px-4 py-2 bg-[#086288] hover:bg-[#064b68] text-white text-xs font-bold rounded-lg transition">
-                            Mulai Cek Kelayakan &rarr;
-                        </a>
                     </div>
-
-                    <div class="border border-[#e3e3e0] bg-white rounded-xl p-5 space-y-3">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xl">📋</span>
-                            <h4 class="font-bold text-[#1b1b18] text-base">Pengajuan Bantuan Air</h4>
-                        </div>
-                        <p class="text-xs text-[#52525b] leading-relaxed">
-                            Susun draf atau kirimkan formulir pengajuan bantuan pasokan air bersih darurat ke BPBD Kabupaten Purbalingga.
-                        </p>
-                        <a href="{{ route('pengajuan.index') }}" class="inline-flex items-center px-4 py-2 border border-[#d1d5db] hover:border-[#9ca3af] text-[#1b1b18] text-xs font-bold rounded-lg transition">
-                            Kelola Pengajuan &rarr;
-                        </a>
-                    </div>
+                    <a href="{{ route('pengajuan.index') }}" class="inline-flex items-center justify-center px-5 py-2.5 bg-[#086288] hover:bg-[#064b68] text-white text-xs font-bold rounded-lg transition shrink-0">
+                        Buka Layanan Pengajuan &rarr;
+                    </a>
                 </div>
             </div>
         </section>

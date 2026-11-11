@@ -20,12 +20,7 @@ class DatabaseSeeder extends Seeder
         // 2. Panggil seeder akun admin BPBD
         $this->call([BpbdAdminSeeder::class]);
 
-        // 3. Panggil data demografi dummy untuk keperluan pengujian lokal
-        if (app()->environment(['local', 'testing']) && class_exists(DesaDemografiDummySeeder::class)) {
-            $this->call([DesaDemografiDummySeeder::class]);
-        }
-
-        // 4. Akun perwakilan Desa Serang (tertaut ke Desa Serang untuk simulasi login desa)
+        // 3. Akun perwakilan Desa Serang (tertaut ke Desa Serang untuk simulasi login desa)
         $userSerang = User::firstOrCreate(
             ['username' => 'desa_serang'],
             [
@@ -42,6 +37,11 @@ class DatabaseSeeder extends Seeder
                 'nama_pj_darurat' => 'Agus Hendra',
                 'no_wa_darurat' => '081398765432',
                 'titik_drop_air' => null,
+                'jumlah_kk_total' => $desaSerang->jumlah_kk_total ?: 750,
+                'jumlah_jiwa_total' => $desaSerang->jumlah_jiwa_total ?: 2800,
+                'jumlah_balita' => $desaSerang->jumlah_balita ?: 110,
+                'jumlah_lansia' => $desaSerang->jumlah_lansia ?: 90,
+                'jumlah_disabilitas' => $desaSerang->jumlah_disabilitas ?: 15,
             ]);
         }
     }

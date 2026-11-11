@@ -12,7 +12,7 @@
 | 3 | Layanan simulasi | Buat service kalkulasi skor sesuai rumus di bawah. Service menerima input lapangan dan data acuan desa sebagai argumen, mengembalikan skor 0–100, dan tidak mengakses database. | Logika skor bisa dikerjakan dan diuji secara mandiri sebelum tabel Desa tersedia. |
 | 4 | Form dan tampilan hasil | Buat halaman input empat data, tampilkan error validasi, dan siapkan komponen hasil. Form dapat dikerjakan sebelum relasi desa terintegrasi. | UI input dan hasil siap diintegrasikan. |
 | 5 | Migration dan relasi riwayat | Buat tabel `riwayat_cek_kelayakan`, kolom bobot AHP, lalu hubungkan `kode_desa` ke primary key `desas.kode_desa`. | Hasil tersimpan dan terhubung ke master Desa. |
-| 6 | Controller dan route | Route submit memvalidasi desa dan kondisi lapangan, membaca profil desa, menghitung skor, menyimpan snapshot, lalu menampilkan hasil. | Alur hitung dan simpan tersambung; otorisasi per desa masih menunggu autentikasi. |
+| 6 | Controller dan route | Route submit hanya dapat diakses akun Desa yang sudah menyelesaikan onboarding. Sistem memakai profil Desa yang terhubung ke akun, menghitung skor, menyimpan snapshot, lalu menampilkan hasil. | Alur hitung dan simpan terikat ke profil Desa akun yang sedang login. |
 | 7 | Integrasi dan pengujian | Uji pemilihan desa, penggunaan profil, validasi data tidak lengkap, kalkulasi, penyimpanan dan relasi. | Alur utama dan kasus batas terverifikasi. |
 | 8 | Verifikasi acceptance criteria | Ukur waktu respons end-to-end pada kondisi uji representatif. Pastikan input tidak masuk akal ditolak dan hasil tampil maksimal 5 detik. | Bukti pemenuhan acceptance criteria sebelum digabungkan. |
 
@@ -38,17 +38,17 @@ Rumus, ambang normalisasi, dan kategori kondisi skor sudah tersedia pada spesifi
 
 Bagian F-02 yang tidak bergantung pada migration Desa sudah tersedia sebagai kalkulator simulasi mandiri:
 
-- Buka `/cek-kelayakan`, pilih kecamatan untuk memfilter dropdown desa, lalu pilih desa dan isi data lapangan (KK terdampak, hari tanpa air, dan jarak sumber air). Backend memeriksa kecocokan kecamatan dan desa. Lima data acuan kependudukan dibaca dari profil Desa dan ditampilkan read-only.
+- Perwakilan mendaftar, memilih satu desa yang belum tertaut, lalu mengisi lima data kependudukan wajib pada onboarding profil desa. Setelah login dan onboarding lengkap, buka `/cek-kelayakan`; identitas kecamatan/desa dan lima data acuan diambil dari profil akun, ditampilkan read-only, dan tidak dapat diganti melalui request. Pengguna hanya mengisi kondisi lapangan (KK terdampak, hari tanpa air, dan jarak sumber air).
 - Backend menolak nilai yang bukan bilangan bulat, nilai negatif, jumlah total nol, KK terdampak yang melampaui jumlah KK, serta total kelompok rentan yang melampaui jumlah jiwa.
 - Service menghitung bobot dengan AHP dari matriks perbandingan di `config/cek_kelayakan.php`, lalu menghitung skor SAW dari C1–C4. Setelah form dikirim, panel hasil menampilkan kategori dengan ikon, skor, ringkasan kondisi beserta angka input, dan tindakan yang sesuai status.
 - Skor diklasifikasikan sebagai Aman (0–39,99), Waspada (40–69,99), atau Kritis (70–100). Kategori ini menunjukkan tingkat kondisi, bukan keputusan biner “layak/tidak layak”.
 - Rekomendasi berisi panduan sesuai status. Tombol “Ajukan Pengajuan” hanya ditampilkan untuk Waspada/Kritis dan saat ini nonaktif dengan keterangan bahwa halaman pengajuan belum tersedia; untuk Aman tombol tidak ditampilkan. Karena endpoint pengajuan belum ada, penjagaan server pada proses pengajuan belum dapat diterapkan dan harus ditambahkan saat alur tersebut dibuat.
 - Setiap hasil submit valid disimpan di tabel `riwayat_cek_kelayakan`, termasuk `kode_desa`, snapshot angka acuan, tiga isian kondisi lapangan, komponen C1–C4, bobot AHP yang digunakan, rasio konsistensi, skor, status, dan waktu pemeriksaan. Riwayat terhubung ke master Desa dengan foreign key; data profil yang belum lengkap ditolak agar skor tidak dihitung dari angka kosong.
-- Seed master memuat desa dan nama wilayah. `DesaDemografiDummySeeder` mengisi lima kolom kependudukan dengan data dummy deterministik di lingkungan `local`/`testing` untuk pengujian. Seeder hanya mengisi profil yang kelima kolomnya kosong, menandai nilainya melalui `data_kependudukan_dummy`, dan tidak menimpa profil yang sudah memiliki data. Data dummy ditampilkan sebagai bukan data resmi dan harus diganti sebelum penggunaan operasional.
-- Root `/` mengarah ke halaman kalkulator.
+- Seed master hanya memuat identitas dan wilayah desa. Lima kolom demografi dibiarkan kosong sampai diisi dengan data yang disepakati; data tersebut wajib tersedia sebelum kalkulasi dijalankan. Tiga kondisi lapangan pada form (KK terdampak, hari tanpa air, dan jarak sumber air) harus diisi pengguna setiap melakukan pemeriksaan dan tidak memiliki nilai dummy bawaan.
+- Root `/` menampilkan landing page. Cek Kelayakan memakai middleware auth, onboarding, dan role Desa.
 
 
-Verifikasi mandiri dilakukan melalui `tests/Unit/CekKelayakanServiceTest.php` dan `tests/Feature/CekKelayakanTest.php`, termasuk pilihan Desa, penggunaan profil kependudukan, penolakan profil yang belum lengkap, relasi riwayat, serta batas waktu hasil 5 detik pada test harness. Waktu jaringan dan browser di produksi tetap bergantung pada hosting dan koneksi pengguna. Autentikasi dan pembatasan agar pengguna hanya dapat memilih Desa miliknya tetap menunggu integrasi autentikasi/otorisasi.
+Verifikasi dilakukan melalui `tests/Unit/CekKelayakanServiceTest.php`, `tests/Feature/CekKelayakanTest.php`, dan `tests/Feature/OnboardingProfileDesaTest.php`, termasuk penggunaan profil akun, akses terautentikasi, validasi lima data profil, relasi riwayat, dan batas waktu hasil 5 detik pada test harness. Waktu jaringan dan browser di produksi tetap bergantung pada hosting dan koneksi pengguna.
 
 ## Aturan kalkulasi AHP-SAW
 

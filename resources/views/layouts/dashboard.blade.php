@@ -26,7 +26,7 @@
                 'active' => request()->routeIs('desa.dashboard'),
             ],
             [
-                'label' => 'Cek Kelayakan Air',
+                'label' => 'Cek Kelayakan',
                 'route' => route('cek-kelayakan.index'),
                 'active' => request()->routeIs('cek-kelayakan.*'),
             ],

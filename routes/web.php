@@ -7,12 +7,12 @@ use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PengajuanController;
 use Illuminate\Support\Facades\Route;
 
-// Halaman Beranda Publik
+// Route Public
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Autentikasi Pengguna (Guest Only)
+// Route Auth (Guest Only)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -20,27 +20,38 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-// Logout Pengguna
+// Route Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Alur Onboarding (Wajib setelah registrasi sebelum masuk dasbor)
+// Route Onboarding (Sudah Login tapi belum selesai onboarding)
 Route::middleware('auth')->prefix('onboarding')->name('onboarding.')->group(function () {
+    // step 1: welcome
     Route::get('/', [OnboardingController::class, 'welcome'])->name('welcome');
+
+    // step 2: pilih role
     Route::get('/role', [OnboardingController::class, 'showRole'])->name('role');
     Route::post('/role', [OnboardingController::class, 'storeRole']);
+
+    // step 3: isi profil
     Route::get('/profile', [OnboardingController::class, 'showProfile'])->name('profile');
     Route::post('/profile/desa', [OnboardingController::class, 'storeProfileDesa'])->name('profile.desa');
     Route::post('/profile/penyalur', [OnboardingController::class, 'storeProfilePenyalur'])->name('profile.penyalur');
 });
 
-// Dasbor Peran Desa (F-01 Data Master Desa)
-Route::middleware(['auth', 'onboarding', 'role:desa'])->prefix('desa')->name('desa.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('desa.dashboard');
-    })->name('dashboard');
+// Route Dashboard & Fitur Peran Desa (F-01 & F-02)
+Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
+    Route::prefix('desa')->name('desa.')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('desa.dashboard');
+        })->name('dashboard');
+    });
+
+    // Fitur F-02: Cek Kelayakan Mandiri (AHP - SAW)
+    Route::get('/cek-kelayakan', [CekKelayakanController::class, 'index'])->name('cek-kelayakan.index');
+    Route::post('/cek-kelayakan', [CekKelayakanController::class, 'calculate'])->name('cek-kelayakan.calculate');
 });
 
-// Dasbor & Kelola Data BPBD (Admin BPBD)
+// Route Dashboard & Kelola Data BPBD (Admin BPBD)
 Route::middleware(['auth', 'onboarding', 'role:bpbd'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
@@ -49,16 +60,12 @@ Route::middleware(['auth', 'onboarding', 'role:bpbd'])->prefix('admin')->name('a
     Route::resource('desa', DesaController::class)->only(['index', 'show', 'edit', 'update']);
 });
 
-// Dasbor Peran Mitra Penyalur Air
+// Route Dashboard Mitra Penyalur
 Route::middleware(['auth', 'onboarding', 'role:penyalur'])->prefix('penyalur')->name('penyalur.')->group(function () {
     Route::get('/dashboard', function () {
         return view('penyalur.dashboard');
     })->name('dashboard');
 });
-
-// Fitur F-02: Cek Kelayakan Mandiri (AHP - SAW)
-Route::get('/cek-kelayakan', [CekKelayakanController::class, 'index'])->name('cek-kelayakan.index');
-Route::post('/cek-kelayakan', [CekKelayakanController::class, 'calculate'])->name('cek-kelayakan.calculate');
 
 // Fitur F-03: Pengajuan Bantuan Air Bersih
 Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');

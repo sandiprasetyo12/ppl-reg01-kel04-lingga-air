@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SimulasiKelayakanRequest;
 use App\Models\Desa;
 use App\Models\RiwayatCekKelayakan;
+use App\Models\User;
 use App\Services\CekKelayakanService;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Collection;
+use Illuminate\Http\Request;
 
 class CekKelayakanController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('cek-kelayakan.index', $this->formData());
+        return view('cek-kelayakan.index', [
+            'desa' => $this->desaForUser($request->user()),
+        ]);
     }
 
     public function calculate(
@@ -21,7 +24,7 @@ class CekKelayakanController extends Controller
         CekKelayakanService $service,
     ): View {
         $input = $request->validated();
-        $desa = Desa::query()->findOrFail($input['kode_desa']);
+        $desa = $this->desaForUser($request->user());
         $result = $service->calculate(
             (int) $input['kk_terdampak'],
             (int) $desa->jumlah_kk_total,
@@ -61,7 +64,8 @@ class CekKelayakanController extends Controller
             'active_desa_kode' => $desa->kode_desa,
         ]);
 
-        return view('cek-kelayakan.index', array_merge($this->formData(), [
+        return view('cek-kelayakan.index', [
+            'desa' => $desa,
             'result' => $result,
             'riwayat' => $riwayat,
             'input' => array_merge($input, [
@@ -71,31 +75,13 @@ class CekKelayakanController extends Controller
                 'jumlah_lansia' => $desa->jumlah_lansia,
                 'jumlah_disabilitas' => $desa->jumlah_disabilitas,
             ]),
-        ]));
+        ]);
     }
 
-    /**
-     * @return array{villages: \Illuminate\Database\Eloquent\Collection<int, Desa>, districts: Collection<int, string>}
-     */
-    private function formData(): array
+    private function desaForUser(?User $user): Desa
     {
-        $villages = Desa::query()
-            ->orderBy('kecamatan')
-            ->orderBy('nama_desa')
-            ->get([
-                'kode_desa',
-                'nama_desa',
-                'kecamatan',
-                'jumlah_kk_total',
-                'jumlah_jiwa_total',
-                'jumlah_balita',
-                'jumlah_lansia',
-                'jumlah_disabilitas',
-            ]);
+        abort_unless($user !== null && $user->isDesa(), 403, 'Akun ini tidak memiliki profil desa.');
 
-        return [
-            'villages' => $villages,
-            'districts' => $villages->pluck('kecamatan')->unique()->values(),
-        ];
+        return $user->desa ?? abort(403, 'Akun ini belum terhubung ke profil desa.');
     }
 }

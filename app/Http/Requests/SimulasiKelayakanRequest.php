@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Desa;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
@@ -10,7 +9,9 @@ class SimulasiKelayakanRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        $user = $this->user();
+
+        return $user !== null && $user->isDesa() && $user->desa()->exists();
     }
 
     /**
@@ -19,8 +20,6 @@ class SimulasiKelayakanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kecamatan' => ['required', 'string', 'exists:desas,kecamatan'],
-            'kode_desa' => ['required', 'string', 'exists:desas,kode_desa'],
             'kk_terdampak' => ['required', 'integer', 'min:0'],
             'hari_tanpa_air' => ['required', 'integer', 'min:0'],
             'jarak_sumber_meter' => ['required', 'integer', 'min:0'],
@@ -35,8 +34,6 @@ class SimulasiKelayakanRequest extends FormRequest
         return [
             function (Validator $validator): void {
                 if ($validator->errors()->hasAny([
-                    'kecamatan',
-                    'kode_desa',
                     'kk_terdampak',
                     'hari_tanpa_air',
                     'jarak_sumber_meter',
@@ -44,17 +41,8 @@ class SimulasiKelayakanRequest extends FormRequest
                     return;
                 }
 
-                $desa = Desa::query()->find($this->input('kode_desa'));
+                $desa = $this->user()?->desa;
                 if ($desa === null) {
-                    return;
-                }
-
-                if ($desa->kecamatan !== $this->input('kecamatan')) {
-                    $validator->errors()->add(
-                        'kode_desa',
-                        'Desa yang dipilih tidak sesuai dengan kecamatan.'
-                    );
-
                     return;
                 }
 
@@ -68,7 +56,7 @@ class SimulasiKelayakanRequest extends FormRequest
                 foreach ($dataProfil as $field) {
                     if ($desa->{$field} === null) {
                         $validator->errors()->add(
-                            'kode_desa',
+                            'kk_terdampak',
                             'Data kependudukan desa belum lengkap. Lengkapi profil desa sebelum melakukan pemeriksaan.'
                         );
 
@@ -78,7 +66,7 @@ class SimulasiKelayakanRequest extends FormRequest
 
                 if ((int) $desa->jumlah_kk_total < 1 || (int) $desa->jumlah_jiwa_total < 1) {
                     $validator->errors()->add(
-                        'kode_desa',
+                        'kk_terdampak',
                         'Jumlah KK dan jumlah jiwa pada profil desa harus lebih dari nol.'
                     );
 
@@ -88,7 +76,7 @@ class SimulasiKelayakanRequest extends FormRequest
                 foreach (['jumlah_balita', 'jumlah_lansia', 'jumlah_disabilitas'] as $field) {
                     if ((int) $desa->{$field} < 0) {
                         $validator->errors()->add(
-                            'kode_desa',
+                            'kk_terdampak',
                             'Data kelompok rentan pada profil desa tidak boleh bernilai negatif.'
                         );
 
@@ -135,8 +123,6 @@ class SimulasiKelayakanRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'kecamatan' => 'kecamatan',
-            'kode_desa' => 'desa',
             'kk_terdampak' => 'jumlah KK terdampak',
             'hari_tanpa_air' => 'hari tanpa air',
             'jarak_sumber_meter' => 'jarak sumber air',

@@ -40,7 +40,7 @@ class User extends Authenticatable
         return $this->hasOne(Penyalur::class);
     }
 
-    // Role helper methods
+    // Role helper methods (case-insensitive in PHP, covers both 'desa'/'pemohon' and 'bpbd'/'admin')
     public function isDesa(): bool
     {
         return in_array($this->role, ['desa', 'pemohon'], true);
@@ -78,7 +78,19 @@ class User extends Authenticatable
         }
 
         if ($this->isDesa()) {
-            return $this->desa()->exists();
+            return $this->desa()
+                ->whereNotNull('jumlah_kk_total')
+                ->where('jumlah_kk_total', '>', 0)
+                ->whereNotNull('jumlah_jiwa_total')
+                ->where('jumlah_jiwa_total', '>', 0)
+                ->whereNotNull('jumlah_balita')
+                ->where('jumlah_balita', '>=', 0)
+                ->whereNotNull('jumlah_lansia')
+                ->where('jumlah_lansia', '>=', 0)
+                ->whereNotNull('jumlah_disabilitas')
+                ->where('jumlah_disabilitas', '>=', 0)
+                ->whereRaw('(jumlah_balita + jumlah_lansia + jumlah_disabilitas) <= jumlah_jiwa_total')
+                ->exists();
         }
 
         if ($this->isPenyalur()) {
