@@ -545,5 +545,17 @@ class PengajuanBantuanAirTest extends TestCase
         $responseCreateKritis->assertSee('120'); // KK terdampak prefilled
         $responseCreateKritis->assertSee('14');  // Hari tanpa air prefilled
         $responseCreateKritis->assertSee('1200'); // Jarak sumber air prefilled
+
+        // 4. Submit form cek kelayakan mandiri langsung menyediakan tombol aktif alur pengajuan
+        $userDesa = \App\Models\User::factory()->create(['role' => 'desa']);
+        $this->desaA->update(['user_id' => $userDesa->id]);
+        $responseCek = $this->actingAs($userDesa)->post(route('cek-kelayakan.calculate'), [
+            'kk_terdampak' => 200,
+            'hari_tanpa_air' => 6,
+            'jarak_sumber_meter' => 1500,
+        ]);
+        $responseCek->assertStatus(200);
+        $responseCek->assertSee('Ajukan Pengajuan');
+        $responseCek->assertSee(route('pengajuan.create'));
     }
 }

@@ -33,7 +33,9 @@
         .sidebar { display: flex; min-width: 0; flex-direction: column; padding: 24px 14px 18px; border-right: 1px solid #e0e8ef; background: #fff; }
         .sidebar-label { margin: 0 0 14px 12px; color: #8294a8; font-size: .76rem; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; }
         .side-nav { display: grid; gap: 5px; }
-        .side-link { display: flex; min-width: 0; align-items: center; gap: 10px; min-height: 46px; padding: 0 10px; border-radius: 9px; color: #41566c; font-size: .88rem; font-weight: 500; text-decoration: none; overflow-wrap: anywhere; }
+        .side-link { display: flex; min-width: 0; align-items: center; gap: 10px; min-height: 46px; padding: 0 10px; border-radius: 9px; color: #41566c; font-size: .88rem; font-weight: 500; text-decoration: none; overflow-wrap: anywhere; transition: background .15s ease, color .15s ease; }
+        .side-link:hover:not(.active):not(.disabled) { background: #eef4f8; color: #086288; }
+        .side-link:hover:not(.active):not(.disabled) .side-icon { color: #086288; }
         .side-link.active { background: #086288; color: #fff; font-weight: 700; }
         .side-link.disabled { color: #8393a6; cursor: not-allowed; }
         .side-icon { display: grid; flex: 0 0 26px; place-items: center; width: 26px; height: 26px; color: #829bb1; font-size: 1.1rem; font-weight: 600; }
@@ -98,9 +100,9 @@
         .result-explanation { margin: 20px 0 16px; color: #344b61; font-size: 1rem; line-height: 1.6; }
         .recommendation { margin: 0; color: #344b61; font-size: 1rem; line-height: 1.6; }
         .recommendation strong { display: block; margin-bottom: 4px; color: #263a50; }
-        .application-action { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; margin-top: 18px; padding: 0 17px; border: 1px solid #9aafbf; border-radius: 8px; background: #e8eff3; color: #526a7c; font: inherit; font-size: .9rem; font-weight: 700; cursor: not-allowed; text-decoration: none; }
-        .application-action.application-active { background: #086288; color: #fff; border-color: #086288; cursor: pointer; box-shadow: 0 2px 6px rgb(8 98 136 / 25%); transition: background .15s ease-in-out; }
-        .application-action.application-active:hover { background: #064b68; color: #fff; }
+        .application-action { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; margin-top: 18px; padding: 0 20px; border: none; border-radius: 8px; background: #086288; color: #ffffff !important; text-decoration: none; font: inherit; font-size: .92rem; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(8, 98, 136, 0.2); transition: background-color .15s ease, box-shadow .15s ease; }
+        .application-action:hover { background: #064b68; color: #ffffff !important; box-shadow: 0 4px 8px rgba(8, 98, 136, 0.3); }
+        .application-action[disabled] { border: 1px solid #9aafbf; background: #e8eff3; color: #526a7c !important; cursor: not-allowed; box-shadow: none; }
         .application-note { margin: 8px 0 0; color: #71859a; font-size: .8rem; line-height: 1.45; }
         @media (max-width: 1100px) {
             .has-result .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -175,7 +177,7 @@
         <nav aria-label="Navigasi desa">
             <p class="sidebar-label">Layanan desa</p>
             <div class="side-nav">
-                <a class="side-link" href="{{ route('pengajuan.index') }}"><span class="side-icon" aria-hidden="true">▦</span>Beranda &amp; Draf</a>
+                <a class="side-link" href="{{ route('desa.dashboard') }}"><span class="side-icon" aria-hidden="true">▦</span>Beranda</a>
                 <a class="side-link active" href="{{ route('cek-kelayakan.index') }}" aria-current="page"><span class="side-icon" aria-hidden="true">✓</span>Cek Kelayakan</a>
                 <a class="side-link" href="{{ route('pengajuan.create') }}"><span class="side-icon" aria-hidden="true">＋</span>Pengajuan Bantuan</a>
                 <a class="side-link" href="{{ route('pengajuan.index') }}"><span class="side-icon" aria-hidden="true">▤</span>Status Pengajuan</a>
@@ -302,13 +304,11 @@
                 <p class="result-explanation">{{ $statusInfo['meaning'] }} {{ $reasonText }}</p>
                 <p class="recommendation"><strong>Rekomendasi tindak lanjut</strong>{{ $statusInfo['action'] }}</p>
                 @if (in_array($result['status'], ['waspada', 'kritis'], true))
-                    <div style="margin-top: 18px;">
-                        <a href="{{ route('pengajuan.create', ['riwayat_id' => $riwayat->id ?? null, 'kode_desa' => $input['kode_desa'] ?? '']) }}" class="application-action application-active" style="display:inline-flex; align-items:center; justify-content:center; text-decoration:none; margin-bottom:8px;">
-                            Ajukan Pengajuan Bantuan Air Bersih &rarr;
-                        </a>
-                        <button class="application-action" type="button" disabled aria-describedby="application-note" style="display:none;">Ajukan Pengajuan</button>
-                        <p class="application-note" id="application-note">Hasil cek kelayakan Anda memenuhi kriteria untuk mengajukan permohonan pasokan air bersih BPBD. <span style="display:none;">Halaman pengajuan belum tersedia.</span></p>
-                    </div>
+                    <a href="{{ route('pengajuan.create', ['riwayat_id' => $riwayat->id ?? null]) }}" class="application-action" id="btn-ajukan-pengajuan">
+                        <span>Ajukan Pengajuan</span>
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                    <p class="application-note" id="application-note">Lanjutkan untuk melengkapi data dan berkas pengajuan bantuan air.</p>
                 @endif
 
             </aside>
