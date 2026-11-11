@@ -66,22 +66,6 @@ class User extends Authenticatable
         return $this->isBpbd();
     }
 
-    // PascalCase compatibility methods
-    public function IsDesa(): bool
-    {
-        return $this->isDesa();
-    }
-
-    public function IsBpbd(): bool
-    {
-        return $this->isBpbd();
-    }
-
-    public function IsPenyalur(): bool
-    {
-        return $this->isPenyalur();
-    }
-
     // Helper untuk mengecek apakah user sudah selesai onboarding
     public function hasCompletedOnboarding(): bool
     {

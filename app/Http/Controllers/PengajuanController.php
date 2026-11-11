@@ -130,6 +130,11 @@ class PengajuanController extends Controller
             $riwayat = Auth::user()->desa->latestRiwayatKelayakan;
         }
 
+        // Jika kode_desa dikirim secara spesifik melalui query parameter
+        if (!$riwayat && $request->filled('kode_desa')) {
+            $riwayat = $desa->latestRiwayatKelayakan;
+        }
+
         // Jika hasil cek kelayakan berstatus Aman, tolak akses dan tampilkan modal pop-up
         if ($riwayat && strtolower($riwayat->status) === 'aman') {
             return redirect()->route('pengajuan.index')->with('modal_kelayakan_aman', [

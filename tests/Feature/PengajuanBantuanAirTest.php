@@ -31,9 +31,8 @@ class PengajuanBantuanAirTest extends TestCase
 
         // Setup Desa A (Tanalum - Status Kritis)
         $this->userDesaA = User::factory()->create([
-            'name' => 'Kades Tanalum',
-            'email' => 'tanalum_' . uniqid() . '@example.com',
-            'role' => 'pemohon',
+            'username' => 'kades_tanalum_' . uniqid(),
+            'role' => 'desa',
         ]);
 
         $this->desaA = Desa::create([
@@ -78,9 +77,8 @@ class PengajuanBantuanAirTest extends TestCase
 
         // Setup Desa B (Bodas - Status Aman)
         $this->userDesaB = User::factory()->create([
-            'name' => 'Kades Bodas',
-            'email' => 'bodas_' . uniqid() . '@example.com',
-            'role' => 'pemohon',
+            'username' => 'kades_bodas_' . uniqid(),
+            'role' => 'desa',
         ]);
 
         $this->desaB = Desa::create([

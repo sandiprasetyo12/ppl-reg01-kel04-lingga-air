@@ -18,6 +18,9 @@ return new class extends Migration
             if (!Schema::hasColumn('users', 'phone')) {
                 $table->string('phone')->nullable()->after('role');
             }
+            if (!Schema::hasColumn('users', 'remember_token')) {
+                $table->rememberToken();
+            }
         });
     }
 
@@ -30,6 +33,9 @@ return new class extends Migration
             $dropCols = [];
             if (Schema::hasColumn('users', 'phone')) {
                 $dropCols[] = 'phone';
+            }
+            if (Schema::hasColumn('users', 'remember_token')) {
+                $dropCols[] = 'remember_token';
             }
             if (!empty($dropCols)) {
                 $table->dropColumn($dropCols);
