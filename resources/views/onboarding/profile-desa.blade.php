@@ -71,6 +71,7 @@
                         id="kode_desa"
                         name="kode_desa"
                         required
+                        @disabled($desaTertaut !== null)
                         class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-base text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
                     >
                         <option value="">Pilih Desa atau Kelurahan</option>
@@ -81,12 +82,15 @@
                                 <optgroup label="Kecamatan {{ $d->kecamatan }}">
                                 @php $currentKec = $d->kecamatan; @endphp
                             @endif
-                            <option value="{{ $d->kode_desa }}" {{ old('kode_desa') == $d->kode_desa ? 'selected' : '' }}>
+                            <option value="{{ $d->kode_desa }}" {{ old('kode_desa', $desaTertaut?->kode_desa) == $d->kode_desa ? 'selected' : '' }}>
                                 {{ $d->nama_desa }} ({{ $d->kode_desa }})
                             </option>
                         @endforeach
                         @if ($currentKec !== '') </optgroup> @endif
                     </select>
+                    @if ($desaTertaut !== null)
+                        <input type="hidden" name="kode_desa" value="{{ $desaTertaut->kode_desa }}">
+                    @endif
                     @error('kode_desa')
                         <p role="alert" class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
@@ -95,15 +99,16 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label for="jumlah_kk_total" class="block text-sm font-medium text-[#1b1b18] mb-1">
-                            Jumlah KK Total
+                            Jumlah KK Total <span class="text-red-600" aria-hidden="true">*</span>
                         </label>
                         <input
                             id="jumlah_kk_total"
                             type="number"
-                            min="0"
+                            min="1"
                             name="jumlah_kk_total"
-                            value="{{ old('jumlah_kk_total') }}"
+                            value="{{ old('jumlah_kk_total', $desaTertaut?->jumlah_kk_total) }}"
                             placeholder="Contoh: 450"
+                            required
                             class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-base text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
                         >
                         @error('jumlah_kk_total')
@@ -113,15 +118,16 @@
 
                     <div>
                         <label for="jumlah_jiwa_total" class="block text-sm font-medium text-[#1b1b18] mb-1">
-                            Jumlah Jiwa Total
+                            Jumlah Jiwa Total <span class="text-red-600" aria-hidden="true">*</span>
                         </label>
                         <input
                             id="jumlah_jiwa_total"
                             type="number"
-                            min="0"
+                            min="1"
                             name="jumlah_jiwa_total"
-                            value="{{ old('jumlah_jiwa_total') }}"
+                            value="{{ old('jumlah_jiwa_total', $desaTertaut?->jumlah_jiwa_total) }}"
                             placeholder="Contoh: 1800"
+                            required
                             class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-base text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
                         >
                         @error('jumlah_jiwa_total')
@@ -132,21 +138,22 @@
 
                 <div class="p-4 bg-[#FDFDFC] border border-[#e3e3e0] rounded-md space-y-3">
                     <h2 class="text-sm font-medium text-[#1b1b18]">
-                        Data Kelompok Rentan (Opsional)
+                        Data Kelompok Rentan
                     </h2>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
                             <label for="jumlah_balita" class="block text-sm font-medium text-[#1b1b18] mb-1">
-                                Balita
+                                Balita <span class="text-red-600" aria-hidden="true">*</span>
                             </label>
                             <input
                                 id="jumlah_balita"
                                 type="number"
                                 min="0"
                                 name="jumlah_balita"
-                                value="{{ old('jumlah_balita') }}"
+                                value="{{ old('jumlah_balita', $desaTertaut?->jumlah_balita) }}"
                                 placeholder="0"
+                                required
                                 class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-base text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
                             >
                             @error('jumlah_balita')
@@ -156,15 +163,16 @@
 
                         <div>
                             <label for="jumlah_lansia" class="block text-sm font-medium text-[#1b1b18] mb-1">
-                                Lansia
+                                Lansia <span class="text-red-600" aria-hidden="true">*</span>
                             </label>
                             <input
                                 id="jumlah_lansia"
                                 type="number"
                                 min="0"
                                 name="jumlah_lansia"
-                                value="{{ old('jumlah_lansia') }}"
+                                value="{{ old('jumlah_lansia', $desaTertaut?->jumlah_lansia) }}"
                                 placeholder="0"
+                                required
                                 class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-base text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
                             >
                             @error('jumlah_lansia')
@@ -174,15 +182,16 @@
 
                         <div>
                             <label for="jumlah_disabilitas" class="block text-sm font-medium text-[#1b1b18] mb-1">
-                                Disabilitas
+                                Disabilitas <span class="text-red-600" aria-hidden="true">*</span>
                             </label>
                             <input
                                 id="jumlah_disabilitas"
                                 type="number"
                                 min="0"
                                 name="jumlah_disabilitas"
-                                value="{{ old('jumlah_disabilitas') }}"
+                                value="{{ old('jumlah_disabilitas', $desaTertaut?->jumlah_disabilitas) }}"
                                 placeholder="0"
+                                required
                                 class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-base text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
                             >
                             @error('jumlah_disabilitas')

@@ -11,6 +11,21 @@
 @endphp
 
 <div class="space-y-6">
+    <section class="bg-sky-50 border border-sky-200 rounded-lg p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="space-y-1">
+            <h2 class="text-lg font-semibold text-[#1b1b18]">Periksa kelayakan bantuan air bersih</h2>
+            <p class="text-sm text-[#52525b]">
+                Data kependudukan diambil dari profil Desa. Isi kondisi kekeringan untuk melihat hasil pemeriksaan.
+            </p>
+        </div>
+        <a
+            href="{{ route('cek-kelayakan.index') }}"
+            class="min-h-[44px] inline-flex items-center justify-center px-5 py-2 bg-[#1b1b18] hover:bg-black text-white text-sm font-medium rounded-md transition shrink-0"
+        >
+            Mulai Cek Kelayakan
+        </a>
+    </section>
+
     @if ($desa)
         <section class="bg-white border border-[#e3e3e0] rounded-lg p-6 shadow-sm space-y-6">
             <div class="border-b border-[#e3e3e0] pb-4 flex flex-wrap items-start justify-between gap-3">

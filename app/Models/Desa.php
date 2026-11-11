@@ -47,4 +47,9 @@ class Desa extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function riwayatCekKelayakan()
+    {
+        return $this->hasMany(RiwayatCekKelayakan::class, 'kode_desa', 'kode_desa');
+    }
 }

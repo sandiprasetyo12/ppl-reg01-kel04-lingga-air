@@ -31,7 +31,7 @@ class OnboardingController extends Controller
         }
 
         // Kalau sudah pilih role, langsung ke profil
-        if (!is_null($user->role)) {
+        if (! is_null($user->role)) {
             return redirect()->route('onboarding.profile');
         }
 
@@ -57,7 +57,6 @@ class OnboardingController extends Controller
         return redirect()->route('onboarding.profile');
     }
 
-
     // Tampilkan form profil sesuai role yang dipilih
     public function showProfile()
     {
@@ -75,12 +74,16 @@ class OnboardingController extends Controller
 
         // Tampilkan form sesuai role
         if ($user->isDesa()) {
-            // Ambil daftar desa yang belum ada akun-nya
-            $desaTersedia = Desa::whereNull('user_id')
+            $desaTertaut = $user->desa;
+            $desaTersedia = Desa::query()
+                ->where(function ($query) use ($user): void {
+                    $query->whereNull('user_id')->orWhere('user_id', $user->id);
+                })
                 ->orderBy('kecamatan')
                 ->orderBy('nama_desa')
                 ->get();
-            return view('onboarding.profile-desa', compact('desaTersedia'));
+
+            return view('onboarding.profile-desa', compact('desaTersedia', 'desaTertaut'));
         }
 
         return view('onboarding.profile-penyalur');
@@ -95,30 +98,46 @@ class OnboardingController extends Controller
             return $this->redirectToDashboard();
         }
 
-        if (!$user->isDesa()) {
+        if (! $user->isDesa()) {
             return redirect()->route('onboarding.profile');
         }
 
-        // Validasi input profil desa (hanya desa yang belum tertaut akun lain)
+        // A village can only be claimed if it is unlinked or already belongs to this user.
         $validated = $request->validate([
             'kode_desa' => [
                 'required',
                 'string',
-                Rule::exists('desas', 'kode_desa')->where(fn ($query) => $query->whereNull('user_id')),
+                Rule::exists('desas', 'kode_desa')->where(
+                    fn ($query) => $query->where(function ($query) use ($user): void {
+                        $query->whereNull('user_id')->orWhere('user_id', $user->id);
+                    })
+                ),
             ],
-            'jumlah_kk_total' => 'nullable|integer|min:0',
-            'jumlah_jiwa_total' => 'nullable|integer|min:0',
-            'jumlah_balita' => 'nullable|integer|min:0',
-            'jumlah_lansia' => 'nullable|integer|min:0',
-            'jumlah_disabilitas' => 'nullable|integer|min:0',
+            'jumlah_kk_total' => 'required|integer|min:1',
+            'jumlah_jiwa_total' => 'required|integer|min:1',
+            'jumlah_balita' => 'required|integer|min:0',
+            'jumlah_lansia' => 'required|integer|min:0',
+            'jumlah_disabilitas' => 'required|integer|min:0',
             'nama_pj_darurat' => 'nullable|string|max:100',
             'no_wa_darurat' => 'nullable|string|max:20',
             'titik_drop_air' => 'nullable|string|max:50',
         ]);
 
-        // Link user ke desa yang dipilih & isi data kependudukan
-        Desa::where('kode_desa', $validated['kode_desa'])
-            ->whereNull('user_id')
+        $jumlahRentan = (int) $validated['jumlah_balita']
+            + (int) $validated['jumlah_lansia']
+            + (int) $validated['jumlah_disabilitas'];
+        if ($jumlahRentan > (int) $validated['jumlah_jiwa_total']) {
+            return back()
+                ->withErrors(['jumlah_disabilitas' => 'Jumlah kelompok rentan tidak boleh melebihi jumlah jiwa total.'])
+                ->withInput();
+        }
+
+        // Link the village to this account and save its demographic profile.
+        Desa::query()
+            ->where('kode_desa', $validated['kode_desa'])
+            ->where(function ($query) use ($user): void {
+                $query->whereNull('user_id')->orWhere('user_id', $user->id);
+            })
             ->update([
                 'user_id' => $user->id,
                 'jumlah_kk_total' => $validated['jumlah_kk_total'] ?? null,
@@ -144,7 +163,7 @@ class OnboardingController extends Controller
             return $this->redirectToDashboard();
         }
 
-        if (!$user->isPenyalur()) {
+        if (! $user->isPenyalur()) {
             return redirect()->route('onboarding.profile');
         }
 
@@ -168,7 +187,7 @@ class OnboardingController extends Controller
         return redirect()->route('penyalur.dashboard')->with('success', 'Selamat datang di Lingga Air!');
     }
 
-   // Helper untuk redirect ke dashboard sesuai role
+    // Helper untuk redirect ke dashboard sesuai role
     private function redirectToDashboard()
     {
         return match (auth()->user()->role) {
