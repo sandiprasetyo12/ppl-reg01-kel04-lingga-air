@@ -18,7 +18,7 @@ class Permohonan extends Model
 
     public function desa()
     {
-        return $this->belongsTo(Desa::class);
+        return $this->belongsTo(Desa::class, 'kode_desa', 'kode_desa');
     }
 
     public function keputusanPermohonans()

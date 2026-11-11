@@ -8,32 +8,139 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen">
+<body class="bg-slate-100 text-slate-800 min-h-screen antialiased flex flex-col lg:flex-row">
 
-    <!-- Top Navigation -->
-    <nav class="bg-blue-900 text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-xl shadow">
-                        <i class="fa-solid fa-droplet text-cyan-300"></i>
+    <!-- ==================== SIDEBAR KIRI (ADMIN BPBD) ==================== -->
+    <aside class="w-full lg:w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 border-r border-slate-800 shadow-xl z-20">
+        <div>
+            <!-- Logo & Brand Header -->
+            <div class="p-6 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/30">
+                        <i class="fa-solid fa-droplet text-lg"></i>
                     </div>
                     <div>
-                        <span class="font-bold text-lg tracking-wide">Lingga Air</span>
-                        <span class="text-xs text-blue-200 block">Sistem Bantuan Air Bersih Darurat BPBD Purbalingga</span>
+                        <span class="font-extrabold text-white text-base tracking-wide block">Lingga Air</span>
+                        <span class="text-[11px] text-blue-300 block font-medium">BPBD Kab. Purbalingga</span>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4 text-sm">
-                    <a href="{{ route('verifikasi.index') }}" class="text-blue-200 hover:text-white flex items-center gap-1.5 text-xs font-semibold">
-                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Antrean
-                    </a>
+                <div class="mt-3">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-950/80 text-cyan-300 border border-blue-800/60">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                        Portal Verifikator
+                    </span>
                 </div>
             </div>
-        </div>
-    </nav>
 
-    <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Navigation Links -->
+            <nav class="p-4 space-y-6">
+                <!-- Group 1: Menu Operasional -->
+                <div>
+                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                        Menu Utama BPBD
+                    </span>
+                    <ul class="space-y-1.5 text-xs font-semibold">
+                        <li>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
+                                <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+                                <span>Dashboard Statistik</span>
+                            </a>
+                        </li>
+                        <li>
+                            <!-- Active Menu (F-04) -->
+                            <a href="{{ route('verifikasi.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-md shadow-blue-600/30 transition">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-clipboard-check w-4 text-center text-cyan-200"></i>
+                                    <span>Verifikasi Pengajuan</span>
+                                </div>
+                                <span class="bg-blue-800 text-blue-100 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                    Aktif
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
+                                <i class="fa-solid fa-truck-droplet w-4 text-center"></i>
+                                <span>Penugasan Armada</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
+                                <i class="fa-solid fa-map-location-dot w-4 text-center"></i>
+                                <span>Peta Sebaran (GIS)</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
+                                <i class="fa-solid fa-file-invoice w-4 text-center"></i>
+                                <span>Laporan Penyaluran</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Group 2: Master Data Wilayah -->
+                <div>
+                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                        Data Master
+                    </span>
+                    <ul class="space-y-1.5 text-xs font-semibold">
+                        <li>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
+                                <i class="fa-solid fa-building-columns w-4 text-center"></i>
+                                <span>Data Acuan Desa</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer: Profil Petugas BPBD -->
+        <div class="p-4 border-t border-slate-800/80 bg-slate-950/40 m-2 rounded-xl">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-blue-700 text-white flex items-center justify-center font-bold text-xs ring-2 ring-blue-500/50">
+                    BP
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold text-white truncate">Petugas Verifikator</p>
+                    <p class="text-[10px] text-slate-400 truncate">admin@bpbd.purbalinggakab.go.id</p>
+                </div>
+            </div>
+            <div class="mt-2.5 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-400">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Online
+                </span>
+                <span class="font-mono text-slate-500">v1.2-sprint1</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ==================== MAIN CONTENT AREA ==================== -->
+    <div class="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+
+        <!-- Top Header Bar -->
+        <header class="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-10 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+                <nav class="text-xs text-slate-500 mb-1 flex items-center gap-2">
+                    <a href="{{ route('verifikasi.index') }}" class="hover:underline flex items-center gap-1 text-blue-600 font-semibold">
+                        <i class="fa-solid fa-arrow-left"></i> Antrean Verifikasi
+                    </a>
+                    <span>/</span>
+                    <span class="text-slate-700 font-semibold font-mono">{{ $permohonan->nomor_tiket }}</span>
+                </nav>
+                <h1 class="text-xl font-bold text-slate-900">Telaah Berkas Permohonan: Desa {{ $permohonan->desa->nama_desa ?? '-' }}</h1>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <a href="{{ route('verifikasi.index') }}" class="px-3.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-list-check text-slate-500"></i> Kembali ke Antrean
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="flex-1 p-6 lg:p-8 max-w-7xl mx-auto w-full">
 
         <!-- Flash Message Alerts -->
         @if(session('success'))
@@ -621,9 +728,11 @@
         });
     </script>
 
-    <footer class="mt-12 py-6 border-t border-slate-200 text-center text-xs text-slate-500">
-        &copy; 2026 Lingga Air - Proyek Perangkat Lunak (Kelompok 4). BPBD Kabupaten Purbalingga.
-    </footer>
+        <footer class="mt-auto py-5 border-t border-slate-200 text-center text-xs text-slate-500 bg-white">
+            &copy; 2026 Lingga Air - Proyek Perangkat Lunak (Kelompok 4). BPBD Kabupaten Purbalingga.
+        </footer>
+
+    </div>
 
 </body>
 </html>

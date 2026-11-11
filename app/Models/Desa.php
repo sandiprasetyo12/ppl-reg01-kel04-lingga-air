@@ -49,7 +49,7 @@ class Desa extends Model
     // Relasi untuk PBI-010: Menghubungkan data desa ke seluruh riwayat permohonan bantuan air
     public function permohonans()
     {
-        return $this->hasMany(Permohonan::class, 'desa_id', 'kode_desa');
+        return $this->hasMany(Permohonan::class, 'kode_desa', 'kode_desa');
     }
 
     // Accessor untuk PBI-010: Menghitung total kelompok rentan desa (Balita + Lansia + Disabilitas)
