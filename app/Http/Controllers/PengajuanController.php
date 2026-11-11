@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BerkasPengajuan;
 use App\Models\Desa;
 use App\Models\Pengajuan;
+use App\Models\Permohonan;
 use App\Models\RiwayatCekKelayakan;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -298,6 +299,35 @@ class PengajuanController extends Controller
             }
 
             if ($action === 'kirim') {
+                // Sinkronkan ke tabel permohonans (Fitur 4 BPBD) agar langsung masuk antrean verifikasi
+                $skor = $riwayat ? (float)$riwayat->skor : 80.00;
+                $statusKelayakan = $riwayat ? ucfirst(strtolower($riwayat->status)) : 'Kritis';
+                $jiwaRentan = ($desa->jumlah_balita ?? 0) + ($desa->jumlah_lansia ?? 0) + ($desa->jumlah_disabilitas ?? 0);
+
+                Permohonan::firstOrCreate(
+                    ['nomor_tiket' => $nomorTiket],
+                    [
+                        'kode_desa' => $desa->kode_desa,
+                        'status' => 'Menunggu Verifikasi',
+                        'kk_terdampak' => $jumlahKk,
+                        'hari_tanpa_air' => $hariTanpaAir,
+                        'jarak_sumber_air' => $jarakSumberAir,
+                        'jiwa_rentan' => $jiwaRentan,
+                        'kebutuhan_tangki' => $pengajuan->estimasiTangki() ?? 2,
+                        'alasan_permohonan' => $validated['alasan_pengajuan'],
+                        'skor_ahp_saw' => $skor,
+                        'status_kelayakan' => $statusKelayakan,
+                        'rincian_kriteria' => [
+                            'C1' => (float)($riwayat->c1 ?? 0.50),
+                            'C2' => (float)($riwayat->c2 ?? 0.15),
+                            'C3' => (float)($riwayat->c3 ?? 0.70),
+                            'C4' => (float)($riwayat->c4 ?? 0.50),
+                        ],
+                        'surat_kades' => $pengajuan->suratKepalaDesa?->path_file,
+                        'foto_lapangan' => $pengajuan->fotoKondisi->first()?->path_file,
+                    ]
+                );
+
                 return redirect()->route('pengajuan.success', $pengajuan->id)
                     ->with('success', 'Pengajuan bantuan air bersih berhasil dikirim ke antrean Admin.');
             }
@@ -455,6 +485,35 @@ class PengajuanController extends Controller
             }
 
             if ($action === 'kirim') {
+                // Sinkronkan ke tabel permohonans (Fitur 4 BPBD) agar langsung masuk antrean verifikasi
+                $skor = $riwayat ? (float)$riwayat->skor : 80.00;
+                $statusKelayakan = $riwayat ? ucfirst(strtolower($riwayat->status)) : 'Kritis';
+                $jiwaRentan = ($desa->jumlah_balita ?? 0) + ($desa->jumlah_lansia ?? 0) + ($desa->jumlah_disabilitas ?? 0);
+
+                Permohonan::firstOrCreate(
+                    ['nomor_tiket' => $updateData['nomor_tiket']],
+                    [
+                        'kode_desa' => $desa->kode_desa,
+                        'status' => 'Menunggu Verifikasi',
+                        'kk_terdampak' => $jumlahKk,
+                        'hari_tanpa_air' => $hariTanpaAir,
+                        'jarak_sumber_air' => $jarakSumberAir,
+                        'jiwa_rentan' => $jiwaRentan,
+                        'kebutuhan_tangki' => $pengajuan->estimasiTangki() ?? 2,
+                        'alasan_permohonan' => $validated['alasan_pengajuan'],
+                        'skor_ahp_saw' => $skor,
+                        'status_kelayakan' => $statusKelayakan,
+                        'rincian_kriteria' => [
+                            'C1' => (float)($riwayat->c1 ?? 0.50),
+                            'C2' => (float)($riwayat->c2 ?? 0.15),
+                            'C3' => (float)($riwayat->c3 ?? 0.70),
+                            'C4' => (float)($riwayat->c4 ?? 0.50),
+                        ],
+                        'surat_kades' => $pengajuan->suratKepalaDesa?->path_file,
+                        'foto_lapangan' => $pengajuan->fotoKondisi->first()?->path_file,
+                    ]
+                );
+
                 return redirect()->route('pengajuan.success', $pengajuan->id)
                     ->with('success', 'Draf berhasil dikirim ke antrean verifikasi Admin BPBD.');
             }
@@ -519,6 +578,35 @@ class PengajuanController extends Controller
             'status' => 'Diajukan',
             'tanggal_pengajuan' => Carbon::now(),
         ]);
+
+        // Sinkronkan ke tabel permohonans (Fitur 4 BPBD) agar langsung masuk antrean verifikasi
+        $skor = $riwayat ? (float)$riwayat->skor : 80.00;
+        $statusKelayakan = $riwayat ? ucfirst(strtolower($riwayat->status)) : 'Kritis';
+        $jiwaRentan = ($desa->jumlah_balita ?? 0) + ($desa->jumlah_lansia ?? 0) + ($desa->jumlah_disabilitas ?? 0);
+
+        Permohonan::firstOrCreate(
+            ['nomor_tiket' => $nomorTiket],
+            [
+                'kode_desa' => $desa->kode_desa,
+                'status' => 'Menunggu Verifikasi',
+                'kk_terdampak' => $pengajuan->jumlah_kk ?? ($riwayat->kk_terdampak ?? 100),
+                'hari_tanpa_air' => $pengajuan->hari_tanpa_air ?? ($riwayat->hari_tanpa_air ?? 5),
+                'jarak_sumber_air' => $pengajuan->jarak_sumber_air ?? ($riwayat->jarak_sumber_meter ?? 1000),
+                'jiwa_rentan' => $jiwaRentan,
+                'kebutuhan_tangki' => $pengajuan->estimasiTangki() ?? 2,
+                'alasan_permohonan' => $pengajuan->alasan_pengajuan ?? 'Permohonan bantuan air bersih darurat.',
+                'skor_ahp_saw' => $skor,
+                'status_kelayakan' => $statusKelayakan,
+                'rincian_kriteria' => [
+                    'C1' => (float)($riwayat->c1 ?? 0.50),
+                    'C2' => (float)($riwayat->c2 ?? 0.15),
+                    'C3' => (float)($riwayat->c3 ?? 0.70),
+                    'C4' => (float)($riwayat->c4 ?? 0.50),
+                ],
+                'surat_kades' => $pengajuan->suratKepalaDesa?->path_file,
+                'foto_lapangan' => $pengajuan->fotoKondisi->first()?->path_file,
+            ]
+        );
 
         return redirect()->route('pengajuan.success', $pengajuan->id)
             ->with('success', 'Pengajuan berhasil dikirim dengan Nomor Tiket: ' . $nomorTiket);

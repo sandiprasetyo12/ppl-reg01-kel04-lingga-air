@@ -88,7 +88,7 @@ class Desa extends Model
         $this->attributes['no_wa_darurat'] = $value;
     }
 
-    // Fitur F-09: Pemetaan Desa (dari branch main)
+    // Fitur F-09: Pemetaan Desa (GIS)
     public function scopeSiapPeta(Builder $query): Builder
     {
         return $query->whereNotNull('latitude')
@@ -116,13 +116,13 @@ class Desa extends Model
         ]);
     }
 
-    // Relasi User
+    // Relasi Akun Desa (F-01)
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relasi Cek Kelayakan (F-02) & Pengajuan Air (F-03)
+    // Fitur F-02: Cek Kelayakan (AHP-SAW)
     public function riwayatCekKelayakan(): HasMany
     {
         return $this->hasMany(RiwayatCekKelayakan::class, 'kode_desa', 'kode_desa')->latest();
@@ -133,15 +133,12 @@ class Desa extends Model
         return $this->hasOne(RiwayatCekKelayakan::class, 'kode_desa', 'kode_desa')->latestOfMany();
     }
 
+    // Fitur F-03: Pengajuan Bantuan Air Bersih Desa
     public function pengajuan(): HasMany
     {
         return $this->hasMany(Pengajuan::class, 'kode_desa', 'kode_desa')->latest();
     }
 
-    /**
-     * Cek apakah desa sedang memiliki tiket aktif
-     * Tiket aktif adalah pengajuan yang sedang diproses (bukan Draf, bukan Selesai, bukan Ditolak).
-     */
     public function hasActiveTicket(): bool
     {
         return $this->pengajuan()
@@ -149,13 +146,31 @@ class Desa extends Model
             ->exists();
     }
 
-    /**
-     * Dapatkan tiket aktif milik desa jika ada
-     */
     public function activeTicket(): ?Pengajuan
     {
         return $this->pengajuan()
             ->whereIn('status', ['Diajukan', 'Dalam Telaah', 'Disetujui', 'Dijadwalkan', 'Revisi'])
             ->first();
+    }
+
+    // Fitur F-04: Verifikasi Pengajuan (BPBD Purbalingga)
+    public function permohonans(): HasMany
+    {
+        return $this->hasMany(Permohonan::class, 'kode_desa', 'kode_desa');
+    }
+
+    public function getTotalJiwaRentanAttribute(): int
+    {
+        return (int) (($this->jumlah_balita ?? 0) + ($this->jumlah_lansia ?? 0) + ($this->jumlah_disabilitas ?? 0));
+    }
+
+    public function getPenanggungJawabAttribute(): ?string
+    {
+        return $this->nama_pj_darurat;
+    }
+
+    public function getKontakWaAttribute(): ?string
+    {
+        return $this->no_wa_darurat;
     }
 }
