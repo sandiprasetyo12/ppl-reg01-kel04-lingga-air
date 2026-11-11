@@ -6,6 +6,7 @@ use App\Models\Permohonan;
 use App\Models\KeputusanPermohonan;
 use App\Models\Pengajuan;
 use App\Models\User;
+use App\Services\CekKelayakanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,13 +14,15 @@ class VerifikasiController extends Controller
 {
     /**
      * PBI-010: Menampilkan antrean pengajuan terurut skor prioritas AHP-SAW (DESC)
-     * Sinkron F-02 -> F-04: Hanya menampilkan permohonan yang lolos skrining kelayakan (Skor >= 40.00)
+     * Sinkron F-02 -> F-04: Hanya menampilkan permohonan yang lolos skrining kelayakan (Skor >= 30.00)
      */
     public function index(Request $request)
     {
-        // Bersihkan data permohonan berstatus 'Aman' (< 40.00) jika masih tersisa dari seeding lama
+        $ambangWaspada = CekKelayakanService::AMBANG_WASPADA;
+
+        // Bersihkan data permohonan berstatus 'Aman' (< 30.00) jika masih tersisa dari seeding lama
         // Sesuai aturan PBI-005 AC 2: Status Aman dicegat di F-02 dan TIDAK BISA mengajukan ke F-03/F-04
-        Permohonan::where('skor_ahp_saw', '<', 40.00)->delete();
+        Permohonan::where('skor_ahp_saw', '<', $ambangWaspada)->delete();
 
         // -------------------------------------------------------------
         // SINKRONISASI OTOMATIS: F-03 (Pengajuan Desa) -> F-04 (Antrean Verifikasi BPBD)
@@ -60,10 +63,10 @@ class VerifikasiController extends Controller
                         'skor_ahp_saw' => $skor,
                         'status_kelayakan' => $statusKelayakan,
                         'rincian_kriteria' => [
-                            'C1' => (float)($riwayat->c1 ?? 0.50),
-                            'C2' => (float)($riwayat->c2 ?? 0.15),
-                            'C3' => (float)($riwayat->c3 ?? 0.70),
-                            'C4' => (float)($riwayat->c4 ?? 0.50),
+                            'c1_rasio_kk' => round((float) ($riwayat->c1 ?? 0.50) * 100, 1),
+                            'c2_proporsi_rentan' => round((float) ($riwayat->c2 ?? 0.15) * 100, 1),
+                            'c3_hari_tanpa_air' => round((float) ($riwayat->c3 ?? 0.70) * 100, 1),
+                            'c4_jarak_sumber' => round((float) ($riwayat->c4 ?? 0.50) * 100, 1),
                         ],
                         'surat_kades' => $p->suratKepalaDesa?->path_file,
                         'foto_lapangan' => $p->fotoKondisi->first()?->path_file,
@@ -73,8 +76,8 @@ class VerifikasiController extends Controller
         }
 
         // Query antrean pengajuan diurutkan dari skor AHP-SAW tertinggi ke terendah
-        // Memastikan hanya permohonan yang berkategori KRITIS & WASPADA (Skor >= 40.00) yang tampil di antrean verifikasi BPBD
-        $query = Permohonan::with('desa')->where('skor_ahp_saw', '>=', 40.00);
+        // Memastikan hanya permohonan yang berkategori KRITIS & WASPADA (Skor >= 30.00) yang tampil di antrean verifikasi BPBD
+        $query = Permohonan::with('desa')->where('skor_ahp_saw', '>=', $ambangWaspada);
 
         // Filter status jika ada
         if ($request->filled('status')) {
@@ -99,12 +102,12 @@ class VerifikasiController extends Controller
         // KUNCI PBI-010: Terurut otomatis dari skor prioritas tertinggi ke terendah
         $antrean = $query->orderBy('skor_ahp_saw', 'desc')->get();
 
-        // Kartu ringkasan metrik verifikasi (hanya menghitung yang lolos skrining >= 40.00)
+        // Kartu ringkasan metrik verifikasi (hanya menghitung yang lolos skrining >= 30.00)
         $ringkasan = [
-            'total_pengajuan' => Permohonan::where('skor_ahp_saw', '>=', 40.00)->count(),
-            'menunggu_verifikasi' => Permohonan::where('skor_ahp_saw', '>=', 40.00)->where('status', 'Menunggu Verifikasi')->count(),
-            'disetujui' => Permohonan::where('skor_ahp_saw', '>=', 40.00)->where('status', 'Disetujui')->count(),
-            'perlu_tindak_lanjut' => Permohonan::where('skor_ahp_saw', '>=', 40.00)->whereIn('status', ['Revisi', 'Ditolak'])->count(),
+            'total_pengajuan' => Permohonan::where('skor_ahp_saw', '>=', $ambangWaspada)->count(),
+            'menunggu_verifikasi' => Permohonan::where('skor_ahp_saw', '>=', $ambangWaspada)->where('status', 'Menunggu Verifikasi')->count(),
+            'disetujui' => Permohonan::where('skor_ahp_saw', '>=', $ambangWaspada)->where('status', 'Disetujui')->count(),
+            'perlu_tindak_lanjut' => Permohonan::where('skor_ahp_saw', '>=', $ambangWaspada)->whereIn('status', ['Revisi', 'Ditolak'])->count(),
         ];
 
         return view('verifikasi.index', compact('antrean', 'ringkasan'));
@@ -116,7 +119,7 @@ class VerifikasiController extends Controller
     public function show($id)
     {
         $permohonan = Permohonan::with(['desa', 'keputusanPermohonans.user'])
-            ->where('skor_ahp_saw', '>=', 40.00)
+            ->where('skor_ahp_saw', '>=', CekKelayakanService::AMBANG_WASPADA)
             ->findOrFail($id);
 
         return view('verifikasi.show', compact('permohonan'));
@@ -144,7 +147,10 @@ class VerifikasiController extends Controller
         ]);
 
         // Verifikator BPBD (fallback jika belum login dengan session)
-        $userId = auth()->id() ?? User::where('email', 'admin@bpbd.purbalinggakab.go.id')->value('id') ?? User::first()?->id;
+        $userId = auth()->id()
+            ?? User::where('username', 'admin_bpbd')->value('id')
+            ?? User::where('role', 'bpbd')->value('id')
+            ?? User::first()?->id;
 
         // Tentukan volume air disetujui (default: jumlah tangki * 5.000 liter standar tangki BPBD Purbalingga)
         $volumeAir = null;

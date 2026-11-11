@@ -13,7 +13,7 @@ Route::get('/', function () {
     if (auth()->check()) {
         $user = auth()->user();
         return match ($user->role) {
-            'bpbd' => redirect()->route('verifikasi.index'),
+            'bpbd' => redirect()->route('admin.dashboard'),
             'penyalur' => redirect()->route('penyalur.dashboard'),
             default => redirect()->route('desa.dashboard'),
         };

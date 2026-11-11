@@ -40,7 +40,7 @@
                     </span>
                     <ul class="space-y-1 text-xs font-semibold">
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
+                            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
                                 <i class="fa-solid fa-chart-pie w-4 text-center text-slate-400"></i>
                                 <span>Dashboard Statistik</span>
                             </a>
@@ -84,7 +84,7 @@
                     </span>
                     <ul class="space-y-1 text-xs font-semibold">
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
+                            <a href="{{ route('admin.desa.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
                                 <i class="fa-solid fa-building-columns w-4 text-center text-slate-400"></i>
                                 <span>Data Acuan Desa</span>
                             </a>
@@ -318,6 +318,17 @@
                         <i class="fa-solid fa-paperclip text-slate-600"></i> Berkas Lampiran Pendukung Resmi
                     </h3>
 
+                    @php
+                        $suratPath = $permohonan->surat_kades;
+                        $suratIsUrl = $suratPath && \Illuminate\Support\Str::startsWith($suratPath, ['http://', 'https://']);
+                        $suratExists = $suratPath && !$suratIsUrl && \Illuminate\Support\Facades\Storage::disk('public')->exists($suratPath);
+                        $suratUrl = $suratIsUrl ? $suratPath : ($suratExists ? \Illuminate\Support\Facades\Storage::url($suratPath) : null);
+
+                        $fotoPath = $permohonan->foto_lapangan;
+                        $fotoIsUrl = $fotoPath && \Illuminate\Support\Str::startsWith($fotoPath, ['http://', 'https://']);
+                        $fotoUrl = $fotoPath ? ($fotoIsUrl ? $fotoPath : \Illuminate\Support\Facades\Storage::url($fotoPath)) : null;
+                    @endphp
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Surat Kades -->
                         <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50 flex flex-col justify-between">
@@ -328,11 +339,15 @@
                                 </div>
                                 <p class="text-xs text-slate-500">Dokumen surat keterangan resmi yang telah ditandatangani dan dicap stempel desa.</p>
                             </div>
-                            <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
-                                <span class="text-[11px] text-slate-400 font-mono">{{ $permohonan->surat_kades ?? 'surat_resmi.pdf' }}</span>
-                                <span class="px-2.5 py-1 bg-white border border-slate-300 rounded text-xs font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer">
-                                    <i class="fa-solid fa-eye mr-1"></i> Periksa Surat
-                                </span>
+                            <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between gap-2">
+                                <span class="text-[11px] text-slate-400 font-mono truncate">{{ $suratPath ? basename($suratPath) : 'Belum diunggah' }}</span>
+                                @if($suratUrl)
+                                    <a href="{{ $suratUrl }}" target="_blank" class="px-2.5 py-1 bg-white border border-slate-300 rounded text-xs font-semibold text-slate-700 hover:bg-slate-100 shrink-0">
+                                        <i class="fa-solid fa-eye mr-1"></i> Periksa Surat
+                                    </a>
+                                @else
+                                    <span class="text-xs text-slate-400 shrink-0">Belum tersedia</span>
+                                @endif
                             </div>
                         </div>
 
@@ -347,8 +362,8 @@
                             </div>
                             <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
                                 <span class="text-[11px] text-slate-400">Bukti Lapangan</span>
-                                @if($permohonan->foto_lapangan)
-                                    <a href="{{ $permohonan->foto_lapangan }}" target="_blank" class="px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-semibold hover:bg-blue-700">
+                                @if($fotoUrl)
+                                    <a href="{{ $fotoUrl }}" target="_blank" class="px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-semibold hover:bg-blue-700">
                                         <i class="fa-solid fa-up-right-from-square mr-1"></i> Lihat Foto Penuh
                                     </a>
                                 @else
@@ -358,9 +373,9 @@
                         </div>
                     </div>
 
-                    @if($permohonan->foto_lapangan)
+                    @if($fotoUrl)
                         <div class="mt-4 rounded-xl overflow-hidden border border-slate-200 max-h-72 bg-slate-900">
-                            <img src="{{ $permohonan->foto_lapangan }}" alt="Foto Dokumentasi Lapangan" class="w-full h-72 object-cover hover:opacity-95 transition">
+                            <img src="{{ $fotoUrl }}" alt="Foto Dokumentasi Lapangan" class="w-full h-72 object-cover hover:opacity-95 transition">
                         </div>
                     @endif
                 </div>
@@ -385,7 +400,7 @@
                                             <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
                                                 <i class="fa-solid fa-user-check"></i>
                                             </div>
-                                            <span class="text-sm font-bold text-slate-800">{{ $log->user->name ?? 'Petugas Verifikator BPBD' }}</span>
+                                            <span class="text-sm font-bold text-slate-800">{{ $log->user?->name ?? $log->user?->username ?? 'Petugas Verifikator BPBD' }}</span>
                                         </div>
                                         <span class="text-xs text-slate-400 flex items-center gap-1">
                                             <i class="fa-regular fa-clock"></i>
@@ -435,14 +450,21 @@
             <div class="space-y-6">
 
                 <!-- Kartu Skor AHP-SAW (KUNCI PBI-010) -->
+                @php
+                    $rc = is_array($permohonan->rincian_kriteria) ? $permohonan->rincian_kriteria : [];
+                    $c1Val = $rc['c1_rasio_kk'] ?? (isset($rc['C1']) ? round((float) $rc['C1'] * 100, 1) : 0);
+                    $c2Val = $rc['c2_proporsi_rentan'] ?? (isset($rc['C2']) ? round((float) $rc['C2'] * 100, 1) : 0);
+                    $c3Val = $rc['c3_hari_tanpa_air'] ?? (isset($rc['C3']) ? round((float) $rc['C3'] * 100, 1) : 0);
+                    $c4Val = $rc['c4_jarak_sumber'] ?? (isset($rc['C4']) ? round((float) $rc['C4'] * 100, 1) : 0);
+                @endphp
                 <div class="bg-gradient-to-br from-blue-900 to-indigo-950 text-white rounded-2xl p-6 shadow-lg border border-blue-800">
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <span class="text-xs uppercase font-bold tracking-wider text-blue-300 block">Hasil Penilaian SPK</span>
-                            <span class="text-[10px] text-cyan-300 font-medium"><i class="fa-solid fa-circle-check mr-1"></i>Lolos Skrining F-02 (&ge; 40.00)</span>
+                            <span class="text-[10px] text-cyan-300 font-medium"><i class="fa-solid fa-circle-check mr-1"></i>Lolos Skrining F-02 (&ge; 30.00)</span>
                         </div>
-                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold {{ $permohonan->skor_ahp_saw >= 70 ? 'bg-rose-500 text-white' : ($permohonan->skor_ahp_saw >= 40 ? 'bg-amber-400 text-slate-900' : 'bg-emerald-400 text-slate-900') }}">
-                            {{ $permohonan->skor_ahp_saw >= 70 ? 'KRITIS' : ($permohonan->skor_ahp_saw >= 40 ? 'WASPADA' : 'AMAN') }}
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold {{ $permohonan->skor_ahp_saw >= 60 ? 'bg-rose-500 text-white' : ($permohonan->skor_ahp_saw >= 30 ? 'bg-amber-400 text-slate-900' : 'bg-emerald-400 text-slate-900') }}">
+                            {{ $permohonan->skor_ahp_saw >= 60 ? 'KRITIS' : ($permohonan->skor_ahp_saw >= 30 ? 'WASPADA' : 'AMAN') }}
                         </span>
                     </div>
 
@@ -453,7 +475,7 @@
                         <span class="text-xs text-blue-200 mt-1 block">Skor Prioritas Akhir (0 - 100)</span>
                     </div>
 
-                                        <!-- Breakdown 4 Kriteria AHP-SAW Berbobot Baku -->
+                    <!-- Breakdown 4 Kriteria AHP-SAW Berbobot Baku -->
                     <div class="mt-4 space-y-2 text-xs">
                         <div class="flex items-center justify-between mb-2">
                             <p class="font-semibold text-blue-200 uppercase tracking-wider text-[11px]">Rincian 4 Kriteria (AHP-SAW):</p>
@@ -466,7 +488,7 @@
                                 <span class="font-bold text-white block">C1: Rasio KK Terdampak</span>
                                 <span class="text-[10px] text-blue-300">Bobot Baku: 50,47% &bull; Inklusi Komunal</span>
                             </div>
-                            <span class="font-extrabold text-base text-cyan-200">{{ $permohonan->rincian_kriteria['c1_rasio_kk'] ?? 0 }}%</span>
+                            <span class="font-extrabold text-base text-cyan-200">{{ $c1Val }}%</span>
                         </div>
 
                         <!-- C3: 30.26% -->
@@ -475,7 +497,7 @@
                                 <span class="font-bold text-white block">C3: Hari Tanpa Air</span>
                                 <span class="text-[10px] text-blue-300">Bobot Baku: 30,26% &bull; Maks. 7 Hari</span>
                             </div>
-                            <span class="font-extrabold text-base text-cyan-200">{{ $permohonan->rincian_kriteria['c3_hari_tanpa_air'] ?? 0 }}%</span>
+                            <span class="font-extrabold text-base text-cyan-200">{{ $c3Val }}%</span>
                         </div>
 
                         <!-- C4: 11.00% -->
@@ -484,7 +506,7 @@
                                 <span class="font-bold text-white block">C4: Jarak ke Sumber Air</span>
                                 <span class="text-[10px] text-blue-300">Bobot Baku: 11,00% &bull; Maks. 2.000 m</span>
                             </div>
-                            <span class="font-extrabold text-base text-cyan-200">{{ $permohonan->rincian_kriteria['c4_jarak_sumber'] ?? 0 }}%</span>
+                            <span class="font-extrabold text-base text-cyan-200">{{ $c4Val }}%</span>
                         </div>
 
                         <!-- C2: 8.26% -->
@@ -493,19 +515,19 @@
                                 <span class="font-bold text-white block">C2: Proporsi Jiwa Rentan</span>
                                 <span class="text-[10px] text-blue-300">Bobot Baku: 8,26% &bull; Balita, Lansia, Disabilitas</span>
                             </div>
-                            <span class="font-extrabold text-base text-cyan-200">{{ $permohonan->rincian_kriteria['c2_proporsi_rentan'] ?? 0 }}%</span>
+                            <span class="font-extrabold text-base text-cyan-200">{{ $c2Val }}%</span>
                         </div>
                     </div>
 
                     <div class="mt-5 p-3 rounded-xl bg-blue-800/50 border border-blue-700 text-xs text-blue-100">
                         <i class="fa-solid fa-lightbulb text-amber-300 mr-1.5"></i>
-                        @if($permohonan->skor_ahp_saw >= 70)
-                            <strong>Rekomendasi Sistem (70 - 100):</strong> Segera disetujui untuk alokasi pengiriman truk tangki darurat (KRITIS).
+                        @if($permohonan->skor_ahp_saw >= 60)
+                            <strong>Rekomendasi Sistem (60 - 100):</strong> Segera disetujui untuk alokasi pengiriman truk tangki darurat (KRITIS).
                         @else
-                            <strong>Rekomendasi Sistem (40 - 69.99):</strong> Dijadwalkan untuk pengiriman tahap kedua setelah telaah berkas (WASPADA).
+                            <strong>Rekomendasi Sistem (30 - 59.99):</strong> Dijadwalkan untuk pengiriman tahap kedua setelah telaah berkas (WASPADA).
                         @endif
                         <span class="block text-[11px] text-blue-300/80 mt-1 pt-1 border-t border-blue-700/60">
-                            *Status AMAN (&lt; 40.00) telah otomatis dicegat di F-02 dan tidak masuk antrean verifikasi BPBD.
+                            *Status AMAN (&lt; 30.00) telah otomatis dicegat di F-02 dan tidak masuk antrean verifikasi BPBD.
                         </span>
                     </div>
                 </div>

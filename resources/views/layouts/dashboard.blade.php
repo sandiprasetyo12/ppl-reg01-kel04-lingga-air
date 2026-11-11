@@ -36,6 +36,11 @@
                 'route' => route('cek-kelayakan.index'),
                 'active' => request()->routeIs('cek-kelayakan.*'),
             ],
+            [
+                'label' => 'Pengajuan Bantuan',
+                'route' => route('pengajuan.index'),
+                'active' => request()->routeIs('pengajuan.*'),
+            ],
         ];
     } elseif ($currentUser && $currentUser->isPenyalur()) {
         $roleLabel = 'Mitra Penyalur';

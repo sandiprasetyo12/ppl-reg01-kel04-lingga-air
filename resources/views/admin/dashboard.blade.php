@@ -11,16 +11,24 @@
                 Selamat Datang, {{ auth()->user()->username }}
             </h2>
             <p class="text-sm text-[#52525b]">
-                Anda masuk sebagai Admin BPBD. Gunakan menu di bawah ini untuk mengelola master data desa.
+                Anda masuk sebagai Admin BPBD. Kelola antrean verifikasi pengajuan bantuan air bersih atau perbarui master data desa.
             </p>
         </div>
 
-        <a
-            href="{{ route('admin.desa.index') }}"
-            class="min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-[#1b1b18] hover:bg-black text-white text-sm font-medium rounded-md transition shrink-0"
-        >
-            Kelola Master Data Desa
-        </a>
+        <div class="flex flex-wrap items-center gap-3 shrink-0">
+            <a
+                href="{{ route('verifikasi.index') }}"
+                class="min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-[#1b1b18] hover:bg-black text-white text-sm font-medium rounded-md transition"
+            >
+                Buka Antrean Verifikasi
+            </a>
+            <a
+                href="{{ route('admin.desa.index') }}"
+                class="min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-white border border-[#d1d5db] hover:bg-[#f5f5f4] text-[#1b1b18] text-sm font-medium rounded-md transition"
+            >
+                Kelola Master Data Desa
+            </a>
+        </div>
     </section>
 </div>
 @endsection
