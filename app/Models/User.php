@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -39,7 +38,7 @@ class User extends Authenticatable
         return $this->hasOne(Penyalur::class);
     }
 
-    //helper untuk cek role
+    // helper untuk cek role
     public function IsDesa(): bool
     {
         return $this->role === 'desa';
@@ -58,38 +57,50 @@ class User extends Authenticatable
     // Helper untuk mengecek apakah user sudah selesai onboarding
     public function hasCompletedOnboarding(): bool
     {
-        //jika belum ada role
+        // jika belum ada role
         if (is_null($this->role)) {
             return false;
         }
 
-        //bpbd selalu dianggap sudah selesai onboarding
+        // bpbd selalu dianggap sudah selesai onboarding
         if ($this->IsBpbd()) {
             return true;
         }
 
-        //jika role desa, cek apakah sudah ada data desa
+        // jika role desa, cek apakah sudah ada data desa
         if ($this->IsDesa()) {
-            return $this->desa()->exists();
+            return $this->desa()
+                ->whereNotNull('jumlah_kk_total')
+                ->where('jumlah_kk_total', '>', 0)
+                ->whereNotNull('jumlah_jiwa_total')
+                ->where('jumlah_jiwa_total', '>', 0)
+                ->whereNotNull('jumlah_balita')
+                ->where('jumlah_balita', '>=', 0)
+                ->whereNotNull('jumlah_lansia')
+                ->where('jumlah_lansia', '>=', 0)
+                ->whereNotNull('jumlah_disabilitas')
+                ->where('jumlah_disabilitas', '>=', 0)
+                ->whereRaw('(jumlah_balita + jumlah_lansia + jumlah_disabilitas) <= jumlah_jiwa_total')
+                ->exists();
         }
 
-        //jika role penyalur, cek apakah sudah ada data penyalur
+        // jika role penyalur, cek apakah sudah ada data penyalur
         if ($this->IsPenyalur()) {
-            return $this->penyalur()->exists(); 
+            return $this->penyalur()->exists();
         }
 
         return false;
     }
 
-    //cek status onboarding
+    // cek status onboarding
     public function currentOnboardingStatus(): string
     {
-        //jika belum ada role, redirect ke halaman pilih role
+        // jika belum ada role, redirect ke halaman pilih role
         if (is_null($this->role)) {
             return 'role';
         }
 
-        //sudah pilih role tapi belum isi profile, redirect ke halaman profile
+        // sudah pilih role tapi belum isi profile, redirect ke halaman profile
         return 'profile';
     }
 
