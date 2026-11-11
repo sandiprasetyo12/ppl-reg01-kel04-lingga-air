@@ -104,13 +104,19 @@
                     <p class="text-[10px] text-slate-500 truncate">admin@bpbd.purbalinggakab.go.id</p>
                 </div>
             </div>
-            <div class="mt-2.5 pt-2 border-t border-[#cae4ef] flex items-center justify-between text-[10px] text-slate-500">
+                        <div class="mt-2.5 pt-2 border-t border-[#cae4ef] flex items-center justify-between text-[10px] text-slate-500">
                 <span class="flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Online
                 </span>
-                <span class="font-mono text-slate-400">v1.2-sprint1</span>
+                
+                <!-- Tombol Logout -->
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="text-rose-600 hover:text-rose-800 font-semibold flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+                    </button>
+                </form>
             </div>
-        </div>
     </aside>
 
     <!-- ==================== MAIN CONTENT AREA ==================== -->
