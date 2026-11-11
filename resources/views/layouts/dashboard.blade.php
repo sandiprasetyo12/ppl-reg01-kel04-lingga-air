@@ -12,7 +12,7 @@
                 'active' => request()->routeIs('admin.dashboard'),
             ],
             [
-                'label' => 'Verifikasi Pengajuan (F-04)',
+                'label' => 'Verifikasi Pengajuan',
                 'route' => route('verifikasi.index'),
                 'active' => request()->routeIs('verifikasi.*'),
             ],

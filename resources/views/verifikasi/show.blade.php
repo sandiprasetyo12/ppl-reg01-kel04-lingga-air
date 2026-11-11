@@ -11,83 +11,81 @@
 <body class="bg-slate-100 text-slate-800 min-h-screen antialiased flex flex-col lg:flex-row">
 
     <!-- ==================== SIDEBAR KIRI (ADMIN BPBD) ==================== -->
-    <aside class="w-full lg:w-64 bg-slate-900 text-slate-300 flex flex-col justify-between shrink-0 border-r border-slate-800 shadow-xl z-20">
+     <aside class="w-full lg:w-64 bg-white text-slate-700 flex flex-col justify-between shrink-0 border-r border-slate-200 z-20">
         <div>
-            <!-- Logo & Brand Header -->
-            <div class="p-6 border-b border-slate-800/80">
+            <!-- 1. Logo & Brand Header -->
+            <div class="p-6 border-b border-slate-100">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/30">
+                    <div class="w-10 h-10 rounded-xl bg-[#086288] flex items-center justify-center font-bold text-white shadow-md shadow-[#086288]/20">
                         <i class="fa-solid fa-droplet text-lg"></i>
                     </div>
                     <div>
-                        <span class="font-extrabold text-white text-base tracking-wide block">Lingga Air</span>
-                        <span class="text-[11px] text-blue-300 block font-medium">BPBD Kab. Purbalingga</span>
+                        <span class="font-extrabold text-slate-900 text-base tracking-tight block">Lingga Air</span>
+                        <span class="text-[11px] text-[#086288] block font-semibold">BPBD Kab. Purbalingga</span>
                     </div>
                 </div>
                 <div class="mt-3">
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-950/80 text-cyan-300 border border-blue-800/60">
-                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#f0f8fb] text-[#086288] border border-[#cae4ef]">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#086288] animate-pulse"></span>
                         Portal Verifikator
                     </span>
                 </div>
             </div>
-
-            <!-- Navigation Links -->
+            <!-- 2. Navigation Links -->
             <nav class="p-4 space-y-6">
-                <!-- Group 1: Menu Operasional -->
+                <!-- Group 1: Menu Operasional BPBD -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
                         Menu Utama BPBD
                     </span>
-                    <ul class="space-y-1.5 text-xs font-semibold">
+                    <ul class="space-y-1 text-xs font-semibold">
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-                                <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
+                                <i class="fa-solid fa-chart-pie w-4 text-center text-slate-400"></i>
                                 <span>Dashboard Statistik</span>
                             </a>
                         </li>
                         <li>
-                            <!-- Active Menu (F-04) -->
-                            <a href="{{ route('verifikasi.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-blue-600 text-white shadow-md shadow-blue-600/30 transition">
+                            <!-- Active Menu Fitur 4 (Verifikasi Pengajuan) -->
+                            <a href="{{ route('verifikasi.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#086288] text-white shadow-sm font-bold transition">
                                 <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-clipboard-check w-4 text-center text-cyan-200"></i>
+                                    <i class="fa-solid fa-clipboard-check w-4 text-center text-white"></i>
                                     <span>Verifikasi Pengajuan</span>
                                 </div>
-                                <span class="bg-blue-800 text-blue-100 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                                    Aktif
+                                <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                    {{ $ringkasan['menunggu_verifikasi'] ?? 0 }}
                                 </span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-                                <i class="fa-solid fa-truck-droplet w-4 text-center"></i>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
+                                <i class="fa-solid fa-truck-droplet w-4 text-center text-slate-400"></i>
                                 <span>Penugasan Armada</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-                                <i class="fa-solid fa-map-location-dot w-4 text-center"></i>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
+                                <i class="fa-solid fa-map-location-dot w-4 text-center text-slate-400"></i>
                                 <span>Peta Sebaran (GIS)</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-                                <i class="fa-solid fa-file-invoice w-4 text-center"></i>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
+                                <i class="fa-solid fa-file-invoice w-4 text-center text-slate-400"></i>
                                 <span>Laporan Penyaluran</span>
                             </a>
                         </li>
                     </ul>
                 </div>
-
                 <!-- Group 2: Master Data Wilayah -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-2">
+                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
                         Data Master
                     </span>
-                    <ul class="space-y-1.5 text-xs font-semibold">
+                    <ul class="space-y-1 text-xs font-semibold">
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/70 transition">
-                                <i class="fa-solid fa-building-columns w-4 text-center"></i>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
+                                <i class="fa-solid fa-building-columns w-4 text-center text-slate-400"></i>
                                 <span>Data Acuan Desa</span>
                             </a>
                         </li>
@@ -95,23 +93,22 @@
                 </div>
             </nav>
         </div>
-
-        <!-- Sidebar Footer: Profil Petugas BPBD -->
-        <div class="p-4 border-t border-slate-800/80 bg-slate-950/40 m-2 rounded-xl">
+        <!-- 3. Sidebar Footer: Profil Petugas BPBD -->
+        <div class="m-3 p-3.5 bg-[#f0f8fb] border border-[#cae4ef] rounded-xl">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-blue-700 text-white flex items-center justify-center font-bold text-xs ring-2 ring-blue-500/50">
+                <div class="w-9 h-9 rounded-full bg-[#086288] text-white flex items-center justify-center font-bold text-xs shadow-sm">
                     BP
                 </div>
                 <div class="overflow-hidden">
-                    <p class="text-xs font-bold text-white truncate">Petugas Verifikator</p>
-                    <p class="text-[10px] text-slate-400 truncate">admin@bpbd.purbalinggakab.go.id</p>
+                    <p class="text-xs font-bold text-slate-800 truncate">Petugas Verifikator</p>
+                    <p class="text-[10px] text-slate-500 truncate">admin@bpbd.purbalinggakab.go.id</p>
                 </div>
             </div>
-            <div class="mt-2.5 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-400">
+            <div class="mt-2.5 pt-2 border-t border-[#cae4ef] flex items-center justify-between text-[10px] text-slate-500">
                 <span class="flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Online
                 </span>
-                <span class="font-mono text-slate-500">v1.2-sprint1</span>
+                <span class="font-mono text-slate-400">v1.2-sprint1</span>
             </div>
         </div>
     </aside>
@@ -456,25 +453,47 @@
                         <span class="text-xs text-blue-200 mt-1 block">Skor Prioritas Akhir (0 - 100)</span>
                     </div>
 
-                    <!-- Breakdown 4 Kriteria AHP-SAW -->
-                    <div class="mt-4 space-y-2.5 text-xs">
-                        <p class="font-semibold text-blue-200 uppercase tracking-wider text-[11px] mb-2">Rincian Nilai 4 Kriteria (AHP-SAW):</p>
+                                        <!-- Breakdown 4 Kriteria AHP-SAW Berbobot Baku -->
+                    <div class="mt-4 space-y-2 text-xs">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="font-semibold text-blue-200 uppercase tracking-wider text-[11px]">Rincian 4 Kriteria (AHP-SAW):</p>
+                            <span class="text-[10px] text-cyan-300 font-mono">SDG 10.2 &bull; 10.3</span>
+                        </div>
                         
-                        <div class="flex justify-between items-center bg-blue-800/40 p-2 rounded-lg">
-                            <span class="text-slate-200">C1: Rasio KK Terdampak</span>
-                            <span class="font-bold text-white">{{ $permohonan->rincian_kriteria['c1_rasio_kk'] ?? 0 }}%</span>
+                        <!-- C1: 50.47% -->
+                        <div class="flex justify-between items-center bg-blue-800/40 p-2.5 rounded-lg border border-blue-700/50">
+                            <div>
+                                <span class="font-bold text-white block">C1: Rasio KK Terdampak</span>
+                                <span class="text-[10px] text-blue-300">Bobot Baku: 50,47% &bull; Inklusi Komunal</span>
+                            </div>
+                            <span class="font-extrabold text-base text-cyan-200">{{ $permohonan->rincian_kriteria['c1_rasio_kk'] ?? 0 }}%</span>
                         </div>
-                        <div class="flex justify-between items-center bg-blue-800/40 p-2 rounded-lg">
-                            <span class="text-slate-200">C2: Proporsi Jiwa Rentan</span>
-                            <span class="font-bold text-white">{{ $permohonan->rincian_kriteria['c2_proporsi_rentan'] ?? 0 }}%</span>
+
+                        <!-- C3: 30.26% -->
+                        <div class="flex justify-between items-center bg-blue-800/40 p-2.5 rounded-lg border border-blue-700/50">
+                            <div>
+                                <span class="font-bold text-white block">C3: Hari Tanpa Air</span>
+                                <span class="text-[10px] text-blue-300">Bobot Baku: 30,26% &bull; Maks. 7 Hari</span>
+                            </div>
+                            <span class="font-extrabold text-base text-cyan-200">{{ $permohonan->rincian_kriteria['c3_hari_tanpa_air'] ?? 0 }}%</span>
                         </div>
-                        <div class="flex justify-between items-center bg-blue-800/40 p-2 rounded-lg">
-                            <span class="text-slate-200">C3: Hari Tanpa Air (Maks 7 Hari)</span>
-                            <span class="font-bold text-white">{{ $permohonan->rincian_kriteria['c3_hari_tanpa_air'] ?? 0 }}%</span>
+
+                        <!-- C4: 11.00% -->
+                        <div class="flex justify-between items-center bg-blue-800/40 p-2.5 rounded-lg border border-blue-700/50">
+                            <div>
+                                <span class="font-bold text-white block">C4: Jarak ke Sumber Air</span>
+                                <span class="text-[10px] text-blue-300">Bobot Baku: 11,00% &bull; Maks. 2.000 m</span>
+                            </div>
+                            <span class="font-extrabold text-base text-cyan-200">{{ $permohonan->rincian_kriteria['c4_jarak_sumber'] ?? 0 }}%</span>
                         </div>
-                        <div class="flex justify-between items-center bg-blue-800/40 p-2 rounded-lg">
-                            <span class="text-slate-200">C4: Jarak Sumber (Maks 2.000 m)</span>
-                            <span class="font-bold text-white">{{ $permohonan->rincian_kriteria['c4_jarak_sumber'] ?? 0 }}%</span>
+
+                        <!-- C2: 8.26% -->
+                        <div class="flex justify-between items-center bg-blue-800/40 p-2.5 rounded-lg border border-blue-700/50">
+                            <div>
+                                <span class="font-bold text-white block">C2: Proporsi Jiwa Rentan</span>
+                                <span class="text-[10px] text-blue-300">Bobot Baku: 8,26% &bull; Balita, Lansia, Disabilitas</span>
+                            </div>
+                            <span class="font-extrabold text-base text-cyan-200">{{ $permohonan->rincian_kriteria['c2_proporsi_rentan'] ?? 0 }}%</span>
                         </div>
                     </div>
 
