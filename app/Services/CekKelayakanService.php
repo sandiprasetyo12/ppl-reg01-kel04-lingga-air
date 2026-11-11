@@ -9,13 +9,13 @@ class CekKelayakanService
     /**
      * Ambang batas status kelayakan berdasarkan skor 0–100.
      *
-     * - Aman    :  0 – 39,99  → kondisi terkendali
-     * - Waspada : 40 – 69,99  → mulai terdampak, siapkan pengajuan
-     * - Kritis  : 70 – 100    → darurat, segera ajukan bantuan
+     * - Aman    :  0 – 29,99 → kondisi terkendali
+     * - Waspada : 30 – 59,99 → mulai terdampak, siapkan pengajuan
+     * - Kritis  : 60 – 100   → darurat, segera ajukan bantuan
      */
-    public const AMBANG_KRITIS = 70.0;
+    public const AMBANG_KRITIS = 60.0;
 
-    public const AMBANG_WASPADA = 40.0;
+    public const AMBANG_WASPADA = 30.0;
 
     /**
      * @return array{
@@ -51,6 +51,7 @@ class CekKelayakanService
             + $weights['c3'] * $c3
             + $weights['c4'] * $c4
         ) * 100;
+        $roundedScore = round($score, 2);
 
         return [
             'c1' => $c1,
@@ -59,8 +60,8 @@ class CekKelayakanService
             'c4' => $c4,
             'weights' => $weights,
             'consistency_ratio' => $consistencyRatio,
-            'score' => round($score, 2),
-            'status' => $this->getStatus($score),
+            'score' => $roundedScore,
+            'status' => $this->getStatus($roundedScore),
         ];
     }
 
