@@ -11,11 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Panggil seeder master desa Purbalingga
+        // Panggil seeder master desa Purbalingga dan seeder akun admin BPBD
         $this->call([DesaSeeder::class]);
-
-        if (app()->environment(['local', 'testing'])) {
-            $this->call([DesaDemografiDummySeeder::class]);
-        }
+        $this->call([BpbdAdminSeeder::class]);
     }
 }

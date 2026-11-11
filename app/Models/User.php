@@ -2,48 +2,111 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
+        'role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    const UPDATED_AT = null;
+
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function desa()
+    {
+        return $this->hasOne(Desa::class);
+    }
+
+    public function penyalur()
+    {
+        return $this->hasOne(Penyalur::class);
+    }
+
+    // helper untuk cek role
+    public function IsDesa(): bool
+    {
+        return $this->role === 'desa';
+    }
+
+    public function IsBpbd(): bool
+    {
+        return $this->role === 'bpbd';
+    }
+
+    public function IsPenyalur(): bool
+    {
+        return $this->role === 'penyalur';
+    }
+
+    // Helper untuk mengecek apakah user sudah selesai onboarding
+    public function hasCompletedOnboarding(): bool
+    {
+        // jika belum ada role
+        if (is_null($this->role)) {
+            return false;
+        }
+
+        // bpbd selalu dianggap sudah selesai onboarding
+        if ($this->IsBpbd()) {
+            return true;
+        }
+
+        // jika role desa, cek apakah sudah ada data desa
+        if ($this->IsDesa()) {
+            return $this->desa()
+                ->whereNotNull('jumlah_kk_total')
+                ->where('jumlah_kk_total', '>', 0)
+                ->whereNotNull('jumlah_jiwa_total')
+                ->where('jumlah_jiwa_total', '>', 0)
+                ->whereNotNull('jumlah_balita')
+                ->where('jumlah_balita', '>=', 0)
+                ->whereNotNull('jumlah_lansia')
+                ->where('jumlah_lansia', '>=', 0)
+                ->whereNotNull('jumlah_disabilitas')
+                ->where('jumlah_disabilitas', '>=', 0)
+                ->whereRaw('(jumlah_balita + jumlah_lansia + jumlah_disabilitas) <= jumlah_jiwa_total')
+                ->exists();
+        }
+
+        // jika role penyalur, cek apakah sudah ada data penyalur
+        if ($this->IsPenyalur()) {
+            return $this->penyalur()->exists();
+        }
+
+        return false;
+    }
+
+    // cek status onboarding
+    public function currentOnboardingStatus(): string
+    {
+        // jika belum ada role, redirect ke halaman pilih role
+        if (is_null($this->role)) {
+            return 'role';
+        }
+
+        // sudah pilih role tapi belum isi profile, redirect ke halaman profile
+        return 'profile';
+    }
+
+    // Alias agar sinkron dengan pemanggilan di AuthController & OnboardingMiddleware
+    public function currentOnboardingStep(): string
+    {
+        return $this->currentOnboardingStatus();
     }
 }

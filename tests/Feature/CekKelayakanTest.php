@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Desa;
 use App\Models\RiwayatCekKelayakan;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,18 +14,62 @@ class CekKelayakanTest extends TestCase
 
     private string $testKodeDesa;
 
-    public function test_it_displays_the_manual_simulation_form_without_requiring_desa_data(): void
+    public function test_eligibility_form_requires_a_logged_in_desa_account(): void
     {
+        $this->get(route('cek-kelayakan.index'))
+            ->assertRedirect(route('login'));
+    }
+
+    public function test_desa_dashboard_provides_a_link_to_eligibility_check(): void
+    {
+        $this->villageInput([
+            'jumlah_kk_total' => 100,
+            'jumlah_jiwa_total' => 400,
+            'jumlah_balita' => 20,
+            'jumlah_lansia' => 30,
+            'jumlah_disabilitas' => 4,
+            'kk_terdampak' => 0,
+            'hari_tanpa_air' => 0,
+            'jarak_sumber_meter' => 0,
+        ]);
+
+        $response = $this->get(route('desa.dashboard'));
+
+        $response
+            ->assertOk()
+            ->assertSee('Periksa kelayakan bantuan air bersih')
+            ->assertSee('Mulai Cek Kelayakan');
+
+        $this->assertSame(
+            2,
+            substr_count($response->getContent(), 'href="'.route('cek-kelayakan.index').'"'),
+        );
+    }
+
+    public function test_it_displays_the_authenticated_desa_profile_without_identity_selectors(): void
+    {
+        $this->villageInput([
+            'jumlah_kk_total' => 100,
+            'jumlah_jiwa_total' => 400,
+            'jumlah_balita' => 20,
+            'jumlah_lansia' => 30,
+            'jumlah_disabilitas' => 4,
+            'kk_terdampak' => 0,
+            'hari_tanpa_air' => 0,
+            'jarak_sumber_meter' => 0,
+        ]);
+
         $this->get(route('cek-kelayakan.index'))
             ->assertOk()
             ->assertSee('Cek Kelayakan Bantuan Air Bersih')
-            ->assertSee('Data acuan desa')
-            ->assertSee('Nama kecamatan')
-            ->assertSee('Nama desa')
-            ->assertSee('Pilih kecamatan')
-            ->assertSee('Pilih desa')
+            ->assertSee('Profil desa')
+            ->assertSee('Desa Uji')
+            ->assertSee('Kecamatan Uji')
+            ->assertDontSee('id="kecamatan"', false)
+            ->assertDontSee('id="kode_desa"', false)
             ->assertSee('Portal pelayanan desa')
-            ->assertSee('Akun Desa')
+            ->assertSee('desa-test-1')
+            ->assertSee('Desa Uji')
             ->assertSee('Navigasi desa')
             ->assertSee('Pengajuan Bantuan')
             ->assertSee('Status Pengajuan')
@@ -215,39 +260,45 @@ class CekKelayakanTest extends TestCase
         $this->from(route('cek-kelayakan.index'))
             ->post(route('cek-kelayakan.calculate'), $this->villageInput([
                 'jumlah_kk_total' => 10,
-                'jumlah_jiwa_total' => 5,
-                'jumlah_balita' => 3,
-                'jumlah_lansia' => 2,
+                'jumlah_jiwa_total' => 10,
+                'jumlah_balita' => 1,
+                'jumlah_lansia' => 1,
                 'jumlah_disabilitas' => 1,
                 'kk_terdampak' => 11,
                 'hari_tanpa_air' => 0,
                 'jarak_sumber_meter' => 0,
             ]))
             ->assertRedirect(route('cek-kelayakan.index'))
-            ->assertSessionHasErrors(['kk_terdampak', 'jumlah_disabilitas']);
+            ->assertSessionHasErrors(['kk_terdampak']);
     }
 
     public function test_it_rejects_zero_denominators_and_negative_values(): void
     {
         $this->from(route('cek-kelayakan.index'))
             ->post(route('cek-kelayakan.calculate'), $this->villageInput([
-                'jumlah_kk_total' => 0,
-                'jumlah_jiwa_total' => 0,
-                'jumlah_balita' => -1,
-                'jumlah_lansia' => 0,
-                'jumlah_disabilitas' => 0,
-                'kk_terdampak' => 0,
+                'jumlah_kk_total' => 100,
+                'jumlah_jiwa_total' => 400,
+                'jumlah_balita' => 20,
+                'jumlah_lansia' => 30,
+                'jumlah_disabilitas' => 4,
+                'kk_terdampak' => -1,
                 'hari_tanpa_air' => 0,
                 'jarak_sumber_meter' => 0,
             ]))
             ->assertRedirect(route('cek-kelayakan.index'))
-            ->assertSessionHasErrors(['kode_desa']);
+            ->assertSessionHasErrors(['kk_terdampak']);
     }
 
-    public function test_it_rejects_calculation_when_village_population_profile_is_incomplete(): void
+    public function test_incomplete_profile_cannot_open_eligibility_form(): void
     {
+        $user = User::query()->create([
+            'username' => 'desa-incomplete',
+            'password' => 'password',
+            'role' => 'desa',
+        ]);
         Desa::query()->create([
             'kode_desa' => 'TEST-NULL',
+            'user_id' => $user->id,
             'nama_desa' => 'Desa Belum Lengkap',
             'kecamatan' => 'Kecamatan Uji',
             'jumlah_kk_total' => null,
@@ -257,21 +308,12 @@ class CekKelayakanTest extends TestCase
             'jumlah_disabilitas' => null,
         ]);
 
-        $this->from(route('cek-kelayakan.index'))
-            ->post(route('cek-kelayakan.calculate'), [
-                'kecamatan' => 'Kecamatan Uji',
-                'kode_desa' => 'TEST-NULL',
-                'kk_terdampak' => 10,
-                'hari_tanpa_air' => 3,
-                'jarak_sumber_meter' => 500,
-            ])
-            ->assertRedirect(route('cek-kelayakan.index'))
-            ->assertSessionHasErrors([
-                'kode_desa' => 'Data kependudukan desa belum lengkap. Lengkapi profil desa sebelum melakukan pemeriksaan.',
-            ]);
+        $this->actingAs($user)
+            ->get(route('cek-kelayakan.index'))
+            ->assertRedirect(route('onboarding.profile'));
     }
 
-    public function test_it_rejects_a_village_that_does_not_belong_to_the_selected_district(): void
+    public function test_calculation_uses_the_authenticated_village_even_if_another_village_is_submitted(): void
     {
         $input = $this->villageInput([
             'jumlah_kk_total' => 100,
@@ -288,43 +330,40 @@ class CekKelayakanTest extends TestCase
             'nama_desa' => 'Desa Lain',
             'kecamatan' => 'Kecamatan Lain',
         ]);
+        $input['kode_desa'] = 'TEST-OTHER';
         $input['kecamatan'] = 'Kecamatan Lain';
 
-        $this->from(route('cek-kelayakan.index'))
-            ->post(route('cek-kelayakan.calculate'), $input)
-            ->assertRedirect(route('cek-kelayakan.index'))
-            ->assertSessionHasErrors([
-                'kode_desa' => 'Desa yang dipilih tidak sesuai dengan kecamatan.',
-            ]);
+        $this->post(route('cek-kelayakan.calculate'), $input)
+            ->assertOk()
+            ->assertSee('Desa Uji');
+
+        $this->assertDatabaseHas('riwayat_cek_kelayakan', [
+            'kode_desa' => $this->testKodeDesa,
+        ]);
+        $this->assertDatabaseMissing('riwayat_cek_kelayakan', [
+            'kode_desa' => 'TEST-OTHER',
+        ]);
     }
 
-    public function test_it_lists_villages_and_shows_profile_values_as_read_only(): void
+    public function test_it_displays_desa_profile_values_as_disabled_fields(): void
     {
-        Desa::query()->create([
-            'kode_desa' => 'TEST-001',
-            'nama_desa' => 'Desa Contoh',
-            'kecamatan' => 'Kecamatan Uji',
+        $this->villageInput([
             'jumlah_kk_total' => 100,
             'jumlah_jiwa_total' => 400,
             'jumlah_balita' => 20,
             'jumlah_lansia' => 30,
             'jumlah_disabilitas' => 4,
-        ]);
-        Desa::query()->create([
-            'kode_desa' => 'TEST-002',
-            'nama_desa' => 'Desa Kecamatan Lain',
-            'kecamatan' => 'Kecamatan Lain',
+            'kk_terdampak' => 0,
+            'hari_tanpa_air' => 0,
+            'jarak_sumber_meter' => 0,
         ]);
 
-        $this->withSession(['_old_input' => ['kode_desa' => 'TEST-001', 'kecamatan' => 'Kecamatan Uji']])
-            ->get(route('cek-kelayakan.index'))
+        $this->get(route('cek-kelayakan.index'))
             ->assertOk()
-            ->assertSee('Desa Contoh')
-            ->assertSee('data-kecamatan="Kecamatan Uji"', false)
-            ->assertSee('data-kecamatan="Kecamatan Lain"', false)
-            ->assertSee('option.hidden = option.dataset.kecamatan !== selectedDistrict;', false)
             ->assertSee('value="100" disabled aria-disabled="true"', false)
-            ->assertSee('value="400" disabled aria-disabled="true"', false);
+            ->assertSee('value="400" disabled aria-disabled="true"', false)
+            ->assertDontSee('name="kode_desa"', false)
+            ->assertDontSee('name="kecamatan"', false);
     }
 
     /**
@@ -345,8 +384,14 @@ class CekKelayakanTest extends TestCase
     private function villageInput(array $input): array
     {
         $this->testKodeDesa = 'TEST-'.(Desa::query()->count() + 1);
+        $user = User::query()->create([
+            'username' => 'desa-test-'.(User::query()->count() + 1),
+            'password' => 'password',
+            'role' => 'desa',
+        ]);
         Desa::query()->create([
             'kode_desa' => $this->testKodeDesa,
+            'user_id' => $user->id,
             'nama_desa' => 'Desa Uji',
             'kecamatan' => 'Kecamatan Uji',
             'jumlah_kk_total' => $input['jumlah_kk_total'],
@@ -364,8 +409,7 @@ class CekKelayakanTest extends TestCase
             $input['jumlah_disabilitas'],
         );
 
-        $input['kode_desa'] = $this->testKodeDesa;
-        $input['kecamatan'] = 'Kecamatan Uji';
+        $this->actingAs($user);
 
         return $input;
     }

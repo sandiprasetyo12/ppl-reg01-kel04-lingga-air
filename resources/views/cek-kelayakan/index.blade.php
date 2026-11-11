@@ -26,8 +26,8 @@
         .brand-wrap { display: flex; align-items: center; gap: 0; min-width: 0; }
         .topbar-label { position: absolute; left: 240px; display: flex; align-items: center; min-height: 24px; padding-left: 0; color: #e0f0f7; font-size: .9rem; line-height: 1.4; white-space: nowrap; }
         .account { display: flex; align-items: center; gap: 11px; margin-left: 20px; color: #fff; text-align: right; }
-        .account-copy { font-size: .86rem; font-weight: 650; line-height: 1.3; white-space: nowrap; }
-        .account-copy small { display: block; margin-top: 2px; color: #d7eaf1; font-size: .74rem; font-weight: 400; }
+        .account-copy { max-width: 220px; overflow: hidden; font-size: .86rem; font-weight: 650; line-height: 1.3; text-overflow: ellipsis; white-space: nowrap; }
+        .account-copy small { display: block; overflow: hidden; margin-top: 2px; color: #d7eaf1; font-size: .74rem; font-weight: 400; text-overflow: ellipsis; }
         .account-avatar { display: grid; flex: 0 0 40px; place-items: center; width: 40px; height: 40px; border: 1px solid rgb(255 255 255 / 48%); border-radius: 50%; background: rgb(255 255 255 / 12%); font-size: 1.1rem; }
         .app-frame { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); min-width: 0; min-height: calc(100vh - 76px); }
         .sidebar { display: flex; min-width: 0; flex-direction: column; padding: 24px 14px 18px; border-right: 1px solid #e0e8ef; background: #fff; }
@@ -107,8 +107,9 @@
             .topbar-inner { height: 68px; padding: 0 16px; }
             .brand-wrap { gap: 0; }
             .topbar-label { display: none; }
-            .account-copy { display: none; }
-            .account { margin-left: 12px; }
+            .account-copy { max-width: 110px; font-size: .74rem; }
+            .account-copy small { font-size: .66rem; white-space: nowrap; }
+            .account { gap: 7px; margin-left: 8px; }
             .brand { font-size: 1.08rem; }
             .brand-mark { flex-basis: 34px; width: 34px; height: 34px; }
             .app-frame { grid-template-columns: 1fr; }
@@ -159,8 +160,11 @@
             <span class="topbar-label">Portal pelayanan desa</span>
         </div>
         <div class="account">
-            <span class="account-copy">Akun Desa<small>Kabupaten Purbalingga</small></span>
-            <span class="account-avatar" aria-hidden="true">♙</span>
+            <span class="account-copy">
+                {{ auth()->user()->username }}
+                <small>Desa {{ $desa->nama_desa }}</small>
+            </span>
+            <span class="account-avatar" aria-hidden="true">{{ Illuminate\Support\Str::upper(Illuminate\Support\Str::substr(auth()->user()->username, 0, 1)) }}</span>
         </div>
     </div>
 </header>
@@ -194,58 +198,14 @@
     <div class="layout {{ isset($result) ? 'has-result' : 'no-result' }}">
         <section class="card form-card" aria-labelledby="form-title">
             <h2 id="form-title">Data simulasi</h2>
-            <p class="section-copy">Pilih kecamatan dan desa. Data kependudukan otomatis diambil dari profil desa dan tidak dapat diubah di sini. Isi kondisi lapangan terbaru untuk menjalankan simulasi.</p>
+            <p class="section-copy">Data desa, kecamatan, dan kependudukan diambil dari profil akun Anda. Isi kondisi lapangan terbaru untuk menjalankan simulasi.</p>
 
             <form method="POST" action="{{ route('cek-kelayakan.calculate') }}">
                 @csrf
-                <div class="section-title">Data acuan desa</div>
+                <div class="section-title">Profil desa</div>
                 @php
-                    $selectedKodeDesa = old('kode_desa', $input['kode_desa'] ?? '');
-                    $selectedDesa = $villages->firstWhere('kode_desa', $selectedKodeDesa);
-                    $selectedKecamatan = old('kecamatan', $selectedDesa?->kecamatan ?? '');
-                    if ($selectedDesa !== null && $selectedDesa->kecamatan !== $selectedKecamatan) {
-                        $selectedDesa = null;
-                        $selectedKodeDesa = '';
-                    }
-                    $profileFields = ['jumlah_kk_total', 'jumlah_jiwa_total', 'jumlah_balita', 'jumlah_lansia', 'jumlah_disabilitas'];
-                    $profileIsComplete = $selectedDesa !== null
-                        && collect($profileFields)->every(fn ($field) => $selectedDesa->{$field} !== null);
                 @endphp
-                <div class="village-selects">
-                    <div class="village-field">
-                        <label for="kecamatan">Nama kecamatan</label>
-                        <select id="kecamatan" name="kecamatan" required>
-                            <option value="">Pilih kecamatan</option>
-                            @foreach ($districts as $district)
-                                <option value="{{ $district }}" @selected($selectedKecamatan === $district)>{{ $district }}</option>
-                            @endforeach
-                        </select>
-                        @error('kecamatan')<p class="error">{{ $message }}</p>@enderror
-                    </div>
-                    <div class="village-field">
-                        <label for="kode_desa">Nama desa</label>
-                        <select id="kode_desa" name="kode_desa" required @disabled($selectedKecamatan === '')>
-                            <option value="">Pilih desa</option>
-                            @foreach ($villages as $desa)
-                                <option
-                                    value="{{ $desa->kode_desa }}"
-                                    data-kecamatan="{{ $desa->kecamatan }}"
-                                    data-jumlah-kk="{{ $desa->jumlah_kk_total ?? '' }}"
-                                    data-jumlah-jiwa="{{ $desa->jumlah_jiwa_total ?? '' }}"
-                                    data-jumlah-balita="{{ $desa->jumlah_balita ?? '' }}"
-                                    data-jumlah-lansia="{{ $desa->jumlah_lansia ?? '' }}"
-                                    data-jumlah-disabilitas="{{ $desa->jumlah_disabilitas ?? '' }}"
-                                    @if ($selectedKecamatan !== '' && $selectedKecamatan !== $desa->kecamatan) hidden @endif
-                                    @selected($selectedKecamatan === $desa->kecamatan && $selectedKodeDesa === $desa->kode_desa)
-                                >{{ $desa->nama_desa }}</option>
-                            @endforeach
-                        </select>
-                        @if ($villages->isEmpty())
-                            <p class="error">Data desa belum tersedia. Jalankan migration dan seeder desa terlebih dahulu.</p>
-                        @endif
-                        @error('kode_desa')<p class="error">{{ $message }}</p>@enderror
-                    </div>
-                </div>
+                <p class="section-copy"><strong>{{ $desa->nama_desa }}</strong> · Kecamatan {{ $desa->kecamatan }}</p>
                 <div class="fields">
                     @foreach ([
                         'jumlah_kk_total'    => ['Jumlah KK total', 'Jumlah seluruh kepala keluarga di desa.', 'KK'],
@@ -257,24 +217,15 @@
                         <div class="{{ $name === 'jumlah_disabilitas' ? 'field-wide' : '' }}">
                             <label for="{{ $name }}">{{ $label }}</label>
                             <div class="input-wrap">
-                                <input id="{{ $name }}" type="number" min="{{ in_array($name, ['jumlah_kk_total', 'jumlah_jiwa_total'], true) ? 1 : 0 }}" step="1" value="{{ $selectedDesa?->{$name} ?? '' }}" disabled aria-disabled="true">
+                                <input id="{{ $name }}" type="number" min="{{ in_array($name, ['jumlah_kk_total', 'jumlah_jiwa_total'], true) ? 1 : 0 }}" step="1" value="{{ $desa->{$name} ?? '' }}" disabled aria-disabled="true">
                                 <span class="unit">{{ $unit }}</span>
                             </div>
-                            <p class="hint">{{ $selectedDesa ? $hint : 'Pilih desa untuk melihat data profil.' }}</p>
+                            <p class="hint">{{ $hint }}</p>
                         </div>
                     @endforeach
                 </div>
-                @if ($villages->isNotEmpty())
-                    <p class="hint" id="profile-note" aria-live="polite">
-                        @if ($selectedDesa === null)
-                            Pilih desa untuk memuat data acuan dari profil.
-                        @elseif (! $profileIsComplete)
-                            Data kependudukan desa belum lengkap di profil. Lengkapi profil desa sebelum melakukan pemeriksaan.
-                        @else
-                            Data acuan dimuat dari profil desa dan tidak dapat diubah di halaman ini.
-                        @endif
-                    </p>
-                @endif
+                <p class="hint">Data ini diambil dari profil desa dan tidak dapat diubah pada halaman cek kelayakan.</p>
+                @error('kk_terdampak')<p class="error">{{ $message }}</p>@enderror
 
                 <div class="section-title">Kondisi lapangan</div>
                 <div class="fields">
@@ -364,56 +315,5 @@
         document.getElementById('hasil-cek')?.scrollIntoView();
     </script>
 @endif
-<script>
-    const districtSelect = document.getElementById('kecamatan');
-    const villageSelect = document.getElementById('kode_desa');
-    const villageFields = {
-        jumlah_kk_total: 'jumlahKk',
-        jumlah_jiwa_total: 'jumlahJiwa',
-        jumlah_balita: 'jumlahBalita',
-        jumlah_lansia: 'jumlahLansia',
-        jumlah_disabilitas: 'jumlahDisabilitas',
-    };
-
-    const updateVillageOptions = (clearSelection) => {
-        if (!districtSelect || !villageSelect) return;
-
-        if (clearSelection) villageSelect.value = '';
-        const selectedDistrict = districtSelect.value;
-        const selectedOption = villageSelect.selectedOptions[0];
-        if (selectedOption?.value && selectedOption.dataset.kecamatan !== selectedDistrict) {
-            villageSelect.value = '';
-        }
-        Array.from(villageSelect.options).forEach((option) => {
-            if (option.value === '') return;
-            option.hidden = option.dataset.kecamatan !== selectedDistrict;
-        });
-        villageSelect.disabled = selectedDistrict === '';
-        updateVillageProfile();
-    };
-
-    const updateVillageProfile = () => {
-        if (!villageSelect) return;
-        const selectedOption = villageSelect.selectedOptions[0];
-        Object.entries(villageFields).forEach(([fieldId, dataKey]) => {
-            document.getElementById(fieldId).value = selectedOption?.dataset[dataKey] ?? '';
-        });
-
-        const profileNote = document.getElementById('profile-note');
-        if (profileNote) {
-            const profileIsComplete = Object.values(villageFields)
-                .every((dataKey) => selectedOption?.dataset[dataKey] !== '');
-            profileNote.textContent = !selectedOption?.value
-                ? 'Pilih desa untuk memuat data acuan dari profil.'
-                : profileIsComplete
-                    ? 'Data acuan dimuat dari profil desa dan tidak dapat diubah di halaman ini.'
-                    : 'Data kependudukan desa belum lengkap di profil. Lengkapi profil desa sebelum melakukan pemeriksaan.';
-        }
-    };
-
-    districtSelect?.addEventListener('change', () => updateVillageOptions(true));
-    villageSelect?.addEventListener('change', updateVillageProfile);
-    updateVillageOptions(false);
-</script>
 </body>
 </html>
