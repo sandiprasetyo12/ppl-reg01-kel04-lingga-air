@@ -41,7 +41,7 @@ Bagian F-02 yang tidak bergantung pada migration Desa sudah tersedia sebagai kal
 - Perwakilan mendaftar, memilih satu desa yang belum tertaut, lalu mengisi lima data kependudukan wajib pada onboarding profil desa. Setelah login dan onboarding lengkap, buka `/cek-kelayakan`; identitas kecamatan/desa dan lima data acuan diambil dari profil akun, ditampilkan read-only, dan tidak dapat diganti melalui request. Pengguna hanya mengisi kondisi lapangan (KK terdampak, hari tanpa air, dan jarak sumber air).
 - Backend menolak nilai yang bukan bilangan bulat, nilai negatif, jumlah total nol, KK terdampak yang melampaui jumlah KK, serta total kelompok rentan yang melampaui jumlah jiwa.
 - Service menghitung bobot dengan AHP dari matriks perbandingan di `config/cek_kelayakan.php`, lalu menghitung skor SAW dari C1–C4. Setelah form dikirim, panel hasil menampilkan kategori dengan ikon, skor, ringkasan kondisi beserta angka input, dan tindakan yang sesuai status.
-- Skor diklasifikasikan sebagai Aman (0–39,99), Waspada (40–69,99), atau Kritis (70–100). Kategori ini menunjukkan tingkat kondisi, bukan keputusan biner “layak/tidak layak”.
+- Skor gabungan diklasifikasikan sebagai Aman (0–29,99), Waspada (30–59,99), atau Kritis (60–100). Lama tanpa air menjadi salah satu kriteria berbobot dalam skor, bukan pemicu Kritis tersendiri. Kategori ini menunjukkan tingkat kondisi, bukan keputusan biner “layak/tidak layak”.
 - Rekomendasi berisi panduan sesuai status. Tombol “Ajukan Pengajuan” hanya ditampilkan untuk Waspada/Kritis dan saat ini nonaktif dengan keterangan bahwa halaman pengajuan belum tersedia; untuk Aman tombol tidak ditampilkan. Karena endpoint pengajuan belum ada, penjagaan server pada proses pengajuan belum dapat diterapkan dan harus ditambahkan saat alur tersebut dibuat.
 - Setiap hasil submit valid disimpan di tabel `riwayat_cek_kelayakan`, termasuk `kode_desa`, snapshot angka acuan, tiga isian kondisi lapangan, komponen C1–C4, bobot AHP yang digunakan, rasio konsistensi, skor, status, dan waktu pemeriksaan. Riwayat terhubung ke master Desa dengan foreign key; data profil yang belum lengkap ditolak agar skor tidak dihitung dari angka kosong.
 - Seed master hanya memuat identitas dan wilayah desa. Lima kolom demografi dibiarkan kosong sampai diisi dengan data yang disepakati; data tersebut wajib tersedia sebelum kalkulasi dijalankan. Tiga kondisi lapangan pada form (KK terdampak, hari tanpa air, dan jarak sumber air) harus diisi pengguna setiap melakukan pemeriksaan dan tidak memiliki nilai dummy bawaan.
@@ -54,18 +54,18 @@ Verifikasi dilakukan melalui `tests/Unit/CekKelayakanServiceTest.php`, `tests/Fe
 
 Kriteria C1 adalah proporsi KK terdampak. C2 adalah proporsi penduduk desa dalam kelompok balita, lansia, dan disabilitas; C2 diperlakukan sebagai faktor prioritas/kerentanan meskipun data tidak menyatakan bahwa mereka ikut terdampak. C3 adalah durasi tanpa air dan C4 adalah jarak sumber air.
 
-Penilaian berpasangan AHP awal disimpan di `config/cek_kelayakan.php` dengan urutan C1, C2, C3, C4:
+Penilaian berpasangan AHP yang digunakan untuk prototipe disimpan di `config/cek_kelayakan.php` dengan urutan C1, C2, C3, C4. Penilaian ini memprioritaskan proporsi KK terdampak dan durasi kekeringan, sementara kerentanan dan akses air tetap berkontribusi:
 
 | Pasangan | Penilaian | Makna |
 |---|---:|---|
-| C1 terhadap C2 | 1 | Sama penting |
-| C1 terhadap C3 | 7 | C1 sangat lebih penting |
-| C1 terhadap C4 | 3 | C1 moderat lebih penting |
-| C2 terhadap C3 | 3 | C2 moderat lebih penting |
-| C2 terhadap C4 | 3 | C2 moderat lebih penting |
-| C3 terhadap C4 | 1 | Sama penting |
+| C1 terhadap C2 | 5 | C1 lebih penting daripada C2 |
+| C1 terhadap C3 | 2 | C1 sedikit lebih penting daripada C3 |
+| C1 terhadap C4 | 5 | C1 lebih penting daripada C4 |
+| C2 terhadap C3 | 1/3 | C3 moderat lebih penting daripada C2 |
+| C2 terhadap C4 | 1/2 | C4 sedikit lebih penting daripada C2 |
+| C3 terhadap C4 | 4 | C3 lebih penting daripada C4 |
 
-Matriks menghasilkan bobot AHP sekitar C1 **44,0984%**, C2 **34,7729%**, C3 **9,5378%**, C4 **11,5910%**. Rasio konsistensi (CR) sekitar **0,0337**, di bawah batas 0,10. Penilaian ini adalah bobot awal kebijakan dan sebaiknya dikonfirmasi BPBD sebelum digunakan sebagai keputusan operasional.
+Matriks menghasilkan bobot AHP sekitar C1 **50,47%**, C2 **8,26%**, C3 **30,26%**, C4 **11,00%**. Rasio konsistensi (CR) sekitar **0,0398**, di bawah batas 0,10. Bobot dan ambang status ini adalah asumsi kebijakan untuk prototipe, bukan persentase universal dari standar umum; BPBD perlu mengonfirmasinya sebelum digunakan untuk keputusan operasional.
 
 Nilai normalisasi SAW dibatasi maksimal 1.0:
 
@@ -78,6 +78,8 @@ Nilai normalisasi SAW dibatasi maksimal 1.0:
 
 Implementasi perlu menolak pembagi nol (jumlah KK dan jumlah jiwa harus lebih dari nol), nilai negatif, serta jumlah KK terdampak yang melebihi total KK. Nilai hari dan jarak yang melampaui ambang normalisasi tetap sah; kontribusinya dibatasi ke 1.0 sesuai rumus. Pastikan kategori balita, lansia, dan disabilitas tidak saling tumpang tindih; jika tidak, rumus C2 dapat menghitung orang yang sama lebih dari sekali.
 
-Contoh: C1 = 450/600 = 0.75; C2 = (95+80+12)/2400/0.15 = 0.5194; C3 = 5/7 = 0.7143; C4 = min(2500/2000, 1) = 1. Dengan bobot AHP tersebut, skor sekitar **69.54/100** (pembulatan dua desimal), sehingga statusnya Waspada.
+Contoh: C1 = 450/600 = 0.75; C2 = (95+80+12)/2400/0.15 = 0.5194; C3 = 5/7 = 0.7143; C4 = min(2500/2000, 1) = 1. Dengan bobot AHP tersebut, skor sekitar **74.76/100** (pembulatan dua desimal), sehingga statusnya Kritis.
 
-Skor dan kategori Aman/Waspada/Kritis mengikuti ambang yang ditampilkan di atas. Keduanya tidak otomatis menentukan label biner “layak” atau “tidak layak”; jangan menyimpulkan label biner sebelum kriterianya disepakati.
+Contoh kasus dari profil Desa Gandesul: 300 dari 450 KK terdampak, 80 dari 1.800 jiwa termasuk kelompok rentan, 3 hari tanpa air, dan jarak sumber air 2.000 meter. Dengan bobot tersebut, skor sekitar **60.07/100**, sehingga masuk kategori Kritis.
+
+Skor dan kategori Aman/Waspada/Kritis mengikuti ambang skor gabungan yang ditampilkan di atas. Keduanya tidak otomatis menentukan label biner “layak” atau “tidak layak”; jangan menyimpulkan label biner sebelum kriterianya disepakati.

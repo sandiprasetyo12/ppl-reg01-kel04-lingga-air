@@ -96,12 +96,12 @@ class CekKelayakanTest extends TestCase
             ->assertOk()
             ->assertSee('class="layout has-result"', false)
             ->assertDontSee('Sebelum memeriksa kondisi')
-            ->assertSee('69,54')
-            ->assertSee('Waspada')
+            ->assertSee('74,76')
+            ->assertSee('Kritis')
             ->assertSee('class="application-action" type="button" disabled', false)
             ->assertSee('Ajukan Pengajuan')
             ->assertSee('Halaman pengajuan belum tersedia.')
-            ->assertSee('Siapkan surat permohonan Kepala Desa berstempel basah dan foto kondisi lapangan. Anda dapat mengajukan sekarang atau memantau dulu.')
+            ->assertSee('Segera ajukan bantuan air bersih dan siapkan surat permohonan Kepala Desa berstempel basah serta foto kondisi lapangan.')
             ->assertDontSee('Ajukan bantuan sekarang')
             ->assertDontSee('Cek ulang')
             ->assertDontSee('Kembali ke Beranda')
@@ -139,8 +139,8 @@ class CekKelayakanTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertSee('69,54')
-            ->assertSee('Waspada');
+            ->assertSee('74,76')
+            ->assertSee('Kritis');
 
         $this->assertLessThanOrEqual(
             5.0,
@@ -162,8 +162,8 @@ class CekKelayakanTest extends TestCase
             'jarak_sumber_meter' => 2500,
         ])
             ->assertOk()
-            ->assertSee('69,54')
-            ->assertSee('Waspada');
+            ->assertSee('74,76')
+            ->assertSee('Kritis');
 
         $this->assertDatabaseHas('riwayat_cek_kelayakan', [
             'kode_desa' => $this->testKodeDesa,
@@ -175,17 +175,17 @@ class CekKelayakanTest extends TestCase
             'kk_terdampak' => 450,
             'hari_tanpa_air' => 5,
             'jarak_sumber_meter' => 2500,
-            'status' => 'waspada',
+            'status' => 'kritis',
         ]);
 
         $history = RiwayatCekKelayakan::firstOrFail();
         $this->assertSame($this->testKodeDesa, $history->desa->kode_desa);
         $this->assertCount(1, $history->desa->riwayatCekKelayakan);
-        $this->assertEqualsWithDelta(69.54, $history->skor, 0.01);
-        $this->assertEqualsWithDelta(0.440984, $history->bobot_c1, 0.000001);
-        $this->assertEqualsWithDelta(0.347729, $history->bobot_c2, 0.000001);
-        $this->assertEqualsWithDelta(0.095378, $history->bobot_c3, 0.000001);
-        $this->assertEqualsWithDelta(0.115910, $history->bobot_c4, 0.000001);
+        $this->assertEqualsWithDelta(74.76, $history->skor, 0.01);
+        $this->assertEqualsWithDelta(0.504736, $history->bobot_c1, 0.000001);
+        $this->assertEqualsWithDelta(0.082644, $history->bobot_c2, 0.000001);
+        $this->assertEqualsWithDelta(0.302604, $history->bobot_c3, 0.000001);
+        $this->assertEqualsWithDelta(0.110017, $history->bobot_c4, 0.000001);
         $this->assertEqualsWithDelta(0.75, $history->c1, 0.000001);
         $this->assertEqualsWithDelta(0.519444, $history->c2, 0.000001);
         $this->assertEqualsWithDelta(0.714286, $history->c3, 0.000001);
@@ -223,9 +223,9 @@ class CekKelayakanTest extends TestCase
             'jumlah_balita' => 0,
             'jumlah_lansia' => 0,
             'jumlah_disabilitas' => 0,
-            'kk_terdampak' => 600,
+            'kk_terdampak' => 180,
             'hari_tanpa_air' => 5,
-            'jarak_sumber_meter' => 2000,
+            'jarak_sumber_meter' => 1000,
         ])
             ->assertOk()
             ->assertSee('Waspada')
