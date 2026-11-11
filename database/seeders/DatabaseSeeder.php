@@ -15,21 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Panggil Seeder Master Desa Purbalingga dari Fitur 1 (Main)
-        if (class_exists(DesaSeeder::class)) {
-            $this->call([DesaSeeder::class]);
-        }
+        // 1. Panggil Seeder Master Desa dan Akun Admin BPBD dari Main (F-01)
+        $this->call([
+            DesaSeeder::class,
+            BpbdAdminSeeder::class,
+        ]);
 
-        // 2. Akun Admin BPBD Purbalingga (Verifikator F-04)
-        User::firstOrCreate(
-            ['email' => 'admin@bpbd.purbalinggakab.go.id'],
-            [
-                'name' => 'Petugas Verifikator BPBD',
-                'password' => Hash::make('password123'),
-            ]
-        );
-
-        // 3. Lengkapi Data Acuan Lapangan untuk 4 Desa Simulasi Bencana (F-01, F-02, F-04)
+        // 2. Lengkapi Data Acuan Lapangan untuk 4 Desa Simulasi Bencana (F-01, F-02, F-04)
         $desa1 = Desa::where('nama_desa', 'Serang')->first() ?? Desa::firstOrCreate(
             ['kode_desa' => '33.03.11.2005'],
             ['nama_desa' => 'Serang', 'kecamatan' => 'Karangreja']
@@ -90,7 +82,7 @@ class DatabaseSeeder extends Seeder
             'titik_drop_air' => 'Kompleks Masjid Al-Ikhlas RW 01',
         ]);
 
-        // 4. Data Permohonan Antrean Verifikasi (Hanya yang lolos skrining: KRITIS & WASPADA)
+        // 3. Data Permohonan Antrean Verifikasi (Hanya yang lolos skrining: KRITIS & WASPADA)
         
         // Peringkat 1: KRITIS (Skor 94.50)
         Permohonan::updateOrCreate(
