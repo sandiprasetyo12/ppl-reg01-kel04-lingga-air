@@ -55,9 +55,8 @@ class PengajuanController extends Controller
             }
         }
 
-        // 5. Default ke desa yang memiliki riwayat cek kelayakan terbaru atau Desa Serang
-        $defaultDesa = Desa::whereHas('riwayatCekKelayakan')->first()
-            ?: (Desa::where('nama_desa', 'like', '%Serang%')->first() ?: Desa::first());
+        // 5. Default ke Desa Serang atau desa pertama yang terdaftar
+        $defaultDesa = Desa::where('nama_desa', 'like', '%Serang%')->first() ?: Desa::first();
 
         if (!$defaultDesa) {
             $defaultDesa = Desa::firstOrCreate(
@@ -70,7 +69,7 @@ class PengajuanController extends Controller
                     'jumlah_balita' => 110,
                     'jumlah_lansia' => 90,
                     'jumlah_disabilitas' => 15,
-                    'titik_drop_air' => 'Posko Mandiri RT 01 RW 04 Desa Serang',
+                    'titik_drop_air' => null,
                     'nama_pj_darurat' => 'Agus Hendra',
                     'no_wa_darurat' => '081398765432',
                 ]
@@ -114,18 +113,21 @@ class PengajuanController extends Controller
     {
         $desa = $this->getActiveDesa($request);
 
-        // Ambil riwayat cek kelayakan (dari query riwayat_id atau yang terbaru dari desa ini)
+        // Ambil riwayat cek kelayakan (dari query riwayat_id atau session alur Cek Kelayakan)
         $riwayat = null;
         if ($request->filled('riwayat_id')) {
             $riwayat = RiwayatCekKelayakan::find($request->query('riwayat_id'));
             if ($riwayat && $riwayat->desa) {
                 $desa = $riwayat->desa;
-                session(['active_desa_kode' => $desa->kode_desa]);
+                session(['active_desa_kode' => $desa->kode_desa, 'current_riwayat_id' => $riwayat->id]);
             }
+        } elseif (session()->has('current_riwayat_id')) {
+            $riwayat = RiwayatCekKelayakan::find(session('current_riwayat_id'));
         }
 
-        if (!$riwayat) {
-            $riwayat = $desa->latestRiwayatKelayakan;
+        // Jika user login sebagai desa dan desa tersebut memiliki riwayat cek kelayakan
+        if (!$riwayat && Auth::check() && Auth::user()->desa) {
+            $riwayat = Auth::user()->desa->latestRiwayatKelayakan;
         }
 
         // Jika hasil cek kelayakan berstatus Aman, tolak akses dan tampilkan modal pop-up

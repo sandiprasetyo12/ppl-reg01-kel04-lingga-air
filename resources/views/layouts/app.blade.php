@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Lingga Air - Sistem Pengajuan Bantuan Air Bersih')</title>
+    <title>@yield('title', 'LinggaAir - Sistem Penyaluran Bantuan Air Bersih')</title>
 
     <!-- Google Fonts Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -238,11 +238,37 @@
 </head>
 <body>
 
-    <!-- TOPBAR -->
+@hasSection('header')
+    {{-- Layout Publik / Auth / Onboarding (F-01) --}}
+    @yield('header')
+
+    <main class="flex-1 flex flex-col">
+        @if (session('success'))
+            <div class="max-w-5xl w-full mx-auto px-4 sm:px-6 pt-4">
+                <div role="status" class="p-3.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm">
+                    {{ session('success') }}
+                </div>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="max-w-5xl w-full mx-auto px-4 sm:px-6 pt-4">
+                <div role="alert" class="p-3.5 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm">
+                    {{ session('error') }}
+                </div>
+            </div>
+        @endif
+
+        @yield('content')
+    </main>
+
+    @yield('footer')
+@else
+    {{-- Layout Portal Desa: Topbar & Sidebar untuk Pengajuan Air (F-03) & Layanan Desa --}}
     <header class="topbar">
         <div class="topbar-inner">
             <div class="brand-wrap">
-                <a href="{{ route('pengajuan.index') }}" class="brand">
+                <a href="{{ url('/') }}" class="brand">
                     <span class="brand-mark" aria-hidden="true">💧</span>
                     <span>Lingga Air<small>LAYANAN BANTUAN AIR BERSIH</small></span>
                 </a>
@@ -252,8 +278,23 @@
                 $topDesa = isset($desa) ? $desa : (Auth::user()?->desa ?? \App\Models\Desa::where('nama_desa', 'like', '%Serang%')->first() ?? \App\Models\Desa::first());
             @endphp
             <div class="account">
-                <span class="account-copy">Akun Desa<small>{{ $topDesa ? $topDesa->nama_desa : 'Kabupaten Purbalingga' }}</small></span>
-                <span class="account-avatar" aria-hidden="true">♙</span>
+                @if(Auth::check())
+                    <span class="account-copy">
+                        {{ Auth::user()->isBpbd() ? 'Admin BPBD' : (Auth::user()->isDesa() ? 'Akun Desa' : 'Mitra Penyalur') }}
+                        <small>{{ Auth::user()->desa?->nama_desa ?? Auth::user()->username }}</small>
+                    </span>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" title="Keluar" class="account-avatar text-xs font-bold hover:bg-white/20 transition cursor-pointer">
+                            ⇥
+                        </button>
+                    </form>
+                @else
+                    <span class="account-copy">Akun Desa<small>{{ $topDesa ? $topDesa->nama_desa : 'Kabupaten Purbalingga' }}</small></span>
+                    <a href="{{ route('login') }}" class="account-avatar hover:bg-white/20 transition cursor-pointer" title="Masuk">
+                        ♙
+                    </a>
+                @endif
             </div>
         </div>
     </header>
@@ -264,6 +305,11 @@
             <nav aria-label="Navigasi desa">
                 <p class="sidebar-label">Layanan desa</p>
                 <div class="side-nav">
+                    @if(Auth::check() && Auth::user()->isDesa())
+                        <a class="side-link {{ request()->routeIs('desa.dashboard') ? 'active' : '' }}" href="{{ route('desa.dashboard') }}">
+                            <span class="side-icon" aria-hidden="true">🏠</span>Dashboard Desa
+                        </a>
+                    @endif
                     <a class="side-link {{ request()->routeIs('pengajuan.index') ? 'active' : '' }}" href="{{ route('pengajuan.index') }}">
                         <span class="side-icon" aria-hidden="true">▦</span>Beranda &amp; Draf
                     </a>
@@ -285,7 +331,7 @@
             <section class="sidebar-help" aria-label="Bantuan teknis">
                 <div class="sidebar-help-icon" aria-hidden="true">☎</div>
                 <strong>Butuh bantuan?</strong>
-                <p>Hubungi tim teknis untuk bantuan penggunaan layanan desa.</p>
+                <p>Hubungi tim teknis BPBD untuk bantuan penggunaan layanan desa.</p>
             </section>
 
             <p class="sidebar-footer">© 2026 Lingga Air<br>Pemerintah Kabupaten Purbalingga</p>
@@ -382,6 +428,7 @@
             </div>
         </div>
     @endif
+@endif
 
     @stack('scripts')
 </body>

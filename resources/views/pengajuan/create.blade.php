@@ -311,6 +311,7 @@
                         id="lokasi_pengantaran" 
                         value="{{ old('lokasi_pengantaran') }}" 
                         placeholder="Contoh: Halaman Balai Desa ... Kecamatan ..., RT 02 / RW 03"
+                        autocomplete="off"
                     >
                 </div>
 

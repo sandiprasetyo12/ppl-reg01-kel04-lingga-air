@@ -56,6 +56,11 @@ class CekKelayakanController extends Controller
             'status' => $result['status'],
         ]);
 
+        session([
+            'current_riwayat_id' => $riwayat->id,
+            'active_desa_kode' => $desa->kode_desa,
+        ]);
+
         return view('cek-kelayakan.index', array_merge($this->formData(), [
             'result' => $result,
             'riwayat' => $riwayat,

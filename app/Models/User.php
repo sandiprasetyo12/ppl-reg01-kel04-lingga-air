@@ -2,50 +2,30 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
         'role',
         'phone',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    const UPDATED_AT = null;
+
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
@@ -55,18 +35,88 @@ class User extends Authenticatable
         return $this->hasOne(Desa::class);
     }
 
-    public function isPemohon(): bool
+    public function penyalur(): HasOne
     {
-        return $this->role === 'pemohon';
+        return $this->hasOne(Penyalur::class);
     }
 
-    public function isAdmin(): bool
+    // Role helper methods
+    public function isDesa(): bool
     {
-        return $this->role === 'admin';
+        return in_array($this->role, ['desa', 'pemohon'], true);
+    }
+
+    public function isBpbd(): bool
+    {
+        return in_array($this->role, ['bpbd', 'admin'], true);
     }
 
     public function isPenyalur(): bool
     {
         return $this->role === 'penyalur';
+    }
+
+    public function isPemohon(): bool
+    {
+        return $this->isDesa();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->isBpbd();
+    }
+
+    // PascalCase compatibility methods
+    public function IsDesa(): bool
+    {
+        return $this->isDesa();
+    }
+
+    public function IsBpbd(): bool
+    {
+        return $this->isBpbd();
+    }
+
+    public function IsPenyalur(): bool
+    {
+        return $this->isPenyalur();
+    }
+
+    // Helper untuk mengecek apakah user sudah selesai onboarding
+    public function hasCompletedOnboarding(): bool
+    {
+        if (is_null($this->role)) {
+            return false;
+        }
+
+        if ($this->isBpbd()) {
+            return true;
+        }
+
+        if ($this->isDesa()) {
+            return $this->desa()->exists();
+        }
+
+        if ($this->isPenyalur()) {
+            return $this->penyalur()->exists();
+        }
+
+        return false;
+    }
+
+    // Cek status onboarding
+    public function currentOnboardingStatus(): string
+    {
+        if (is_null($this->role)) {
+            return 'role';
+        }
+
+        return 'profile';
+    }
+
+    // Alias agar sinkron dengan pemanggilan di AuthController & OnboardingMiddleware
+    public function currentOnboardingStep(): string
+    {
+        return $this->currentOnboardingStatus();
     }
 }
