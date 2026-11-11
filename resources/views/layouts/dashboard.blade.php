@@ -3,7 +3,7 @@
     $roleLabel = 'Pengguna';
     $navLinks = [];
 
-    if ($currentUser && $currentUser->isBpbd()) {
+        if ($currentUser && $currentUser->isBpbd()) {
         $roleLabel = 'Admin BPBD';
         $navLinks = [
             [
@@ -12,11 +12,17 @@
                 'active' => request()->routeIs('admin.dashboard'),
             ],
             [
+                'label' => 'Verifikasi Pengajuan (F-04)',
+                'route' => route('verifikasi.index'),
+                'active' => request()->routeIs('verifikasi.*'),
+            ],
+            [
                 'label' => 'Master Data Desa',
                 'route' => route('admin.desa.index'),
                 'active' => request()->routeIs('admin.desa.*'),
             ],
         ];
+
     } elseif ($currentUser && $currentUser->isDesa()) {
         $roleLabel = 'Perwakilan Desa';
         $navLinks = [

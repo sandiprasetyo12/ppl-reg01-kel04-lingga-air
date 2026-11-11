@@ -8,11 +8,19 @@ use App\Http\Controllers\Admin\DesaController;
 
 //Route Public
 Route::get('/', function () {
-    return redirect()->route('verifikasi.index');
+    if (auth()->check()) {
+        $user = auth()->user();
+        return match ($user->role) {
+            'bpbd' => redirect()->route('verifikasi.index'),
+            'penyalur' => redirect()->route('penyalur.dashboard'),
+            default => redirect()->route('desa.dashboard'),
+        };
+    }
+    return redirect()->route('login');
 });
 
 // Fitur F-04: Verifikasi Pengajuan (BPBD Purbalingga)
-Route::prefix('verifikasi')->name('verifikasi.')->group(function () {
+Route::middleware(['auth', 'role:bpbd'])->prefix('verifikasi')->name('verifikasi.')->group(function () {
     // PBI-010: Antrean pengajuan terurut skor AHP-SAW
     Route::get('/', [VerifikasiController::class, 'index'])->name('index');
     // PBI-010: Detail lengkap data permohonan
