@@ -102,24 +102,6 @@
                     </dd>
                 </div>
             </dl>
-
-            <!-- Layanan Pengajuan Bantuan Air Bersih (F-03) -->
-            <div class="border-t border-[#e3e3e0] pt-6">
-                <div class="border border-[#cae4ef] bg-[#f0f8fb] rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xl">💧</span>
-                            <h3 class="text-base font-bold text-[#086288] m-0">Layanan Pengajuan Bantuan Air Bersih</h3>
-                        </div>
-                        <p class="text-xs text-[#52525b] m-0 leading-relaxed max-w-2xl">
-                            Susun draf atau kirimkan formulir permohonan pasokan air bersih darurat ke BPBD Kabupaten Purbalingga setelah melakukan pemeriksaan kelayakan.
-                        </p>
-                    </div>
-                    <a href="{{ route('pengajuan.index') }}" class="inline-flex items-center justify-center px-5 py-2.5 bg-[#086288] hover:bg-[#064b68] text-white text-xs font-bold rounded-lg transition shrink-0">
-                        Buka Layanan Pengajuan &rarr;
-                    </a>
-                </div>
-            </div>
         </section>
     @else
         <section class="bg-white border border-[#e3e3e0] rounded-lg p-6 shadow-sm space-y-2">
