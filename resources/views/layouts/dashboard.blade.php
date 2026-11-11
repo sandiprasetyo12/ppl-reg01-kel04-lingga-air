@@ -31,6 +31,11 @@
                 'route' => route('desa.dashboard'),
                 'active' => request()->routeIs('desa.dashboard'),
             ],
+            [
+                'label' => 'Cek Kelayakan',
+                'route' => route('cek-kelayakan.index'),
+                'active' => request()->routeIs('cek-kelayakan.*'),
+            ],
         ];
     } elseif ($currentUser && $currentUser->isPenyalur()) {
         $roleLabel = 'Mitra Penyalur';

@@ -5,8 +5,9 @@ use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\Admin\DesaController;
+use App\Http\Controllers\CekKelayakanController;
 
-//Route Public
+// Route Public
 Route::get('/', function () {
     if (auth()->check()) {
         $user = auth()->user();
@@ -29,7 +30,7 @@ Route::middleware(['auth', 'role:bpbd'])->prefix('verifikasi')->name('verifikasi
     Route::post('/{id}/keputusan', [VerifikasiController::class, 'prosesKeputusan'])->name('keputusan');
 });
 
-//Route Auth
+// Route Auth
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -42,26 +43,46 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 // Route Onboarding (Sudah Login tapi belum selesai onboarding)
 Route::middleware('auth')->prefix('onboarding')->name('onboarding.')->group(function () {
-    //step 1: welcome
+    // step 1: welcome
     Route::get('/', [OnboardingController::class, 'welcome'])->name('welcome');
 
-    //step 2: pilih role
+    // step 2: pilih role
     Route::get('/role', [OnboardingController::class, 'showRole'])->name('role');
     Route::post('/role', [OnboardingController::class, 'storeRole']);
 
-    //step 3: isi profil
+    // step 3: isi profil
     Route::get('/profile', [OnboardingController::class, 'showProfile'])->name('profile');
     Route::post('/profile/desa', [OnboardingController::class, 'storeProfileDesa'])->name('profile.desa');
     Route::post('/profile/penyalur', [OnboardingController::class, 'storeProfilePenyalur'])->name('profile.penyalur');
 });
 
 // Route Dashboard (Sudah Login dan sudah selesai onboarding)
+Route::middleware(['auth', 'onboarding', 'role:desa'])->prefix('desa')->name('desa.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('desa.dashboard');
+    })->name('dashboard');
+});
+
+// Route Cek Kelayakan AHP-SAW (F-02)
+Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
+    Route::get('/cek-kelayakan', [CekKelayakanController::class, 'index'])
+        ->name('cek-kelayakan.index');
+    Route::post('/cek-kelayakan', [CekKelayakanController::class, 'calculate'])
+        ->name('cek-kelayakan.calculate');
+});
 
 // Route untuk role Desa
 Route::middleware(['auth', 'onboarding', 'role:desa'])->prefix('desa')->name('desa.')->group(function () {
     Route::get('/dashboard', function () {
         return view('desa.dashboard');
     })->name('dashboard');
+});
+
+Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
+    Route::get('/cek-kelayakan', [CekKelayakanController::class, 'index'])
+        ->name('cek-kelayakan.index');
+    Route::post('/cek-kelayakan', [CekKelayakanController::class, 'calculate'])
+        ->name('cek-kelayakan.calculate');
 });
 
 // Route untuk role BPBD

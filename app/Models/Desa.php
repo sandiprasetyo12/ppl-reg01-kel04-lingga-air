@@ -44,6 +44,11 @@ class Desa extends Model
     {
         return $this->belongsTo(User::class);
     }
+     // Fitur F-02: Cek Kelayakan (AHP-SAW)
+    public function riwayatCekKelayakan()
+    {
+        return $this->hasMany(RiwayatCekKelayakan::class, 'kode_desa', 'kode_desa');
+    }
 
     //Fitur F-04-verifikasi-pengajuan
     // Relasi untuk PBI-010: Menghubungkan data desa ke seluruh riwayat permohonan bantuan air
