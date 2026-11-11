@@ -24,14 +24,14 @@ class CekKelayakanServiceTest extends TestCase
         $this->assertEqualsWithDelta(0.519444, $result['c2'], 0.000001);
         $this->assertEqualsWithDelta(5 / 7, $result['c3'], 0.000001);
         $this->assertSame(1.0, $result['c4']);
-        $this->assertSame(69.54, $result['score']);
-        $this->assertEqualsWithDelta(0.440984, $result['weights']['c1'], 0.000001);
-        $this->assertEqualsWithDelta(0.347729, $result['weights']['c2'], 0.000001);
-        $this->assertEqualsWithDelta(0.095378, $result['weights']['c3'], 0.000001);
-        $this->assertEqualsWithDelta(0.115910, $result['weights']['c4'], 0.000001);
+        $this->assertSame(74.76, $result['score']);
+        $this->assertEqualsWithDelta(0.504736, $result['weights']['c1'], 0.000001);
+        $this->assertEqualsWithDelta(0.082644, $result['weights']['c2'], 0.000001);
+        $this->assertEqualsWithDelta(0.302604, $result['weights']['c3'], 0.000001);
+        $this->assertEqualsWithDelta(0.110017, $result['weights']['c4'], 0.000001);
         $this->assertLessThan(0.10, $result['consistency_ratio']);
-        // 69.54 < 70 → status waspada
-        $this->assertSame('waspada', $result['status']);
+        // 74.76 >= 60 → status kritis
+        $this->assertSame('kritis', $result['status']);
     }
 
     public function test_identical_input_always_produces_the_same_ahp_saw_result(): void

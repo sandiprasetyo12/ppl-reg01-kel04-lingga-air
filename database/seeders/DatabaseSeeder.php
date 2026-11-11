@@ -15,18 +15,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Panggil Seeder Master Desa dan Akun Admin BPBD dari Main (F-01)
-        $this->call([
-            DesaSeeder::class,
-            BpbdAdminSeeder::class,
-        ]);
+        // 1. Panggil seeder master 239 desa Purbalingga (F-01)
+        $this->call([DesaSeeder::class]);
 
-        // 2. Lengkapi Data Acuan Lapangan untuk 4 Desa Simulasi Bencana (F-01, F-02, F-04)
-        $desa1 = Desa::where('nama_desa', 'Serang')->first() ?? Desa::firstOrCreate(
+        // 2. Panggil seeder akun admin BPBD (F-01)
+        $this->call([BpbdAdminSeeder::class]);
+
+        // 3. Akun perwakilan Desa Serang (F-01/F-03 untuk simulasi login pihak desa)
+        $userSerang = User::firstOrCreate(
+            ['username' => 'desa_serang'],
+            [
+                'password' => Hash::make('password123'),
+                'role' => 'desa',
+                'phone' => '081398765432',
+            ]
+        );
+
+        // 4. Lengkapi Data Acuan Lapangan untuk 4 Desa Simulasi Bencana (F-01, F-02, F-04)
+        $desa1 = Desa::where('nama_desa', 'like', '%Serang%')->first() ?? Desa::firstOrCreate(
             ['kode_desa' => '33.03.11.2005'],
             ['nama_desa' => 'Serang', 'kecamatan' => 'Karangreja']
         );
         $desa1->update([
+            'user_id' => $userSerang->id,
             'nama_pj_darurat' => 'Bambang Sugeng (Kepala Desa)',
             'no_wa_darurat' => '081234567891',
             'jumlah_kk_total' => 650,
@@ -37,7 +48,7 @@ class DatabaseSeeder extends Seeder
             'titik_drop_air' => 'Bak Penampungan Sentral RT 04 RW 02',
         ]);
 
-        $desa2 = Desa::where('nama_desa', 'Kutabawa')->first() ?? Desa::firstOrCreate(
+        $desa2 = Desa::where('nama_desa', 'like', '%Kutabawa%')->first() ?? Desa::firstOrCreate(
             ['kode_desa' => '33.03.11.2004'],
             ['nama_desa' => 'Kutabawa', 'kecamatan' => 'Karangreja']
         );
@@ -52,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'titik_drop_air' => 'Halaman Balai Desa Kutabawa',
         ]);
 
-        $desa3 = Desa::where('nama_desa', 'Selakambang')->first() ?? Desa::firstOrCreate(
+        $desa3 = Desa::where('nama_desa', 'like', '%Selakambang%')->first() ?? Desa::firstOrCreate(
             ['kode_desa' => '33.03.04.2008'],
             ['nama_desa' => 'Selakambang', 'kecamatan' => 'Kaligondang']
         );
@@ -67,7 +78,7 @@ class DatabaseSeeder extends Seeder
             'titik_drop_air' => 'Tandon Air Bersama RW 03',
         ]);
 
-        $desa4 = Desa::where('nama_desa', 'Karangcegak')->first() ?? Desa::firstOrCreate(
+        $desa4 = Desa::where('nama_desa', 'like', '%Karangcegak%')->first() ?? Desa::firstOrCreate(
             ['kode_desa' => '33.03.05.2003'],
             ['nama_desa' => 'Karangcegak', 'kecamatan' => 'Kutasari']
         );
@@ -82,8 +93,7 @@ class DatabaseSeeder extends Seeder
             'titik_drop_air' => 'Kompleks Masjid Al-Ikhlas RW 01',
         ]);
 
-        // 3. Data Permohonan Antrean Verifikasi (Hanya yang lolos skrining: KRITIS & WASPADA)
-        
+        // 5. Data Permohonan Antrean Verifikasi Fitur 4 (Hanya yang lolos skrining: KRITIS & WASPADA)
         // Peringkat 1: KRITIS (Skor 94.50)
         Permohonan::updateOrCreate(
             ['nomor_tiket' => 'TKT-202611-001'],
