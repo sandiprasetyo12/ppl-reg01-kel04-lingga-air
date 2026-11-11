@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -13,6 +14,7 @@ class User extends Authenticatable
         'username',
         'password',
         'role',
+        'phone',
     ];
 
     protected $hidden = [
@@ -28,47 +30,54 @@ class User extends Authenticatable
         ];
     }
 
-    public function desa()
+    public function desa(): HasOne
     {
         return $this->hasOne(Desa::class);
     }
 
-    public function penyalur()
+    public function penyalur(): HasOne
     {
         return $this->hasOne(Penyalur::class);
     }
 
-    // helper untuk cek role
-    public function IsDesa(): bool
+    // Role helper methods (case-insensitive in PHP, covers both 'desa'/'pemohon' and 'bpbd'/'admin')
+    public function isDesa(): bool
     {
-        return $this->role === 'desa';
+        return in_array($this->role, ['desa', 'pemohon'], true);
     }
 
-    public function IsBpbd(): bool
+    public function isBpbd(): bool
     {
-        return $this->role === 'bpbd';
+        return in_array($this->role, ['bpbd', 'admin'], true);
     }
 
-    public function IsPenyalur(): bool
+    public function isPenyalur(): bool
     {
         return $this->role === 'penyalur';
+    }
+
+    public function isPemohon(): bool
+    {
+        return $this->isDesa();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->isBpbd();
     }
 
     // Helper untuk mengecek apakah user sudah selesai onboarding
     public function hasCompletedOnboarding(): bool
     {
-        // jika belum ada role
         if (is_null($this->role)) {
             return false;
         }
 
-        // bpbd selalu dianggap sudah selesai onboarding
-        if ($this->IsBpbd()) {
+        if ($this->isBpbd()) {
             return true;
         }
 
-        // jika role desa, cek apakah sudah ada data desa
-        if ($this->IsDesa()) {
+        if ($this->isDesa()) {
             return $this->desa()
                 ->whereNotNull('jumlah_kk_total')
                 ->where('jumlah_kk_total', '>', 0)
@@ -84,23 +93,20 @@ class User extends Authenticatable
                 ->exists();
         }
 
-        // jika role penyalur, cek apakah sudah ada data penyalur
-        if ($this->IsPenyalur()) {
+        if ($this->isPenyalur()) {
             return $this->penyalur()->exists();
         }
 
         return false;
     }
 
-    // cek status onboarding
+    // Cek status onboarding
     public function currentOnboardingStatus(): string
     {
-        // jika belum ada role, redirect ke halaman pilih role
         if (is_null($this->role)) {
             return 'role';
         }
 
-        // sudah pilih role tapi belum isi profile, redirect ke halaman profile
         return 'profile';
     }
 

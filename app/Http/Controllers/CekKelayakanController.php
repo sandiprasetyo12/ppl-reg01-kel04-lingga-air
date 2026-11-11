@@ -36,7 +36,7 @@ class CekKelayakanController extends Controller
             (int) $input['jarak_sumber_meter'],
         );
 
-        RiwayatCekKelayakan::create([
+        $riwayat = RiwayatCekKelayakan::create([
             'kode_desa' => $desa->kode_desa,
             'jumlah_kk_total' => $desa->jumlah_kk_total,
             'jumlah_jiwa_total' => $desa->jumlah_jiwa_total,
@@ -59,9 +59,15 @@ class CekKelayakanController extends Controller
             'status' => $result['status'],
         ]);
 
+        session([
+            'current_riwayat_id' => $riwayat->id,
+            'active_desa_kode' => $desa->kode_desa,
+        ]);
+
         return view('cek-kelayakan.index', [
             'desa' => $desa,
             'result' => $result,
+            'riwayat' => $riwayat,
             'input' => array_merge($input, [
                 'jumlah_kk_total' => $desa->jumlah_kk_total,
                 'jumlah_jiwa_total' => $desa->jumlah_jiwa_total,

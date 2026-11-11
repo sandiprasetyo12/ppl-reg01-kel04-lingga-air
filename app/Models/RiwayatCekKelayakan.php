@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RiwayatCekKelayakan extends Model
 {
@@ -59,5 +60,39 @@ class RiwayatCekKelayakan extends Model
     public function desa(): BelongsTo
     {
         return $this->belongsTo(Desa::class, 'kode_desa', 'kode_desa');
+    }
+
+    public function pengajuan(): HasMany
+    {
+        return $this->hasMany(Pengajuan::class, 'riwayat_cek_kelayakan_id');
+    }
+
+    public function getSkorAhpSawAttribute(): float
+    {
+        return (float) $this->skor;
+    }
+
+    public function getStatusKelayakanAttribute(): string
+    {
+        return ucfirst(strtolower($this->status));
+    }
+
+    public function getJarakSumberAirAttribute(): int
+    {
+        return (int) $this->jarak_sumber_meter;
+    }
+
+    public function getRekomendasiAttribute(): string
+    {
+        return match (strtolower($this->status)) {
+            'kritis' => 'Kondisi darurat krisis air bersih. Segera ajukan permohonan bantuan pasokan armada tangki ke BPBD.',
+            'waspada' => 'Penuhi syarat administrasi dan siapkan titik tandon untuk pengajuan bantuan pasokan.',
+            default => 'Kondisi pasokan air masih terkendali secara mandiri di tingkat lingkungan.',
+        };
+    }
+
+    public function isEligibleForSubmission(): bool
+    {
+        return in_array(strtolower($this->status), ['waspada', 'kritis'], true);
     }
 }
