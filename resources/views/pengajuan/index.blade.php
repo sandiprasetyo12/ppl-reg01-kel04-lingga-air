@@ -28,7 +28,7 @@
         
         <!-- Card 1: Draf Tersimpan -->
         <div class="card p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #086288;">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #619DC6;">
                 ▦
             </div>
             <div>
@@ -59,7 +59,7 @@
 
         <!-- Card 3: Riwayat Terkirim -->
         <div class="card p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #086288;">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #619DC6;">
                 ✓
             </div>
             <div>
@@ -195,7 +195,7 @@
     <div class="card overflow-hidden">
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between" style="background: #fafcfe;">
             <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full" style="background: #086288;"></span>
+                <span class="w-2.5 h-2.5 rounded-full" style="background: #619DC6;"></span>
                 <h2 class="text-base font-bold text-slate-800 m-0">Riwayat Pengajuan Terkirim &amp; Tiket Aktif ({{ $riwayatList->total() }})</h2>
             </div>
             <span class="text-xs text-slate-500">Pengajuan yang sudah dikirim terkunci dan tidak dapat diubah</span>
@@ -217,7 +217,7 @@
                     <tbody class="divide-y divide-slate-100 text-slate-700">
                         @foreach($riwayatList as $item)
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="py-3.5 px-4 font-mono font-bold text-sm" style="color: #086288;">
+                                <td class="py-3.5 px-4 font-mono font-bold text-sm" style="color: #619DC6;">
                                     {{ $item->nomor_tiket }}
                                 </td>
                                 <td class="py-3.5 px-4 text-slate-600">

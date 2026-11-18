@@ -17,7 +17,7 @@
         }
         * { box-sizing: border-box; }
         body { margin: 0; overflow-x: hidden; }
-        .topbar { background: #086288; color: #fff; }
+        .topbar { background: #619DC6; color: #fff; }
         .topbar-inner { position: relative; display: flex; align-items: center; justify-content: space-between; height: 76px; padding: 0 26px 0 26px; }
         .brand { display: flex; max-width: 204px; min-width: 0; align-items: center; gap: 9px; font-size: 1.08rem; font-weight: 750; letter-spacing: -.03em; line-height: 1.15; }
         .brand-mark { display: grid; flex: 0 0 36px; place-items: center; width: 36px; height: 36px; border: 1px solid rgb(255 255 255 / 28%); border-radius: 10px; background: rgb(255 255 255 / 12%); font-size: 1rem; }
@@ -34,14 +34,14 @@
         .sidebar-label { margin: 0 0 14px 12px; color: #8294a8; font-size: .76rem; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; }
         .side-nav { display: grid; gap: 5px; }
         .side-link { display: flex; min-width: 0; align-items: center; gap: 10px; min-height: 46px; padding: 0 10px; border-radius: 9px; color: #41566c; font-size: .88rem; font-weight: 500; text-decoration: none; overflow-wrap: anywhere; transition: background .15s ease, color .15s ease; }
-        .side-link:hover:not(.active):not(.disabled) { background: #eef4f8; color: #086288; }
-        .side-link:hover:not(.active):not(.disabled) .side-icon { color: #086288; }
-        .side-link.active { background: #086288; color: #fff; font-weight: 700; }
+        .side-link:hover:not(.active):not(.disabled) { background: #eef4f8; color: #619DC6; }
+        .side-link:hover:not(.active):not(.disabled) .side-icon { color: #619DC6; }
+        .side-link.active { background: #619DC6; color: #fff; font-weight: 700; }
         .side-link.disabled { color: #8393a6; cursor: not-allowed; }
         .side-icon { display: grid; flex: 0 0 26px; place-items: center; width: 26px; height: 26px; color: #829bb1; font-size: 1.1rem; font-weight: 600; }
         .side-link.active .side-icon { color: #fff; }
-        .sidebar-help { margin-top: auto; padding: 17px 16px; border: 1px solid #cae4ef; border-radius: 12px; background: #f0f8fb; color: #344b61; }
-        .sidebar-help-icon { margin-bottom: 8px; color: #086288; font-size: 1.25rem; }
+        .sidebar-help { margin-top: auto; padding: 17px 16px; border: 1px solid #A6C8E2; border-radius: 12px; background: #F4F0E2; color: #344b61; }
+        .sidebar-help-icon { margin-bottom: 8px; color: #619DC6; font-size: 1.25rem; }
         .sidebar-help strong { font-size: .88rem; }
         .sidebar-help p { margin: 6px 0 0; color: #60768b; font-size: .8rem; line-height: 1.5; }
         .sidebar-footer { margin: 16px 4px 0; color: #8294a8; font-size: .73rem; line-height: 1.55; }
@@ -100,7 +100,7 @@
         .result-explanation { margin: 20px 0 16px; color: #344b61; font-size: 1rem; line-height: 1.6; }
         .recommendation { margin: 0; color: #344b61; font-size: 1rem; line-height: 1.6; }
         .recommendation strong { display: block; margin-bottom: 4px; color: #263a50; }
-        .application-action { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; margin-top: 18px; padding: 0 20px; border: none; border-radius: 8px; background: #086288; color: #ffffff !important; text-decoration: none; font: inherit; font-size: .92rem; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(8, 98, 136, 0.2); transition: background-color .15s ease, box-shadow .15s ease; }
+        .application-action { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; margin-top: 18px; padding: 0 20px; border: none; border-radius: 8px; background: #619DC6; color: #ffffff !important; text-decoration: none; font: inherit; font-size: .92rem; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(8, 98, 136, 0.2); transition: background-color .15s ease, box-shadow .15s ease; }
         .application-action:hover { background: #064b68; color: #ffffff !important; box-shadow: 0 4px 8px rgba(8, 98, 136, 0.3); }
         .application-action[disabled] { border: 1px solid #9aafbf; background: #e8eff3; color: #526a7c !important; cursor: not-allowed; box-shadow: none; }
         .application-note { margin: 8px 0 0; color: #71859a; font-size: .8rem; line-height: 1.45; }
@@ -160,8 +160,10 @@
 <header class="topbar">
     <div class="topbar-inner">
         <div class="brand-wrap">
-            <div class="brand"><span class="brand-mark" aria-hidden="true">💧</span><span>Lingga Air<small>LAYANAN BANTUAN AIR BERSIH</small></span></div>
-            <span class="topbar-label">Portal pelayanan desa</span>
+            <a href="{{ url('/') }}" class="brand">
+                <img src="{{ asset('images/logo-lingga.png') }}" alt="Lingga Air" class="h-14 w-auto object-contain bg-white rounded-xl px-2.5 py-1.5 shadow-xs" onerror="this.onerror=null; this.src='https://placehold.co/180x60/619DC6/FFFFFF?text=Lingga+Air';">
+            </a>
+            <span class="topbar-label">Portal Pelayanan Desa</span>
         </div>
         <div class="account">
             <span class="account-copy">

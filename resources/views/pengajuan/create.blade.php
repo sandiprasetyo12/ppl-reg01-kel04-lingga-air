@@ -43,14 +43,14 @@
     @endif
 
     <!-- RINGKASAN HASIL CEK KELAYAKAN (SESUAI DESAIN HASIL CEK KELAYAKAN MANDIRI) -->
-    <div class="card p-5" style="border-color: #cae4ef; background: #f0f8fb;">
+    <div class="card p-5" style="border-color: #A6C8E2; background: #F4F0E2;">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
             
             <!-- Skor Prioritas AHP-SAW -->
             <div class="flex items-center gap-4">
                 <div class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-center shadow-xs">
                     <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">SKOR PRIORITAS</span>
-                    <span class="text-3xl font-extrabold tracking-tight" style="color: #086288; font-variant-numeric: tabular-nums;" id="disp-skor">
+                    <span class="text-3xl font-extrabold tracking-tight" style="color: #619DC6; font-variant-numeric: tabular-nums;" id="disp-skor">
                         {{ $simulasi ? number_format($simulasi->skor_ahp_saw, 1) : '-' }}
                     </span>
                     <span class="text-xs font-semibold text-slate-400">/ 100</span>
@@ -83,7 +83,7 @@
                 <span class="text-[11px] text-slate-500 block">Metode SPK Kemanusiaan:</span>
                 <span class="text-xs font-bold text-slate-800">AHP - Simple Additive Weighting (SAW)</span>
                 <div class="mt-1">
-                    <a href="{{ route('cek-kelayakan.index') }}" class="text-xs font-bold hover:underline" style="color: #086288;">
+                    <a href="{{ route('cek-kelayakan.index') }}" class="text-xs font-bold hover:underline" style="color: #619DC6;">
                         Cek Kelayakan Ulang &rarr;
                     </a>
                 </div>
@@ -103,7 +103,7 @@
             
             <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div class="flex items-center gap-2">
-                    <span class="text-lg leading-none" style="color: #086288;">▤</span>
+                    <span class="text-lg leading-none" style="color: #619DC6;">▤</span>
                     <h2 class="text-base font-bold text-slate-900 m-0">Informasi Pengajuan</h2>
                 </div>
                 <span class="text-xs font-semibold px-3 py-1 rounded-full border border-sky-200 bg-sky-50 text-sky-800 flex items-center gap-1.5">
@@ -248,11 +248,11 @@
                         onchange="handleFotoSelection(event)"
                     >
                     <div class="flex flex-col items-center justify-center gap-1.5">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg" style="background: #eef4f8; color: #086288;">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg" style="background: #eef4f8; color: #619DC6;">
                             📷
                         </div>
                         <p class="text-xs font-bold text-slate-800 m-0">
-                            <span class="underline" style="color: #086288;">Klik untuk memilih foto</span> atau seret foto ke area ini
+                            <span class="underline" style="color: #619DC6;">Klik untuk memilih foto</span> atau seret foto ke area ini
                         </p>
                         <p class="hint m-0">Hanya format JPG atau PNG (Maksimal 5 MB per foto)</p>
                     </div>
@@ -300,7 +300,7 @@
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-mono font-bold" style="color: #086288;" id="disp-coord">
+                        <span class="text-xs font-mono font-bold" style="color: #619DC6;" id="disp-coord">
                             {{ $desa->latitude ?? -7.2845100 }}, {{ $desa->longitude ?? 109.4321000 }}
                         </span>
                         <a 
@@ -406,7 +406,7 @@
         
         <!-- Modal Header -->
         <div class="p-6 border-b border-slate-100 flex items-start gap-3" style="background: #fafcfe;">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #086288;">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #619DC6;">
                 ℹ
             </div>
             <div>
@@ -421,7 +421,7 @@
             <!-- Desa & Status -->
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full" style="background: #086288;"></span>
+                    <span class="w-2.5 h-2.5 rounded-full" style="background: #619DC6;"></span>
                     <span class="font-bold text-sm text-slate-900">{{ $desa->nama_desa }}</span>
                     <span class="text-slate-400">({{ $desa->kecamatan }})</span>
                 </div>

@@ -36,6 +36,11 @@
                 'route' => route('cek-kelayakan.index'),
                 'active' => request()->routeIs('cek-kelayakan.*'),
             ],
+            [
+                'label' => 'Status Pengajuan',
+                'route' => route('pengajuan.index'),
+                'active' => request()->routeIs('pengajuan.*'),
+            ],
         ];
     } elseif ($currentUser && $currentUser->isPenyalur()) {
         $roleLabel = 'Mitra Penyalur';
@@ -86,14 +91,14 @@
         }
     </style>
 </head>
-<body class="bg-[#F3F4F6] text-[#1b1b18] antialiased min-h-screen flex flex-col">
-    <!-- Top Navbar Standar Laravel -->
-    <header class="bg-white border-b border-[#e3e3e0]">
+<body class="bg-[#F4F0E2] text-[#1B3B5A] antialiased min-h-screen flex flex-col font-sans">
+    <!-- Top Navbar Standar Lingga Air -->
+    <header class="bg-white border-b border-[#A6C8E2]/60 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-wrap items-center justify-between gap-4 min-h-[64px] py-2">
                 <div class="flex flex-wrap items-center gap-6">
-                    <a href="{{ url('/') }}" class="font-semibold text-base text-[#1b1b18] min-h-[44px] inline-flex items-center">
-                        LinggaAir
+                    <a href="{{ url('/') }}" class="min-h-[44px] inline-flex items-center">
+                        <img src="{{ asset('images/logo-lingga.png') }}" alt="Lingga Air" class="h-14 sm:h-16 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/180x60/619DC6/FFFFFF?text=Lingga+Air';">
                     </a>
 
                     <nav aria-label="Navigasi dasbor" class="flex flex-wrap items-center gap-2">
@@ -101,7 +106,7 @@
                             <a
                                 href="{{ $link['route'] }}"
                                 @if ($link['active']) aria-current="page" @endif
-                                class="min-h-[44px] inline-flex items-center px-3 py-2 text-sm rounded-md border transition {{ $link['active'] ? 'border-[#1b1b18] bg-[#1b1b18] text-white font-medium' : 'border-transparent text-[#52525b] hover:text-[#1b1b18] hover:bg-[#f5f5f4]' }}"
+                                class="min-h-[44px] inline-flex items-center px-3.5 py-2 text-xs font-bold uppercase tracking-wider rounded-xl border transition {{ $link['active'] ? 'border-[#619DC6] bg-[#619DC6] text-white shadow-sm' : 'border-transparent text-slate-600 hover:text-[#619DC6] hover:bg-[#F4F0E2]/60' }}"
                             >
                                 {{ $link['label'] }}
                             </a>
@@ -110,16 +115,16 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <div class="text-sm text-[#52525b] hidden sm:block">
-                        <span class="font-medium text-[#1b1b18]">{{ $usernameDisplay }}</span>
-                        <span>({{ $roleLabel }})</span>
+                    <div class="text-xs text-slate-600 hidden sm:block">
+                        <span class="font-bold text-[#1B3B5A]">{{ $usernameDisplay }}</span>
+                        <span class="text-[11px] text-[#619DC6]">({{ $roleLabel }})</span>
                     </div>
 
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button
                             type="submit"
-                            class="min-h-[44px] inline-flex items-center px-4 py-2 text-sm font-medium text-[#1b1b18] bg-white border border-[#d1d5db] rounded-md hover:bg-[#f5f5f4] transition"
+                            class="min-h-[38px] inline-flex items-center justify-center px-3.5 py-1.5 border border-[#F4BAA3] hover:bg-[#F4BAA3]/20 text-[#1B3B5A] text-xs font-bold rounded-xl transition cursor-pointer"
                         >
                             Keluar
                         </button>

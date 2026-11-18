@@ -1,4 +1,4 @@
-﻿@hasSection('header')
+@hasSection('header')
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -92,11 +92,11 @@
                     },
                     colors: {
                         brand: {
-                            50: '#f0f8fb',
+                            50: '#F4F0E2',
                             100: '#e0f0f7',
-                            200: '#cae4ef',
+                            200: '#A6C8E2',
                             600: '#0b6d8d',
-                            700: '#086288',
+                            700: '#619DC6',
                             800: '#064b68',
                             900: '#05394f',
                         }
@@ -118,7 +118,7 @@
         body { margin: 0; overflow-x: hidden; font-family: Poppins, sans-serif; background: #f1f5f9; color: #202b3d; }
         
         /* Topbar Style */
-        .topbar { background: #086288; color: #fff; }
+        .topbar { background: linear-gradient(135deg, #619DC6 0%, #4888B5 100%); color: #fff; border-bottom: 1px solid #A6C8E2; }
         .topbar-inner { position: relative; display: flex; align-items: center; justify-content: space-between; height: 76px; padding: 0 26px; }
         .brand { display: flex; max-width: 240px; min-width: 0; align-items: center; gap: 9px; font-size: 1.08rem; font-weight: 750; letter-spacing: -.03em; line-height: 1.15; text-decoration: none; color: inherit; }
         .brand-mark { display: grid; flex: 0 0 36px; place-items: center; width: 36px; height: 36px; border: 1px solid rgb(255 255 255 / 28%); border-radius: 10px; background: rgb(255 255 255 / 12%); font-size: 1rem; }
@@ -138,12 +138,12 @@
         .side-nav { display: grid; gap: 5px; }
         .side-link { display: flex; min-width: 0; align-items: center; gap: 10px; min-height: 46px; padding: 0 10px; border-radius: 9px; color: #41566c; font-size: .88rem; font-weight: 500; text-decoration: none; overflow-wrap: anywhere; transition: background .15s ease, color .15s ease; }
         .side-link:hover:not(.active):not(.disabled) { background: #f1f5f9; color: #172c41; }
-        .side-link.active { background: #086288; color: #fff; font-weight: 700; }
+        .side-link.active { background: #619DC6; color: #fff; font-weight: 700; }
         .side-link.disabled { color: #8393a6; cursor: not-allowed; }
         .side-icon { display: grid; flex: 0 0 26px; place-items: center; width: 26px; height: 26px; color: #829bb1; font-size: 1.1rem; font-weight: 600; }
         .side-link.active .side-icon { color: #fff; }
-        .sidebar-help { margin-top: auto; padding: 17px 16px; border: 1px solid #cae4ef; border-radius: 12px; background: #f0f8fb; color: #344b61; }
-        .sidebar-help-icon { margin-bottom: 8px; color: #086288; font-size: 1.25rem; }
+        .sidebar-help { margin-top: auto; padding: 17px 16px; border: 1px solid #A6C8E2; border-radius: 12px; background: #F4F0E2; color: #344b61; }
+        .sidebar-help-icon { margin-bottom: 8px; color: #619DC6; font-size: 1.25rem; }
         .sidebar-help strong { font-size: .88rem; }
         .sidebar-help p { margin: 6px 0 0; color: #60768b; font-size: .8rem; line-height: 1.5; }
         .sidebar-footer { margin: 16px 4px 0; color: #8294a8; font-size: .73rem; line-height: 1.55; }
@@ -230,8 +230,8 @@
             font-weight: 700;
             text-decoration: none;
             cursor: pointer;
-            border: 1px solid #086288;
-            background: #086288;
+            border: 1px solid #619DC6;
+            background: #619DC6;
             color: #fff;
             box-shadow: 0 2px 6px rgb(8 98 136 / 20%);
             transition: background .15s ease-in-out, border-color .15s ease-in-out;
@@ -330,11 +330,10 @@
     <header class="topbar">
         <div class="topbar-inner">
             <div class="brand-wrap">
-                <a href="{{ url('/') }}" class="brand">
-                    <span class="brand-mark" aria-hidden="true">💧</span>
-                    <span>Lingga Air<small>LAYANAN BANTUAN AIR BERSIH</small></span>
+                <a href="{{ url('/') }}" class="flex items-center gap-2">
+                    <img src="{{ asset('images/logo-lingga.png') }}" alt="Lingga Air" class="h-14 w-auto object-contain bg-white rounded-xl px-2.5 py-1.5 shadow-xs" onerror="this.onerror=null; this.src='https://placehold.co/180x60/619DC6/FFFFFF?text=Lingga+Air';">
                 </a>
-                <span class="topbar-label">Portal pelayanan desa</span>
+                <span class="topbar-label">Portal Pelayanan Desa</span>
             </div>
             @php
                 $topDesa = isset($desa) ? $desa : (Auth::user()?->desa ?? \App\Models\Desa::where('nama_desa', 'like', '%Serang%')->first() ?? \App\Models\Desa::first());
@@ -448,7 +447,7 @@
         @endphp
         <div id="modalKelayakanAman" class="fixed inset-0 z-[99999] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
             <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in duration-200 relative z-[100000]">
-                <div class="p-6 text-center text-white" style="background: #086288;">
+                <div class="p-6 text-center text-white" style="background: #619DC6;">
                     <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto mb-3 text-2xl">
                         💧
                     </div>
