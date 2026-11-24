@@ -20,13 +20,46 @@
             theme: {
                 extend: {
                     colors: {
-                        'la-peach': '#F4BAA3',
-                        'la-beige': '#F4F0E2',
-                        'la-pastel': '#A6C8E2',
-                        'la-blue': '#619DC6',
-                        'la-blue-dark': '#4888B5',
-                        'la-navy': '#1B3B5A',
-                        'la-navy-dark': '#132A40',
+                        idds: {
+                            blue: {
+                                DEFAULT: '#00629B',
+                                hover: '#004F7D',
+                                dark: '#003B5C',
+                                tint: '#EBF5FB',
+                                stroke: '#BAE3F5',
+                            },
+                            neutral: {
+                                25: '#FCFDFD',
+                                50: '#F8FAFC',
+                                100: '#F2F4F7',
+                                200: '#E4E7EC',
+                                300: '#D0D5DD',
+                                500: '#667085',
+                                600: '#475467',
+                                700: '#344054',
+                                900: '#101828',
+                            },
+                            status: {
+                                error: {
+                                    text: '#B42318',
+                                    bg: '#FEF3F2',
+                                    border: '#FECDCA',
+                                },
+                                success: {
+                                    text: '#027A48',
+                                    bg: '#ECFDF3',
+                                    border: '#A6F4C5',
+                                },
+                                warning: {
+                                    text: '#B54708',
+                                    bg: '#FFFAEB',
+                                    border: '#FEDF89',
+                                },
+                            },
+                        },
+                    },
+                    boxShadow: {
+                        'xs': '0 1px 2px 0 rgba(16, 24, 40, 0.05)',
                     },
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
@@ -42,21 +75,21 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #F4F0E2;
-            color: #1B3B5A;
+            background-color: #F8FAFC;
+            color: #101828;
         }
         section, footer {
             scroll-margin-top: 90px;
         }
         .hero-banner {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F4F0E2 60%, #E8F1F7 100%);
+            background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 60%, #EBF5FB 100%);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#F4F0E2] text-[#1B3B5A]">
+<body class="min-h-screen flex flex-col bg-[#F8FAFC] text-[#101828]">
 
     <!-- ==================== TOPBAR NAVIGASI (GAMBAR 3) ==================== -->
-    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-[#A6C8E2]/60 shadow-xs">
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-[#EAECF0] shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
             
             <!-- Logo Lingga Air (Besar & Jelas) -->
@@ -65,25 +98,25 @@
                     src="{{ asset('images/logo-lingga.png') }}" 
                     alt="Lingga Air" 
                     class="h-12 sm:h-16 w-auto object-contain transition-transform group-hover:scale-105"
-                    onerror="this.onerror=null; this.src='https://placehold.co/220x70/619DC6/FFFFFF?text=Lingga+Air';"
+                    onerror="this.onerror=null; this.src='https://placehold.co/220x70/00629B/FFFFFF?text=Lingga+Air';"
                 >
             </a>
 
             <!-- Menu Navigasi Tengah (Interaktif dengan Penanda Aktif) -->
             <nav id="navbar-menu" class="hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase">
-                <a href="#beranda" class="nav-item text-[#619DC6] border-b-2 border-[#619DC6] pb-1 transition-all duration-200">
+                <a href="#beranda" class="nav-item text-[#00629B] border-b-2 border-[#00629B] pb-1 transition-all duration-200">
                     Home
                 </a>
-                <a href="#tentang" class="nav-item text-[#1B3B5A] hover:text-[#619DC6] border-b-2 border-transparent pb-1 transition-all duration-200">
+                <a href="#tentang" class="nav-item text-[#475467] hover:text-[#00629B] border-b-2 border-transparent pb-1 transition-all duration-200">
                     Tentang Kami
                 </a>
-                <a href="#layanan" class="nav-item text-[#1B3B5A] hover:text-[#619DC6] border-b-2 border-transparent pb-1 transition-all duration-200">
+                <a href="#layanan" class="nav-item text-[#475467] hover:text-[#00629B] border-b-2 border-transparent pb-1 transition-all duration-200">
                     Layanan Air
                 </a>
-                <a href="#galeri" class="nav-item text-[#1B3B5A] hover:text-[#619DC6] border-b-2 border-transparent pb-1 transition-all duration-200">
+                <a href="#galeri" class="nav-item text-[#475467] hover:text-[#00629B] border-b-2 border-transparent pb-1 transition-all duration-200">
                     Armada Tangki
                 </a>
-                <a href="#kontak" class="nav-item text-[#1B3B5A] hover:text-[#619DC6] border-b-2 border-transparent pb-1 transition-all duration-200">
+                <a href="#kontak" class="nav-item text-[#475467] hover:text-[#00629B] border-b-2 border-transparent pb-1 transition-all duration-200">
                     Kontak BPBD
                 </a>
             </nav>
@@ -98,15 +131,15 @@
                             default => route('desa.dashboard'),
                         };
                     @endphp
-                    <a href="{{ $dashUrl }}" class="px-5 py-2.5 rounded-xl bg-[#619DC6] hover:bg-[#4888B5] text-white font-bold text-xs uppercase tracking-wider transition shadow-sm flex items-center gap-2">
+                    <a href="{{ $dashUrl }}" class="px-5 py-2.5 rounded-lg bg-[#00629B] hover:bg-[#004F7D] text-white font-bold text-xs uppercase tracking-wider transition shadow-sm flex items-center gap-2">
                         <i class="fa-solid fa-gauge-high"></i>
                         <span>Buka Dashboard</span>
                     </a>
                 @else
-                    <a href="{{ route('login') }}" class="px-5 py-2.5 rounded-xl border border-[#619DC6] text-[#619DC6] hover:bg-[#619DC6] hover:text-white font-bold text-xs uppercase tracking-wider transition">
+                    <a href="{{ route('login') }}" class="px-5 py-2.5 rounded-lg border border-[#D0D5DD] bg-white text-[#344054] hover:bg-[#F2F4F7] font-bold text-xs uppercase tracking-wider transition shadow-xs">
                         Masuk
                     </a>
-                    <a href="{{ route('register') }}" class="hidden sm:inline-flex px-5 py-2.5 rounded-xl bg-[#619DC6] hover:bg-[#4888B5] text-white font-bold text-xs uppercase tracking-wider transition shadow-sm">
+                    <a href="{{ route('register') }}" class="hidden sm:inline-flex px-5 py-2.5 rounded-lg bg-[#00629B] hover:bg-[#004F7D] text-white font-bold text-xs uppercase tracking-wider transition shadow-sm">
                         Daftar Akun
                     </a>
                 @endauth
@@ -116,7 +149,7 @@
     </header>
 
     <!-- ==================== HERO BANNER 2 KOLOM (GAMBAR 3) ==================== -->
-    <section id="beranda" class="hero-banner relative pt-6 sm:pt-8 lg:pt-10 pb-8 sm:pb-10 lg:pb-12 px-4 sm:px-6 lg:px-8 border-b border-[#A6C8E2]/40 overflow-hidden">
+    <section id="beranda" class="hero-banner relative pt-6 sm:pt-8 lg:pt-10 pb-8 sm:pb-10 lg:pb-12 px-4 sm:px-6 lg:px-8 border-b border-[#EAECF0] overflow-hidden">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
                 
@@ -124,25 +157,25 @@
                 <div class="lg:w-7/12 space-y-4">
                     
                     <!-- Tag Kategori -->
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm border border-[#A6C8E2] text-[#1B3B5A] text-xs font-bold uppercase tracking-wider shadow-xs">
-                        <span class="w-2 h-2 rounded-full bg-[#619DC6] animate-pulse"></span>
-                        <span class="text-[#619DC6] font-extrabold">SISTEM INFORMASI</span>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm border border-[#BAE3F5] text-[#101828] text-xs font-bold uppercase tracking-wider shadow-xs">
+                        <span class="w-2 h-2 rounded-full bg-[#00629B] animate-pulse"></span>
+                        <span class="text-[#00629B] font-extrabold">SISTEM INFORMASI</span>
                         <span class="text-slate-300">|</span>
-                        <span class="font-semibold text-slate-700">PENYALURAN AIR BERSIH</span>
+                        <span class="font-semibold text-[#475467]">PENYALURAN AIR BERSIH</span>
                     </div>
 
                     <!-- Judul Headline -->
-                    <h1 class="text-2xl sm:text-3xl lg:text-[40px] font-extrabold leading-[1.18] tracking-tight text-[#1B3B5A]">
+                    <h1 class="text-2xl sm:text-3xl lg:text-[40px] font-extrabold leading-[1.18] tracking-tight text-[#101828]">
                         Penyaluran Air Bersih Darurat, <br class="hidden sm:inline">
-                        <span class="text-[#619DC6]">Cepat &amp; Tepat Sasaran</span>
+                        <span class="text-[#00629B]">Cepat &amp; Tepat Sasaran</span>
                     </h1>
 
                     <!-- Paragraf Konsep Penyaluran Air Bersih -->
-                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                    <p class="text-xs sm:text-sm text-[#344054] leading-relaxed font-normal">
                         Layanan resmi BPBD Kabupaten Purbalingga untuk penanggulangan darurat bencana kekeringan. Menyediakan pasokan air bersih bagi tandon warga desa terdampak, fasilitas kesehatan, sekolah, dan tempat ibadah secara adil serta terverifikasi metode SPK (AHP-SAW).
                     </p>
 
-                    <!-- Tombol Aksi Utama (Tunggal & Fokus) -->
+                    <!-- Tombol Aksi Utama (Tunggal & Fokus - Standar IDDS Primary CTA) -->
                     <div class="pt-0.5">
                         @auth
                             @php
@@ -152,56 +185,56 @@
                                     default => route('desa.dashboard'),
                                 };
                             @endphp
-                            <a href="{{ $mainDash }}" class="px-7 py-3 rounded-xl bg-[#1B3B5A] hover:bg-[#619DC6] text-white font-extrabold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-200 inline-flex items-center gap-2 transform hover:-translate-y-0.5">
-                                <i class="fa-solid fa-gauge-high text-[#F4BAA3]"></i>
+                            <a href="{{ $mainDash }}" class="px-7 py-3 rounded-lg bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white font-bold text-xs uppercase tracking-wider shadow-sm shadow-[#00629B]/20 transition-all duration-150 inline-flex items-center gap-2 transform hover:-translate-y-0.5">
+                                <i class="fa-solid fa-gauge-high"></i>
                                 <span>Buka Dashboard Layanan</span>
-                                <i class="fa-solid fa-arrow-right text-[10px] text-slate-300"></i>
+                                <i class="fa-solid fa-arrow-right text-[10px] text-white/80"></i>
                             </a>
                         @else
-                            <a href="{{ route('login') }}" class="px-7 py-3 rounded-xl bg-[#1B3B5A] hover:bg-[#619DC6] text-white font-extrabold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-200 inline-flex items-center gap-2 transform hover:-translate-y-0.5">
-                                <i class="fa-solid fa-truck-droplet text-[#F4BAA3]"></i>
+                            <a href="{{ route('login') }}" class="px-7 py-3 rounded-lg bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white font-bold text-xs uppercase tracking-wider shadow-sm shadow-[#00629B]/20 transition-all duration-150 inline-flex items-center gap-2 transform hover:-translate-y-0.5">
+                                <i class="fa-solid fa-truck-droplet"></i>
                                 <span>Ajukan Bantuan Air Bersih</span>
-                                <i class="fa-solid fa-arrow-right text-[10px] text-slate-300"></i>
+                                <i class="fa-solid fa-arrow-right text-[10px] text-white/80"></i>
                             </a>
                         @endauth
                     </div>
 
                     <!-- Alur Proses Bisnis Lingga Air (Sesuai Konsep SPK AHP-SAW di Excel) -->
-                    <div class="pt-2.5 pb-0.5 border-t border-[#A6C8E2]/50">
-                        <p class="text-[11px] font-bold text-[#1B3B5A] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                            <i class="fa-solid fa-diagram-project text-[#619DC6]"></i>
+                    <div class="pt-2.5 pb-0.5 border-t border-[#EAECF0]">
+                        <p class="text-[11px] font-bold text-[#101828] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-diagram-project text-[#00629B]"></i>
                             <span>Alur Distribusi Air Bersih (Sistem SPK Lingga Air):</span>
                         </p>
                         <div class="grid grid-cols-3 gap-2 sm:gap-3 text-[11px]">
                             <!-- Tahap 1: Cek Kelayakan Mandiri (F-02) -->
-                            <div class="p-2 sm:p-2.5 rounded-xl bg-white/90 border border-[#A6C8E2]/60 shadow-2xs">
+                            <div class="p-2 sm:p-2.5 rounded-xl bg-white border border-[#E4E7EC] shadow-xs">
                                 <div class="flex items-center gap-1.5 mb-1">
-                                    <span class="w-4 h-4 rounded bg-[#619DC6] text-white flex items-center justify-center font-extrabold text-[9px] shrink-0">1</span>
-                                    <span class="font-extrabold text-[#1B3B5A] text-[11px] sm:text-xs truncate">Cek Kelayakan</span>
+                                    <span class="w-4 h-4 rounded bg-[#00629B] text-white flex items-center justify-center font-extrabold text-[9px] shrink-0">1</span>
+                                    <span class="font-extrabold text-[#101828] text-[11px] sm:text-xs truncate">Cek Kelayakan</span>
                                 </div>
-                                <span class="text-[9.5px] text-slate-500 block leading-tight">
+                                <span class="text-[9.5px] text-[#475467] block leading-tight">
                                     Simulasi mandiri kedaruratan kekeringan berbasis SPK (AHP-SAW).
                                 </span>
                             </div>
 
                             <!-- Tahap 2: Pengajuan Bantuan Air (F-03) -->
-                            <div class="p-2 sm:p-2.5 rounded-xl bg-white/90 border border-[#A6C8E2]/60 shadow-2xs">
+                            <div class="p-2 sm:p-2.5 rounded-xl bg-white border border-[#E4E7EC] shadow-xs">
                                 <div class="flex items-center gap-1.5 mb-1">
-                                    <span class="w-4 h-4 rounded bg-[#619DC6] text-white flex items-center justify-center font-extrabold text-[9px] shrink-0">2</span>
-                                    <span class="font-extrabold text-[#1B3B5A] text-[11px] sm:text-xs truncate">Pengajuan Tiket</span>
+                                    <span class="w-4 h-4 rounded bg-[#00629B] text-white flex items-center justify-center font-extrabold text-[9px] shrink-0">2</span>
+                                    <span class="font-extrabold text-[#101828] text-[11px] sm:text-xs truncate">Pengajuan Tiket</span>
                                 </div>
-                                <span class="text-[9.5px] text-slate-500 block leading-tight">
+                                <span class="text-[9.5px] text-[#475467] block leading-tight">
                                     Permohonan digital satu desa satu tiket aktif terisi otomatis dari hasil uji.
                                 </span>
                             </div>
 
                             <!-- Tahap 3: Verifikasi & Penyaluran Armada (F-04 & F-05) -->
-                            <div class="p-2 sm:p-2.5 rounded-xl bg-white/90 border border-[#A6C8E2]/60 shadow-2xs">
+                            <div class="p-2 sm:p-2.5 rounded-xl bg-white border border-[#E4E7EC] shadow-xs">
                                 <div class="flex items-center gap-1.5 mb-1">
-                                    <span class="w-4 h-4 rounded bg-[#619DC6] text-white flex items-center justify-center font-extrabold text-[9px] shrink-0">3</span>
-                                    <span class="font-extrabold text-[#1B3B5A] text-[11px] sm:text-xs truncate">Verifikasi &amp; Kirim</span>
+                                    <span class="w-4 h-4 rounded bg-[#00629B] text-white flex items-center justify-center font-extrabold text-[9px] shrink-0">3</span>
+                                    <span class="font-extrabold text-[#101828] text-[11px] sm:text-xs truncate">Verifikasi &amp; Kirim</span>
                                 </div>
-                                <span class="text-[9.5px] text-slate-500 block leading-tight">
+                                <span class="text-[9.5px] text-[#475467] block leading-tight">
                                     Keputusan prioritas BPBD &amp; drop armada tangki 5.000 L (BAST digital).
                                 </span>
                             </div>
@@ -209,17 +242,17 @@
                     </div>
 
                     <!-- Poin Keunggulan Cepat (Jejer 3 Rapi) -->
-                    <div class="grid grid-cols-3 gap-2 sm:gap-4 pt-1.5 text-[11px] sm:text-xs font-semibold text-slate-700">
+                    <div class="grid grid-cols-3 gap-2 sm:gap-4 pt-1.5 text-[11px] sm:text-xs font-semibold text-[#344054]">
                         <div class="flex items-center gap-1.5 whitespace-nowrap">
-                            <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i>
+                            <i class="fa-solid fa-circle-check text-[#027A48] text-sm shrink-0"></i>
                             <span>Tanggap Darurat</span>
                         </div>
                         <div class="flex items-center gap-1.5 whitespace-nowrap">
-                            <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i>
+                            <i class="fa-solid fa-circle-check text-[#027A48] text-sm shrink-0"></i>
                             <span>Kapasitas 5.000 L</span>
                         </div>
                         <div class="flex items-center gap-1.5 whitespace-nowrap">
-                            <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i>
+                            <i class="fa-solid fa-circle-check text-[#027A48] text-sm shrink-0"></i>
                             <span>Terverifikasi SPK</span>
                         </div>
                     </div>
@@ -239,28 +272,28 @@
                             >
 
                             <!-- Gradasi Lembut di Sisi Kiri (Melebur Halus ke Arah Teks) -->
-                            <div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#F4F0E2] via-[#F4F0E2]/60 to-transparent pointer-events-none"></div>
+                            <div class="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/60 to-transparent pointer-events-none"></div>
                             
                             <!-- Gradasi Lembut di Sisi Bawah -->
-                            <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#F4F0E2] to-transparent pointer-events-none"></div>
+                            <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#F8FAFC] to-transparent pointer-events-none"></div>
                         </div>
 
                         <!-- Floating Badge Pojok Kanan Atas -->
                         <div class="absolute top-2.5 right-3 flex items-center gap-1.5">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#1B3B5A] text-[10px] font-extrabold shadow-xs border border-[#A6C8E2]/50">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[#101828] text-[10px] font-extrabold shadow-xs border border-[#E4E7EC]">
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#027A48] animate-pulse"></span>
                                 BPBD Purbalingga
                             </span>
-                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#619DC6] text-white text-[10px] font-extrabold shadow-xs">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#00629B] text-white text-[10px] font-extrabold shadow-xs">
                                 <i class="fa-solid fa-droplet text-[9px]"></i>
                                 5.000 L
                             </span>
                         </div>
 
                         <!-- Label Keterangan Mengambang Halus di Bawah -->
-                        <div class="absolute bottom-2.5 right-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-xs border border-[#A6C8E2]/40 text-right">
-                            <p class="text-[11px] font-bold text-[#1B3B5A] leading-tight">Kabupaten Purbalingga</p>
-                            <p class="text-[9px] text-slate-500 font-medium leading-tight">Distribusi Air Bersih Darurat</p>
+                        <div class="absolute bottom-2.5 right-3 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-xs border border-[#E4E7EC] text-right">
+                            <p class="text-[11px] font-bold text-[#101828] leading-tight">Kabupaten Purbalingga</p>
+                            <p class="text-[9px] text-[#475467] font-medium leading-tight">Distribusi Air Bersih Darurat</p>
                         </div>
 
                     </div>
@@ -271,9 +304,9 @@
     </section>
 
     <!-- ==================== SUB-BANNER PITA BIRU (GAMBAR 3 BOTTOM) ==================== -->
-    <div class="bg-[#1B3B5A] text-white py-4 px-4 sm:px-6 border-y border-[#A6C8E2]/30">
+    <div class="bg-[#101828] text-white py-4 px-4 sm:px-6 border-y border-[#1D2939]">
         <div class="max-w-7xl mx-auto flex items-center justify-center gap-3 text-center">
-            <span class="w-8 h-8 rounded-full bg-[#619DC6] flex items-center justify-center text-white text-sm shrink-0">
+            <span class="w-8 h-8 rounded-full bg-[#00629B] flex items-center justify-center text-white text-sm shrink-0">
                 <i class="fa-solid fa-hand-holding-droplet"></i>
             </span>
             <span class="text-base sm:text-lg font-bold tracking-wide">
@@ -283,11 +316,11 @@
     </div>
 
     <!-- ==================== 4 LAYANAN KEBUTUHAN AIR BERSIH (GAMBAR 4) ==================== -->
-    <section id="layanan" class="py-16 sm:py-24 bg-[#1B3B5A] text-white relative">
+    <section id="layanan" class="py-16 sm:py-24 bg-[#101828] text-white relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-[#F4BAA3]">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#BAE3F5]">
                     LAYANAN TERPADU BPBD PURBALINGGA
                 </span>
                 <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
@@ -302,8 +335,8 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 
                 <!-- Layanan 1: Armada Tangki -->
-                <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-[#132A40]/80 border border-[#A6C8E2]/20 hover:border-[#619DC6] transition duration-200">
-                    <div class="w-20 h-20 rounded-full bg-[#619DC6] text-white flex items-center justify-center text-3xl shadow-lg mb-5 border-4 border-[#A6C8E2]/40">
+                <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-[#003B5C]/60 border border-[#BAE3F5]/20 hover:border-[#00629B] transition duration-200">
+                    <div class="w-20 h-20 rounded-full bg-[#00629B] text-white flex items-center justify-center text-3xl shadow-lg mb-5 border-4 border-[#BAE3F5]/40">
                         <i class="fa-solid fa-truck-fast"></i>
                     </div>
                     <h3 class="font-bold text-base mb-2">Armada Tangki Darurat</h3>
@@ -313,8 +346,8 @@
                 </div>
 
                 <!-- Layanan 2: Tandon Komunal -->
-                <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-[#132A40]/80 border border-[#A6C8E2]/20 hover:border-[#619DC6] transition duration-200">
-                    <div class="w-20 h-20 rounded-full bg-[#619DC6] text-white flex items-center justify-center text-3xl shadow-lg mb-5 border-4 border-[#A6C8E2]/40">
+                <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-[#003B5C]/60 border border-[#BAE3F5]/20 hover:border-[#00629B] transition duration-200">
+                    <div class="w-20 h-20 rounded-full bg-[#00629B] text-white flex items-center justify-center text-3xl shadow-lg mb-5 border-4 border-[#BAE3F5]/40">
                         <i class="fa-solid fa-box-archive"></i>
                     </div>
                     <h3 class="font-bold text-base mb-2">Tandon Air Komunal</h3>
@@ -324,8 +357,8 @@
                 </div>
 
                 <!-- Layanan 3: Kebutuhan Minum & Sanitasi -->
-                <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-[#132A40]/80 border border-[#A6C8E2]/20 hover:border-[#619DC6] transition duration-200">
-                    <div class="w-20 h-20 rounded-full bg-[#619DC6] text-white flex items-center justify-center text-3xl shadow-lg mb-5 border-4 border-[#A6C8E2]/40">
+                <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-[#003B5C]/60 border border-[#BAE3F5]/20 hover:border-[#00629B] transition duration-200">
+                    <div class="w-20 h-20 rounded-full bg-[#00629B] text-white flex items-center justify-center text-3xl shadow-lg mb-5 border-4 border-[#BAE3F5]/40">
                         <i class="fa-solid fa-glass-water"></i>
                     </div>
                     <h3 class="font-bold text-base mb-2">Air Bersih Konsumsi</h3>
@@ -335,8 +368,8 @@
                 </div>
 
                 <!-- Layanan 4: Fasilitas Umum & Sosial -->
-                <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-[#132A40]/80 border border-[#A6C8E2]/20 hover:border-[#619DC6] transition duration-200">
-                    <div class="w-20 h-20 rounded-full bg-[#619DC6] text-white flex items-center justify-center text-3xl shadow-lg mb-5 border-4 border-[#A6C8E2]/40">
+                <div class="flex flex-col items-center text-center p-6 rounded-2xl bg-[#003B5C]/60 border border-[#BAE3F5]/20 hover:border-[#00629B] transition duration-200">
+                    <div class="w-20 h-20 rounded-full bg-[#00629B] text-white flex items-center justify-center text-3xl shadow-lg mb-5 border-4 border-[#BAE3F5]/40">
                         <i class="fa-solid fa-hospital-user"></i>
                     </div>
                     <h3 class="font-bold text-base mb-2">Fasilitas Layanan Publik</h3>
@@ -351,17 +384,17 @@
     </section>
 
     <!-- ==================== TENTANG KAMI & PROFIL PENYALURAN (GAMBAR 4 BOTTOM) ==================== -->
-    <section id="tentang" class="py-16 sm:py-20 bg-[#F4F0E2]">
+    <section id="tentang" class="py-16 sm:py-20 bg-[#F8FAFC]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 
                 <!-- Kolom Kiri: Kartu Promo Air Bersih (Sesuai Gambar 4 Kiri) -->
                 <div class="lg:col-span-5">
-                    <div class="bg-gradient-to-br from-[#619DC6] to-[#1B3B5A] rounded-3xl p-8 text-white shadow-xl relative overflow-hidden border border-[#A6C8E2]">
-                        <div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-[#F4BAA3]/20 blur-2xl"></div>
+                    <div class="bg-gradient-to-br from-[#00629B] to-[#101828] rounded-3xl p-8 text-white shadow-xl relative overflow-hidden border border-[#BAE3F5]">
+                        <div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-[#BAE3F5]/20 blur-2xl"></div>
                         
                         <div class="relative z-10 space-y-4">
-                            <span class="px-3 py-1 rounded-full bg-[#F4BAA3] text-[#1B3B5A] text-[11px] font-extrabold uppercase tracking-wider">
+                            <span class="px-3 py-1 rounded-full bg-[#EBF5FB] text-[#00629B] text-[11px] font-extrabold uppercase tracking-wider">
                                 DISTRIBUSI AIR BERSIH
                             </span>
                             <h3 class="text-2xl sm:text-3xl font-extrabold leading-snug">
@@ -374,7 +407,7 @@
                             <div class="pt-4 border-t border-white/20 flex items-center justify-between">
                                 <div>
                                     <p class="text-xs text-slate-300">Standar Pasokan BPBD</p>
-                                    <p class="text-lg font-bold text-[#F4BAA3]">5.000 Liter / Tangki</p>
+                                    <p class="text-lg font-bold text-[#BAE3F5]">5.000 Liter / Tangki</p>
                                 </div>
                                 <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-2xl text-white">
                                     <i class="fa-solid fa-shield-halved"></i>
@@ -387,48 +420,47 @@
                 <!-- Kolom Kanan: Narasi Penyaluran (Sesuai Gambar 4 Kanan) -->
                 <div class="lg:col-span-7 space-y-6">
                     <div>
-                        <span class="text-xs font-bold uppercase tracking-widest text-[#619DC6] block mb-1">
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#00629B] block mb-1">
                             SISTEM TANGGAP DARURAT
                         </span>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1B3B5A] tracking-tight">
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#101828] tracking-tight">
                             Penyaluran Air Bersih Tanggap Kekeringan Purbalingga
                         </h2>
                     </div>
 
-                    <p class="text-sm text-slate-600 leading-relaxed">
+                    <p class="text-sm text-[#344054] leading-relaxed">
                         <strong>Lingga Air</strong> adalah sistem informasi terpadu yang dikembangkan untuk mendukung Badan Penanggulangan Bencana Daerah (BPBD) Kabupaten Purbalingga dalam mengoordinasikan distribusi bantuan pasokan air bersih darurat ke desa-desa yang dilanda kekeringan.
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                        <div class="p-4 rounded-xl bg-white border border-[#A6C8E2]/60 shadow-xs space-y-1">
-                            <p class="font-bold text-[#1B3B5A] flex items-center gap-1.5">
-                                <span class="text-emerald-500">✓</span> Cek Kelayakan Mandiri
+                        <div class="p-4 rounded-xl bg-white border border-[#E4E7EC] shadow-xs space-y-1">
+                            <p class="font-bold text-[#101828] flex items-center gap-1.5">
+                                <span class="text-[#027A48]">✓</span> Cek Kelayakan Mandiri
                             </p>
-                            <p class="text-slate-500">Aparatur desa dapat menghitung status darurat desanya (Kritis, Waspada, Aman) sebelum pengajuan.</p>
+                            <p class="text-[#475467]">Aparatur desa dapat menghitung status darurat desanya (Kritis, Waspada, Aman) sebelum pengajuan.</p>
                         </div>
 
-                        <div class="p-4 rounded-xl bg-white border border-[#A6C8E2]/60 shadow-xs space-y-1">
-                            <p class="font-bold text-[#1B3B5A] flex items-center gap-1.5">
-                                <span class="text-emerald-500">✓</span> Objektif Berbasis SPK
+                        <div class="p-4 rounded-xl bg-white border border-[#E4E7EC] shadow-xs space-y-1">
+                            <p class="font-bold text-[#101828] flex items-center gap-1.5">
+                                <span class="text-[#027A48]">✓</span> Objektif Berbasis SPK
                             </p>
-                            <p class="text-slate-500">Penentuan antrean verifikasi menggunakan algoritma AHP-SAW bebas intervensi.</p>
+                            <p class="text-[#475467]">Penentuan antrean verifikasi menggunakan algoritma AHP-SAW bebas intervensi.</p>
                         </div>
 
-                        <div class="p-4 rounded-xl bg-white border border-[#A6C8E2]/60 shadow-xs space-y-1">
-                            <p class="font-bold text-[#1B3B5A] flex items-center gap-1.5">
-                                <span class="text-emerald-500">✓</span> Pengawalan Logistik Armada
+                        <div class="p-4 rounded-xl bg-white border border-[#E4E7EC] shadow-xs space-y-1">
+                            <p class="font-bold text-[#101828] flex items-center gap-1.5">
+                                <span class="text-[#027A48]">✓</span> Pengawalan Logistik Armada
                             </p>
-                            <p class="text-slate-500">Tracking alokasi tangki dari verifikasi persetujuan BPBD sampai pengiriman air tiba di desa.</p>
+                            <p class="text-[#475467]">Tracking alokasi tangki dari verifikasi persetujuan BPBD sampai pengiriman air tiba di desa.</p>
                         </div>
 
-                        <div class="p-4 rounded-xl bg-white border border-[#A6C8E2]/60 shadow-xs space-y-1">
-                            <p class="font-bold text-[#1B3B5A] flex items-center gap-1.5">
-                                <span class="text-emerald-500">✓</span> Satu Desa Satu Tiket Aktif
+                        <div class="p-4 rounded-xl bg-white border border-[#E4E7EC] shadow-xs space-y-1">
+                            <p class="font-bold text-[#101828] flex items-center gap-1.5">
+                                <span class="text-[#027A48]">✓</span> Satu Desa Satu Tiket Aktif
                             </p>
-                            <p class="text-slate-500">Menjamin integritas antrean agar seluruh desa di Purbalingga mendapat giliran secara adil.</p>
+                            <p class="text-[#475467]">Menjamin integritas antrean agar seluruh desa di Purbalingga mendapat giliran secara adil.</p>
                         </div>
                     </div>
-
 
                 </div>
 
@@ -441,13 +473,13 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="text-center max-w-2xl mx-auto mb-12 space-y-2">
-                <span class="text-xs font-bold uppercase tracking-widest text-[#619DC6]">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#00629B]">
                     DOKUMENTASI LAPANGAN
                 </span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1B3B5A]">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#101828]">
                     Armada Tangki Penyaluran Air Bersih
                 </h2>
-                <p class="text-xs text-slate-500">
+                <p class="text-xs text-[#475467]">
                     Aktivitas armada tangki air BPBD saat menyuplai air bersih ke tandon penampungan warga di berbagai desa di Kabupaten Purbalingga.
                 </p>
             </div>
@@ -455,45 +487,43 @@
             <!-- Kartu Galeri 3 Foto (Armada 1, 2, 3) -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
                 
-                <div class="rounded-2xl overflow-hidden border border-[#A6C8E2]/60 bg-[#F4F0E2] shadow-sm hover:shadow-md transition group">
+                <div class="rounded-2xl overflow-hidden border border-[#E4E7EC] bg-[#F8FAFC] shadow-xs hover:shadow-sm transition group">
                     <div class="h-52 sm:h-56 bg-slate-200 overflow-hidden relative">
                         <img src="{{ asset('images/armada1.png') }}" alt="Armada Tangki 1" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     </div>
                     <div class="p-4 text-center">
-                        <p class="font-bold text-sm text-[#1B3B5A]">Armada Tangki Air BPBD</p>
-                        <p class="text-xs text-slate-500 mt-0.5">Kapasitas 5.000 Liter / Armada</p>
+                        <p class="font-bold text-sm text-[#101828]">Armada Tangki Air BPBD</p>
+                        <p class="text-xs text-[#475467] mt-0.5">Kapasitas 5.000 Liter / Armada</p>
                     </div>
                 </div>
 
-                <div class="rounded-2xl overflow-hidden border border-[#A6C8E2]/60 bg-[#F4F0E2] shadow-sm hover:shadow-md transition group">
+                <div class="rounded-2xl overflow-hidden border border-[#E4E7EC] bg-[#F8FAFC] shadow-xs hover:shadow-sm transition group">
                     <div class="h-52 sm:h-56 bg-slate-200 overflow-hidden relative">
                         <img src="{{ asset('images/armada2.png') }}" alt="Armada Tangki 2" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     </div>
                     <div class="p-4 text-center">
-                        <p class="font-bold text-sm text-[#1B3B5A]">Pengisian Tandon Komunal</p>
-                        <p class="text-xs text-slate-500 mt-0.5">Titik Penampungan Bersama Desa</p>
+                        <p class="font-bold text-sm text-[#101828]">Pengisian Tandon Komunal</p>
+                        <p class="text-xs text-[#475467] mt-0.5">Titik Penampungan Bersama Desa</p>
                     </div>
                 </div>
 
-                <div class="rounded-2xl overflow-hidden border border-[#A6C8E2]/60 bg-[#F4F0E2] shadow-sm hover:shadow-md transition group">
+                <div class="rounded-2xl overflow-hidden border border-[#E4E7EC] bg-[#F8FAFC] shadow-xs hover:shadow-sm transition group">
                     <div class="h-52 sm:h-56 bg-slate-200 overflow-hidden relative">
                         <img src="{{ asset('images/armada3.png') }}" alt="Armada Tangki 3" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     </div>
                     <div class="p-4 text-center">
-                        <p class="font-bold text-sm text-[#1B3B5A]">Distribusi Langsung ke Warga</p>
-                        <p class="text-xs text-slate-500 mt-0.5">Bantuan Wilayah Terdampak Kekeringan</p>
+                        <p class="font-bold text-sm text-[#101828]">Distribusi Langsung ke Warga</p>
+                        <p class="text-xs text-[#475467] mt-0.5">Bantuan Wilayah Terdampak Kekeringan</p>
                     </div>
                 </div>
 
             </div>
 
-
-
         </div>
     </section>
 
     <!-- ==================== FOOTER UTAMA (GAMBAR 5 BAWAH) ==================== -->
-    <footer id="kontak" class="bg-[#1B3B5A] text-white pt-16 pb-8 border-t-4 border-[#619DC6]">
+    <footer id="kontak" class="bg-[#101828] text-white pt-16 pb-8 border-t-4 border-[#00629B]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center space-y-4 max-w-2xl mx-auto">
                 
@@ -518,18 +548,18 @@
 
                 <!-- Ikon Sosial Media (Facebook & Instagram) -->
                 <div class="flex items-center justify-center gap-4 pt-4">
-                    <a href="https://www.facebook.com/share/1Lx1Ti3ws2/" target="_blank" rel="noopener noreferrer" aria-label="Facebook BPBD Purbalingga" class="w-9 h-9 rounded-full bg-[#619DC6] hover:bg-white hover:text-[#619DC6] text-white flex items-center justify-center text-sm transition shadow-xs">
+                    <a href="https://www.facebook.com/share/1Lx1Ti3ws2/" target="_blank" rel="noopener noreferrer" aria-label="Facebook BPBD Purbalingga" class="w-9 h-9 rounded-full bg-[#00629B] hover:bg-white hover:text-[#00629B] text-white flex items-center justify-center text-sm transition shadow-xs">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="https://www.instagram.com/bpbdpurbalingga?bqrl=ZnpvNnh2dWlzazVt" target="_blank" rel="noopener noreferrer" aria-label="Instagram BPBD Purbalingga" class="w-9 h-9 rounded-full bg-[#619DC6] hover:bg-white hover:text-[#619DC6] text-white flex items-center justify-center text-sm transition shadow-xs">
+                    <a href="https://www.instagram.com/bpbdpurbalingga?bqrl=ZnpvNnh2dWlzazVt" target="_blank" rel="noopener noreferrer" aria-label="Instagram BPBD Purbalingga" class="w-9 h-9 rounded-full bg-[#00629B] hover:bg-white hover:text-[#00629B] text-white flex items-center justify-center text-sm transition shadow-xs">
                         <i class="fa-brands fa-instagram text-base"></i>
                     </a>
                 </div>
 
                 <!-- Hak Cipta -->
-                <div class="pt-8 mt-8 border-t border-slate-700/60 text-[11px] text-slate-400">
+                <div class="pt-8 mt-8 border-t border-slate-800 text-[11px] text-slate-400">
                     <p>Copyright &copy; {{ date('Y') }}. Hak Cipta Dilindungi Undang-Undang.</p>
-                    <p class="mt-1 text-slate-500">Lingga Air · Proyek Perangkat Lunak Kelompok 4 (PS1SI-08-REG-01) · SDG 10</p>
+                    <p class="mt-1 text-slate-500">Lingga Air · Proyek Perangkat Lunak Kelompok 4 (PS1SI-08-REG-01) · INA Digital Design System</p>
                 </div>
 
             </div>
@@ -550,11 +580,11 @@
                 navLinks.forEach(link => {
                     const isTarget = link.getAttribute('href') === activeHref;
                     if (isTarget) {
-                        link.classList.remove('text-[#1B3B5A]', 'border-transparent');
-                        link.classList.add('text-[#619DC6]', 'border-[#619DC6]');
+                        link.classList.remove('text-[#475467]', 'border-transparent');
+                        link.classList.add('text-[#00629B]', 'border-[#00629B]');
                     } else {
-                        link.classList.remove('text-[#619DC6]', 'border-[#619DC6]');
-                        link.classList.add('text-[#1B3B5A]', 'border-transparent');
+                        link.classList.remove('text-[#00629B]', 'border-[#00629B]');
+                        link.classList.add('text-[#475467]', 'border-transparent');
                     }
                 });
             }

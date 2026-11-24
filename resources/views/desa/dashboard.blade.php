@@ -11,28 +11,28 @@
 @endphp
 
 <div class="space-y-6">
-    <section class="bg-white border border-[#A6C8E2] rounded-2xl p-6 sm:p-7 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6 relative overflow-hidden">
+    <section class="bg-white border border-[#E4E7EC] rounded-2xl p-6 sm:p-7 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6 relative overflow-hidden">
         <div class="space-y-2 max-w-2xl">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4F0E2] text-[#1B3B5A] text-xs font-bold uppercase tracking-wider border border-[#A6C8E2]">
-                <span class="w-2 h-2 rounded-full bg-[#619DC6]"></span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EBF5FB] text-[#00629B] text-xs font-bold uppercase tracking-wider border border-[#BAE3F5]">
+                <span class="w-2 h-2 rounded-full bg-[#00629B]"></span>
                 <span>Alur Pengajuan Air Bersih</span>
             </div>
-            <h2 class="text-xl font-extrabold text-[#1B3B5A]">Periksa Kelayakan Kedaruratan Air Bersih</h2>
-            <p class="text-sm text-slate-600 leading-relaxed">
+            <h2 class="text-xl font-extrabold text-[#101828]">Periksa Kelayakan Kedaruratan Air Bersih</h2>
+            <p class="text-sm text-[#475467] leading-relaxed">
                 Lakukan <strong>Cek Kelayakan Mandiri (F-02)</strong> terlebih dahulu untuk mengetahui tingkat kedaruratan desa Anda. Jika hasil bernilai Waspada atau Kritis, sistem akan langsung membuka akses formulir <strong>Pengajuan Bantuan Air Bersih (F-03)</strong>.
             </p>
         </div>
         <div class="flex flex-wrap items-center gap-3 shrink-0">
             <a
                 href="{{ route('cek-kelayakan.index') }}"
-                class="min-h-[46px] inline-flex items-center justify-center px-6 py-2.5 bg-[#619DC6] hover:bg-[#4888B5] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-sm transition gap-2"
+                class="min-h-[46px] inline-flex items-center justify-center px-6 py-2.5 bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-xs transition gap-2"
             >
                 <i class="fa-solid fa-calculator"></i>
                 <span>Mulai Cek Kelayakan</span>
             </a>
             <a
                 href="{{ route('pengajuan.index') }}"
-                class="min-h-[46px] inline-flex items-center justify-center px-5 py-2.5 bg-white border border-[#1B3B5A] hover:bg-[#1B3B5A] hover:text-white text-[#1B3B5A] text-xs font-bold uppercase tracking-wider rounded-xl transition gap-2"
+                class="min-h-[46px] inline-flex items-center justify-center px-5 py-2.5 bg-white border border-[#D0D5DD] hover:bg-[#F2F4F7] text-[#344054] text-xs font-bold uppercase tracking-wider rounded-xl transition gap-2"
             >
                 <i class="fa-solid fa-file-lines"></i>
                 <span>Draf & Status</span>

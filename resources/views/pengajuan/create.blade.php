@@ -43,22 +43,22 @@
     @endif
 
     <!-- RINGKASAN HASIL CEK KELAYAKAN (SESUAI DESAIN HASIL CEK KELAYAKAN MANDIRI) -->
-    <div class="card p-5" style="border-color: #A6C8E2; background: #F4F0E2;">
+    <div class="card p-5" style="border-color: #BAE3F5; background: #EBF5FB;">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
             
             <!-- Skor Prioritas AHP-SAW -->
             <div class="flex items-center gap-4">
-                <div class="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-center shadow-xs">
-                    <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">SKOR PRIORITAS</span>
-                    <span class="text-3xl font-extrabold tracking-tight" style="color: #619DC6; font-variant-numeric: tabular-nums;" id="disp-skor">
+                <div class="bg-white border border-[#E4E7EC] rounded-xl px-4 py-2.5 text-center shadow-xs">
+                    <span class="block text-[11px] font-bold uppercase tracking-wider text-[#667085]">SKOR PRIORITAS</span>
+                    <span class="text-3xl font-extrabold tracking-tight" style="color: #00629B; font-variant-numeric: tabular-nums;" id="disp-skor">
                         {{ $simulasi ? number_format($simulasi->skor_ahp_saw, 1) : '-' }}
                     </span>
-                    <span class="text-xs font-semibold text-slate-400">/ 100</span>
+                    <span class="text-xs font-semibold text-[#667085]">/ 100</span>
                 </div>
 
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold text-slate-600">Hasil Cek Kelayakan:</span>
+                        <span class="text-xs font-bold text-[#344054]">Hasil Cek Kelayakan:</span>
                         @php
                             $status = $simulasi ? $simulasi->status_kelayakan : 'Belum Cek';
                             $statusClass = match(strtolower($status)) {
@@ -72,18 +72,18 @@
                             {{ $status }}
                         </span>
                     </div>
-                    <p class="text-xs font-medium text-slate-700 mt-1.5" id="disp-rekomendasi">
+                    <p class="text-xs font-medium text-[#475467] mt-1.5" id="disp-rekomendasi">
                         {{ $simulasi ? ($simulasi->rekomendasi ?? 'Segera ajukan bantuan pasokan air bersih untuk kebutuhan warga terdampak.') : 'Data Cek Kelayakan belum tersedia. Silakan jalankan Cek Kelayakan Mandiri terlebih dahulu.' }}
                     </p>
                 </div>
             </div>
 
             <!-- Catatan Kelayakan -->
-            <div class="text-left md:text-right md:border-l md:border-slate-200 md:pl-5">
-                <span class="text-[11px] text-slate-500 block">Metode SPK Kemanusiaan:</span>
-                <span class="text-xs font-bold text-slate-800">AHP - Simple Additive Weighting (SAW)</span>
+            <div class="text-left md:text-right md:border-l md:border-[#E4E7EC] md:pl-5">
+                <span class="text-[11px] text-[#667085] block">Metode SPK Kemanusiaan:</span>
+                <span class="text-xs font-bold text-[#101828]">AHP - Simple Additive Weighting (SAW)</span>
                 <div class="mt-1">
-                    <a href="{{ route('cek-kelayakan.index') }}" class="text-xs font-bold hover:underline" style="color: #619DC6;">
+                    <a href="{{ route('cek-kelayakan.index') }}" class="text-xs font-bold hover:underline" style="color: #00629B;">
                         Cek Kelayakan Ulang &rarr;
                     </a>
                 </div>

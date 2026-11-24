@@ -20,13 +20,29 @@
             theme: {
                 extend: {
                     colors: {
-                        'la-peach': '#F4BAA3',
-                        'la-beige': '#F4F0E2',
-                        'la-pastel': '#A6C8E2',
-                        'la-blue': '#619DC6',
-                        'la-blue-dark': '#4888B5',
-                        'la-navy': '#1B3B5A',
-                        'la-navy-dark': '#132A40',
+                        idds: {
+                            blue: {
+                                DEFAULT: '#00629B',
+                                hover: '#004F7D',
+                                dark: '#003B5C',
+                                tint: '#EBF5FB',
+                                stroke: '#BAE3F5',
+                            },
+                            neutral: {
+                                25: '#FCFDFD',
+                                50: '#F8FAFC',
+                                100: '#F2F4F7',
+                                200: '#E4E7EC',
+                                300: '#D0D5DD',
+                                500: '#667085',
+                                600: '#475467',
+                                700: '#344054',
+                                900: '#101828',
+                            },
+                        },
+                    },
+                    boxShadow: {
+                        'xs': '0 1px 2px 0 rgba(16, 24, 40, 0.05)',
                     },
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
@@ -39,18 +55,18 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #F4F0E2;
-            color: #1B3B5A;
+            background-color: #F8FAFC;
+            color: #101828;
         }
         .hero-register-bg {
-            background: linear-gradient(145deg, #1B3B5A 0%, #132A40 60%, #1E466E 100%);
+            background: linear-gradient(145deg, #101828 0%, #003B5C 60%, #004F7D 100%);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#F4F0E2] text-[#1B3B5A]">
+<body class="min-h-screen flex flex-col bg-[#F8FAFC] text-[#101828]">
 
     <!-- ==================== TOPBAR NAVIGASI (GAMBAR 3) ==================== -->
-    <header class="bg-white/95 backdrop-blur-md border-b border-[#A6C8E2]/60 sticky top-0 z-50 shadow-xs">
+    <header class="bg-white/95 backdrop-blur-md border-b border-[#EAECF0] sticky top-0 z-50 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 sm:h-14 flex items-center justify-between gap-4">
             
             <!-- Logo Lingga Air (Besar & Jelas) -->
@@ -59,17 +75,17 @@
                     src="{{ asset('images/logo-lingga.png') }}" 
                     alt="Lingga Air" 
                     class="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
-                    onerror="this.onerror=null; this.src='https://placehold.co/220x70/619DC6/FFFFFF?text=Lingga+Air';"
+                    onerror="this.onerror=null; this.src='https://placehold.co/220x70/00629B/FFFFFF?text=Lingga+Air';"
                 >
             </a>
 
             <!-- Navigasi Cepat -->
             <div class="flex items-center gap-3 text-xs font-bold uppercase tracking-wider">
-                <a href="{{ url('/') }}" class="text-[#1B3B5A] hover:text-[#619DC6] transition flex items-center gap-1.5 text-[11px]">
+                <a href="{{ url('/') }}" class="text-[#475467] hover:text-[#00629B] transition flex items-center gap-1.5 text-[11px]">
                     <i class="fa-solid fa-arrow-left"></i>
                     <span>Kembali ke Beranda</span>
                 </a>
-                <a href="{{ route('login') }}" class="px-3.5 py-1.5 rounded-lg border border-[#619DC6] text-[#619DC6] hover:bg-[#619DC6] hover:text-white text-[11px] transition shadow-xs">
+                <a href="{{ route('login') }}" class="px-3.5 py-1.5 rounded-lg border border-[#D0D5DD] bg-white text-[#344054] hover:bg-[#F2F4F7] text-[11px] font-bold transition shadow-xs">
                     Masuk Akun
                 </a>
             </div>
@@ -79,14 +95,14 @@
 
     <!-- ==================== KONTEN REGISTER UTAMA (GAMBAR 3, 4, 5) ==================== -->
     <main class="flex-1 flex items-center justify-center py-2 px-4 sm:px-6">
-        <div class="max-w-4xl w-full bg-white rounded-2xl border border-[#A6C8E2] shadow-lg overflow-hidden grid grid-cols-1 lg:grid-cols-12 my-auto">
+        <div class="max-w-4xl w-full bg-white rounded-2xl border border-[#E4E7EC] shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12 my-auto">
             
             <!-- KOLOM KIRI: KONSEP PENYALURAN AIR BERSIH (GAMBAR 3 & 4) -->
             <div class="hero-register-bg lg:col-span-5 p-4 sm:p-5 text-white flex flex-col justify-center relative">
                 <div class="space-y-2.5 relative z-10">
                     
-                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#F4BAA3] text-[#1B3B5A] text-[9px] font-extrabold uppercase tracking-wider shadow-xs">
-                        <i class="fa-solid fa-id-card-clip text-[#619DC6]"></i>
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EBF5FB] text-[#00629B] text-[9.5px] font-extrabold uppercase tracking-wider shadow-xs">
+                        <i class="fa-solid fa-id-card-clip text-[#00629B]"></i>
                         <span>PENDAFTARAN AKUN RESMI</span>
                     </div>
 
@@ -101,7 +117,7 @@
                     <!-- Langkah Pendaftaran -->
                     <div class="space-y-1.5 pt-0.5">
                         <div class="flex items-center gap-2 p-1.5 px-2.5 rounded-lg bg-white/10 backdrop-blur-xs border border-white/15">
-                            <div class="w-6 h-6 rounded-full bg-[#F4BAA3] text-[#1B3B5A] flex items-center justify-center font-bold text-[9.5px] shrink-0">
+                            <div class="w-6 h-6 rounded-full bg-[#BAE3F5] text-[#003B5C] flex items-center justify-center font-bold text-[9.5px] shrink-0">
                                 1
                             </div>
                             <div class="text-[9.5px]">
@@ -111,7 +127,7 @@
                         </div>
 
                         <div class="flex items-center gap-2 p-1.5 px-2.5 rounded-lg bg-white/10 backdrop-blur-xs border border-white/15">
-                            <div class="w-6 h-6 rounded-full bg-[#A6C8E2] text-[#1B3B5A] flex items-center justify-center font-bold text-[9.5px] shrink-0">
+                            <div class="w-6 h-6 rounded-full bg-[#BAE3F5] text-[#003B5C] flex items-center justify-center font-bold text-[9.5px] shrink-0">
                                 2
                             </div>
                             <div class="text-[9.5px]">
@@ -121,7 +137,7 @@
                         </div>
 
                         <div class="flex items-center gap-2 p-1.5 px-2.5 rounded-lg bg-white/10 backdrop-blur-xs border border-white/15">
-                            <div class="w-6 h-6 rounded-full bg-[#619DC6] text-white flex items-center justify-center font-bold text-[9.5px] shrink-0">
+                            <div class="w-6 h-6 rounded-full bg-[#00629B] text-white flex items-center justify-center font-bold text-[9.5px] shrink-0">
                                 3
                             </div>
                             <div class="text-[9.5px]">
@@ -138,15 +154,15 @@
             <div class="lg:col-span-7 p-4 sm:p-5 bg-white flex flex-col justify-center space-y-2.5">
                 
                 <div>
-                    <span class="text-[9.5px] font-bold uppercase tracking-wider text-[#619DC6]">REGISTRASI PENGGUNA BARU</span>
-                    <h1 class="text-base sm:text-lg font-extrabold text-[#1B3B5A] tracking-tight mt-0.5">Daftar Akun Baru</h1>
-                    <p class="text-[10.5px] text-slate-500">Akun perwakilan aparatur desa atau mitra penyalur air bersih.</p>
+                    <span class="text-[9.5px] font-bold uppercase tracking-wider text-[#00629B]">REGISTRASI PENGGUNA BARU</span>
+                    <h1 class="text-base sm:text-lg font-extrabold text-[#101828] tracking-tight mt-0.5">Daftar Akun Baru</h1>
+                    <p class="text-[10.5px] text-[#475467]">Akun perwakilan aparatur desa atau mitra penyalur air bersih.</p>
                 </div>
 
                 <!-- Pesan Error -->
                 @if ($errors->any())
-                    <div role="alert" class="p-2 rounded-lg bg-rose-50 border border-rose-200 text-[10.5px] text-rose-700 flex items-start gap-2">
-                        <i class="fa-solid fa-circle-exclamation text-rose-500 text-xs mt-0.5"></i>
+                    <div role="alert" class="p-2 rounded-lg bg-[#FEF3F2] border border-[#FECDCA] text-[10.5px] text-[#B42318] flex items-start gap-2">
+                        <i class="fa-solid fa-circle-exclamation text-[#B42318] text-xs mt-0.5"></i>
                         <span>{{ $errors->first() }}</span>
                     </div>
                 @endif
@@ -157,11 +173,11 @@
 
                     <!-- Input Username -->
                     <div>
-                        <label for="username" class="block text-[10px] font-bold text-[#1B3B5A] uppercase tracking-wide mb-0.5">
+                        <label for="username" class="block text-[10px] font-bold text-[#344054] uppercase tracking-wide mb-0.5">
                             Username
                         </label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-slate-400">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-[#667085]">
                                 <i class="fa-solid fa-user text-[10px]"></i>
                             </span>
                             <input
@@ -174,25 +190,25 @@
                                 autofocus
                                 autocomplete="username"
                                 placeholder="Contoh: desa_karangreja"
-                                class="w-full pl-7 pr-3 py-1.5 bg-[#F4F0E2]/40 border border-[#A6C8E2] rounded-lg text-xs text-[#1B3B5A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#619DC6] focus:border-[#619DC6] transition"
+                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-[#D0D5DD] rounded-lg text-xs text-[#101828] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#00629B]/20 focus:border-[#00629B] transition shadow-xs"
                             >
                         </div>
-                        <p class="mt-0.5 text-[9px] text-slate-400">Gunakan nama desa atau identitas aparatur resmi.</p>
+                        <p class="mt-0.5 text-[9px] text-[#667085]">Gunakan nama desa atau identitas aparatur resmi.</p>
                         @error('username')
-                            <p role="alert" class="mt-0.5 text-[10px] text-rose-600 font-medium">{{ $message }}</p>
+                            <p role="alert" class="mt-0.5 text-[10px] text-[#B42318] font-medium">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Input Password -->
                     <div>
                         <div class="flex items-center justify-between mb-0.5">
-                            <label for="password" class="block text-[10px] font-bold text-[#1B3B5A] uppercase tracking-wide">
+                            <label for="password" class="block text-[10px] font-bold text-[#344054] uppercase tracking-wide">
                                 Kata Sandi
                             </label>
-                            <span class="text-[9px] text-slate-400">Min. 8 karakter</span>
+                            <span class="text-[9px] text-[#667085]">Min. 8 karakter</span>
                         </div>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-slate-400">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-[#667085]">
                                 <i class="fa-solid fa-lock text-[10px]"></i>
                             </span>
                             <input
@@ -203,12 +219,12 @@
                                 required
                                 autocomplete="new-password"
                                 placeholder="••••••••"
-                                class="w-full pl-7 pr-8 py-1.5 bg-[#F4F0E2]/40 border border-[#A6C8E2] rounded-lg text-xs text-[#1B3B5A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#619DC6] focus:border-[#619DC6] transition"
+                                class="w-full pl-7 pr-8 py-1.5 bg-white border border-[#D0D5DD] rounded-lg text-xs text-[#101828] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#00629B]/20 focus:border-[#00629B] transition shadow-xs"
                             >
                             <button
                                 type="button"
                                 onclick="togglePasswordVisibility('password', 'togglePasswordIcon')"
-                                class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400 hover:text-[#619DC6] focus:outline-none cursor-pointer transition"
+                                class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-[#667085] hover:text-[#00629B] focus:outline-none cursor-pointer transition"
                                 title="Lihat kata sandi"
                                 aria-label="Lihat atau sembunyikan kata sandi"
                             >
@@ -216,17 +232,17 @@
                             </button>
                         </div>
                         @error('password')
-                            <p role="alert" class="mt-0.5 text-[10px] text-rose-600 font-medium">{{ $message }}</p>
+                            <p role="alert" class="mt-0.5 text-[10px] text-[#B42318] font-medium">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Input Konfirmasi Password -->
                     <div>
-                        <label for="password_confirmation" class="block text-[10px] font-bold text-[#1B3B5A] uppercase tracking-wide mb-0.5">
+                        <label for="password_confirmation" class="block text-[10px] font-bold text-[#344054] uppercase tracking-wide mb-0.5">
                             Ulangi Kata Sandi
                         </label>
                         <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-slate-400">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-[#667085]">
                                 <i class="fa-solid fa-check-double text-[10px]"></i>
                             </span>
                             <input
@@ -237,12 +253,12 @@
                                 required
                                 autocomplete="new-password"
                                 placeholder="••••••••"
-                                class="w-full pl-7 pr-8 py-1.5 bg-[#F4F0E2]/40 border border-[#A6C8E2] rounded-lg text-xs text-[#1B3B5A] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#619DC6] focus:border-[#619DC6] transition"
+                                class="w-full pl-7 pr-8 py-1.5 bg-white border border-[#D0D5DD] rounded-lg text-xs text-[#101828] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#00629B]/20 focus:border-[#00629B] transition shadow-xs"
                             >
                             <button
                                 type="button"
                                 onclick="togglePasswordVisibility('password_confirmation', 'togglePasswordConfirmIcon')"
-                                class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400 hover:text-[#619DC6] focus:outline-none cursor-pointer transition"
+                                class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-[#667085] hover:text-[#00629B] focus:outline-none cursor-pointer transition"
                                 title="Lihat konfirmasi kata sandi"
                                 aria-label="Lihat atau sembunyikan konfirmasi kata sandi"
                             >
@@ -255,7 +271,7 @@
                     <div class="pt-0.5">
                         <button
                             type="submit"
-                            class="w-full py-2 px-4 rounded-xl bg-[#619DC6] hover:bg-[#4888B5] text-white font-bold text-xs uppercase tracking-wider shadow-xs hover:shadow transition flex items-center justify-center gap-2 cursor-pointer"
+                            class="w-full py-2.5 px-4 rounded-lg bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white font-bold text-xs uppercase tracking-wider shadow-sm shadow-[#00629B]/20 transition flex items-center justify-center gap-2 cursor-pointer"
                         >
                             <i class="fa-solid fa-user-plus text-[11px]"></i>
                             <span>Daftar Akun Baru</span>
@@ -265,15 +281,15 @@
                 </form>
 
                 <!-- Link Masuk & Info Role Admin -->
-                <div class="pt-2 border-t border-slate-100 text-[10.5px] text-slate-600 space-y-0.5">
+                <div class="pt-2 border-t border-[#EAECF0] text-[10.5px] text-[#475467] space-y-0.5">
                     <p class="leading-relaxed">
                         Sudah memiliki akun resmi? Silakan 
-                        <a href="{{ route('login') }}" class="font-bold text-[#619DC6] hover:text-[#4888B5] hover:underline inline-flex items-center gap-0.5">
+                        <a href="{{ route('login') }}" class="font-bold text-[#00629B] hover:text-[#004F7D] hover:underline inline-flex items-center gap-0.5">
                             <span>Masuk di Sini</span>
                             <i class="fa-solid fa-arrow-right text-[8.5px]"></i>
                         </a>
                     </p>
-                    <p class="text-[9.5px] text-slate-500 leading-tight">
+                    <p class="text-[9.5px] text-[#667085] leading-tight">
                         Bagi <strong>Petugas BPBD (Admin)</strong>, akun dikelola langsung oleh administrator sistem.
                     </p>
                 </div>
@@ -284,13 +300,13 @@
     </main>
 
     <!-- ==================== FOOTER KECIL (GAMBAR 5 BAWAH) ==================== -->
-    <footer class="bg-[#1B3B5A] text-white py-1.5 sm:py-2 border-t-2 border-[#619DC6] text-center text-slate-400">
+    <footer class="bg-[#101828] text-white py-2 sm:py-2.5 border-t-2 border-[#00629B] text-center text-[#667085]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-1 text-[10px]">
             <p>
                 BPBD Kabupaten Purbalingga &middot; Sistem Distribusi Bantuan Air Bersih Darurat
             </p>
-            <p class="text-slate-400">
-                &copy; {{ date('Y') }} Lingga Air &middot; Proyek Perangkat Lunak Kelompok 4
+            <p class="text-[#667085]">
+                &copy; {{ date('Y') }} Lingga Air &middot; INA Digital Design System
             </p>
         </div>
     </footer>
