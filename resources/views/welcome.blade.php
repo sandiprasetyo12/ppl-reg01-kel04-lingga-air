@@ -86,7 +86,7 @@
             </div>
 
             {{-- Centered H1 --}}
-            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.15] max-w-3xl mx-auto">
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.2] max-w-3xl mx-auto">
                 Penyaluran Bantuan Air Bersih Kabupaten Purbalingga
             </h1>
 
@@ -118,7 +118,7 @@
         <div class="max-w-7xl mx-auto px-6">
             {{-- Centered Header --}}
             <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
-                <h2 class="text-3xl font-extrabold text-neutral-900 tracking-tight">
+                <h2 class="text-3xl font-bold text-neutral-900 tracking-tight">
                     Kenapa Sistem Ini Dibutuhkan
                 </h2>
                 <p class="text-neutral-600 text-sm sm:text-base leading-relaxed">
@@ -221,7 +221,7 @@
     <section id="gis" class="py-20 border-t border-neutral-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
-                <h2 class="text-3xl font-extrabold text-neutral-900 tracking-tight">
+                <h2 class="text-3xl font-bold text-neutral-900 tracking-tight">
                     Cakupan Layanan & Pemetaan Spasial
                 </h2>
                 <p class="text-neutral-600 text-sm sm:text-base leading-relaxed">
@@ -232,19 +232,19 @@
             {{-- 4-Column Metric Counters --}}
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center mb-12">
                 <div class="p-6 bg-neutral-50 rounded-lg border border-neutral-200">
-                    <div class="text-4xl font-black text-neutral-900 tracking-tight">18</div>
+                    <div class="text-4xl font-bold text-neutral-900 tracking-tight">18</div>
                     <div class="text-xs font-bold uppercase tracking-wider text-neutral-600 mt-2">Kecamatan Terjangkau</div>
                 </div>
                 <div class="p-6 bg-neutral-50 rounded-lg border border-neutral-200">
-                    <div class="text-4xl font-black text-neutral-900 tracking-tight">239</div>
+                    <div class="text-4xl font-bold text-neutral-900 tracking-tight">239</div>
                     <div class="text-xs font-bold uppercase tracking-wider text-neutral-600 mt-2">Desa & Kelurahan</div>
                 </div>
                 <div class="p-6 bg-neutral-50 rounded-lg border border-neutral-200">
-                    <div class="text-4xl font-black text-neutral-900 tracking-tight">5.000 L</div>
+                    <div class="text-4xl font-bold text-neutral-900 tracking-tight">5.000 L</div>
                     <div class="text-xs font-bold uppercase tracking-wider text-neutral-600 mt-2">Standar per Tangki</div>
                 </div>
                 <div class="p-6 bg-neutral-50 rounded-lg border border-neutral-200">
-                    <div class="text-4xl font-black text-neutral-900 tracking-tight">100%</div>
+                    <div class="text-4xl font-bold text-neutral-900 tracking-tight">100%</div>
                     <div class="text-xs font-bold uppercase tracking-wider text-neutral-600 mt-2">Penilaian Terbuka</div>
                 </div>
             </div>
@@ -286,7 +286,7 @@
     <section id="program" class="py-20 border-t border-neutral-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
-                <h2 class="text-3xl font-extrabold text-neutral-900 tracking-tight">
+                <h2 class="text-3xl font-bold text-neutral-900 tracking-tight">
                     Dokumentasi Penyaluran Terkini
                 </h2>
                 <p class="text-neutral-600 text-sm sm:text-base leading-relaxed">
@@ -378,7 +378,7 @@
     <section class="py-20 border-t border-neutral-200 bg-neutral-50">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
-                <h2 class="text-3xl font-extrabold text-neutral-900 tracking-tight">
+                <h2 class="text-3xl font-bold text-neutral-900 tracking-tight">
                     Aspirasi & Laporan Penerima Manfaat
                 </h2>
                 <p class="text-neutral-600 text-sm sm:text-base leading-relaxed">
@@ -440,7 +440,7 @@
                 {{-- Right: Accordion FAQ Items --}}
                 <div class="lg:col-span-7 space-y-6">
                     <div>
-                        <h2 class="text-3xl font-extrabold text-neutral-900 tracking-tight">
+                        <h2 class="text-3xl font-bold text-neutral-900 tracking-tight">
                             Pertanyaan yang Sering Diajukan
                         </h2>
                         <p class="text-neutral-600 text-sm mt-2">
@@ -480,7 +480,7 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="bg-neutral-900 text-white rounded-xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="space-y-2 max-w-xl text-center md:text-left">
-                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">
                         Desa Anda Membutuhkan Bantuan Air Segera?
                     </h2>
                     <p class="text-neutral-300 text-sm leading-relaxed">
