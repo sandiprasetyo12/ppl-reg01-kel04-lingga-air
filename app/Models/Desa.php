@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\GisStatusService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -97,23 +98,52 @@ class Desa extends Model
             ->where('longitude', '!=', 0);
     }
 
+    public function scopeBelumSiapPeta(Builder $query): Builder
+    {
+        return $query->where(function (Builder $q) {
+            $q->whereNull('latitude')
+                ->orWhereNull('longitude')
+                ->orWhere('latitude', 0)
+                ->orWhere('longitude', 0);
+        });
+    }
+
     public function scopeFilterKecamatan(Builder $query, ?string $kecamatan): Builder
     {
         return (!empty($kecamatan) && $kecamatan !== 'Semua') ? $query->where('kecamatan', $kecamatan) : $query;
     }
 
-    public function getStatusGisAttribute(): array
+    public function scopeSearch(Builder $query, ?string $search): Builder
     {
-        return ['status' => 'Tanpa Tiket', 'kode_warna' => '#9CA3AF', 'label' => 'Belum Ada Laporan Aktif'];
+        $keyword = trim((string) $search);
+        if ($keyword === '') {
+            return $query;
+        }
+
+        return $query->where(function (Builder $q) use ($keyword) {
+            $q->where('nama_desa', 'like', "%{$keyword}%")
+                ->orWhere('kode_desa', 'like', "%{$keyword}%")
+                ->orWhere('kecamatan', 'like', "%{$keyword}%");
+        });
     }
 
-    public function updateKoordinat(float $lat, float $lng, ?string $titikDrop = null): bool
+    public function getStatusGisAttribute(): array
     {
-        return $this->update([
+        return app(GisStatusService::class)->resolveStatusForDesa($this);
+    }
+
+    public function updateKoordinat(float $lat, float $lng, ?string $titikDrop = null, bool $updateTitikDrop = false): bool
+    {
+        $payload = [
             'latitude' => $lat,
             'longitude' => $lng,
-            'titik_drop_air' => $titikDrop ?? $this->titik_drop_air,
-        ]);
+        ];
+
+        if ($updateTitikDrop || $titikDrop !== null) {
+            $payload['titik_drop_air'] = $titikDrop;
+        }
+
+        return $this->update($payload);
     }
 
     // Relasi Akun Desa (F-01)

@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\Admin\DesaController;
+use App\Http\Controllers\Admin\PetaGisController;
 use App\Http\Controllers\CekKelayakanController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\LaporanController;
 
 // Route Public
 Route::get('/', function () {
@@ -29,6 +31,12 @@ Route::middleware(['auth', 'role:bpbd'])->prefix('verifikasi')->name('verifikasi
     Route::get('/{id}', [VerifikasiController::class, 'show'])->name('show');
     // PBI-011 & PBI-012: Penetapan Keputusan (Disetujui, Ditolak, Revisi) + Audit Trail Log
     Route::post('/{id}/keputusan', [VerifikasiController::class, 'prosesKeputusan'])->name('keputusan');
+});
+
+// Fitur F-08: Laporan Penyaluran Air Bersih (BPBD Purbalingga - PBI-022 & PBI-024)
+Route::middleware(['auth', 'role:bpbd'])->prefix('laporan')->name('laporan.')->group(function () {
+    Route::get('/', [LaporanController::class, 'indexBPBD'])->name('index');
+    Route::get('/ekspor', [LaporanController::class, 'export'])->name('export');
 });
 
 // Route Auth (Guest Only)
@@ -57,6 +65,10 @@ Route::middleware('auth')->prefix('onboarding')->name('onboarding.')->group(func
     Route::post('/profile/penyalur', [OnboardingController::class, 'storeProfilePenyalur'])->name('profile.penyalur');
 });
 
+// Fitur F-03: Pengajuan Bantuan Air Bersih (Publik / Alur Integrasi Cek Kelayakan)
+Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
+Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create');
+
 // Route Dashboard & Fitur Peran Desa (F-01, F-02, & F-03)
 Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
     Route::prefix('desa')->name('desa.')->group(function () {
@@ -69,9 +81,7 @@ Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
     Route::get('/cek-kelayakan', [CekKelayakanController::class, 'index'])->name('cek-kelayakan.index');
     Route::post('/cek-kelayakan', [CekKelayakanController::class, 'calculate'])->name('cek-kelayakan.calculate');
 
-    // Fitur F-03: Pengajuan Bantuan Air Bersih Desa
-    Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
-    Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create');
+    // Fitur F-03: Kelola Pengajuan Bantuan Air Bersih Desa (Tindakan Terproteksi Akun Desa)
     Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
     Route::get('/pengajuan/{pengajuan}/berhasil', [PengajuanController::class, 'success'])->name('pengajuan.success');
     Route::get('/pengajuan/{pengajuan}', [PengajuanController::class, 'show'])->name('pengajuan.show');
@@ -88,6 +98,12 @@ Route::middleware(['auth', 'onboarding', 'role:bpbd'])->prefix('admin')->name('a
         return view('admin.dashboard');
     })->name('dashboard');
 
+    // Fitur F-09: Pemetaan Desa (GIS)
+    Route::get('/pemetaan', [PetaGisController::class, 'index'])->name('pemetaan.index');
+    Route::get('/pemetaan/data', [PetaGisController::class, 'data'])->name('pemetaan.data');
+    Route::get('/pemetaan/{kode_desa}', [PetaGisController::class, 'show'])->name('pemetaan.show');
+    Route::patch('/pemetaan/{kode_desa}/koordinat', [PetaGisController::class, 'updateKoordinat'])->name('pemetaan.koordinat');
+
     Route::resource('desa', DesaController::class)->only(['index', 'show', 'edit', 'update']);
 });
 
@@ -96,4 +112,10 @@ Route::middleware(['auth', 'onboarding', 'role:penyalur'])->prefix('penyalur')->
     Route::get('/dashboard', function () {
         return view('penyalur.dashboard');
     })->name('dashboard');
+
+    // Fitur F-08: Laporan Penyaluran Milik Penyalur (PBI-023 & PBI-024)
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [LaporanController::class, 'indexPenyalur'])->name('index');
+        Route::get('/ekspor', [LaporanController::class, 'export'])->name('export');
+    });
 });

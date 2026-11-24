@@ -17,6 +17,16 @@
                 'active' => request()->routeIs('verifikasi.*'),
             ],
             [
+                'label' => 'Peta GIS Wilayah',
+                'route' => route('admin.pemetaan.index'),
+                'active' => request()->routeIs('admin.pemetaan.*'),
+            ],
+            [
+                'label' => 'Laporan Penyaluran',
+                'route' => route('laporan.index'),
+                'active' => request()->routeIs('laporan.*'),
+            ],
+            [
                 'label' => 'Master Data Desa',
                 'route' => route('admin.desa.index'),
                 'active' => request()->routeIs('admin.desa.*'),
@@ -37,7 +47,7 @@
                 'active' => request()->routeIs('cek-kelayakan.*'),
             ],
             [
-                'label' => 'Pengajuan Bantuan',
+                'label' => 'Status Pengajuan',
                 'route' => route('pengajuan.index'),
                 'active' => request()->routeIs('pengajuan.*'),
             ],
@@ -49,6 +59,11 @@
                 'label' => 'Dashboard Penyalur',
                 'route' => route('penyalur.dashboard'),
                 'active' => request()->routeIs('penyalur.dashboard'),
+            ],
+            [
+                'label' => 'Laporan Penyaluran',
+                'route' => route('penyalur.laporan.index'),
+                'active' => request()->routeIs('penyalur.laporan.*'),
             ],
         ];
     }
@@ -91,14 +106,14 @@
         }
     </style>
 </head>
-<body class="bg-[#F3F4F6] text-[#1b1b18] antialiased min-h-screen flex flex-col">
-    <!-- Top Navbar Standar Laravel -->
-    <header class="bg-white border-b border-[#e3e3e0]">
+<body class="bg-[#F8FAFC] text-[#101828] antialiased min-h-screen flex flex-col font-sans">
+    <!-- Top Navbar Standar Lingga Air -->
+    <header class="bg-white border-b border-[#EAECF0] shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-wrap items-center justify-between gap-4 min-h-[64px] py-2">
                 <div class="flex flex-wrap items-center gap-6">
-                    <a href="{{ url('/') }}" class="font-semibold text-base text-[#1b1b18] min-h-[44px] inline-flex items-center">
-                        LinggaAir
+                    <a href="{{ url('/') }}" class="min-h-[44px] inline-flex items-center">
+                        <img src="{{ asset('images/logo-lingga.png') }}" alt="Lingga Air" class="h-14 sm:h-16 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/180x60/00629B/FFFFFF?text=Lingga+Air';">
                     </a>
 
                     <nav aria-label="Navigasi dasbor" class="flex flex-wrap items-center gap-2">
@@ -106,7 +121,7 @@
                             <a
                                 href="{{ $link['route'] }}"
                                 @if ($link['active']) aria-current="page" @endif
-                                class="min-h-[44px] inline-flex items-center px-3 py-2 text-sm rounded-md border transition {{ $link['active'] ? 'border-[#1b1b18] bg-[#1b1b18] text-white font-medium' : 'border-transparent text-[#52525b] hover:text-[#1b1b18] hover:bg-[#f5f5f4]' }}"
+                                class="min-h-[44px] inline-flex items-center px-3.5 py-2 text-xs font-bold uppercase tracking-wider rounded-xl border transition {{ $link['active'] ? 'border-[#00629B] bg-[#00629B] text-white shadow-xs' : 'border-transparent text-[#475467] hover:text-[#00629B] hover:bg-[#EBF5FB]' }}"
                             >
                                 {{ $link['label'] }}
                             </a>
@@ -115,16 +130,16 @@
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <div class="text-sm text-[#52525b] hidden sm:block">
-                        <span class="font-medium text-[#1b1b18]">{{ $usernameDisplay }}</span>
-                        <span>({{ $roleLabel }})</span>
+                    <div class="text-xs text-[#475467] hidden sm:block">
+                        <span class="font-bold text-[#101828]">{{ $usernameDisplay }}</span>
+                        <span class="text-[11px] text-[#00629B] font-semibold">({{ $roleLabel }})</span>
                     </div>
 
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button
                             type="submit"
-                            class="min-h-[44px] inline-flex items-center px-4 py-2 text-sm font-medium text-[#1b1b18] bg-white border border-[#d1d5db] rounded-md hover:bg-[#f5f5f4] transition"
+                            class="min-h-[38px] inline-flex items-center justify-center px-3.5 py-1.5 border border-[#D0D5DD] hover:bg-[#F2F4F7] text-[#344054] text-xs font-bold rounded-xl transition cursor-pointer"
                         >
                             Keluar
                         </button>
@@ -135,9 +150,9 @@
     </header>
 
     <!-- Header Judul Halaman -->
-    <div class="bg-white border-b border-[#e3e3e0]">
+    <div class="bg-white border-b border-[#EAECF0]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <h1 class="text-lg sm:text-xl font-semibold text-[#1b1b18]">
+            <h1 class="text-lg sm:text-xl font-bold text-[#101828]">
                 @yield('page-title', 'Dashboard')
             </h1>
         </div>
@@ -146,13 +161,13 @@
     <!-- Konten Utama -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
         @if (session('success'))
-            <div role="status" class="p-3.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm">
+            <div role="status" class="p-3.5 rounded-lg bg-[#ECFDF3] border border-[#A6F4C5] text-[#027A48] text-sm">
                 {{ session('success') }}
             </div>
         @endif
 
         @if (session('error'))
-            <div role="alert" class="p-3.5 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm">
+            <div role="alert" class="p-3.5 rounded-lg bg-[#FEF3F2] border border-[#FECDCA] text-[#B42318] text-sm">
                 {{ session('error') }}
             </div>
         @endif
@@ -160,8 +175,8 @@
         @yield('content')
     </main>
 
-    <footer class="bg-white border-t border-[#e3e3e0] py-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-[#52525b]">
+    <footer class="bg-white border-t border-[#EAECF0] py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-[#667085]">
             &copy; {{ date('Y') }} LinggaAir - BPBD Kabupaten Purbalingga.
         </div>
     </footer>

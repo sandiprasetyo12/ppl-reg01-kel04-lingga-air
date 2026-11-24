@@ -28,46 +28,46 @@
         
         <!-- Card 1: Draf Tersimpan -->
         <div class="card p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #086288;">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #EBF5FB; color: #00629B;">
                 ▦
             </div>
             <div>
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Draf Tersimpan</span>
-                <span class="text-2xl font-extrabold text-slate-900 block" style="font-variant-numeric: tabular-nums;">
+                <span class="text-xs font-bold text-[#667085] uppercase tracking-wider block">Draf Tersimpan</span>
+                <span class="text-2xl font-extrabold text-[#101828] block" style="font-variant-numeric: tabular-nums;">
                     {{ $drafList->total() }}
                 </span>
-                <span class="text-xs text-slate-500">Dapat diubah atau dihapus</span>
+                <span class="text-xs text-[#667085]">Dapat diubah atau dihapus</span>
             </div>
         </div>
 
         <!-- Card 2: Tiket Aktif -->
         <div class="card p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 {{ $hasActiveTicket ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800' }}">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 {{ $hasActiveTicket ? 'bg-[#FFFAEB] text-[#B54708] border border-[#FEDF89]' : 'bg-[#ECFDF3] text-[#027A48] border border-[#A6F4C5]' }}">
                 ▤
             </div>
             <div>
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Status Tiket Aktif</span>
+                <span class="text-xs font-bold text-[#667085] uppercase tracking-wider block">Status Tiket Aktif</span>
                 @if($hasActiveTicket)
-                    <span class="text-base font-extrabold text-amber-800 block truncate font-mono">{{ $activeTicket->nomor_tiket }}</span>
+                    <span class="text-base font-extrabold text-[#B54708] block truncate font-mono">{{ $activeTicket->nomor_tiket }}</span>
                     <span class="status-badge status-waspada text-[10px] mt-1">{{ $activeTicket->status }}</span>
                 @else
-                    <span class="text-base font-extrabold text-emerald-700 block">Tidak Ada Tiket Aktif</span>
-                    <span class="text-xs text-slate-500">Siap mengajukan baru</span>
+                    <span class="text-base font-extrabold text-[#027A48] block">Tidak Ada Tiket Aktif</span>
+                    <span class="text-xs text-[#667085]">Siap mengajukan baru</span>
                 @endif
             </div>
         </div>
 
         <!-- Card 3: Riwayat Terkirim -->
         <div class="card p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #eef4f8; color: #086288;">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #EBF5FB; color: #00629B;">
                 ✓
             </div>
             <div>
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Riwayat Terkirim</span>
-                <span class="text-2xl font-extrabold text-slate-900 block" style="font-variant-numeric: tabular-nums;">
+                <span class="text-xs font-bold text-[#667085] uppercase tracking-wider block">Riwayat Terkirim</span>
+                <span class="text-2xl font-extrabold text-[#101828] block" style="font-variant-numeric: tabular-nums;">
                     {{ $riwayatList->total() }}
                 </span>
-                <span class="text-xs text-slate-500">Terkunci dalam antrean</span>
+                <span class="text-xs text-[#667085]">Terkunci dalam antrean</span>
             </div>
         </div>
 
@@ -195,7 +195,7 @@
     <div class="card overflow-hidden">
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between" style="background: #fafcfe;">
             <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full" style="background: #086288;"></span>
+                <span class="w-2.5 h-2.5 rounded-full" style="background: #00629B;"></span>
                 <h2 class="text-base font-bold text-slate-800 m-0">Riwayat Pengajuan Terkirim &amp; Tiket Aktif ({{ $riwayatList->total() }})</h2>
             </div>
             <span class="text-xs text-slate-500">Pengajuan yang sudah dikirim terkunci dan tidak dapat diubah</span>
@@ -217,7 +217,7 @@
                     <tbody class="divide-y divide-slate-100 text-slate-700">
                         @foreach($riwayatList as $item)
                             <tr class="hover:bg-slate-50 transition">
-                                <td class="py-3.5 px-4 font-mono font-bold text-sm" style="color: #086288;">
+                                <td class="py-3.5 px-4 font-mono font-bold text-sm" style="color: #00629B;">
                                     {{ $item->nomor_tiket }}
                                 </td>
                                 <td class="py-3.5 px-4 text-slate-600">

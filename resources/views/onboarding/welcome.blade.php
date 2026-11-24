@@ -1,25 +1,31 @@
 @extends('layouts.app')
 
-@section('title', 'Onboarding - LinggaAir')
+@section('title', 'Selamat Datang di Lingga Air - Onboarding')
 
 @section('header')
-<header class="bg-white border-b border-[#e3e3e0]">
+<header class="bg-white border-b border-[#EAECF0] sticky top-0 z-30 shadow-xs">
     <nav aria-label="Menu onboarding" class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-        <a href="{{ url('/') }}" class="text-base font-semibold text-[#1b1b18] min-h-[44px] inline-flex items-center">
-            LinggaAir
+        <a href="{{ url('/') }}" class="min-h-[44px] inline-flex items-center group">
+            <img 
+                src="{{ asset('images/logo-lingga.png') }}" 
+                alt="Lingga Air" 
+                class="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
+                onerror="this.onerror=null; this.src='https://placehold.co/180x60/00629B/FFFFFF?text=Lingga+Air';"
+            >
         </a>
 
         <div class="flex items-center gap-4">
-            <span class="hidden sm:inline text-sm text-[#52525b]">
-                Akun: <strong class="font-medium text-[#1b1b18]">{{ auth()->user()?->username ?? 'Pengguna' }}</strong>
+            <span class="hidden sm:inline text-xs text-[#667085]">
+                Akun: <strong class="font-bold text-[#101828]">{{ auth()->user()?->username ?? 'Pengguna' }}</strong>
             </span>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button
                     type="submit"
-                    class="min-h-[44px] inline-flex items-center px-4 py-2 text-sm font-medium text-[#1b1b18] bg-white border border-[#d1d5db] rounded-md hover:bg-[#f5f5f4] transition"
+                    class="min-h-[38px] inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-[#B42318] bg-[#FEF3F2] border border-[#FECDCA] rounded-xl hover:bg-red-100 transition shadow-xs"
                 >
-                    Keluar
+                    <i class="fa-solid fa-arrow-right-from-bracket text-[11px]"></i>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>
@@ -28,34 +34,37 @@
 @endsection
 
 @section('content')
-<div class="flex-1 flex items-center justify-center px-4 py-10 bg-[#F3F4F6]">
-    <div class="w-full max-w-xl bg-white border border-[#e3e3e0] rounded-lg p-6 sm:p-8 shadow-sm space-y-6">
-        <div class="space-y-2">
-            <p class="text-xs font-medium uppercase tracking-wider text-[#52525b]">
-                Langkah 1 dari 3: Pengenalan
-            </p>
-            <h1 class="text-2xl font-semibold text-[#1b1b18]">
-                Selamat Datang di LinggaAir
+<div class="flex-1 flex items-center justify-center px-4 py-12 bg-[#F8FAFC]">
+    <div class="w-full max-w-xl bg-white border border-[#E4E7EC] rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+        <div class="space-y-3">
+            <div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#EBF5FB] text-[#00629B] border border-[#BAE3F5]">
+                    Langkah 1 dari 3: Pengenalan
+                </span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-[#101828]">
+                Selamat Datang di Lingga Air
             </h1>
-            <p class="text-sm sm:text-base text-[#52525b] leading-relaxed">
+            <p class="text-sm text-[#475467] leading-relaxed">
                 Sebelum menggunakan dashboard operasional, tentukan peran akun dan lengkapi profil Anda agar sistem dapat menyesuaikan akses layanan distribusi air bersih Kabupaten Purbalingga.
             </p>
         </div>
 
-        <div class="border-t border-[#e3e3e0] pt-5 space-y-3 text-sm">
-            <h2 class="font-medium text-[#1b1b18]">Tahapan selanjutnya:</h2>
-            <ol class="list-decimal list-inside space-y-2 text-[#52525b]">
-                <li>Memilih peran akun sebagai <strong class="font-medium text-[#1b1b18]">Perwakilan Desa</strong> atau <strong class="font-medium text-[#1b1b18]">Mitra Penyalur</strong>.</li>
+        <div class="border-t border-[#EAECF0] pt-5 space-y-3 text-sm">
+            <h2 class="font-bold text-[#101828]">Tahapan selanjutnya:</h2>
+            <ol class="list-decimal list-inside space-y-2 text-[#475467]">
+                <li>Memilih peran akun sebagai <strong class="font-semibold text-[#101828]">Perwakilan Desa</strong> atau <strong class="font-semibold text-[#101828]">Mitra Penyalur</strong>.</li>
                 <li>Mengisi profil wilayah desa dan titik drop air bersih, atau informasi kapasitas armada penyalur.</li>
             </ol>
         </div>
 
-        <div class="pt-2 border-t border-[#e3e3e0] flex justify-end">
+        <div class="pt-4 border-t border-[#EAECF0] flex justify-end">
             <a
                 href="{{ route('onboarding.role') }}"
-                class="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-[#1b1b18] hover:bg-black text-white text-sm font-medium rounded-md transition"
+                class="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white text-sm font-semibold rounded-xl transition shadow-xs"
             >
-                Lanjut Pilih Peran
+                <span>Lanjut Pilih Peran</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
             </a>
         </div>
     </div>
@@ -63,9 +72,10 @@
 @endsection
 
 @section('footer')
-<footer class="bg-white border-t border-[#e3e3e0] py-4">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-xs text-[#52525b]">
-        &copy; {{ date('Y') }} LinggaAir - BPBD Kabupaten Purbalingga.
+<footer class="bg-white border-t border-[#EAECF0] py-4">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-xs text-[#667085] flex flex-wrap items-center justify-between gap-2">
+        <span>&copy; {{ date('Y') }} Lingga Air - BPBD Kabupaten Purbalingga.</span>
+        <span>Sistem Distribusi Bantuan Air Bersih Darurat</span>
     </div>
 </footer>
 @endsection

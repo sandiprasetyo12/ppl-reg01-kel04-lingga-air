@@ -3,51 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Permohonan {{ $permohonan->nomor_tiket }} - Lingga Air</title>
+    <title>Detail Permohonan {{ $permohonan->nomor_tiket }} - Lingga Air | BPBD Purbalingga</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        idds: {
+                            blue: {
+                                DEFAULT: '#00629B',
+                                hover: '#004F7D',
+                                active: '#003B5C',
+                                tint: '#EBF5FB',
+                                stroke: '#BAE3F5',
+                            },
+                            neutral: {
+                                heading: '#101828',
+                                body: '#344054',
+                                secondary: '#475467',
+                                caption: '#667085',
+                                strokeShell: '#EAECF0',
+                                strokeCard: '#E4E7EC',
+                                strokeInput: '#D0D5DD',
+                                canvas: '#F8FAFC',
+                            },
+                            status: {
+                                kritisText: '#B42318',
+                                kritisBg: '#FEF3F2',
+                                kritisBorder: '#FECDCA',
+                                waspadaText: '#B54708',
+                                waspadaBg: '#FFFAEB',
+                                waspadaBorder: '#FEDF89',
+                                suksesText: '#027A48',
+                                suksesBg: '#ECFDF3',
+                                suksesBorder: '#A6F4C5',
+                            }
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F8FAFC;
+            color: #101828;
+        }
+    </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen antialiased flex flex-col lg:flex-row">
+<body class="bg-[#F8FAFC] text-[#101828] min-h-screen antialiased flex flex-col lg:flex-row font-sans">
 
     <!-- ==================== SIDEBAR KIRI (ADMIN BPBD) ==================== -->
-     <aside class="w-full lg:w-64 bg-white text-slate-700 flex flex-col justify-between shrink-0 border-r border-slate-200 z-20">
+    <aside class="w-full lg:w-64 bg-white text-[#101828] flex flex-col justify-between shrink-0 border-r border-[#EAECF0] z-20 shadow-xs">
         <div>
             <!-- 1. Logo & Brand Header -->
-            <div class="p-6 border-b border-slate-100">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-[#086288] flex items-center justify-center font-bold text-white shadow-md shadow-[#086288]/20">
-                        <i class="fa-solid fa-droplet text-lg"></i>
-                    </div>
-                    <div>
-                        <span class="font-extrabold text-slate-900 text-base tracking-tight block">Lingga Air</span>
-                        <span class="text-[11px] text-[#086288] block font-semibold">BPBD Kab. Purbalingga</span>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#f0f8fb] text-[#086288] border border-[#cae4ef]">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#086288] animate-pulse"></span>
-                        Portal Verifikator
+            <div class="p-5 border-b border-[#EAECF0]">
+                <a href="{{ url('/') }}" class="flex items-center gap-2 block">
+                    <img 
+                        src="{{ asset('images/logo-lingga.png') }}" 
+                        alt="Lingga Air" 
+                        class="h-12 sm:h-14 w-auto max-w-[190px] object-contain" 
+                        onerror="this.onerror=null; this.src='https://placehold.co/180x60/00629B/FFFFFF?text=Lingga+Air';"
+                    >
+                </a>
+                <div class="mt-2.5">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#EBF5FB] text-[#00629B] border border-[#BAE3F5]">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#00629B] animate-pulse"></span>
+                        Portal Verifikator BPBD
                     </span>
                 </div>
             </div>
+
             <!-- 2. Navigation Links -->
             <nav class="p-4 space-y-6">
                 <!-- Group 1: Menu Operasional BPBD -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-[#667085] block mb-2">
                         Menu Utama BPBD
                     </span>
                     <ul class="space-y-1 text-xs font-semibold">
                         <li>
-                            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
-                                <i class="fa-solid fa-chart-pie w-4 text-center text-slate-400"></i>
+                            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
+                                <i class="fa-solid fa-chart-pie w-4 text-center text-[#00629B]"></i>
                                 <span>Dashboard Statistik</span>
                             </a>
                         </li>
                         <li>
                             <!-- Active Menu Fitur 4 (Verifikasi Pengajuan) -->
-                            <a href="{{ route('verifikasi.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#086288] text-white shadow-sm font-bold transition">
+                            <a href="{{ route('verifikasi.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#00629B] text-white shadow-xs font-bold transition">
                                 <div class="flex items-center gap-3">
                                     <i class="fa-solid fa-clipboard-check w-4 text-center text-white"></i>
                                     <span>Verifikasi Pengajuan</span>
@@ -58,34 +117,41 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
-                                <i class="fa-solid fa-truck-droplet w-4 text-center text-slate-400"></i>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#475467] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
+                                <i class="fa-solid fa-truck-droplet w-4 text-center text-[#667085]"></i>
                                 <span>Penugasan Armada</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
-                                <i class="fa-solid fa-map-location-dot w-4 text-center text-slate-400"></i>
+                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#475467] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
+                                <i class="fa-solid fa-map-location-dot w-4 text-center text-[#667085]"></i>
                                 <span>Peta Sebaran (GIS)</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
-                                <i class="fa-solid fa-file-invoice w-4 text-center text-slate-400"></i>
+                            <a href="{{ route('laporan.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#475467] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
+                                <i class="fa-solid fa-file-invoice w-4 text-center text-[#667085]"></i>
                                 <span>Laporan Penyaluran</span>
                             </a>
                         </li>
                     </ul>
                 </div>
+
                 <!-- Group 2: Master Data Wilayah -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">
+                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-[#667085] block mb-2">
                         Data Master
                     </span>
                     <ul class="space-y-1 text-xs font-semibold">
                         <li>
-                            <a href="{{ route('admin.desa.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:text-[#086288] hover:bg-slate-50 transition">
-                                <i class="fa-solid fa-building-columns w-4 text-center text-slate-400"></i>
+                            <a href="{{ route('admin.pemetaan.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
+                                <i class="fa-solid fa-map-location-dot w-4 text-center text-[#00629B]"></i>
+                                <span>Peta GIS Pemetaan</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.desa.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
+                                <i class="fa-solid fa-building-columns w-4 text-center text-[#00629B]"></i>
                                 <span>Data Acuan Desa</span>
                             </a>
                         </li>
@@ -93,22 +159,30 @@
                 </div>
             </nav>
         </div>
+
         <!-- 3. Sidebar Footer: Profil Petugas BPBD -->
-        <div class="m-3 p-3.5 bg-[#f0f8fb] border border-[#cae4ef] rounded-xl">
+        <div class="m-3 p-3.5 bg-[#F8FAFC] border border-[#E4E7EC] rounded-xl">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-[#086288] text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                <div class="w-9 h-9 rounded-full bg-[#00629B] text-white flex items-center justify-center font-bold text-xs shadow-xs">
                     BP
                 </div>
                 <div class="overflow-hidden">
-                    <p class="text-xs font-bold text-slate-800 truncate">Petugas Verifikator</p>
-                    <p class="text-[10px] text-slate-500 truncate">admin@bpbd.purbalinggakab.go.id</p>
+                    <p class="text-xs font-bold text-[#101828] truncate">Petugas Verifikator</p>
+                    <p class="text-[10px] text-[#667085] truncate">admin@bpbd.purbalinggakab.go.id</p>
                 </div>
             </div>
-            <div class="mt-2.5 pt-2 border-t border-[#cae4ef] flex items-center justify-between text-[10px] text-slate-500">
-                <span class="flex items-center gap-1.5">
+            <div class="mt-2.5 pt-2 border-t border-[#EAECF0] flex items-center justify-between text-[10px] text-[#667085]">
+                <span class="flex items-center gap-1.5 font-medium text-emerald-700">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Online
                 </span>
-                <span class="font-mono text-slate-400">v1.2-sprint1</span>
+                
+                <!-- Tombol Logout -->
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="text-rose-600 hover:text-rose-800 font-semibold flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar
+                    </button>
+                </form>
             </div>
         </div>
     </aside>
@@ -116,619 +190,661 @@
     <!-- ==================== MAIN CONTENT AREA ==================== -->
     <div class="flex-1 flex flex-col min-h-screen overflow-x-hidden">
 
-        <!-- Top Header Bar -->
-        <header class="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-10 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <!-- Top Header Bar (Dengan Button Back Ke Dashboard & Ke Antrean) -->
+        <header class="bg-white/95 backdrop-blur-md border-b border-[#EAECF0] px-4 sm:px-6 py-3.5 sticky top-0 z-10 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-                <nav class="text-xs text-slate-500 mb-1 flex items-center gap-2">
-                    <a href="{{ route('verifikasi.index') }}" class="hover:underline flex items-center gap-1 text-blue-600 font-semibold">
-                        <i class="fa-solid fa-arrow-left"></i> Antrean Verifikasi
+                <nav class="text-xs text-[#667085] mb-0.5 flex items-center gap-1.5 font-medium">
+                    <a href="{{ route('verifikasi.index') }}" class="hover:underline flex items-center gap-1 text-[#00629B] font-bold">
+                        <i class="fa-solid fa-arrow-left text-[10px]"></i> Antrean Verifikasi
                     </a>
-                    <span>/</span>
-                    <span class="text-slate-700 font-semibold font-mono">{{ $permohonan->nomor_tiket }}</span>
+                    <span class="text-[#D0D5DD]">/</span>
+                    <span class="text-[#101828] font-semibold font-mono">{{ $permohonan->nomor_tiket }}</span>
                 </nav>
-                <h1 class="text-xl font-bold text-slate-900">Telaah Berkas Permohonan: Desa {{ $permohonan->desa->nama_desa ?? '-' }}</h1>
+                <h1 class="text-lg sm:text-xl font-extrabold text-[#101828] tracking-tight">Telaah Berkas Permohonan: Desa {{ $permohonan->desa->nama_desa ?? '-' }}</h1>
             </div>
 
-            <div class="flex items-center gap-2">
-                <a href="{{ route('verifikasi.index') }}" class="px-3.5 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-list-check text-slate-500"></i> Kembali ke Antrean
+            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+                <!-- Tombol Back ke Dashboard -->
+                <a 
+                    href="{{ route('admin.dashboard') }}" 
+                    class="px-3 py-1.5 bg-white text-[#344054] hover:bg-[#F2F4F7] hover:text-[#101828] border border-[#D0D5DD] rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                    title="Kembali ke Dashboard Utama BPBD"
+                >
+                    <i class="fa-solid fa-gauge-high text-[#00629B]"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <!-- Tombol Kembali ke Antrean -->
+                <a 
+                    href="{{ route('verifikasi.index') }}" 
+                    class="px-3 py-1.5 bg-[#00629B] text-white hover:bg-[#004F7D] rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                >
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Daftar Antrean</span>
                 </a>
             </div>
         </header>
 
         <!-- Main Body Content -->
-        <main class="flex-1 p-6 lg:p-8 max-w-7xl mx-auto w-full">
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-6">
 
-        <!-- Flash Message Alerts -->
-        @if(session('success'))
-            <div class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-start gap-3 shadow-sm animate-fade-in">
-                <i class="fa-solid fa-circle-check text-emerald-600 text-xl mt-0.5"></i>
-                <div class="flex-1">
-                    <h4 class="font-bold text-sm">Aksi Verifikasi Berhasil!</h4>
-                    <p class="text-xs text-emerald-800 mt-0.5">{{ session('success') }}</p>
+            <!-- Flash Message Alerts -->
+            @if(session('success'))
+                <div class="p-4 rounded-xl bg-[#ECFDF3] border border-[#A6F4C5] text-[#027A48] flex items-start gap-3 shadow-xs animate-fade-in">
+                    <i class="fa-solid fa-circle-check text-[#027A48] text-xl mt-0.5"></i>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">Aksi Verifikasi Berhasil!</h4>
+                        <p class="text-xs text-[#027A48] mt-0.5">{{ session('success') }}</p>
+                    </div>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="p-4 rounded-xl bg-[#FEF3F2] border border-[#FECDCA] text-[#B42318] flex items-start gap-3 shadow-xs">
+                    <i class="fa-solid fa-triangle-exclamation text-[#B42318] text-xl mt-0.5"></i>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">Terdapat Kesalahan Input:</h4>
+                        <ul class="list-disc list-inside text-xs text-[#B42318] mt-1 space-y-0.5">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Banner Header Tiket & Status -->
+            <div class="bg-white rounded-2xl border border-[#E4E7EC] p-5 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <h2 class="text-xl sm:text-2xl font-extrabold text-[#101828]">Desa {{ $permohonan->desa->nama_desa }}</h2>
+                        @if($permohonan->status == 'Menunggu Verifikasi')
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-[#FFFAEB] text-[#B54708] border border-[#FEDF89]">
+                                Menunggu Verifikasi
+                            </span>
+                        @elseif($permohonan->status == 'Disetujui')
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-[#ECFDF3] text-[#027A48] border border-[#A6F4C5] flex items-center gap-1.5">
+                                <i class="fa-solid fa-check"></i> Disetujui
+                            </span>
+                        @elseif($permohonan->status == 'Revisi')
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-[#FFFAEB] text-[#B54708] border border-[#FEDF89] flex items-center gap-1.5">
+                                <i class="fa-solid fa-pen-to-square"></i> Perlu Revisi
+                            </span>
+                        @else
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-[#FEF3F2] text-[#B42318] border border-[#FECDCA] flex items-center gap-1.5">
+                                <i class="fa-solid fa-xmark"></i> Ditolak
+                            </span>
+                        @endif
+                    </div>
+                    <p class="text-xs text-[#667085] mt-1.5">
+                        Nomor Tiket: <strong class="font-mono text-[#101828]">{{ $permohonan->nomor_tiket }}</strong>
+                        &bull; Diajukan pada: <strong class="text-[#101828]">{{ $permohonan->created_at->format('d F Y, H:i') }} WIB</strong>
+                        &bull; Kecamatan: <strong class="text-[#101828]">{{ $permohonan->desa->kecamatan }}</strong>
+                    </p>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('verifikasi.index') }}" class="px-3.5 py-2 bg-white border border-[#D0D5DD] rounded-xl text-xs font-bold text-[#344054] hover:bg-[#F2F4F7] transition shadow-xs flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali ke Antrean</span>
+                    </a>
                 </div>
             </div>
-        @endif
 
-        @if($errors->any())
-            <div class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 flex items-start gap-3 shadow-sm">
-                <i class="fa-solid fa-triangle-exclamation text-rose-600 text-xl mt-0.5"></i>
-                <div class="flex-1">
-                    <h4 class="font-bold text-sm">Terdapat Kesalahan Input:</h4>
-                    <ul class="list-disc list-inside text-xs text-rose-800 mt-1 space-y-0.5">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        @endif
+            <!-- 2 Column Layout (PBI-010, PBI-011, PBI-012) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        <!-- Breadcrumb & Header -->
-        <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-                <nav class="text-xs text-slate-500 mb-1 flex items-center gap-2">
-                    <a href="{{ route('verifikasi.index') }}" class="hover:underline">Antrean Verifikasi</a>
-                    <span>/</span>
-                    <span class="text-slate-700 font-semibold font-mono">{{ $permohonan->nomor_tiket }}</span>
-                </nav>
-                <div class="flex items-center gap-3">
-                    <h1 class="text-2xl font-bold text-slate-900">Detail Permohonan Desa {{ $permohonan->desa->nama_desa }}</h1>
-                    @if($permohonan->status == 'Menunggu Verifikasi')
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200">
-                            Menunggu Verifikasi
-                        </span>
-                    @elseif($permohonan->status == 'Disetujui')
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
-                            <i class="fa-solid fa-check"></i> Disetujui
-                        </span>
-                    @elseif($permohonan->status == 'Revisi')
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 border border-purple-200 flex items-center gap-1.5">
-                            <i class="fa-solid fa-pen-to-square"></i> Perlu Revisi
-                        </span>
-                    @else
-                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800 border border-rose-200 flex items-center gap-1.5">
-                            <i class="fa-solid fa-xmark"></i> Ditolak
-                        </span>
-                    @endif
-                </div>
-                <p class="text-xs text-slate-500 mt-1">
-                    Diajukan pada: <strong class="text-slate-700">{{ $permohonan->created_at->format('d F Y, Pukul H:i') }} WIB</strong>
-                    • Kecamatan: <strong class="text-slate-700">{{ $permohonan->desa->kecamatan }}</strong>
-                </p>
-            </div>
-            
-            <div class="flex items-center gap-2">
-                <a href="{{ route('verifikasi.index') }}" class="px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 shadow-sm transition">
-                    &larr; Daftar Antrean
-                </a>
-            </div>
-        </div>
+                <!-- LEFT 2 COLS: Data Permohonan & Berkas & Audit Trail -->
+                <div class="lg:col-span-2 space-y-6">
 
-        <!-- 2 Column Layout (PBI-010, PBI-011, PBI-012) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- 1. Data Acuan Desa (Sinkron F-01 & F-02) -->
+                    <div class="bg-white rounded-2xl border border-[#E4E7EC] shadow-xs p-5 sm:p-6">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-[#101828] border-b border-[#EAECF0] pb-3 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-[#00629B]"></i> Data Acuan Desa & Kontak Penanggung Jawab
+                        </h3>
 
-            <!-- LEFT 2 COLS: Data Permohonan & Berkas & Audit Trail -->
-            <div class="lg:col-span-2 space-y-6">
-
-                <!-- 1. Data Acuan Desa (Sinkron F-01 & F-02) -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-3 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-location-dot text-blue-600"></i> Data Acuan Desa & Kontak Penanggung Jawab
-                    </h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-4">
-                        <div>
-                            <span class="text-xs text-slate-400 block">Nama Desa / Kelurahan</span>
-                            <span class="font-semibold text-slate-800">Desa {{ $permohonan->desa->nama_desa }}</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs mb-4">
+                            <div>
+                                <span class="text-[11px] text-[#667085] block">Nama Desa / Kelurahan</span>
+                                <span class="font-bold text-[#101828] text-sm">Desa {{ $permohonan->desa->nama_desa }}</span>
+                            </div>
+                            <div>
+                                <span class="text-[11px] text-[#667085] block">Kecamatan</span>
+                                <span class="font-bold text-[#101828] text-sm">Kec. {{ $permohonan->desa->kecamatan }}</span>
+                            </div>
+                            <div>
+                                <span class="text-[11px] text-[#667085] block">Penanggung Jawab Permohonan</span>
+                                <span class="font-semibold text-[#101828]">{{ $permohonan->desa->penanggung_jawab ?? '-' }}</span>
+                            </div>
+                            <div>
+                                <span class="text-[11px] text-[#667085] block">Nomor Kontak / WhatsApp</span>
+                                <span class="font-semibold text-[#101828] flex items-center gap-1.5">
+                                    <i class="fa-brands fa-whatsapp text-emerald-500"></i>
+                                    {{ $permohonan->desa->kontak_wa ?? '-' }}
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <span class="text-xs text-slate-400 block">Kecamatan</span>
-                            <span class="font-semibold text-slate-800">Kec. {{ $permohonan->desa->kecamatan }}</span>
+
+                        <!-- Rincian Data Kependudukan Acuan Desa -->
+                        <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#E4E7EC] mb-4">
+                            <span class="text-[11px] font-bold text-[#101828] uppercase tracking-wider block mb-3">
+                                <i class="fa-solid fa-users-viewfinder text-[#00629B] mr-1.5"></i> Profil Demografi Desa (Data Acuan):
+                            </span>
+                            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center text-xs">
+                                <div class="bg-white p-2.5 rounded-lg border border-[#E4E7EC]">
+                                    <span class="text-[#667085] block text-[10px]">KK Total</span>
+                                    <span class="font-bold text-[#101828] text-sm mt-0.5 block">{{ number_format($permohonan->desa->jumlah_kk) }}</span>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-[#E4E7EC]">
+                                    <span class="text-[#667085] block text-[10px]">Jiwa Total</span>
+                                    <span class="font-bold text-[#101828] text-sm mt-0.5 block">{{ number_format($permohonan->desa->jumlah_jiwa) }}</span>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-[#E4E7EC]">
+                                    <span class="text-[#667085] block text-[10px]">Balita</span>
+                                    <span class="font-bold text-[#00629B] text-sm mt-0.5 block">{{ $permohonan->desa->jumlah_balita }}</span>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-[#E4E7EC]">
+                                    <span class="text-[#667085] block text-[10px]">Lansia</span>
+                                    <span class="font-bold text-purple-600 text-sm mt-0.5 block">{{ $permohonan->desa->jumlah_lansia }}</span>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-[#E4E7EC]">
+                                    <span class="text-[#667085] block text-[10px]">Disabilitas</span>
+                                    <span class="font-bold text-amber-600 text-sm mt-0.5 block">{{ $permohonan->desa->jumlah_disabilitas }}</span>
+                                </div>
+                            </div>
+                            <div class="text-[10.5px] text-[#667085] mt-2 text-right">
+                                Total Kelompok Rentan: <strong class="text-[#101828]">{{ $permohonan->desa->total_jiwa_rentan }} jiwa</strong> ({{ number_format(($permohonan->desa->total_jiwa_rentan / max(1, $permohonan->desa->jumlah_jiwa)) * 100, 1) }}% dari total jiwa)
+                            </div>
                         </div>
-                        <div>
-                            <span class="text-xs text-slate-400 block">Penanggung Jawab Permohonan</span>
-                            <span class="font-semibold text-slate-800">{{ $permohonan->desa->penanggung_jawab ?? '-' }}</span>
-                        </div>
-                        <div>
-                            <span class="text-xs text-slate-400 block">Nomor Kontak / WhatsApp</span>
-                            <span class="font-semibold text-slate-800 flex items-center gap-1.5">
-                                <i class="fa-brands fa-whatsapp text-emerald-500"></i>
-                                {{ $permohonan->desa->kontak_wa ?? '-' }}
+
+                        <div class="bg-[#EBF5FB] p-3.5 rounded-xl border border-[#BAE3F5] text-xs">
+                            <span class="text-[#475467] font-medium block">Titik Drop-Off Air Bersih Desa:</span>
+                            <span class="font-bold text-[#00629B] mt-0.5 block flex items-center gap-2">
+                                <i class="fa-solid fa-truck-droplet text-[#00629B]"></i>
+                                {{ $permohonan->desa->titik_drop_air ?? 'Belum ditentukan oleh desa' }}
                             </span>
                         </div>
                     </div>
 
-                    <!-- Rincian Data Kependudukan Acuan Desa (Sesuai Form F-02) -->
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-4">
-                        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-3">
-                            <i class="fa-solid fa-users-viewfinder text-blue-600 mr-1.5"></i> Profil Demografi Desa (Data Acuan):
-                        </span>
-                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center text-xs">
-                            <div class="bg-white p-2.5 rounded-lg border border-slate-200">
-                                <span class="text-slate-400 block text-[11px]">KK Total</span>
-                                <span class="font-bold text-slate-800 text-sm mt-0.5 block">{{ number_format($permohonan->desa->jumlah_kk) }}</span>
-                            </div>
-                            <div class="bg-white p-2.5 rounded-lg border border-slate-200">
-                                <span class="text-slate-400 block text-[11px]">Jiwa Total</span>
-                                <span class="font-bold text-slate-800 text-sm mt-0.5 block">{{ number_format($permohonan->desa->jumlah_jiwa) }}</span>
-                            </div>
-                            <div class="bg-white p-2.5 rounded-lg border border-slate-200">
-                                <span class="text-slate-400 block text-[11px]">Balita</span>
-                                <span class="font-bold text-blue-600 text-sm mt-0.5 block">{{ $permohonan->desa->jumlah_balita }}</span>
-                            </div>
-                            <div class="bg-white p-2.5 rounded-lg border border-slate-200">
-                                <span class="text-slate-400 block text-[11px]">Lansia</span>
-                                <span class="font-bold text-purple-600 text-sm mt-0.5 block">{{ $permohonan->desa->jumlah_lansia }}</span>
-                            </div>
-                            <div class="bg-white p-2.5 rounded-lg border border-slate-200">
-                                <span class="text-slate-400 block text-[11px]">Disabilitas</span>
-                                <span class="font-bold text-amber-600 text-sm mt-0.5 block">{{ $permohonan->desa->jumlah_disabilitas }}</span>
-                            </div>
-                        </div>
-                        <div class="text-[11px] text-slate-500 mt-2 text-right">
-                            Total Kelompok Rentan: <strong class="text-slate-800">{{ $permohonan->desa->total_jiwa_rentan }} jiwa</strong> ({{ number_format(($permohonan->desa->total_jiwa_rentan / max(1, $permohonan->desa->jumlah_jiwa)) * 100, 1) }}% dari total jiwa)
-                        </div>
-                    </div>
-
-                    <div class="bg-blue-50/50 p-3.5 rounded-lg border border-blue-200 text-xs">
-                        <span class="text-slate-500 font-medium block">Titik Drop-Off Air Bersih Desa:</span>
-                        <span class="font-semibold text-slate-900 mt-0.5 block flex items-center gap-2">
-                            <i class="fa-solid fa-truck-droplet text-blue-600"></i>
-                            {{ $permohonan->desa->titik_drop_air ?? 'Belum ditentukan oleh desa' }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- 2. Kondisi Lapangan (Parameter Formulir Fitur 2) -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-3 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-temperature-arrow-up text-amber-500"></i> Kondisi Lapangan & Parameter Kekeringan
-                    </h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                        <div class="bg-blue-50/60 p-4 rounded-xl border border-blue-100 text-center">
-                            <span class="text-xs text-blue-700 block font-medium">KK Terdampak</span>
-                            <span class="text-2xl font-bold text-blue-900 mt-1 block">{{ $permohonan->kk_terdampak }}</span>
-                            <span class="text-[10px] text-blue-600 block mt-0.5">dari total {{ $permohonan->desa->jumlah_kk }} KK ({{ number_format(($permohonan->kk_terdampak / max(1, $permohonan->desa->jumlah_kk)) * 100, 1) }}%)</span>
-                        </div>
-                        <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-100 text-center">
-                            <span class="text-xs text-amber-700 block font-medium">Hari Tanpa Air</span>
-                            <span class="text-2xl font-bold text-amber-900 mt-1 block">{{ $permohonan->hari_tanpa_air }} Hari</span>
-                            <span class="text-[10px] text-amber-600 block mt-0.5">Maks. normalisasi: 7 hari</span>
-                        </div>
-                        <div class="bg-rose-50/60 p-4 rounded-xl border border-rose-100 text-center">
-                            <span class="text-xs text-rose-700 block font-medium">Jarak ke Sumber Air</span>
-                            <span class="text-2xl font-bold text-rose-900 mt-1 block">{{ number_format($permohonan->jarak_sumber_air) }} m</span>
-                            <span class="text-[10px] text-rose-600 block mt-0.5">Maks. normalisasi: 2.000 meter</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-4">
-                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">Alasan Kedaruratan dari Desa:</span>
-                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm text-slate-700 leading-relaxed italic">
-                            &ldquo;{{ $permohonan->alasan_permohonan ?? 'Tidak ada catatan tambahan.' }}&rdquo;
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. Berkas Pendukung (Surat Kades & Foto Lapangan) -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-3 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-paperclip text-slate-600"></i> Berkas Lampiran Pendukung Resmi
-                    </h3>
-
-                    @php
-                        $suratPath = $permohonan->surat_kades;
-                        $suratIsUrl = $suratPath && \Illuminate\Support\Str::startsWith($suratPath, ['http://', 'https://']);
-                        $suratExists = $suratPath && !$suratIsUrl && \Illuminate\Support\Facades\Storage::disk('public')->exists($suratPath);
-                        $suratUrl = $suratIsUrl ? $suratPath : ($suratExists ? \Illuminate\Support\Facades\Storage::url($suratPath) : null);
-
-                        $fotoPath = $permohonan->foto_lapangan;
-                        $fotoIsUrl = $fotoPath && \Illuminate\Support\Str::startsWith($fotoPath, ['http://', 'https://']);
-                        $fotoUrl = $fotoPath ? ($fotoIsUrl ? $fotoPath : \Illuminate\Support\Facades\Storage::url($fotoPath)) : null;
-                    @endphp
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Surat Kades -->
-                        <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50 flex flex-col justify-between">
-                            <div>
-                                <div class="flex items-center gap-2 text-rose-600 mb-2">
-                                    <i class="fa-solid fa-file-pdf text-2xl"></i>
-                                    <span class="font-bold text-slate-800 text-sm">Surat Permohonan Kepala Desa</span>
-                                </div>
-                                <p class="text-xs text-slate-500">Dokumen surat keterangan resmi yang telah ditandatangani dan dicap stempel desa.</p>
-                            </div>
-                            <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between gap-2">
-                                <span class="text-[11px] text-slate-400 font-mono truncate">{{ $suratPath ? basename($suratPath) : 'Belum diunggah' }}</span>
-                                @if($suratUrl)
-                                    <a href="{{ $suratUrl }}" target="_blank" class="px-2.5 py-1 bg-white border border-slate-300 rounded text-xs font-semibold text-slate-700 hover:bg-slate-100 shrink-0">
-                                        <i class="fa-solid fa-eye mr-1"></i> Periksa Surat
-                                    </a>
-                                @else
-                                    <span class="text-xs text-slate-400 shrink-0">Belum tersedia</span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- Foto Kondisi Lapangan -->
-                        <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/50 flex flex-col justify-between">
-                            <div>
-                                <div class="flex items-center gap-2 text-blue-600 mb-2">
-                                    <i class="fa-solid fa-image text-2xl"></i>
-                                    <span class="font-bold text-slate-800 text-sm">Foto Kondisi Kekeringan Lapangan</span>
-                                </div>
-                                <p class="text-xs text-slate-500">Bukti visual kondisi sumur atau bak warga yang mengalami kekeringan.</p>
-                            </div>
-                            <div class="mt-4 pt-3 border-t border-slate-200 flex items-center justify-between">
-                                <span class="text-[11px] text-slate-400">Bukti Lapangan</span>
-                                @if($fotoUrl)
-                                    <a href="{{ $fotoUrl }}" target="_blank" class="px-2.5 py-1 bg-blue-600 text-white rounded text-xs font-semibold hover:bg-blue-700">
-                                        <i class="fa-solid fa-up-right-from-square mr-1"></i> Lihat Foto Penuh
-                                    </a>
-                                @else
-                                    <span class="text-xs text-slate-400">Tidak ada foto</span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    @if($fotoUrl)
-                        <div class="mt-4 rounded-xl overflow-hidden border border-slate-200 max-h-72 bg-slate-900">
-                            <img src="{{ $fotoUrl }}" alt="Foto Dokumentasi Lapangan" class="w-full h-72 object-cover hover:opacity-95 transition">
-                        </div>
-                    @endif
-                </div>
-
-                <!-- 4. Riwayat Keputusan / Audit Trail Log (PBI-011 & PBI-012) -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-slate-600"></i> Riwayat Telaah Verifikasi (Audit Trail Log)
+                    <!-- 2. Kondisi Lapangan (Parameter Formulir Fitur 2) -->
+                    <div class="bg-white rounded-2xl border border-[#E4E7EC] shadow-xs p-5 sm:p-6">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-[#101828] border-b border-[#EAECF0] pb-3 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-temperature-arrow-up text-amber-500"></i> Kondisi Lapangan & Parameter Kekeringan
                         </h3>
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium">
-                            {{ $permohonan->keputusanPermohonans->count() }} Catatan
-                        </span>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                            <div class="bg-[#EBF5FB] p-4 rounded-xl border border-[#BAE3F5] text-center">
+                                <span class="text-xs text-[#00629B] block font-medium">KK Terdampak</span>
+                                <span class="text-2xl font-bold text-[#00629B] mt-1 block">{{ $permohonan->kk_terdampak }}</span>
+                                <span class="text-[10px] text-[#475467] block mt-0.5">dari total {{ $permohonan->desa->jumlah_kk }} KK ({{ number_format(($permohonan->kk_terdampak / max(1, $permohonan->desa->jumlah_kk)) * 100, 1) }}%)</span>
+                            </div>
+                            <div class="bg-[#FFFAEB] p-4 rounded-xl border border-[#FEDF89] text-center">
+                                <span class="text-xs text-[#B54708] block font-medium">Hari Tanpa Air</span>
+                                <span class="text-2xl font-bold text-[#B54708] mt-1 block">{{ $permohonan->hari_tanpa_air }} Hari</span>
+                                <span class="text-[10px] text-[#B54708]/80 block mt-0.5">Maks. normalisasi: 7 hari</span>
+                            </div>
+                            <div class="bg-[#FEF3F2] p-4 rounded-xl border border-[#FECDCA] text-center">
+                                <span class="text-xs text-[#B42318] block font-medium">Jarak ke Sumber Air</span>
+                                <span class="text-2xl font-bold text-[#B42318] mt-1 block">{{ number_format($permohonan->jarak_sumber_air) }} m</span>
+                                <span class="text-[10px] text-[#B42318]/80 block mt-0.5">Maks. normalisasi: 2.000 meter</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <span class="text-xs font-semibold text-[#667085] uppercase tracking-wider block mb-1.5">Alasan Kedaruratan dari Desa:</span>
+                            <div class="p-4 bg-[#F8FAFC] rounded-xl border border-[#E4E7EC] text-xs text-[#344054] leading-relaxed italic">
+                                &ldquo;{{ $permohonan->alasan_permohonan ?? 'Tidak ada catatan tambahan.' }}&rdquo;
+                            </div>
+                        </div>
                     </div>
 
-                    @if($permohonan->keputusanPermohonans->count() > 0)
-                        <div class="space-y-4">
-                            @foreach($permohonan->keputusanPermohonans as $log)
-                                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 relative">
-                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
-                                                <i class="fa-solid fa-user-check"></i>
-                                            </div>
-                                            <span class="text-sm font-bold text-slate-800">{{ $log->user?->name ?? $log->user?->username ?? 'Petugas Verifikator BPBD' }}</span>
-                                        </div>
-                                        <span class="text-xs text-slate-400 flex items-center gap-1">
-                                            <i class="fa-regular fa-clock"></i>
-                                            {{ $log->created_at->format('d M Y, H:i') }} WIB
-                                        </span>
-                                    </div>
+                    <!-- 3. Berkas Pendukung (Surat Kades & Foto Lapangan) -->
+                    <div class="bg-white rounded-2xl border border-[#E4E7EC] shadow-xs p-5 sm:p-6">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-[#101828] border-b border-[#EAECF0] pb-3 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-paperclip text-[#00629B]"></i> Berkas Lampiran Pendukung Resmi
+                        </h3>
 
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-xs text-slate-500 font-medium">Status Keputusan:</span>
-                                        @if($log->status_keputusan == 'Disetujui')
-                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-1">
-                                                <i class="fa-solid fa-check"></i> Disetujui
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Surat Kades -->
+                            <div class="border border-[#E4E7EC] rounded-xl p-4 bg-[#F8FAFC] flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 text-rose-600 mb-2">
+                                        <i class="fa-solid fa-file-pdf text-2xl"></i>
+                                        <span class="font-bold text-[#101828] text-xs">Surat Permohonan Kepala Desa</span>
+                                    </div>
+                                    <p class="text-[11px] text-[#667085]">Dokumen surat keterangan resmi yang telah ditandatangani dan dicap stempel desa.</p>
+                                </div>
+                                @php
+                                    $suratPath = $permohonan->surat_kades;
+                                    $suratIsUrl = $suratPath && \Illuminate\Support\Str::startsWith($suratPath, ['http://', 'https://']);
+                                    $suratExists = $suratPath && !$suratIsUrl && \Illuminate\Support\Facades\Storage::disk('public')->exists($suratPath);
+                                    $suratUrl = $suratIsUrl ? $suratPath : ($suratExists ? \Illuminate\Support\Facades\Storage::url($suratPath) : null);
+                                @endphp
+                                <div class="mt-4 pt-3 border-t border-[#EAECF0] flex items-center justify-between">
+                                    <span class="text-[10px] text-[#667085] font-mono truncate max-w-[150px]">{{ $suratPath ? basename($suratPath) : 'Belum diunggah' }}</span>
+                                    @if($suratUrl)
+                                        <a href="{{ $suratUrl }}" target="_blank" class="px-2.5 py-1 bg-white border border-[#D0D5DD] rounded text-xs font-semibold text-[#344054] hover:bg-[#F2F4F7] shadow-xs">
+                                            <i class="fa-solid fa-eye mr-1 text-[#00629B]"></i> Periksa Surat
+                                        </a>
+                                    @else
+                                        <span class="text-xs text-[#667085]">Belum diunggah</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Foto Kondisi Lapangan -->
+                            <div class="border border-[#E4E7EC] rounded-xl p-4 bg-[#F8FAFC] flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center gap-2 text-[#00629B] mb-2">
+                                        <i class="fa-solid fa-image text-2xl"></i>
+                                        <span class="font-bold text-[#101828] text-xs">Foto Kondisi Kekeringan Lapangan</span>
+                                    </div>
+                                    <p class="text-[11px] text-[#667085]">Bukti visual kondisi sumur atau bak warga yang mengalami kekeringan.</p>
+                                </div>
+                                <div class="mt-4 pt-3 border-t border-[#EAECF0] flex items-center justify-between">
+                                    <span class="text-[10px] text-[#667085]">Bukti Lapangan</span>
+                                    @if($permohonan->foto_lapangan)
+                                        <a href="{{ $permohonan->foto_lapangan }}" target="_blank" class="px-2.5 py-1 bg-[#00629B] text-white rounded text-xs font-semibold hover:bg-[#004F7D]">
+                                            <i class="fa-solid fa-up-right-from-square mr-1"></i> Lihat Foto Penuh
+                                        </a>
+                                    @else
+                                        <span class="text-xs text-[#667085]">Tidak ada foto</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        @if($permohonan->foto_lapangan)
+                            <div class="mt-4 rounded-xl overflow-hidden border border-[#E4E7EC] max-h-72 bg-[#101828]">
+                                <img src="{{ $permohonan->foto_lapangan }}" alt="Foto Dokumentasi Lapangan" class="w-full h-72 object-cover hover:opacity-95 transition">
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- 4. Riwayat Keputusan / Audit Trail Log (PBI-011 & PBI-012) -->
+                    <div class="bg-white rounded-2xl border border-[#E4E7EC] shadow-xs p-5 sm:p-6">
+                        <div class="flex items-center justify-between border-b border-[#EAECF0] pb-3 mb-4">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-[#101828] flex items-center gap-2">
+                                <i class="fa-solid fa-clock-rotate-left text-[#00629B]"></i> Riwayat Telaah Verifikasi (Audit Trail Log)
+                            </h3>
+                            <span class="text-xs bg-[#EBF5FB] text-[#00629B] border border-[#BAE3F5] px-2.5 py-0.5 rounded-full font-bold">
+                                {{ $permohonan->keputusanPermohonans->count() }} Catatan
+                            </span>
+                        </div>
+
+                        @if($permohonan->keputusanPermohonans->count() > 0)
+                            <div class="space-y-3">
+                                @foreach($permohonan->keputusanPermohonans as $log)
+                                    <div class="p-4 bg-[#F8FAFC] rounded-xl border border-[#E4E7EC] relative">
+                                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-7 h-7 rounded-full bg-[#00629B] text-white flex items-center justify-center font-bold text-xs">
+                                                    <i class="fa-solid fa-user-check"></i>
+                                                </div>
+                                                <span class="text-xs font-bold text-[#101828]">{{ $log->user->name ?? 'Petugas Verifikator BPBD' }}</span>
+                                            </div>
+                                            <span class="text-[11px] text-[#667085] flex items-center gap-1">
+                                                <i class="fa-regular fa-clock text-[#00629B]"></i>
+                                                {{ $log->created_at->format('d M Y, H:i') }} WIB
                                             </span>
-                                            @if($log->volume_air_disetujui)
-                                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200">
-                                                    <i class="fa-solid fa-faucet-drip mr-1"></i> {{ number_format($log->volume_air_disetujui) }} Liter
+                                        </div>
+
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="text-[11px] text-[#475467] font-medium">Status Keputusan:</span>
+                                            @if($log->status_keputusan == 'Disetujui')
+                                                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#ECFDF3] text-[#027A48] border border-[#A6F4C5] flex items-center gap-1">
+                                                    <i class="fa-solid fa-check"></i> Disetujui
+                                                </span>
+                                                @if($log->volume_air_disetujui)
+                                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#EBF5FB] text-[#00629B] border border-[#BAE3F5]">
+                                                        <i class="fa-solid fa-faucet-drip mr-1 text-[#00629B]"></i> {{ number_format($log->volume_air_disetujui) }} Liter
+                                                    </span>
+                                                @endif
+                                            @elseif($log->status_keputusan == 'Revisi')
+                                                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#FFFAEB] text-[#B54708] border border-[#FEDF89] flex items-center gap-1">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Revisi Berkas
+                                                </span>
+                                            @else
+                                                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#FEF3F2] text-[#B42318] border border-[#FECDCA] flex items-center gap-1">
+                                                    <i class="fa-solid fa-xmark"></i> Ditolak
                                                 </span>
                                             @endif
-                                        @elseif($log->status_keputusan == 'Revisi')
-                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800 border border-purple-200 flex items-center gap-1">
-                                                <i class="fa-solid fa-pen-to-square"></i> Revisi Berkas
-                                            </span>
-                                        @else
-                                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200 flex items-center gap-1">
-                                                <i class="fa-solid fa-xmark"></i> Ditolak
-                                            </span>
-                                        @endif
+                                        </div>
+
+                                        <div class="bg-white p-3 rounded-lg border border-[#E4E7EC] text-xs text-[#344054] italic">
+                                            &ldquo;{{ $log->catatan_alasan }}&rdquo;
+                                        </div>
                                     </div>
-
-                                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs text-slate-700 italic">
-                                        &ldquo;{{ $log->catatan_alasan }}&rdquo;
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="text-center py-6 text-slate-400">
-                            <i class="fa-regular fa-folder-open text-3xl mb-2 block"></i>
-                            <p class="text-xs italic">Belum ada riwayat telaah verifikasi yang dicatat untuk permohonan ini.</p>
-                        </div>
-                    @endif
-                </div>
-
-            </div>
-
-            <!-- RIGHT 1 COL: Kalkulasi Skor AHP-SAW & Form Keputusan -->
-            <div class="space-y-6">
-
-                <!-- Kartu Skor AHP-SAW (KUNCI PBI-010) -->
-                @php
-                    $rc = is_array($permohonan->rincian_kriteria) ? $permohonan->rincian_kriteria : [];
-                    $c1Val = $rc['c1_rasio_kk'] ?? (isset($rc['C1']) ? round((float) $rc['C1'] * 100, 1) : 0);
-                    $c2Val = $rc['c2_proporsi_rentan'] ?? (isset($rc['C2']) ? round((float) $rc['C2'] * 100, 1) : 0);
-                    $c3Val = $rc['c3_hari_tanpa_air'] ?? (isset($rc['C3']) ? round((float) $rc['C3'] * 100, 1) : 0);
-                    $c4Val = $rc['c4_jarak_sumber'] ?? (isset($rc['C4']) ? round((float) $rc['C4'] * 100, 1) : 0);
-                @endphp
-                <div class="bg-gradient-to-br from-blue-900 to-indigo-950 text-white rounded-2xl p-6 shadow-lg border border-blue-800">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <span class="text-xs uppercase font-bold tracking-wider text-blue-300 block">Hasil Penilaian SPK</span>
-                            <span class="text-[10px] text-cyan-300 font-medium"><i class="fa-solid fa-circle-check mr-1"></i>Lolos Skrining F-02 (&ge; 30.00)</span>
-                        </div>
-                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold {{ $permohonan->skor_ahp_saw >= 60 ? 'bg-rose-500 text-white' : ($permohonan->skor_ahp_saw >= 30 ? 'bg-amber-400 text-slate-900' : 'bg-emerald-400 text-slate-900') }}">
-                            {{ $permohonan->skor_ahp_saw >= 60 ? 'KRITIS' : ($permohonan->skor_ahp_saw >= 30 ? 'WASPADA' : 'AMAN') }}
-                        </span>
-                    </div>
-
-                    <div class="text-center py-4 border-y border-blue-800/60 my-2">
-                        <span class="text-5xl font-extrabold tracking-tight text-white block">
-                            {{ number_format($permohonan->skor_ahp_saw, 2) }}
-                        </span>
-                        <span class="text-xs text-blue-200 mt-1 block">Skor Prioritas Akhir (0 - 100)</span>
-                    </div>
-
-                    <!-- Breakdown 4 Kriteria AHP-SAW Berbobot Baku -->
-                    <div class="mt-4 space-y-2 text-xs">
-                        <div class="flex items-center justify-between mb-2">
-                            <p class="font-semibold text-blue-200 uppercase tracking-wider text-[11px]">Rincian 4 Kriteria (AHP-SAW):</p>
-                            <span class="text-[10px] text-cyan-300 font-mono">SDG 10.2 &bull; 10.3</span>
-                        </div>
-                        
-                        <!-- C1: 50.47% -->
-                        <div class="flex justify-between items-center bg-blue-800/40 p-2.5 rounded-lg border border-blue-700/50">
-                            <div>
-                                <span class="font-bold text-white block">C1: Rasio KK Terdampak</span>
-                                <span class="text-[10px] text-blue-300">Bobot Baku: 50,47% &bull; Inklusi Komunal</span>
+                                @endforeach
                             </div>
-                            <span class="font-extrabold text-base text-cyan-200">{{ $c1Val }}%</span>
-                        </div>
-
-                        <!-- C3: 30.26% -->
-                        <div class="flex justify-between items-center bg-blue-800/40 p-2.5 rounded-lg border border-blue-700/50">
-                            <div>
-                                <span class="font-bold text-white block">C3: Hari Tanpa Air</span>
-                                <span class="text-[10px] text-blue-300">Bobot Baku: 30,26% &bull; Maks. 7 Hari</span>
-                            </div>
-                            <span class="font-extrabold text-base text-cyan-200">{{ $c3Val }}%</span>
-                        </div>
-
-                        <!-- C4: 11.00% -->
-                        <div class="flex justify-between items-center bg-blue-800/40 p-2.5 rounded-lg border border-blue-700/50">
-                            <div>
-                                <span class="font-bold text-white block">C4: Jarak ke Sumber Air</span>
-                                <span class="text-[10px] text-blue-300">Bobot Baku: 11,00% &bull; Maks. 2.000 m</span>
-                            </div>
-                            <span class="font-extrabold text-base text-cyan-200">{{ $c4Val }}%</span>
-                        </div>
-
-                        <!-- C2: 8.26% -->
-                        <div class="flex justify-between items-center bg-blue-800/40 p-2.5 rounded-lg border border-blue-700/50">
-                            <div>
-                                <span class="font-bold text-white block">C2: Proporsi Jiwa Rentan</span>
-                                <span class="text-[10px] text-blue-300">Bobot Baku: 8,26% &bull; Balita, Lansia, Disabilitas</span>
-                            </div>
-                            <span class="font-extrabold text-base text-cyan-200">{{ $c2Val }}%</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-5 p-3 rounded-xl bg-blue-800/50 border border-blue-700 text-xs text-blue-100">
-                        <i class="fa-solid fa-lightbulb text-amber-300 mr-1.5"></i>
-                        @if($permohonan->skor_ahp_saw >= 60)
-                            <strong>Rekomendasi Sistem (60 - 100):</strong> Segera disetujui untuk alokasi pengiriman truk tangki darurat (KRITIS).
                         @else
-                            <strong>Rekomendasi Sistem (30 - 59.99):</strong> Dijadwalkan untuk pengiriman tahap kedua setelah telaah berkas (WASPADA).
+                            <div class="text-center py-6 text-[#667085]">
+                                <i class="fa-regular fa-folder-open text-3xl mb-2 block text-[#BAE3F5]"></i>
+                                <p class="text-xs italic">Belum ada riwayat telaah verifikasi yang dicatat untuk permohonan ini.</p>
+                            </div>
                         @endif
-                        <span class="block text-[11px] text-blue-300/80 mt-1 pt-1 border-t border-blue-700/60">
-                            *Status AMAN (&lt; 30.00) telah otomatis dicegat di F-02 dan tidak masuk antrean verifikasi BPBD.
-                        </span>
                     </div>
+
                 </div>
 
-                <!-- Panel Aksi Verifikasi (PBI-011 & PBI-012) -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3 mb-4">
-                        Penetapan Keputusan Admin BPBD
-                    </h3>
+                <!-- RIGHT 1 COL: Kalkulasi Skor AHP-SAW & Form Keputusan -->
+                <div class="space-y-6">
 
-                    <p class="text-xs text-slate-500 mb-4">
-                        Pilih keputusan telaah verifikasi untuk permohonan ini. Seluruh keputusan akan tercatat dalam audit trail sistem dan memperbarui status tiket.
-                    </p>
-
-                    <div class="space-y-3">
-                        <!-- Tombol Setujui (PBI-011) -->
-                        <button type="button" onclick="openModal('modal-setujui')" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-sm hover:shadow transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-check"></i> Setujui Permohonan Bantuan
-                        </button>
-
-                        <!-- Tombol Revisi (PBI-012) -->
-                        <button type="button" onclick="openModal('modal-revisi')" class="w-full py-2.5 px-4 bg-purple-50 hover:bg-purple-100 active:bg-purple-200 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-pen-to-square"></i> Minta Perbaikan Berkas (Revisi)
-                        </button>
-
-                        <!-- Tombol Tolak (PBI-011) -->
-                        <button type="button" onclick="openModal('modal-tolak')" class="w-full py-2.5 px-4 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-xmark"></i> Tolak Permohonan
-                        </button>
-                    </div>
-
-                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-400 text-center">
-                        <i class="fa-solid fa-shield-halved mr-1"></i> Tindakan tercatat resmi dalam audit trail log BPBD.
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </main>
-
-    <!-- ==================== MODAL DIALOGS ==================== -->
-
-    <!-- 1. Modal Setujui Permohonan (PBI-011) -->
-    <div id="modal-setujui" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 animate-scale-up">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-900 text-base">Setujui Permohonan Bantuan Air</h4>
-                        <p class="text-xs text-slate-500">Tiket: <span class="font-mono font-semibold">{{ $permohonan->nomor_tiket }}</span> • Desa {{ $permohonan->desa->nama_desa }}</p>
-                    </div>
-                </div>
-                <button type="button" onclick="closeModal('modal-setujui')" class="text-slate-400 hover:text-slate-600 text-lg">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <form method="POST" action="{{ route('verifikasi.keputusan', $permohonan->id) }}">
-                @csrf
-                <input type="hidden" name="status_keputusan" value="Disetujui">
-
-                <div class="space-y-4 text-xs">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">
-                            Alokasi Volume Air yang Disetujui (Liter) <span class="text-rose-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <input type="number" name="volume_air_disetujui" value="{{ old('volume_air_disetujui', $permohonan->kebutuhan_tangki * 5000) }}" min="1000" step="500" required class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">
-                            <span class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs text-slate-400 font-medium">Liter</span>
+                    <!-- Kartu Skor AHP-SAW (KUNCI PBI-010) -->
+                    <div class="bg-gradient-to-br from-[#101828] via-[#003B5C] to-[#004F7D] text-white rounded-2xl p-6 shadow-md border border-[#BAE3F5]/30">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="text-xs uppercase font-bold tracking-wider text-[#BAE3F5] block">Hasil Penilaian SPK</span>
+                                <span class="text-[10px] text-cyan-200 font-medium"><i class="fa-solid fa-circle-check mr-1"></i>Lolos Skrining F-02 (&ge; 30.00)</span>
+                            </div>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold {{ $permohonan->skor_ahp_saw >= 60 ? 'bg-[#B42318] text-white' : ($permohonan->skor_ahp_saw >= 30 ? 'bg-[#FEDF89] text-[#B54708]' : 'bg-[#A6F4C5] text-[#027A48]') }}">
+                                {{ $permohonan->skor_ahp_saw >= 60 ? 'KRITIS' : ($permohonan->skor_ahp_saw >= 30 ? 'WASPADA' : 'AMAN') }}
+                            </span>
                         </div>
-                        <p class="text-[11px] text-slate-500 mt-1">
-                            Estimasi desa: <strong>{{ $permohonan->kebutuhan_tangki }} truk tangki</strong> (~{{ number_format($permohonan->kebutuhan_tangki * 5000) }} liter @ 5.000 L/truk).
+
+                        <div class="text-center py-4 border-y border-white/15 my-2">
+                            <span class="text-5xl font-extrabold tracking-tight text-white block">
+                                {{ number_format($permohonan->skor_ahp_saw, 2) }}
+                            </span>
+                            <span class="text-xs text-slate-300 mt-1 block">Skor Prioritas Akhir (0 - 100)</span>
+                        </div>
+
+                        <!-- Breakdown 4 Kriteria AHP-SAW Berbobot Baku -->
+                        <div class="mt-4 space-y-2 text-xs">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="font-bold text-[#BAE3F5] uppercase tracking-wider text-[11px]">Rincian 4 Kriteria (AHP-SAW):</p>
+                                <span class="text-[10px] text-cyan-200 font-mono">SDG 10</span>
+                            </div>
+                            
+                            <!-- C1: 50.47% -->
+                            <div class="flex justify-between items-center bg-white/10 backdrop-blur-xs p-2.5 rounded-lg border border-white/15">
+                                <div>
+                                    <span class="font-bold text-white block">C1: Rasio KK Terdampak</span>
+                                    <span class="text-[10px] text-slate-300">Bobot Baku: 50,47%</span>
+                                </div>
+                                <span class="font-extrabold text-base text-[#BAE3F5]">{{ $permohonan->rincian_kriteria['c1_rasio_kk'] ?? 0 }}%</span>
+                            </div>
+
+                            <!-- C3: 30.26% -->
+                            <div class="flex justify-between items-center bg-white/10 backdrop-blur-xs p-2.5 rounded-lg border border-white/15">
+                                <div>
+                                    <span class="font-bold text-white block">C3: Hari Tanpa Air</span>
+                                    <span class="text-[10px] text-slate-300">Bobot Baku: 30,26%</span>
+                                </div>
+                                <span class="font-extrabold text-base text-[#BAE3F5]">{{ $permohonan->rincian_kriteria['c3_hari_tanpa_air'] ?? 0 }}%</span>
+                            </div>
+
+                            <!-- C4: 11.00% -->
+                            <div class="flex justify-between items-center bg-white/10 backdrop-blur-xs p-2.5 rounded-lg border border-white/15">
+                                <div>
+                                    <span class="font-bold text-white block">C4: Jarak ke Sumber Air</span>
+                                    <span class="text-[10px] text-slate-300">Bobot Baku: 11,00%</span>
+                                </div>
+                                <span class="font-extrabold text-base text-[#BAE3F5]">{{ $permohonan->rincian_kriteria['c4_jarak_sumber'] ?? 0 }}%</span>
+                            </div>
+
+                            <!-- C2: 8.26% -->
+                            <div class="flex justify-between items-center bg-white/10 backdrop-blur-xs p-2.5 rounded-lg border border-white/15">
+                                <div>
+                                    <span class="font-bold text-white block">C2: Proporsi Jiwa Rentan</span>
+                                    <span class="text-[10px] text-slate-300">Bobot Baku: 8,26%</span>
+                                </div>
+                                <span class="font-extrabold text-base text-[#BAE3F5]">{{ $permohonan->rincian_kriteria['c2_proporsi_rentan'] ?? 0 }}%</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-5 p-3 rounded-xl bg-white/10 border border-white/15 text-xs text-slate-200">
+                            <i class="fa-solid fa-lightbulb text-amber-300 mr-1.5"></i>
+                            @if($permohonan->skor_ahp_saw >= 60)
+                                <strong>Rekomendasi SPK (60 - 100):</strong> Segera disetujui untuk alokasi pengiriman truk tangki darurat (KRITIS).
+                            @else
+                                <strong>Rekomendasi SPK (30 - 59.99):</strong> Dijadwalkan untuk pengiriman tahap kedua setelah telaah berkas (WASPADA).
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Panel Aksi Verifikasi (PBI-011 & PBI-012) -->
+                    <div class="bg-white rounded-2xl border border-[#E4E7EC] shadow-xs p-6">
+                        <h3 class="text-sm font-bold text-[#101828] border-b border-[#EAECF0] pb-3 mb-3">
+                            Penetapan Keputusan Admin BPBD
+                        </h3>
+
+                        <p class="text-xs text-[#475467] mb-4">
+                            Pilih keputusan telaah verifikasi untuk permohonan ini. Keputusan tercatat resmi dalam audit trail sistem.
                         </p>
+
+                        <div class="space-y-2.5">
+                            <!-- Tombol Setujui (PBI-011) -->
+                            <button 
+                                type="button" 
+                                onclick="openModal('modal-setujui')" 
+                                class="w-full py-2.5 px-4 bg-[#027A48] hover:bg-[#02663c] active:bg-[#01472a] text-white rounded-xl text-xs font-bold shadow-xs hover:shadow transition flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                                <i class="fa-solid fa-check"></i>
+                                <span>Setujui Permohonan Bantuan</span>
+                            </button>
+
+                            <!-- Tombol Minta Revisi (PBI-012) -->
+                            <button 
+                                type="button" 
+                                onclick="openModal('modal-revisi')" 
+                                class="w-full py-2.5 px-4 bg-[#B54708] hover:bg-[#9a3c07] text-white rounded-xl text-xs font-bold shadow-xs hover:shadow transition flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Minta Perbaikan / Revisi Berkas</span>
+                            </button>
+
+                            <!-- Tombol Tolak (PBI-011) -->
+                            <button 
+                                type="button" 
+                                onclick="openModal('modal-tolak')" 
+                                class="w-full py-2.5 px-4 bg-[#B42318] hover:bg-[#911c13] active:bg-[#70150e] text-white rounded-xl text-xs font-bold shadow-xs hover:shadow transition flex items-center justify-center gap-2 cursor-pointer"
+                            >
+                                <i class="fa-solid fa-xmark"></i>
+                                <span>Tolak Permohonan</span>
+                            </button>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-[#EAECF0] text-[10.5px] text-[#667085]">
+                            <i class="fa-solid fa-shield-halved text-[#00629B] mr-1"></i>
+                            Keputusan verifikasi BPBD bersifat final dan mengikat antrean distribusi air.
+                        </div>
                     </div>
 
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">
-                            Catatan Verifikator / Petunjuk Distribusi (Opsional)
-                        </label>
-                        <textarea name="catatan_alasan" rows="3" placeholder="Contoh: Pengiriman dijadwalkan shift pagi ke bak penampungan sentral RT 04 RW 02." class="w-full p-3 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none">{{ old('catatan_alasan') }}</textarea>
-                    </div>
-
-                    <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-emerald-900 text-[11px] flex items-center gap-2">
-                        <i class="fa-solid fa-circle-info text-emerald-600 text-base shrink-0"></i>
-                        <span>Status permohonan akan diperbarui menjadi <strong>Disetujui</strong> dan diteruskan ke bagian penjadwalan armada distribusi tangki air.</span>
-                    </div>
                 </div>
 
-                <div class="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('modal-setujui')" class="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl text-xs font-semibold transition">
-                        Batal
-                    </button>
-                    <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-check"></i> Konfirmasi Setujui
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 2. Modal Minta Revisi Berkas (PBI-012) -->
-    <div id="modal-revisi" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 animate-scale-up">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-lg">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-slate-900 text-base">Minta Perbaikan Berkas (Revisi)</h4>
-                        <p class="text-xs text-slate-500">Tiket: <span class="font-mono font-semibold">{{ $permohonan->nomor_tiket }}</span> • Desa {{ $permohonan->desa->nama_desa }}</p>
-                    </div>
-                </div>
-                <button type="button" onclick="closeModal('modal-revisi')" class="text-slate-400 hover:text-slate-600 text-lg">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
             </div>
 
-            <form method="POST" action="{{ route('verifikasi.keputusan', $permohonan->id) }}">
-                @csrf
-                <input type="hidden" name="status_keputusan" value="Revisi">
+        </main>
 
-                <div class="space-y-4 text-xs">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">
-                            Rincian Dokumen / Data yang Perlu Diperbaiki <span class="text-rose-500">* (Wajib diisi)</span>
-                        </label>
-                        <textarea name="catatan_alasan" rows="4" required placeholder="Contoh: Surat permohonan Kades belum dibubuhi stempel basah desa dan foto kondisi sumur terlalu buram. Mohon upload ulang dokumen resmi dan foto terkini." class="w-full p-3 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none">{{ old('catatan_alasan') }}</textarea>
-                        <p class="text-[11px] text-slate-500 mt-1">Catatan ini akan dikirimkan kepada perwakilan desa sebagai instruksi perbaikan berkas.</p>
+        <!-- Modals Aksi Keputusan -->
+        <!-- 1. Modal Setujui Permohonan -->
+        <div id="modal-setujui" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[#E4E7EC]">
+                <div class="flex items-center justify-between pb-3 border-b border-[#EAECF0] mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-lg bg-[#ECFDF3] text-[#027A48] flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#101828] text-base">Persetujuan Permohonan Bantuan Air</h4>
+                            <p class="text-xs text-[#667085]">Tiket: <span class="font-mono font-semibold">{{ $permohonan->nomor_tiket }}</span> • Desa {{ $permohonan->desa->nama_desa }}</p>
+                        </div>
                     </div>
-
-                    <div class="p-3 bg-purple-50 rounded-xl border border-purple-100 text-purple-900 text-[11px] flex items-center gap-2">
-                        <i class="fa-solid fa-circle-info text-purple-600 text-base shrink-0"></i>
-                        <span>Status permohonan akan menjadi <strong>Revisi</strong>. Pihak desa dapat memperbarui dokumen permohonan kembali.</span>
-                    </div>
-                </div>
-
-                <div class="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('modal-revisi')" class="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl text-xs font-semibold transition">
-                        Batal
-                    </button>
-                    <button type="submit" class="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-paper-plane"></i> Kirim Permintaan Revisi
+                    <button type="button" onclick="closeModal('modal-setujui')" class="text-[#667085] hover:text-[#101828] text-lg cursor-pointer">
+                        <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
-            </form>
-        </div>
-    </div>
 
-    <!-- 3. Modal Tolak Permohonan (PBI-011) -->
-    <div id="modal-tolak" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 animate-scale-up">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-lg">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
+                <form method="POST" action="{{ route('verifikasi.keputusan', $permohonan->id) }}">
+                    @csrf
+                    <input type="hidden" name="status_keputusan" value="Disetujui">
+
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-bold text-[#344054] mb-1">
+                                Alokasi Volume Air Bersih yang Disetujui (Liter) <span class="text-rose-500">*</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                name="volume_air_disetujui" 
+                                value="5000" 
+                                min="1000" 
+                                step="1000" 
+                                required 
+                                class="w-full p-2.5 bg-white border border-[#D0D5DD] rounded-xl text-xs text-[#101828] focus:border-[#00629B] focus:ring-2 focus:ring-[#00629B]/20 outline-none"
+                            >
+                            <p class="text-[11px] text-[#667085] mt-1">Standar pasokan: 5.000 Liter per 1 armada tangki resmi.</p>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-[#344054] mb-1">
+                                Catatan Rekomendasi Verifikasi (Opsional)
+                            </label>
+                            <textarea 
+                                name="catatan_alasan" 
+                                rows="3" 
+                                placeholder="Contoh: Berkas lengkap, skor prioritas tinggi. Segera jadwalkan pengiriman tangki ke titik tandon RT 02." 
+                                class="w-full p-2.5 bg-white border border-[#D0D5DD] rounded-xl text-xs text-[#101828] focus:border-[#00629B] focus:ring-2 focus:ring-[#00629B]/20 outline-none"
+                            >{{ old('catatan_alasan') }}</textarea>
+                        </div>
+
+                        <div class="p-3 bg-[#ECFDF3] rounded-xl border border-[#A6F4C5] text-[#027A48] text-[11px] flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-[#027A48] text-base shrink-0"></i>
+                            <span>Status tiket akan menjadi <strong>Disetujui</strong> dan masuk ke antrean Penugasan Armada Tangki.</span>
+                        </div>
                     </div>
-                    <div>
-                        <h4 class="font-bold text-slate-900 text-base">Tolak Permohonan Bantuan</h4>
-                        <p class="text-xs text-slate-500">Tiket: <span class="font-mono font-semibold">{{ $permohonan->nomor_tiket }}</span> • Desa {{ $permohonan->desa->nama_desa }}</p>
+
+                    <div class="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-[#EAECF0]">
+                        <button type="button" onclick="closeModal('modal-setujui')" class="px-4 py-2 border border-[#D0D5DD] text-[#344054] hover:bg-[#F2F4F7] rounded-xl text-xs font-semibold transition cursor-pointer">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-5 py-2 bg-[#027A48] hover:bg-[#02663c] text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-check"></i> Konfirmasi Setujui
+                        </button>
                     </div>
-                </div>
-                <button type="button" onclick="closeModal('modal-tolak')" class="text-slate-400 hover:text-slate-600 text-lg">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+                </form>
             </div>
-
-            <form method="POST" action="{{ route('verifikasi.keputusan', $permohonan->id) }}">
-                @csrf
-                <input type="hidden" name="status_keputusan" value="Ditolak">
-
-                <div class="space-y-4 text-xs">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1">
-                            Alasan Tertulis Penolakan Permohonan <span class="text-rose-500">* (Wajib diisi)</span>
-                        </label>
-                        <textarea name="catatan_alasan" rows="4" required placeholder="Contoh: Berdasarkan telaah tim, jarak sumber mata air alternatif masih berada dalam radius 400 meter dan debit air masih mencukupi kebutuhan warga, sehingga permohonan belum memenuhi kategori darurat kekeringan." class="w-full p-3 border border-slate-300 rounded-xl text-xs text-slate-800 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none">{{ old('catatan_alasan') }}</textarea>
-                        <p class="text-[11px] text-slate-500 mt-1">Alasan penolakan wajib objektif dan akan disimpan permanen dalam audit trail log.</p>
-                    </div>
-
-                    <div class="p-3 bg-rose-50 rounded-xl border border-rose-100 text-rose-900 text-[11px] flex items-center gap-2">
-                        <i class="fa-solid fa-circle-exclamation text-rose-600 text-base shrink-0"></i>
-                        <span>Status permohonan akan diubah menjadi <strong>Ditolak</strong>. Tiket tidak akan masuk antrean pengiriman tangki.</span>
-                    </div>
-                </div>
-
-                <div class="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('modal-tolak')" class="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl text-xs font-semibold transition">
-                        Batal
-                    </button>
-                    <button type="submit" class="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-xmark"></i> Konfirmasi Tolak
-                    </button>
-                </div>
-            </form>
         </div>
+
+        <!-- 2. Modal Minta Revisi Berkas -->
+        <div id="modal-revisi" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[#E4E7EC]">
+                <div class="flex items-center justify-between pb-3 border-b border-[#EAECF0] mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-lg bg-[#FFFAEB] text-[#B54708] border border-[#FEDF89] flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#101828] text-base">Minta Perbaikan Berkas (Revisi)</h4>
+                            <p class="text-xs text-[#667085]">Tiket: <span class="font-mono font-semibold">{{ $permohonan->nomor_tiket }}</span> • Desa {{ $permohonan->desa->nama_desa }}</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="closeModal('modal-revisi')" class="text-[#667085] hover:text-[#101828] text-lg cursor-pointer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('verifikasi.keputusan', $permohonan->id) }}">
+                    @csrf
+                    <input type="hidden" name="status_keputusan" value="Revisi">
+
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-bold text-[#344054] mb-1">
+                                Rincian Dokumen / Data yang Perlu Diperbaiki <span class="text-rose-500">* (Wajib diisi)</span>
+                            </label>
+                            <textarea 
+                                name="catatan_alasan" 
+                                rows="4" 
+                                required 
+                                placeholder="Contoh: Surat permohonan Kades belum dibubuhi stempel basah desa. Mohon upload ulang dokumen resmi." 
+                                class="w-full p-2.5 bg-white border border-[#D0D5DD] rounded-xl text-xs text-[#101828] focus:border-[#00629B] focus:ring-2 focus:ring-[#00629B]/20 outline-none"
+                            >{{ old('catatan_alasan') }}</textarea>
+                            <p class="text-[11px] text-[#667085] mt-1">Catatan ini akan dikirimkan kepada perwakilan desa sebagai instruksi perbaikan berkas.</p>
+                        </div>
+
+                        <div class="p-3 bg-[#FFFAEB] rounded-xl border border-[#FEDF89] text-[#B54708] text-[11px] flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-[#B54708] text-base shrink-0"></i>
+                            <span>Status permohonan akan menjadi <strong>Revisi</strong>. Pihak desa dapat memperbarui dokumen permohonan kembali.</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-[#EAECF0]">
+                        <button type="button" onclick="closeModal('modal-revisi')" class="px-4 py-2 border border-[#D0D5DD] text-[#344054] hover:bg-[#F2F4F7] rounded-xl text-xs font-semibold transition cursor-pointer">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-5 py-2 bg-[#00629B] hover:bg-[#004F7D] text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-paper-plane"></i> Kirim Permintaan Revisi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 3. Modal Tolak Permohonan -->
+        <div id="modal-tolak" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[#E4E7EC]">
+                <div class="flex items-center justify-between pb-3 border-b border-[#EAECF0] mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-9 h-9 rounded-lg bg-[#FEF3F2] text-[#B42318] flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-[#101828] text-base">Tolak Permohonan Bantuan</h4>
+                            <p class="text-xs text-[#667085]">Tiket: <span class="font-mono font-semibold">{{ $permohonan->nomor_tiket }}</span> • Desa {{ $permohonan->desa->nama_desa }}</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="closeModal('modal-tolak')" class="text-[#667085] hover:text-[#101828] text-lg cursor-pointer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('verifikasi.keputusan', $permohonan->id) }}">
+                    @csrf
+                    <input type="hidden" name="status_keputusan" value="Ditolak">
+
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <label class="block font-bold text-[#344054] mb-1">
+                                Alasan Tertulis Penolakan Permohonan <span class="text-rose-500">* (Wajib diisi)</span>
+                            </label>
+                            <textarea 
+                                name="catatan_alasan" 
+                                rows="4" 
+                                required 
+                                placeholder="Contoh: Berdasarkan telaah tim, jarak sumber mata air alternatif masih berada dalam radius 400 meter dan debit air masih mencukupi." 
+                                class="w-full p-2.5 bg-white border border-[#D0D5DD] rounded-xl text-xs text-[#101828] focus:border-[#B42318] focus:ring-2 focus:ring-[#B42318]/20 outline-none"
+                            >{{ old('catatan_alasan') }}</textarea>
+                            <p class="text-[11px] text-[#667085] mt-1">Alasan penolakan wajib objektif dan akan disimpan permanen dalam audit trail log.</p>
+                        </div>
+
+                        <div class="p-3 bg-[#FEF3F2] rounded-xl border border-[#FECDCA] text-[#B42318] text-[11px] flex items-center gap-2">
+                            <i class="fa-solid fa-circle-exclamation text-[#B42318] text-base shrink-0"></i>
+                            <span>Status permohonan akan diubah menjadi <strong>Ditolak</strong>. Tiket tidak akan masuk antrean pengiriman tangki.</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-[#EAECF0]">
+                        <button type="button" onclick="closeModal('modal-tolak')" class="px-4 py-2 border border-[#D0D5DD] text-[#344054] hover:bg-[#F2F4F7] rounded-xl text-xs font-semibold transition cursor-pointer">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-5 py-2 bg-[#B42318] hover:bg-[#911c13] text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-xmark"></i> Konfirmasi Tolak
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-auto py-3 border-t border-[#00629B] text-center text-[10.5px] text-[#98A2B3] bg-[#101828]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-1">
+                <p>BPBD Kabupaten Purbalingga &middot; Sistem Informasi Pendukung Keputusan Distribusi Air Bersih Darurat</p>
+                <p>&copy; {{ date('Y') }} Lingga Air &middot; Proyek Perangkat Lunak Kelompok 4</p>
+            </div>
+        </footer>
+
     </div>
 
     <!-- JavaScript Interaktif untuk Modal -->
@@ -768,12 +884,5 @@
             }
         });
     </script>
-
-        <footer class="mt-auto py-5 border-t border-slate-200 text-center text-xs text-slate-500 bg-white">
-            &copy; 2026 Lingga Air - Proyek Perangkat Lunak (Kelompok 4). BPBD Kabupaten Purbalingga.
-        </footer>
-
-    </div>
-
 </body>
 </html>
