@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -53,16 +54,24 @@
         }
     </style>
 </head>
-<body class="font-sans min-h-screen relative flex flex-col justify-center items-center px-4 py-8 bg-white text-[#101828] antialiased">
+<body class="font-sans min-h-screen flex flex-col bg-[#F8FAFC] text-[#101828] antialiased">
 
-    {{-- Breadcrumb 'Beranda/Login' di samping kiri atas --}}
-    <div class="absolute top-5 left-5 sm:top-8 sm:left-10 text-[14px] text-[#475467] flex items-center">
-        <a href="{{ url('/') }}" class="hover:text-[#00629B] transition">Beranda</a>
-        <span class="text-[#D0D5DD] mx-1">/</span>
-        <span class="text-[#101828] font-semibold">Login</span>
+    {{-- Topbar Header Konsisten (Pojok Kiri Atas) --}}
+    <div class="w-full border-b border-[#EAECF0] bg-white py-3.5 px-6 sm:px-10 flex items-center justify-between shrink-0">
+        <a href="{{ url('/') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-[#475467] hover:text-[#00629B] transition py-1 px-2.5 rounded-lg hover:bg-[#F2F4F7]">
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+            </svg>
+            <span>Kembali ke Beranda</span>
+        </a>
     </div>
 
-    <div class="w-full max-w-[420px] mx-auto my-auto space-y-6">
+    {{-- Main content centered --}}
+    <div class="flex-1 flex flex-col justify-center items-center px-4 py-10">
+        <div class="w-full max-w-[420px] mx-auto">
+
+            {{-- Card putih --}}
+            <div class="bg-white rounded-2xl border border-[#EAECF0] shadow-sm p-8 space-y-6">
         
         {{-- Header Teks Selaras dengan Onboarding --}}
         <div class="text-center space-y-1.5">
@@ -172,7 +181,9 @@
             </div>
         </form>
 
-    </div>
+    </div>{{-- end card --}}
+        </div>{{-- end max-w --}}
+    </div>{{-- end flex-1 --}}
 
     <script>
         function togglePasswordVisibility(inputId, iconId) {

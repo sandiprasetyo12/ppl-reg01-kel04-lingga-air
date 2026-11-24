@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.desa')
 
 @section('title', 'Pengajuan Bantuan Air Bersih | Lingga Air')
 
@@ -6,19 +6,19 @@
 <div class="space-y-6">
 
     <!-- HEADER TITLE -->
-    <div class="pb-3 border-b border-slate-200">
+    <div class="pb-3 border-b border-[#EAECF0]">
         <div class="eyebrow">Layanan Desa</div>
-        <h1>Pengajuan Bantuan Air Bersih</h1>
+        <h1 class="text-lg sm:text-xl font-bold text-[#101828] tracking-tight mt-0.5">Pengajuan Bantuan Air Bersih</h1>
         <p class="intro">Lengkapi formulir detail kebutuhan air berikut untuk desa Anda.</p>
     </div>
 
     <!-- PBI-009: Peringatan Tiket Aktif jika desa sudah punya tiket berjalan -->
     @if($hasActiveTicket && $activeTicket)
-        <div class="card p-4 border-amber-300 bg-amber-50 text-amber-900 flex items-start gap-3">
-            <span class="text-xl leading-none font-bold text-amber-700">⚠</span>
+        <div class="card p-3.5 border-amber-300 bg-amber-50 text-amber-900 flex items-start gap-3">
+            <i class="fa-solid fa-triangle-exclamation text-amber-700 text-base mt-0.5 shrink-0"></i>
             <div class="text-xs">
-                <p class="font-bold text-sm text-amber-950">Desa Anda Memiliki Tiket Bantuan Aktif</p>
-                <p class="mt-1 text-slate-700">
+                <p class="font-bold text-xs text-amber-950">Desa Anda Memiliki Tiket Bantuan Aktif</p>
+                <p class="mt-0.5 text-[#475467]">
                     Permohonan aktif dengan Nomor Tiket <strong>{{ $activeTicket->nomor_tiket }}</strong> saat ini berstatus <strong>{{ $activeTicket->status }}</strong>.
                     Sistem membatasi satu desa hanya boleh memiliki 1 tiket aktif. Anda tetap dapat menyimpan isian berikut sebagai <strong>Draf</strong>, namun tombol kirim ke antrean admin akan dikunci hingga tiket aktif diselesaikan.
                 </p>
@@ -28,11 +28,11 @@
 
     <!-- PERINGATAN BILA BELUM CEK KELAYAKAN -->
     @if(!$simulasi)
-        <div class="card p-4 border-amber-300 bg-amber-50 text-amber-900 flex items-start gap-3">
-            <span class="text-xl leading-none font-bold text-amber-700">ℹ</span>
+        <div class="card p-3.5 border-amber-300 bg-amber-50 text-amber-900 flex items-start gap-3">
+            <i class="fa-solid fa-circle-info text-amber-700 text-base mt-0.5 shrink-0"></i>
             <div class="text-xs">
-                <p class="font-bold text-sm text-amber-950">Data Cek Kelayakan Belum Diisi</p>
-                <p class="mt-1 text-slate-700">
+                <p class="font-bold text-xs text-amber-950">Data Cek Kelayakan Belum Diisi</p>
+                <p class="mt-0.5 text-[#475467]">
                     Formulir pengajuan bantuan air membutuhkan data dari hasil <strong>Cek Kelayakan Mandiri (F-02)</strong>. Nilai parameter kebutuhan akan terkunci dan terisi otomatis setelah Anda menjalankan simulasi kelayakan untuk desa Anda.
                 </p>
                 <a href="{{ route('cek-kelayakan.index') }}" class="submit mt-2 text-xs py-1.5 px-3 inline-flex">
@@ -43,14 +43,14 @@
     @endif
 
     <!-- RINGKASAN HASIL CEK KELAYAKAN (SESUAI DESAIN HASIL CEK KELAYAKAN MANDIRI) -->
-    <div class="card p-5" style="border-color: #BAE3F5; background: #EBF5FB;">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
+    <div class="card p-4 sm:p-5" style="border-color: #BAE3F5; background: #EBF5FB;">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             
             <!-- Skor Prioritas AHP-SAW -->
-            <div class="flex items-center gap-4">
-                <div class="bg-white border border-[#E4E7EC] rounded-xl px-4 py-2.5 text-center shadow-xs">
-                    <span class="block text-[11px] font-bold uppercase tracking-wider text-[#667085]">SKOR PRIORITAS</span>
-                    <span class="text-3xl font-extrabold tracking-tight" style="color: #00629B; font-variant-numeric: tabular-nums;" id="disp-skor">
+            <div class="flex items-center gap-3.5">
+                <div class="bg-white border border-[#E4E7EC] rounded-lg px-3.5 py-2 text-center shadow-xs">
+                    <span class="block text-[10px] font-bold uppercase tracking-wider text-[#667085]">SKOR PRIORITAS</span>
+                    <span class="text-2xl font-bold tracking-tight" style="color: #00629B; font-variant-numeric: tabular-nums;" id="disp-skor">
                         {{ $simulasi ? number_format($simulasi->skor_ahp_saw, 1) : '-' }}
                     </span>
                     <span class="text-xs font-semibold text-[#667085]">/ 100</span>
@@ -207,7 +207,7 @@
 
             <!-- Field 3: Alasan Pengajuan -->
             <div class="pt-2">
-                <label for="alasan_pengajuan">
+                <label for="alasan_pengajuan" class="block font-semibold text-xs sm:text-sm text-[#344054] mb-1.5">
                     Alasan Pengajuan &amp; Kondisi Sumber Air
                 </label>
                 <textarea 
@@ -215,6 +215,7 @@
                     id="alasan_pengajuan" 
                     rows="3" 
                     required 
+                    class="w-full !p-3.5 !rounded-lg !border !border-[#D0D5DD] focus:!border-[#00629B] focus:!ring-2 focus:!ring-[#00629B]/20 outline-none !text-xs sm:!text-sm text-[#101828] placeholder-[#98A2B3] !leading-relaxed shadow-xs"
                     placeholder="Contoh: Sumber air sumur gali dan mata air desa mengering total selama dua minggu terakhir akibat musim kemarau panjang. Warga terpaksa membeli air pikulan..." 
                 >{{ old('alasan_pengajuan') }}</textarea>
                 <p class="hint">Jelaskan kondisi riil sumur, embung, atau aliran air pipa warga saat ini.</p>

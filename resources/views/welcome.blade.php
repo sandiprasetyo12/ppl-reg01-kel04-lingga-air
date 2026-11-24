@@ -833,16 +833,16 @@
 @endsection
 
 @section('footer')
-{{-- 10. FOOTER IDDS STANDARD --}}
-<footer class="w-full bg-white border-t border-[#EAECF0] text-[#475467] text-xs py-14">
+{{-- 10. FOOTER DARK (IDDS Color Palette) --}}
+<footer class="w-full bg-[#101828] border-t border-[#1D2939] text-[#98A2B3] text-xs py-14">
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
             {{-- Col 1: Brand Info --}}
             <div class="col-span-2 space-y-4">
                 <div class="flex items-center gap-2">
-                    <img src="{{ asset('images/logo-lingga-oneline.png') }}" alt="LinggaAir" class="h-8 w-auto object-contain">
+                    <img src="{{ asset('images/logo-lingga-white.png') }}" alt="LinggaAir" class="h-8 w-auto object-contain">
                 </div>
-                <p class="text-[#475467] leading-relaxed max-w-sm">
+                <p class="text-[#98A2B3] leading-relaxed max-w-sm">
                     Sistem Informasi Distribusi Air Bersih dan Pemetaan GIS Badan Penanggulangan Bencana Daerah (BPBD) Kabupaten Purbalingga.
                 </p>
                 <p class="text-[#667085]">
@@ -852,41 +852,41 @@
 
             {{-- Col 2: Layanan --}}
             <div class="space-y-3">
-                <h4 class="font-semibold text-[#101828] uppercase tracking-wider text-[11px]">Layanan</h4>
+                <h4 class="font-semibold text-[#F9FAFB] uppercase tracking-wider text-[11px]">Layanan</h4>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('cek-kelayakan.index') }}" class="hover:text-[#00629B] transition">Cek Kelayakan</a></li>
-                    <li><a href="{{ route('admin.pemetaan.index') }}" class="hover:text-[#00629B] transition">Peta Sebaran GIS</a></li>
-                    <li><a href="#program" class="hover:text-[#00629B] transition">Dokumentasi</a></li>
-                    <li><a href="#faq" class="hover:text-[#00629B] transition">Panduan SOP</a></li>
+                    <li><a href="{{ route('cek-kelayakan.index') }}" class="hover:text-[#BAE3F5] transition">Cek Kelayakan</a></li>
+                    <li><a href="{{ route('admin.pemetaan.index') }}" class="hover:text-[#BAE3F5] transition">Peta Sebaran GIS</a></li>
+                    <li><a href="#program" class="hover:text-[#BAE3F5] transition">Dokumentasi</a></li>
+                    <li><a href="#faq" class="hover:text-[#BAE3F5] transition">Panduan SOP</a></li>
                 </ul>
             </div>
 
             {{-- Col 3: Portal --}}
             <div class="space-y-3">
-                <h4 class="font-semibold text-[#101828] uppercase tracking-wider text-[11px]">Akses</h4>
+                <h4 class="font-semibold text-[#F9FAFB] uppercase tracking-wider text-[11px]">Akses</h4>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('login') }}" class="hover:text-[#00629B] transition">Login Verifikator</a></li>
-                    <li><a href="{{ route('login') }}" class="hover:text-[#00629B] transition">Login Pengemudi</a></li>
-                    <li><a href="{{ route('login') }}" class="hover:text-[#00629B] transition">Login Desa</a></li>
-                    <li><a href="{{ route('register') }}" class="hover:text-[#00629B] transition">Daftar Akun Baru</a></li>
+                    <li><a href="{{ route('login') }}" class="hover:text-[#BAE3F5] transition">Login Verifikator</a></li>
+                    <li><a href="{{ route('login') }}" class="hover:text-[#BAE3F5] transition">Login Pengemudi</a></li>
+                    <li><a href="{{ route('login') }}" class="hover:text-[#BAE3F5] transition">Login Desa</a></li>
+                    <li><a href="{{ route('register') }}" class="hover:text-[#BAE3F5] transition">Daftar Akun Baru</a></li>
                 </ul>
             </div>
 
             {{-- Col 4: Posko Siaga --}}
             <div class="space-y-3">
-                <h4 class="font-semibold text-[#101828] uppercase tracking-wider text-[11px]">Posko Siaga</h4>
-                <p class="text-[#667085]">Hotline: (0281) 891-234</p>
-                <p class="text-[#667085]">WA: 0812-3456-7890</p>
+                <h4 class="font-semibold text-[#F9FAFB] uppercase tracking-wider text-[11px]">Posko Siaga</h4>
+                <p class="text-[#98A2B3]">Hotline: (0281) 891-234</p>
+                <p class="text-[#98A2B3]">WA: 0812-3456-7890</p>
                 <div class="flex items-center gap-2 pt-2">
-                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-semibold">X</span>
-                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-semibold">FB</span>
-                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-semibold">IG</span>
-                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-semibold">YT</span>
+                    <span class="w-6 h-6 rounded-full bg-[#1D2939] border border-[#344054] flex items-center justify-center text-[10px] text-[#BAE3F5] font-semibold">X</span>
+                    <span class="w-6 h-6 rounded-full bg-[#1D2939] border border-[#344054] flex items-center justify-center text-[10px] text-[#BAE3F5] font-semibold">FB</span>
+                    <span class="w-6 h-6 rounded-full bg-[#1D2939] border border-[#344054] flex items-center justify-center text-[10px] text-[#BAE3F5] font-semibold">IG</span>
+                    <span class="w-6 h-6 rounded-full bg-[#1D2939] border border-[#344054] flex items-center justify-center text-[10px] text-[#BAE3F5] font-semibold">YT</span>
                 </div>
             </div>
         </div>
 
-        <div class="pt-8 border-t border-[#EAECF0] flex flex-col sm:flex-row items-center justify-between gap-4 text-[#667085]">
+        <div class="pt-8 border-t border-[#1D2939] flex flex-col sm:flex-row items-center justify-between gap-4 text-[#667085]">
             <div>
                 &copy; 2026 BPBD Kabupaten Purbalingga. Seluruh hak cipta dilindungi.
             </div>

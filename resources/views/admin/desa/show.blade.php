@@ -8,109 +8,111 @@
     $hasKoordinat = !is_null($desa->latitude) && !is_null($desa->longitude) && (float) $desa->latitude !== 0.0 && (float) $desa->longitude !== 0.0;
 @endphp
 
-<div class="max-w-3xl space-y-6">
-    <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" class="text-sm text-[#52525b] flex flex-wrap items-center gap-2">
-        <a href="{{ route('admin.dashboard') }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            Dashboard
-        </a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('admin.desa.index') }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            Master Data Desa
-        </a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#1b1b18] font-medium">{{ $desa->nama_desa }}</span>
-    </nav>
-
-    <!-- Tombol Aksi -->
-    <div class="flex flex-wrap items-center justify-between gap-3">
+<div class="w-full space-y-3">
+    <!-- Tombol Aksi (Ramping) -->
+    <div class="flex flex-wrap items-center justify-between gap-2">
         <a
             href="{{ route('admin.desa.index') }}"
-            class="min-h-[44px] inline-flex items-center px-4 py-2 bg-white border border-[#d1d5db] rounded-md text-sm font-medium text-[#1b1b18] hover:bg-[#f5f5f4] transition"
+            class="h-8 inline-flex items-center gap-1.5 px-3 bg-white border border-[#D0D5DD] rounded-lg text-[11px] font-semibold text-[#344054] hover:bg-[#F2F4F7] transition shadow-xs cursor-pointer"
         >
-            Kembali ke Daftar
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+            </svg>
+            <span>Kembali ke Daftar</span>
         </a>
         <a
             href="{{ route('admin.desa.edit', $desa->kode_desa) }}"
-            class="min-h-[44px] inline-flex items-center px-5 py-2 bg-[#1b1b18] hover:bg-black text-white rounded-md text-sm font-medium transition"
+            class="h-8 inline-flex items-center gap-1.5 px-3.5 bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white rounded-lg text-[11px] font-semibold transition shadow-xs cursor-pointer"
         >
-            Edit Data Desa
+            <i class="fa-solid fa-pen-to-square text-[9px]"></i>
+            <span>Edit Data Desa</span>
         </a>
     </div>
 
-    <!-- Detail Informasi Desa -->
-    <section class="bg-white border border-[#e3e3e0] rounded-lg p-6 shadow-sm space-y-6">
-        <div class="border-b border-[#e3e3e0] pb-4 flex flex-wrap items-start justify-between gap-3">
+    <!-- Detail Informasi Desa (IDDS Color Palette) -->
+    <section class="bg-white border border-[#E4E7EC] rounded-xl p-4 shadow-xs space-y-3.5">
+        <div class="border-b border-[#EAECF0] pb-3 flex flex-wrap items-start justify-between gap-2">
             <div>
-                <h2 class="text-xl font-semibold text-[#1b1b18]">
+                <h2 class="text-sm sm:text-base font-bold text-[#101828]">
                     Desa {{ $desa->nama_desa }}
                 </h2>
-                <p class="text-sm text-[#52525b] mt-1">
-                    Kecamatan {{ $desa->kecamatan }}, Kode Wilayah: {{ $desa->kode_desa }}
+                <p class="text-[10px] text-[#667085] mt-0.5">
+                    Kecamatan {{ $desa->kecamatan }} &bull; Kode Wilayah: <span class="font-mono text-[#00629B] font-semibold">{{ $desa->kode_desa }}</span>
                 </p>
             </div>
 
-            <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium {{ $desa->user ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-[#F3F4F6] text-[#52525b] border border-[#e3e3e0]' }}">
-                {{ $desa->user ? 'Akun Terhubung' : 'Belum Ada Akun' }}
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-semibold {{ $desa->user ? 'bg-[#ECFDF3] text-[#027A48] border border-[#A6F4C5]' : 'bg-[#F2F4F7] text-[#667085] border border-[#EAECF0]' }}">
+                @if($desa->user)
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#027A48]"></span>
+                    Akun Terhubung
+                @else
+                    Belum Ada Akun
+                @endif
             </span>
         </div>
 
-        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-5 text-sm">
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-[11px]">
             <div>
-                <dt class="text-[#52525b] font-medium">Status Kepemilikan Akun</dt>
-                <dd class="mt-1 text-[#1b1b18] font-medium">
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">Status Akun Perwakilan</dt>
+                <dd class="mt-0.5 text-[#101828] font-medium">
                     @if ($desa->user)
-                        Terhubung ke pengguna: {{ $desa->user->username }}
+                        Terhubung ke username: <strong class="text-[#00629B]">{{ $desa->user->username }}</strong>
                     @else
-                        Belum didaftarkan oleh perwakilan desa
+                        <span class="text-[#667085] italic">Belum didaftarkan oleh perwakilan desa</span>
                     @endif
                 </dd>
             </div>
 
             <div>
-                <dt class="text-[#52525b] font-medium">Titik Drop Air Bersih</dt>
-                <dd class="mt-1 text-[#1b1b18] font-medium">
-                    {{ $desa->titik_drop_air ?: 'Belum ditentukan' }}
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">Titik Drop Air Bersih</dt>
+                <dd class="mt-0.5 text-[#101828] font-medium flex items-center gap-1.5">
+                    <i class="fa-solid fa-truck-droplet text-[#00629B] text-[10px]"></i>
+                    <span>{{ $desa->titik_drop_air ?: 'Belum ditentukan' }}</span>
                 </dd>
             </div>
 
             <div>
-                <dt class="text-[#52525b] font-medium">Total KK &amp; Jiwa</dt>
-                <dd class="mt-1 text-[#1b1b18] font-medium">
-                    {{ number_format((int) ($desa->jumlah_kk_total ?? 0)) }} KK, {{ number_format((int) ($desa->jumlah_jiwa_total ?? 0)) }} Jiwa
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">Total Kependudukan</dt>
+                <dd class="mt-0.5 text-[#101828] font-medium">
+                    <strong>{{ number_format((int) ($desa->jumlah_kk_total ?? 0)) }}</strong> KK &bull; <strong>{{ number_format((int) ($desa->jumlah_jiwa_total ?? 0)) }}</strong> Jiwa
                 </dd>
             </div>
 
             <div>
-                <dt class="text-[#52525b] font-medium">Kelompok Rentan</dt>
-                <dd class="mt-1 text-[#1b1b18] font-medium">
-                    Balita: {{ number_format((int) ($desa->jumlah_balita ?? 0)) }},
-                    Lansia: {{ number_format((int) ($desa->jumlah_lansia ?? 0)) }},
-                    Disabilitas: {{ number_format((int) ($desa->jumlah_disabilitas ?? 0)) }}
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">Kelompok Rentan</dt>
+                <dd class="mt-0.5 text-[#344054]">
+                    Balita: <strong class="text-[#00629B]">{{ number_format((int) ($desa->jumlah_balita ?? 0)) }}</strong>,
+                    Lansia: <strong class="text-purple-600">{{ number_format((int) ($desa->jumlah_lansia ?? 0)) }}</strong>,
+                    Disabilitas: <strong class="text-amber-600">{{ number_format((int) ($desa->jumlah_disabilitas ?? 0)) }}</strong>
                 </dd>
             </div>
 
             <div>
-                <dt class="text-[#52525b] font-medium">Penanggung Jawab Darurat</dt>
-                <dd class="mt-1 text-[#1b1b18] font-medium">
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">Penanggung Jawab Darurat</dt>
+                <dd class="mt-0.5 text-[#101828] font-medium">
                     {{ $desa->nama_pj_darurat ?: '-' }}
                 </dd>
             </div>
 
             <div>
-                <dt class="text-[#52525b] font-medium">No. WhatsApp Darurat</dt>
-                <dd class="mt-1 text-[#1b1b18] font-medium">
-                    {{ $desa->no_wa_darurat ?: '-' }}
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">No. WhatsApp Darurat</dt>
+                <dd class="mt-0.5 text-[#101828] font-medium flex items-center gap-1.5">
+                    @if($desa->no_wa_darurat)
+                        <i class="fa-brands fa-whatsapp text-emerald-500"></i>
+                        <span>{{ $desa->no_wa_darurat }}</span>
+                    @else
+                        <span>-</span>
+                    @endif
                 </dd>
             </div>
 
-            <div class="sm:col-span-2 p-4 bg-[#FDFDFC] border border-[#e3e3e0] rounded-md">
-                <dt class="text-[#52525b] font-medium">Koordinat Titik Tandon (GIS)</dt>
-                <dd class="mt-1 font-mono text-xs sm:text-sm text-[#1b1b18]">
+            <div class="sm:col-span-2 p-3 bg-[#F8FAFC] border border-[#E4E7EC] rounded-lg">
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">Koordinat Titik Tandon (GIS)</dt>
+                <dd class="mt-0.5 font-mono text-[10.5px] text-[#101828]">
                     @if ($hasKoordinat)
-                        Lat: {{ $desa->latitude }}, Lng: {{ $desa->longitude }}
+                        <span class="text-[#00629B]">Lat: {{ $desa->latitude }}</span>, <span class="text-[#00629B]">Lng: {{ $desa->longitude }}</span>
                     @else
-                        Belum dilengkapi (Lat: -, Lng: -)
+                        <span class="text-[#667085] italic">Belum dilengkapi (Lat: -, Lng: -)</span>
                     @endif
                 </dd>
             </div>

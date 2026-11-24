@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.desa')
 
 @section('title', 'Ubah Draf Pengajuan | Lingga Air')
 
@@ -6,9 +6,9 @@
 <div class="space-y-6">
 
     <!-- HEADER TITLE -->
-    <div class="pb-3 border-b border-slate-200">
+    <div class="pb-3 border-b border-[#EAECF0]">
         <div class="eyebrow">Layanan Desa</div>
-        <h1>Ubah Draf Pengajuan</h1>
+        <h1 class="text-lg sm:text-xl font-bold text-[#101828] tracking-tight mt-0.5">Ubah Draf Pengajuan</h1>
         <p class="intro">Perbarui data kebutuhan atau ganti berkas pendukung draf permohonan sebelum dikirim ke antrean BPBD.</p>
     </div>
 

@@ -3,21 +3,32 @@
 @section('title', 'Pilih Peran Akun - Onboarding LinggaAir')
 
 @section('header')
-<header class="w-full border-b border-[#F2F4F7] py-3.5 px-6 sm:px-10 flex items-center justify-between bg-white shrink-0">
-    <div class="text-[14px] text-[#737373] flex items-center">
-        <a href="{{ url('/') }}" class="hover:text-[#00629B] transition">Beranda</a>
-        <span class="text-[#a1a8b1] mx-1">/</span>
-        <a href="{{ route('onboarding.welcome') }}" class="hover:text-[#00629B] transition">Onboarding</a>
-        <span class="text-[#a1a8b1] mx-1">/</span>
-        <span class="text-[#2b2b2b] font-medium">Pilih Peran</span>
-    </div>
+<header class="w-full border-b border-[#EAECF0] py-3.5 px-6 sm:px-10 flex items-center justify-between bg-white shrink-0">
+    <a href="{{ route('onboarding.welcome') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-[#475467] hover:text-[#00629B] transition py-1 px-2.5 rounded-lg hover:bg-[#F2F4F7]">
+        <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+        </svg>
+        <span>Kembali ke Pengenalan</span>
+    </a>
+    <div class="flex items-center gap-2.5">
+        {{-- Badge Profil Akun --}}
+        <div class="hidden sm:flex items-center gap-2 pl-1 pr-2.5 py-1 bg-[#F8FAFC] border border-[#EAECF0] rounded-full text-xs">
+            <span class="w-5 h-5 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] text-[#00629B] font-bold text-[10px] flex items-center justify-center">
+                {{ strtoupper(substr(auth()->user()?->username ?? 'P', 0, 1)) }}
+            </span>
+            <span class="font-medium text-[#344054] max-w-[130px] truncate">
+                {{ auth()->user()?->username ?? 'Pengguna' }}
+            </span>
+        </div>
 
-    <div class="flex items-center gap-3 text-[13px] text-[#737373]">
-        <span class="hidden sm:inline">Akun: <strong class="text-[#2b2b2b] font-medium">{{ auth()->user()?->username ?? 'Pengguna' }}</strong></span>
+        {{-- Tombol Keluar Ringkas --}}
         <form action="{{ route('logout') }}" method="POST" class="inline">
             @csrf
-            <button type="submit" class="text-[#ce1f31] hover:underline font-medium text-[13px]">
-                Keluar
+            <button type="submit" class="inline-flex items-center gap-1.5 h-7 px-2.5 bg-white border border-[#FECDCA] hover:bg-[#FEF3F2] active:bg-[#FEE4E2] text-[#B42318] text-[11px] font-semibold rounded-lg transition shadow-xs cursor-pointer" title="Keluar dari akun">
+                <svg class="w-3 h-3 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
+                </svg>
+                <span>Keluar</span>
             </button>
         </form>
     </div>
@@ -25,8 +36,11 @@
 @endsection
 
 @section('content')
-<div class="flex-1 flex flex-col justify-center items-center px-4 py-4 sm:py-6 bg-white">
-    <div class="w-full max-w-[580px] mx-auto space-y-5">
+<div class="flex-1 flex flex-col justify-center items-center px-4 py-8 bg-[#F8FAFC]">
+    <div class="w-full max-w-[580px] mx-auto">
+
+        {{-- Card --}}
+        <div class="bg-white rounded-2xl border border-[#EAECF0] shadow-sm p-8 space-y-5">
         
         {{-- Visual Stepper Ringkas --}}
         <div class="max-w-xs mx-auto">
@@ -173,6 +187,7 @@
             </div>
         </form>
 
-    </div>
+        </div>{{-- end card --}}
+    </div>{{-- end max-w --}}
 </div>
 @endsection

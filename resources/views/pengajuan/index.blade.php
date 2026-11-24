@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.desa')
 
 @section('title', 'Draf & Status Pengajuan | Lingga Air')
 
@@ -6,66 +6,78 @@
 <div class="space-y-6">
 
     <!-- HEADER TITLE & TOP ACTIONS -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-3 border-b border-slate-200">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-[#EAECF0]">
         <div>
-            <div class="eyebrow">Layanan Desa</div>
-            <h1>Draf & Status Pengajuan</h1>
-            <p class="intro">Kelola draf permohonan bantuan air bersih untuk desa {{ $desa->nama_desa }} sebelum diajukan ke antrean verifikasi BPBD.</p>
+            <div class="eyebrow">Layanan Desa &middot; Arsip Permohonan</div>
+            <h1 class="text-lg sm:text-xl font-bold text-[#101828] tracking-tight mt-0.5">Riwayat &amp; Draf Pengajuan</h1>
+            <p class="intro">Kelola draf permohonan yang belum dikirim serta riwayat tiket bantuan air bersih Desa {{ $desa->nama_desa }}.</p>
         </div>
 
-        <div class="flex items-center gap-2">
-            <a href="{{ route('cek-kelayakan.index') }}" class="reset">
-                ✓ Cek Kelayakan Mandiri
+        <div class="flex items-center gap-2 flex-wrap">
+            <a href="{{ route('cek-kelayakan.index') }}" class="h-9 px-3.5 bg-white border border-[#D0D5DD] hover:bg-[#F2F4F7] text-[#344054] text-xs font-semibold rounded-xl transition inline-flex items-center gap-1.5 shadow-xs">
+                <svg class="w-3.5 h-3.5 text-[#00629B] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 3h.008v.008H8.25v-.008zm0 3h.008v.008H8.25v-.008zm3.75-6h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm3.75-6h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/>
+                </svg>
+                <span>Cek Kelayakan Mandiri</span>
             </a>
-            <a href="{{ route('pengajuan.create') }}" class="submit">
-                ＋ Buat Pengajuan Baru
+            <a href="{{ route('pengajuan.create') }}" class="h-9 px-4 bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white text-xs font-bold rounded-xl transition inline-flex items-center gap-1.5 shadow-xs">
+                <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                <span>Buat Pengajuan Baru</span>
             </a>
         </div>
     </div>
 
     <!-- SUMMARY METRICS CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
         
         <!-- Card 1: Draf Tersimpan -->
-        <div class="card p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #EBF5FB; color: #00629B;">
-                ▦
+        <div class="card p-4 flex items-center gap-3.5">
+            <div class="w-9 h-9 rounded-lg bg-[#F8FAFC] border border-[#D0D5DD] flex items-center justify-center shrink-0 text-[#667085]">
+                <i class="fa-regular fa-file-lines text-sm"></i>
             </div>
             <div>
-                <span class="text-xs font-bold text-[#667085] uppercase tracking-wider block">Draf Tersimpan</span>
-                <span class="text-2xl font-extrabold text-[#101828] block" style="font-variant-numeric: tabular-nums;">
+                <span class="text-[11px] font-semibold text-[#667085] uppercase tracking-wide block">Draf Tersimpan</span>
+                <span class="text-xl font-bold text-[#101828] block" style="font-variant-numeric: tabular-nums;">
                     {{ $drafList->total() }}
                 </span>
-                <span class="text-xs text-[#667085]">Dapat diubah atau dihapus</span>
+                <span class="text-[11px] text-[#667085]">Dapat diubah atau dihapus</span>
             </div>
         </div>
 
         <!-- Card 2: Tiket Aktif -->
-        <div class="card p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 {{ $hasActiveTicket ? 'bg-[#FFFAEB] text-[#B54708] border border-[#FEDF89]' : 'bg-[#ECFDF3] text-[#027A48] border border-[#A6F4C5]' }}">
-                ▤
+        <div class="card p-4 flex items-center gap-3.5">
+            <div class="w-9 h-9 rounded-lg bg-[#F8FAFC] border border-[#D0D5DD] flex items-center justify-center shrink-0 text-[#667085]">
+                <i class="fa-solid fa-ticket text-sm"></i>
             </div>
             <div>
-                <span class="text-xs font-bold text-[#667085] uppercase tracking-wider block">Status Tiket Aktif</span>
+                <span class="text-[11px] font-semibold text-[#667085] uppercase tracking-wide block">Status Tiket Aktif</span>
                 @if($hasActiveTicket)
-                    <span class="text-base font-extrabold text-[#B54708] block truncate font-mono">{{ $activeTicket->nomor_tiket }}</span>
-                    <span class="status-badge status-waspada text-[10px] mt-1">{{ $activeTicket->status }}</span>
+                    <span class="text-sm font-bold text-[#B54708] block truncate font-mono">{{ $activeTicket->nomor_tiket }}</span>
+                    <span class="status-badge status-waspada text-[10px] mt-0.5">{{ $activeTicket->status }}</span>
                 @else
-                    <span class="text-base font-extrabold text-[#027A48] block">Tidak Ada Tiket Aktif</span>
-                    <span class="text-xs text-[#667085]">Siap mengajukan baru</span>
+                    <span class="text-sm font-bold text-[#027A48] block">Tidak Ada Tiket Aktif</span>
+                    <span class="text-[11px] text-[#667085]">Siap mengajukan baru</span>
                 @endif
             </div>
         </div>
 
         <!-- Card 3: Riwayat Terkirim -->
-        <div class="card p-5 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style="background: #EBF5FB; color: #00629B;">
-                ✓
+        <div class="card p-4 flex items-center gap-3.5">
+            <div class="w-9 h-9 rounded-lg bg-[#F8FAFC] border border-[#D0D5DD] flex items-center justify-center shrink-0 text-[#667085]">
+                <i class="fa-solid fa-check text-sm"></i>
             </div>
             <div>
-                <span class="text-xs font-bold text-[#667085] uppercase tracking-wider block">Riwayat Terkirim</span>
-                <span class="text-2xl font-extrabold text-[#101828] block" style="font-variant-numeric: tabular-nums;">
+                <span class="text-[11px] font-semibold text-[#667085] uppercase tracking-wide block">Riwayat Terkirim</span>
+                <span class="text-xl font-bold text-[#101828] block" style="font-variant-numeric: tabular-nums;">
                     {{ $riwayatList->total() }}
+                </span>
+                <span class="text-[11px] text-[#667085]">Terkunci dalam antrean</span>
+            </div>
+        </div>
+
+    </div>
                 </span>
                 <span class="text-xs text-[#667085]">Terkunci dalam antrean</span>
             </div>

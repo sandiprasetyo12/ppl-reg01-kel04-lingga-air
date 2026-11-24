@@ -108,6 +108,14 @@ class PengajuanController extends Controller
     }
 
     /**
+     * Halaman Khusus Pelacakan Status Pengajuan (Saat ini dikunci / belum tersedia)
+     */
+    public function lacak(): RedirectResponse
+    {
+        return redirect()->route('pengajuan.index')->with('info', 'Fitur Lacak Pengajuan real-time saat ini belum tersedia dan sedang dalam tahap pengembangan.');
+    }
+
+    /**
      * PBI-007: Menampilkan formulir penyusunan pengajuan baru
      * Terisi otomatis dari hasil Cek Kelayakan Mandiri (F-02)
      */
