@@ -68,33 +68,32 @@
 <main class="w-full bg-white text-[#101828] flex-1">
 
     {{-- 2. HERO SECTION (SKEMA FULL FOTO & TEKS DI TENGAH BERIDENTITAS IDDS) --}}
-    <section id="hero" class="relative w-full min-h-[500px] lg:min-h-[620px] flex items-center justify-center bg-[#0B192C] text-white overflow-hidden">
-        {{-- Background Tone Layer --}}
-        <div class="absolute inset-0 w-full h-full bg-[#0F223D] opacity-75 pointer-events-none">
-            <svg class="w-full h-full text-[#1E3A5F]/40" preserveAspectRatio="none" viewBox="0 0 100 100" fill="none">
-                <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="0.75" vector-effect="non-scaling-stroke"/>
-                <line x1="0" y1="100" x2="100" y2="0" stroke="currentColor" stroke-width="0.75" vector-effect="non-scaling-stroke"/>
-            </svg>
-        </div>
+    <section id="hero" class="relative w-full min-h-[520px] lg:min-h-[640px] flex items-center justify-center bg-[#0B192C] text-white overflow-hidden">
+        {{-- Background Real Photo Layer --}}
+        <img 
+            src="{{ asset('images/hero.jpg') }}" 
+            alt="Masyarakat Desa Mengambil Bantuan Air Bersih di Purbalingga" 
+            class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        >
 
-        {{-- Dark Civic Navy Gradient Overlay for Readability --}}
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0B192C] via-[#0B192C]/80 to-[#0B192C]/90 pointer-events-none"></div>
+        {{-- Dark Civic Navy Gradient Overlay for High-Contrast Readability --}}
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0B192C] via-[#0B192C]/80 to-[#0B192C]/85 pointer-events-none"></div>
 
         {{-- Centered Content --}}
         <div class="relative z-10 max-w-4xl mx-auto px-6 py-20 lg:py-28 text-center space-y-6">
             {{-- Category Tag IDDS --}}
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#BAE3F5]/30 bg-[#00629B]/30 text-xs font-semibold uppercase tracking-wider text-[#BAE3F5]">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#BAE3F5]/30 bg-[#00629B]/40 backdrop-blur-xs text-xs font-semibold uppercase tracking-wider text-[#BAE3F5]">
                 <span class="w-2 h-2 rounded-full bg-[#38BDF8] animate-pulse" aria-hidden="true"></span>
                 BPBD Kabupaten Purbalingga
             </div>
 
             {{-- Centered H1 --}}
-            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.2] max-w-3xl mx-auto">
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.2] max-w-3xl mx-auto drop-shadow-xs">
                 Penyaluran Bantuan Air Bersih Kabupaten Purbalingga
             </h1>
 
             {{-- Centered Subtitle --}}
-            <p class="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl mx-auto">
+            <p class="text-base sm:text-lg text-slate-100 leading-relaxed max-w-2xl mx-auto drop-shadow-xs">
                 Layanan resmi BPBD Kabupaten Purbalingga untuk memantau permohonan desa, jadwal distribusi truk tangki, dan pemetaan wilayah terdampak kekeringan secara transparan.
             </p>
 
@@ -108,7 +107,7 @@
                 </a>
                 <a
                     href="{{ route('admin.pemetaan.index') }}"
-                    class="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center px-7 py-3.5 border border-white/50 hover:border-white bg-white/10 hover:bg-white/20 text-white text-sm font-semibold rounded-lg backdrop-blur-xs transition"
+                    class="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center px-7 py-3.5 border border-white/60 hover:border-white bg-white/10 hover:bg-white/20 text-white text-sm font-semibold rounded-lg backdrop-blur-xs transition"
                 >
                     Buka Peta GIS
                 </a>
@@ -131,35 +130,38 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                {{-- Left: 3-Photo Collage Wireframe IDDS Styled --}}
+                {{-- Left: 3-Photo Collage Armada BPBD --}}
                 <div class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="aspect-[4/3] rounded-xl bg-[#EBF5FB]/80 border border-[#BAE3F5] relative overflow-hidden flex items-center justify-center">
-                            <svg class="absolute inset-0 w-full h-full text-[#BAE3F5]/60 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100" fill="none">
-                                <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                                <line x1="0" y1="100" x2="100" y2="0" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                            </svg>
-                            <span class="relative z-10 text-[11px] font-semibold text-[#00629B] bg-white px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
-                                Dokumentasi 1
+                        <div class="aspect-[4/3] rounded-xl bg-[#EBF5FB] border border-[#BAE3F5] relative overflow-hidden group shadow-xs">
+                            <img 
+                                src="{{ asset('images/armada1.png') }}" 
+                                alt="Armada Tangki Air BPBD 1" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                            >
+                            <span class="absolute bottom-2.5 left-2.5 text-[11px] font-semibold text-[#00629B] bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
+                                Armada 1
                             </span>
                         </div>
-                        <div class="aspect-[4/3] rounded-xl bg-[#EBF5FB]/80 border border-[#BAE3F5] relative overflow-hidden flex items-center justify-center">
-                            <svg class="absolute inset-0 w-full h-full text-[#BAE3F5]/60 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100" fill="none">
-                                <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                                <line x1="0" y1="100" x2="100" y2="0" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                            </svg>
-                            <span class="relative z-10 text-[11px] font-semibold text-[#00629B] bg-white px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
-                                Dokumentasi 2
+                        <div class="aspect-[4/3] rounded-xl bg-[#EBF5FB] border border-[#BAE3F5] relative overflow-hidden group shadow-xs">
+                            <img 
+                                src="{{ asset('images/armada2.png') }}" 
+                                alt="Armada Tangki Air BPBD 2" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                            >
+                            <span class="absolute bottom-2.5 left-2.5 text-[11px] font-semibold text-[#00629B] bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
+                                Armada 2
                             </span>
                         </div>
                     </div>
-                    <div class="aspect-[21/9] rounded-xl bg-[#EBF5FB]/80 border border-[#BAE3F5] relative overflow-hidden flex items-center justify-center">
-                        <svg class="absolute inset-0 w-full h-full text-[#BAE3F5]/60 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100" fill="none">
-                            <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                            <line x1="0" y1="100" x2="100" y2="0" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                        </svg>
-                        <span class="relative z-10 text-[11px] font-semibold text-[#00629B] bg-white px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
-                            Dokumentasi Tandon Warga
+                    <div class="aspect-[21/9] rounded-xl bg-[#EBF5FB] border border-[#BAE3F5] relative overflow-hidden group shadow-xs">
+                        <img 
+                            src="{{ asset('images/armada3.png') }}" 
+                            alt="Armada Tangki Air BPBD 3 - Penyaluran Tandon Warga" 
+                            class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-300"
+                        >
+                        <span class="absolute bottom-2.5 left-2.5 text-[11px] font-semibold text-[#00629B] bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
+                            Armada 3 - Penyaluran Tandon Warga
                         </span>
                     </div>
                 </div>
@@ -309,13 +311,14 @@
                 {{-- Card 1 --}}
                 <div class="border border-[#EAECF0] hover:border-[#BAE3F5] rounded-xl overflow-hidden bg-white hover:shadow-md hover:shadow-neutral-200/50 transition flex flex-col justify-between group">
                     <div>
-                        <div class="w-full aspect-[16/10] bg-[#EBF5FB]/80 border-b border-[#BAE3F5]/60 relative overflow-hidden flex items-center justify-center">
-                            <svg class="absolute inset-0 w-full h-full text-[#BAE3F5]/60 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100" fill="none">
-                                <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                                <line x1="0" y1="100" x2="100" y2="0" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                            </svg>
-                            <span class="relative z-10 text-[11px] text-[#00629B] font-semibold bg-white px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
-                                Foto Tangki Serang
+                        <div class="w-full aspect-[16/10] bg-[#EBF5FB] border-b border-[#BAE3F5]/60 relative overflow-hidden">
+                            <img 
+                                src="{{ asset('images/armada1.png') }}" 
+                                alt="Distribusi Tangki Air Desa Serang" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                            >
+                            <span class="absolute bottom-2.5 left-2.5 text-[11px] text-[#00629B] font-semibold bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
+                                Tangki Serang
                             </span>
                         </div>
                         <div class="p-6 space-y-2">
@@ -336,13 +339,14 @@
                 {{-- Card 2 --}}
                 <div class="border border-[#EAECF0] hover:border-[#BAE3F5] rounded-xl overflow-hidden bg-white hover:shadow-md hover:shadow-neutral-200/50 transition flex flex-col justify-between group">
                     <div>
-                        <div class="w-full aspect-[16/10] bg-[#EBF5FB]/80 border-b border-[#BAE3F5]/60 relative overflow-hidden flex items-center justify-center">
-                            <svg class="absolute inset-0 w-full h-full text-[#BAE3F5]/60 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100" fill="none">
-                                <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                                <line x1="0" y1="100" x2="100" y2="0" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                            </svg>
-                            <span class="relative z-10 text-[11px] text-[#00629B] font-semibold bg-white px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
-                                Foto Tandon Kertanegara
+                        <div class="w-full aspect-[16/10] bg-[#EBF5FB] border-b border-[#BAE3F5]/60 relative overflow-hidden">
+                            <img 
+                                src="{{ asset('images/armada2.png') }}" 
+                                alt="Pasokan Tandon Komunal Kertanegara" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                            >
+                            <span class="absolute bottom-2.5 left-2.5 text-[11px] text-[#00629B] font-semibold bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
+                                Tandon Kertanegara
                             </span>
                         </div>
                         <div class="p-6 space-y-2">
@@ -363,13 +367,14 @@
                 {{-- Card 3 --}}
                 <div class="border border-[#EAECF0] hover:border-[#BAE3F5] rounded-xl overflow-hidden bg-white hover:shadow-md hover:shadow-neutral-200/50 transition flex flex-col justify-between group">
                     <div>
-                        <div class="w-full aspect-[16/10] bg-[#EBF5FB]/80 border-b border-[#BAE3F5]/60 relative overflow-hidden flex items-center justify-center">
-                            <svg class="absolute inset-0 w-full h-full text-[#BAE3F5]/60 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100" fill="none">
-                                <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                                <line x1="0" y1="100" x2="100" y2="0" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
-                            </svg>
-                            <span class="relative z-10 text-[11px] text-[#00629B] font-semibold bg-white px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
-                                Foto Ponpes Bobotsari
+                        <div class="w-full aspect-[16/10] bg-[#EBF5FB] border-b border-[#BAE3F5]/60 relative overflow-hidden">
+                            <img 
+                                src="{{ asset('images/armada3.png') }}" 
+                                alt="Bantuan Air Bersih Fasilitas Bobotsari" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                            >
+                            <span class="absolute bottom-2.5 left-2.5 text-[11px] text-[#00629B] font-semibold bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-[#BAE3F5] shadow-xs">
+                                Fasilitas Bobotsari
                             </span>
                         </div>
                         <div class="p-6 space-y-2">
