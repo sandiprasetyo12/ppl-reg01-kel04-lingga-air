@@ -65,6 +65,7 @@
             cursor: not-allowed;
         }
     </style>
+    @include('layouts.sidebar-styles')
 </head>
 <body class="bg-[#F8FAFC] text-[#101828] antialiased min-h-screen flex flex-col font-sans">
     @yield('header')
@@ -107,6 +108,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <!-- Leaflet CSS & JS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -156,7 +158,7 @@
         .brand > span:last-child { min-width: 0; }
         .brand small { display: block; max-width: 170px; margin-top: 4px; font-size: .5rem; font-weight: 600; letter-spacing: .025em; line-height: 1.2; overflow-wrap: anywhere; opacity: .9; }
         .brand-wrap { display: flex; align-items: center; gap: 0; min-width: 0; }
-        .topbar-label { position: absolute; left: 240px; display: flex; align-items: center; min-height: 24px; padding-left: 0; color: #BAE3F5; font-size: .9rem; line-height: 1.4; white-space: nowrap; }
+        .topbar-label { position: static; margin-right: auto; display: flex; align-items: center; min-height: 24px; padding-left: 0; color: #BAE3F5; font-size: .9rem; line-height: 1.4; white-space: nowrap; }
         .account { display: flex; align-items: center; gap: 11px; margin-left: 20px; color: #fff; text-align: right; }
         .account-copy { font-size: .86rem; font-weight: 650; line-height: 1.3; white-space: nowrap; }
         .account-copy small { display: block; margin-top: 2px; color: #BAE3F5; font-size: .74rem; font-weight: 400; }
@@ -354,80 +356,14 @@
             .shell { padding: 24px 14px 36px; }
         }
     </style>
+    @include('layouts.sidebar-styles')
     @stack('styles')
 </head>
 <body>
     {{-- Layout Portal Desa: Topbar & Sidebar untuk Pengajuan Air (F-03) & Layanan Desa --}}
-    <header class="topbar">
-        <div class="topbar-inner">
-            <div class="brand-wrap">
-                <a href="{{ url('/') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('images/logo-lingga.png') }}" alt="Lingga Air" class="h-14 w-auto object-contain bg-white rounded-xl px-2.5 py-1.5 shadow-xs" onerror="this.onerror=null; this.src='https://placehold.co/180x60/619DC6/FFFFFF?text=Lingga+Air';">
-                </a>
-                <span class="topbar-label">Portal Pelayanan Desa</span>
-            </div>
-            @php
-                $topDesa = isset($desa) ? $desa : (Auth::user()?->desa ?? \App\Models\Desa::where('nama_desa', 'like', '%Serang%')->first() ?? \App\Models\Desa::first());
-            @endphp
-            <div class="account">
-                @if(Auth::check())
-                    <span class="account-copy">
-                        {{ Auth::user()->isBpbd() ? 'Admin BPBD' : (Auth::user()->isDesa() ? 'Akun Desa' : 'Mitra Penyalur') }}
-                        <small>{{ Auth::user()->desa?->nama_desa ?? Auth::user()->username }}</small>
-                    </span>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" title="Keluar" class="account-avatar text-xs font-bold hover:bg-white/20 transition cursor-pointer">
-                            ⇥
-                        </button>
-                    </form>
-                @else
-                    <span class="account-copy">Akun Desa<small>{{ $topDesa ? $topDesa->nama_desa : 'Kabupaten Purbalingga' }}</small></span>
-                    <a href="{{ route('login') }}" class="account-avatar hover:bg-white/20 transition cursor-pointer" title="Masuk">
-                        ♙
-                    </a>
-                @endif
-            </div>
-        </div>
-    </header>
-
     <!-- APP FRAME: SIDEBAR + MAIN CONTENT -->
-    <div class="app-frame">
-        <aside class="sidebar">
-            <nav aria-label="Navigasi desa">
-                <p class="sidebar-label">Layanan desa</p>
-                <div class="side-nav">
-                    @if(Auth::check() && Auth::user()->isDesa())
-                        <a class="side-link {{ request()->routeIs('desa.dashboard') ? 'active' : '' }}" href="{{ route('desa.dashboard') }}">
-                            <span class="side-icon" aria-hidden="true">🏠</span>Dashboard Desa
-                        </a>
-                    @endif
-                    <a class="side-link {{ request()->routeIs('pengajuan.index') ? 'active' : '' }}" href="{{ route('pengajuan.index') }}">
-                        <span class="side-icon" aria-hidden="true">▦</span>Beranda &amp; Draf
-                    </a>
-                    <a class="side-link {{ request()->routeIs('cek-kelayakan.*') ? 'active' : '' }}" href="{{ route('cek-kelayakan.index') }}">
-                        <span class="side-icon" aria-hidden="true">✓</span>Cek Kelayakan
-                    </a>
-                    <a class="side-link {{ request()->routeIs('pengajuan.create') ? 'active' : '' }}" href="{{ route('pengajuan.create') }}">
-                        <span class="side-icon" aria-hidden="true">＋</span>Pengajuan Bantuan
-                    </a>
-                    <a class="side-link" href="{{ route('pengajuan.index') }}">
-                        <span class="side-icon" aria-hidden="true">▤</span>Status Pengajuan
-                    </a>
-                    <span class="side-link disabled" aria-disabled="true">
-                        <span class="side-icon" aria-hidden="true">?</span>Bantuan &amp; Panduan
-                    </span>
-                </div>
-            </nav>
-
-            <section class="sidebar-help" aria-label="Bantuan teknis">
-                <div class="sidebar-help-icon" aria-hidden="true">☎</div>
-                <strong>Butuh bantuan?</strong>
-                <p>Hubungi tim teknis BPBD untuk bantuan penggunaan layanan desa.</p>
-            </section>
-
-            <p class="sidebar-footer">© 2026 Lingga Air<br>Pemerintah Kabupaten Purbalingga</p>
-        </aside>
+    <div class="app-frame role-sidebar-shell">
+        @include('layouts.sidebar')
 
         <div class="main-content">
             <main class="shell">

@@ -10,16 +10,7 @@
 @endphp
 
 <div class="space-y-6">
-    <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" class="text-sm text-[#52525b] flex flex-wrap items-center gap-2">
-        <a href="{{ route('admin.dashboard') }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            Dashboard
-        </a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#1b1b18] font-medium">Master Data Desa</span>
-    </nav>
-
-    <!-- Pencarian & Filter Kecamatan -->
+<!-- Pencarian & Filter Kecamatan -->
     <section aria-label="Pencarian dan filter desa" class="bg-white border border-[#e3e3e0] rounded-lg p-5 shadow-sm">
         <form action="{{ route('admin.desa.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
             <div class="md:col-span-5">

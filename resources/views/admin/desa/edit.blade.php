@@ -5,24 +5,7 @@
 
 @section('content')
 <div class="max-w-2xl space-y-6">
-    <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" class="text-sm text-[#52525b] flex flex-wrap items-center gap-2">
-        <a href="{{ route('admin.dashboard') }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            Dashboard
-        </a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('admin.desa.index') }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            Master Data Desa
-        </a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('admin.desa.show', $desa->kode_desa) }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            {{ $desa->nama_desa }}
-        </a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#1b1b18] font-medium">Edit</span>
-    </nav>
-
-    <div class="flex flex-wrap items-center justify-between gap-3">
+<div class="flex flex-wrap items-center justify-between gap-3">
         <a
             href="{{ route('admin.desa.index') }}"
             class="min-h-[44px] inline-flex items-center px-4 py-2 bg-white border border-[#d1d5db] rounded-md text-sm font-medium text-[#1b1b18] hover:bg-[#f5f5f4] transition"

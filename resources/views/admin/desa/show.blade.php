@@ -9,20 +9,7 @@
 @endphp
 
 <div class="max-w-3xl space-y-6">
-    <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" class="text-sm text-[#52525b] flex flex-wrap items-center gap-2">
-        <a href="{{ route('admin.dashboard') }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            Dashboard
-        </a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('admin.desa.index') }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            Master Data Desa
-        </a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#1b1b18] font-medium">{{ $desa->nama_desa }}</span>
-    </nav>
-
-    <!-- Tombol Aksi -->
+<!-- Tombol Aksi -->
     <div class="flex flex-wrap items-center justify-between gap-3">
         <a
             href="{{ route('admin.desa.index') }}"

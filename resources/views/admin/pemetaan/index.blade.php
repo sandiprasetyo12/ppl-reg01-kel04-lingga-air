@@ -45,16 +45,7 @@
 
 @section('content')
 <div class="space-y-5">
-    <!-- Breadcrumb -->
-    <nav aria-label="Breadcrumb" class="text-sm text-[#52525b] flex flex-wrap items-center gap-2">
-        <a href="{{ route('admin.dashboard') }}" class="hover:text-[#1b1b18] underline min-h-[44px] inline-flex items-center">
-            Dashboard
-        </a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#1b1b18] font-medium">Pemetaan Desa (GIS)</span>
-    </nav>
-
-    <!-- Notifikasi Sukses Pembaruan Koordinat (Tanpa Reload) -->
+<!-- Notifikasi Sukses Pembaruan Koordinat (Tanpa Reload) -->
     <div id="gis-status-banner" role="status" aria-live="polite" class="hidden p-3.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center justify-between gap-3">
         <span id="gis-status-banner-text"></span>
         <button type="button" id="gis-status-banner-close" class="min-h-[44px] px-3 text-xs font-medium text-emerald-900 underline">

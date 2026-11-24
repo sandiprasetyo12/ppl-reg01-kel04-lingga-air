@@ -1,71 +1,13 @@
 @php
     $currentUser = auth()->user();
     $roleLabel = 'Pengguna';
-    $navLinks = [];
 
-        if ($currentUser && $currentUser->isBpbd()) {
+    if ($currentUser && $currentUser->isBpbd()) {
         $roleLabel = 'Admin BPBD';
-        $navLinks = [
-            [
-                'label' => 'Dashboard',
-                'route' => route('admin.dashboard'),
-                'active' => request()->routeIs('admin.dashboard'),
-            ],
-            [
-                'label' => 'Verifikasi Pengajuan',
-                'route' => route('verifikasi.index'),
-                'active' => request()->routeIs('verifikasi.*'),
-            ],
-            [
-                'label' => 'Peta GIS Wilayah',
-                'route' => route('admin.pemetaan.index'),
-                'active' => request()->routeIs('admin.pemetaan.*'),
-            ],
-            [
-                'label' => 'Laporan Penyaluran',
-                'route' => route('laporan.index'),
-                'active' => request()->routeIs('laporan.*'),
-            ],
-            [
-                'label' => 'Master Data Desa',
-                'route' => route('admin.desa.index'),
-                'active' => request()->routeIs('admin.desa.*'),
-            ],
-        ];
-
     } elseif ($currentUser && $currentUser->isDesa()) {
         $roleLabel = 'Perwakilan Desa';
-        $navLinks = [
-            [
-                'label' => 'Dashboard Desa',
-                'route' => route('desa.dashboard'),
-                'active' => request()->routeIs('desa.dashboard'),
-            ],
-            [
-                'label' => 'Cek Kelayakan',
-                'route' => route('cek-kelayakan.index'),
-                'active' => request()->routeIs('cek-kelayakan.*'),
-            ],
-            [
-                'label' => 'Status Pengajuan',
-                'route' => route('pengajuan.index'),
-                'active' => request()->routeIs('pengajuan.*'),
-            ],
-        ];
     } elseif ($currentUser && $currentUser->isPenyalur()) {
         $roleLabel = 'Mitra Penyalur';
-        $navLinks = [
-            [
-                'label' => 'Dashboard Penyalur',
-                'route' => route('penyalur.dashboard'),
-                'active' => request()->routeIs('penyalur.dashboard'),
-            ],
-            [
-                'label' => 'Laporan Penyaluran',
-                'route' => route('penyalur.laporan.index'),
-                'active' => request()->routeIs('penyalur.laporan.*'),
-            ],
-        ];
     }
 
     $usernameDisplay = $currentUser->username ?? 'Pengguna';
@@ -78,8 +20,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard - ' . config('app.name', 'LinggaAir'))</title>
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -91,95 +35,110 @@
     @endif
 
     <style>
-        body {
-            font-family: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
-        }
-        :focus-visible {
-            outline: 2px solid #1b1b18;
-            outline-offset: 2px;
-        }
-        a[href], button, select, summary, label[for], input[type="checkbox"], input[type="radio"] {
-            cursor: pointer;
-        }
-        button:disabled, input:disabled, select:disabled {
-            cursor: not-allowed;
+        *, html, body, input, button, select, textarea { font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif; }
+        body { background: #F8FAFC; color: #101828; }
+        :focus-visible { outline: 2px solid #00629B; outline-offset: 2px; }
+        button, a[href] { cursor: pointer; }
+        button:disabled { cursor: not-allowed; }
+
+        .dashboard-app { display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: 100vh; transition: grid-template-columns .18s ease; }
+        .dashboard-sidebar { display: flex; min-width: 0; flex-direction: column; padding: 12px 14px 16px; border-right: 1px solid #EAECF0; background: #fff; }
+        .sidebar-brand-row { position: relative; display: flex; align-items: center; justify-content: flex-start; gap: 8px; min-height: 54px; padding: 0 4px 10px; border-bottom: 1px solid #EAECF0; }
+        .sidebar-collapse { position: absolute; right: -22px; bottom: -15px; z-index: 2; display: grid; flex: 0 0 30px; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 0; background: transparent; color: #667085; }
+        .sidebar-collapse:hover { color: #00629B; background: transparent; }
+        .sidebar-profile { display: flex; align-items: center; gap: 10px; min-width: 0; margin: 12px 0 14px; padding: 10px; border: 1px solid #F2F4F7; border-radius: 12px; background: #F8FAFC; }
+        .sidebar-profile-icon { display: grid; flex: 0 0 30px; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: #EBF5FB; color: #00629B; }
+        .sidebar-profile-copy { min-width: 0; }
+        .sidebar-profile-copy strong { display: block; overflow: hidden; color: #101828; font-size: .73rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+        .sidebar-profile-copy small { display: block; margin-top: 2px; color: #667085; font-size: .65rem; }
+        .sidebar-section { margin: 0 0 7px 10px; color: #667085; font-size: .62rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+        .sidebar-nav { display: grid; gap: 4px; }
+        .sidebar-link { display: flex; align-items: center; gap: 10px; min-height: 36px; min-width: 0; padding: 0 10px; border-radius: 9px; color: #344054; font-size: .69rem; font-weight: 500; text-decoration: none; transition: background .14s ease, color .14s ease; }
+        .sidebar-link i { display: grid; flex: 0 0 16px; place-items: center; color: #667085; font-size: .78rem; }
+        .sidebar-link:hover:not(.active):not(.disabled) { background: #F2F4F7; color: #00629B; }
+        .sidebar-link.active { background: #00629B; color: #fff; font-weight: 700; }
+        .sidebar-link.active i { color: #fff; }
+        .sidebar-link.disabled { color: #475467; }
+        .sidebar-link.disabled i { color: #667085; }
+        .sidebar-divider { height: 1px; margin: 13px 4px; border: 0; background: #EAECF0; }
+        .sidebar-utility { display: grid; gap: 4px; }
+        .sidebar-badge { display: inline-grid; min-width: 17px; height: 17px; place-items: center; margin-left: auto; padding: 0 5px; border-radius: 999px; background: #00629B; color: #fff; font-size: .58rem; font-weight: 700; }
+        .sidebar-footer { margin-top: auto; padding: 18px 7px 0; color: #98A2B3; font-size: .62rem; line-height: 1.5; }
+
+        .dashboard-main { display: flex; min-width: 0; flex-direction: column; }
+        .dashboard-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; padding: 10px 26px; border-bottom: 1px solid #EAECF0; background: #fff; }
+        .dashboard-header-title { color: #344054; font-size: .78rem; font-weight: 700; }
+        .dashboard-account { display: flex; align-items: center; gap: 10px; color: #344054; font-size: .7rem; }
+        .dashboard-account-role { color: #667085; font-size: .64rem; }
+        .dashboard-logout { display: inline-flex; align-items: center; justify-content: center; min-height: 34px; padding: 0 11px; border: 1px solid #D0D5DD; border-radius: 8px; background: #fff; color: #344054; font-size: .67rem; font-weight: 600; }
+        .dashboard-logout:hover { background: #F2F4F7; }
+        .dashboard-page-heading { padding: 18px 28px 0; }
+        .dashboard-page-heading h1 { margin: 0; color: #101828; font-size: 1.16rem; font-weight: 800; }
+        .dashboard-content { width: 100%; max-width: 1440px; margin: 0 auto; padding: 18px 28px 36px; }
+        .dashboard-footer { margin-top: auto; padding: 13px 28px; border-top: 1px solid #EAECF0; background: #fff; color: #667085; font-size: .64rem; }
+        .dashboard-app.is-collapsed { grid-template-columns: 76px minmax(0, 1fr); }
+        .dashboard-app.is-collapsed .sidebar-profile-copy,
+        .dashboard-app.is-collapsed .sidebar-section,
+        .dashboard-app.is-collapsed .sidebar-link-label,
+        .dashboard-app.is-collapsed .sidebar-badge,
+        .dashboard-app.is-collapsed .sidebar-footer { display: none; }
+        .dashboard-app.is-collapsed .sidebar-brand-row,
+        .dashboard-app.is-collapsed .sidebar-profile,
+        .dashboard-app.is-collapsed .sidebar-link { justify-content: center; }
+        .dashboard-app.is-collapsed .sidebar-profile { padding: 8px 0; }
+        .dashboard-app.is-collapsed .sidebar-link { padding: 0; }
+
+        @media (max-width: 760px) {
+            .dashboard-app, .dashboard-app.is-collapsed { grid-template-columns: minmax(0, 1fr); }
+            .dashboard-sidebar { padding: 8px 12px 12px; border-right: 0; border-bottom: 1px solid #EAECF0; }
+            .sidebar-brand-row { min-height: 46px; }
+            .sidebar-collapse { position: static; margin-left: auto; }
+            .sidebar-profile { margin: 9px 0; }
+            .sidebar-nav, .sidebar-utility { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 3px; }
+            .sidebar-link { flex: 0 0 auto; min-height: 36px; white-space: nowrap; }
+            .sidebar-divider, .sidebar-section, .sidebar-footer { display: none; }
+            .dashboard-app.is-collapsed .sidebar-profile-copy,
+            .dashboard-app.is-collapsed .sidebar-link-label { display: initial; }
+            .dashboard-app.is-collapsed .sidebar-profile,
+            .dashboard-app.is-collapsed .sidebar-link { justify-content: flex-start; }
+            .dashboard-header { min-height: 50px; padding: 8px 14px; }
+            .dashboard-page-heading { padding: 16px 16px 0; }
+            .dashboard-content { padding: 16px 16px 28px; }
+            .dashboard-footer { padding: 12px 16px; }
         }
     </style>
+    @include('layouts.sidebar-styles')
 </head>
-<body class="bg-[#F8FAFC] text-[#101828] antialiased min-h-screen flex flex-col font-sans">
-    <!-- Top Navbar Standar Lingga Air -->
-    <header class="bg-white border-b border-[#EAECF0] shadow-xs">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap items-center justify-between gap-4 min-h-[64px] py-2">
-                <div class="flex flex-wrap items-center gap-6">
-                    <a href="{{ url('/') }}" class="min-h-[44px] inline-flex items-center">
-                        <img src="{{ asset('images/logo-lingga.png') }}" alt="Lingga Air" class="h-14 sm:h-16 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/180x60/00629B/FFFFFF?text=Lingga+Air';">
-                    </a>
+<body>
+    <div class="dashboard-app role-sidebar-shell" id="dashboard-app">
+        @include('layouts.sidebar')
 
-                    <nav aria-label="Navigasi dasbor" class="flex flex-wrap items-center gap-2">
-                        @foreach ($navLinks as $link)
-                            <a
-                                href="{{ $link['route'] }}"
-                                @if ($link['active']) aria-current="page" @endif
-                                class="min-h-[44px] inline-flex items-center px-3.5 py-2 text-xs font-bold uppercase tracking-wider rounded-xl border transition {{ $link['active'] ? 'border-[#00629B] bg-[#00629B] text-white shadow-xs' : 'border-transparent text-[#475467] hover:text-[#00629B] hover:bg-[#EBF5FB]' }}"
-                            >
-                                {{ $link['label'] }}
-                            </a>
-                        @endforeach
-                    </nav>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <div class="text-xs text-[#475467] hidden sm:block">
-                        <span class="font-bold text-[#101828]">{{ $usernameDisplay }}</span>
-                        <span class="text-[11px] text-[#00629B] font-semibold">({{ $roleLabel }})</span>
-                    </div>
-
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button
-                            type="submit"
-                            class="min-h-[38px] inline-flex items-center justify-center px-3.5 py-1.5 border border-[#D0D5DD] hover:bg-[#F2F4F7] text-[#344054] text-xs font-bold rounded-xl transition cursor-pointer"
-                        >
-                            Keluar
-                        </button>
-                    </form>
-                </div>
+        <div class="dashboard-main">
+            <div class="dashboard-page-heading">
+                <h1>@yield('page-title', 'Dashboard')</h1>
             </div>
-        </div>
-    </header>
 
-    <!-- Header Judul Halaman -->
-    <div class="bg-white border-b border-[#EAECF0]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <h1 class="text-lg sm:text-xl font-bold text-[#101828]">
-                @yield('page-title', 'Dashboard')
-            </h1>
+            <main class="dashboard-content space-y-5">
+                @if (session('success'))
+                    <div role="status" class="p-3.5 rounded-lg bg-[#ECFDF3] border border-[#A6F4C5] text-[#027A48] text-sm">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div role="alert" class="p-3.5 rounded-lg bg-[#FEF3F2] border border-[#FECDCA] text-[#B42318] text-sm">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @yield('content')
+            </main>
+
+            <footer class="dashboard-footer">
+                &copy; {{ date('Y') }} LinggaAir - BPBD Kabupaten Purbalingga.
+            </footer>
         </div>
     </div>
-
-    <!-- Konten Utama -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
-        @if (session('success'))
-            <div role="status" class="p-3.5 rounded-lg bg-[#ECFDF3] border border-[#A6F4C5] text-[#027A48] text-sm">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div role="alert" class="p-3.5 rounded-lg bg-[#FEF3F2] border border-[#FECDCA] text-[#B42318] text-sm">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        @yield('content')
-    </main>
-
-    <footer class="bg-white border-t border-[#EAECF0] py-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-[#667085]">
-            &copy; {{ date('Y') }} LinggaAir - BPBD Kabupaten Purbalingga.
-        </div>
-    </footer>
 
     @stack('scripts')
 </body>

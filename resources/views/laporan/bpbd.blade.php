@@ -66,114 +66,18 @@
             color: #101828;
         }
     </style>
+    @include('layouts.sidebar-styles')
 </head>
-<body class="bg-[#F8FAFC] text-[#101828] min-h-screen antialiased flex flex-col lg:flex-row font-sans">
+<body class="bg-[#F8FAFC] text-[#101828] min-h-screen antialiased font-sans role-sidebar-shell">
 
-    <!-- ==================== SIDEBAR KIRI (ADMIN BPBD) ==================== -->
-    <aside class="w-full lg:w-64 bg-white text-[#101828] flex flex-col justify-between shrink-0 border-r border-[#EAECF0] z-20 shadow-xs">
-        <div>
-            <!-- 1. Logo & Brand Header -->
-            <div class="p-5 border-b border-[#EAECF0]">
-                <a href="{{ url('/') }}" class="flex items-center gap-2 block">
-                    <img 
-                        src="{{ asset('images/logo-lingga.png') }}" 
-                        alt="Lingga Air" 
-                        class="h-12 sm:h-14 w-auto max-w-[190px] object-contain" 
-                        onerror="this.onerror=null; this.src='https://placehold.co/180x60/00629B/FFFFFF?text=Lingga+Air';"
-                    >
-                </a>
-                <div class="mt-2.5">
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#EBF5FB] text-[#00629B] border border-[#BAE3F5]">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#00629B] animate-pulse"></span>
-                        Portal Verifikator BPBD
-                    </span>
-                </div>
-            </div>
-
-            <!-- 2. Navigation Links -->
-            <nav class="p-4 space-y-6">
-                <!-- Group 1: Menu Operasional BPBD -->
-                <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-[#667085] block mb-2">
-                        Menu Utama BPBD
-                    </span>
-                    <ul class="space-y-1 text-xs font-semibold">
-                        <li>
-                            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
-                                <i class="fa-solid fa-chart-pie w-4 text-center text-[#00629B]"></i>
-                                <span>Dashboard Statistik</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('verifikasi.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
-                                <i class="fa-solid fa-clipboard-check w-4 text-center text-[#00629B]"></i>
-                                <span>Verifikasi Pengajuan</span>
-                            </a>
-                        </li>
-                        <li>
-                            <!-- Active Menu Fitur F-08: Laporan Penyaluran -->
-                            <a href="{{ route('laporan.index') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#00629B] text-white shadow-xs font-bold transition">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-file-invoice w-4 text-center text-white"></i>
-                                    <span>Laporan Penyaluran</span>
-                                </div>
-                                <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                                    {{ $ringkasan['total_semua'] ?? 0 }}
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Group 2: Master Data Wilayah -->
-                <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-[#667085] block mb-2">
-                        Data Master
-                    </span>
-                    <ul class="space-y-1 text-xs font-semibold">
-                        <li>
-                            <a href="{{ route('admin.desa.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
-                                <i class="fa-solid fa-building-columns w-4 text-center text-[#00629B]"></i>
-                                <span>Data Acuan Desa</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-
-        <!-- 3. Sidebar Footer: Profil Petugas BPBD -->
-        <div class="m-3 p-3.5 bg-[#F8FAFC] border border-[#E4E7EC] rounded-xl">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-full bg-[#00629B] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-                    {{ strtoupper(substr(auth()->user()->username ?? 'BP', 0, 2)) }}
-                </div>
-                <div class="overflow-hidden">
-                    <p class="text-xs font-bold text-[#101828] truncate">{{ auth()->user()->username ?? 'Petugas BPBD' }}</p>
-                    <p class="text-[10px] text-[#667085]">BPBD Purbalingga</p>
-                </div>
-            </div>
-            <form method="POST" action="{{ route('logout') }}" class="mt-3">
-                @csrf
-                <button type="submit" class="w-full flex items-center justify-center gap-2 py-2 px-3 text-[11px] font-semibold text-[#B42318] bg-[#FEF3F2] border border-[#FECDCA] rounded-lg hover:bg-red-100 transition">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    Keluar Sesi
-                </button>
-            </form>
-        </div>
-    </aside>
+    @include('layouts.sidebar')
 
     <!-- ==================== KONTEN UTAMA (BPBD REKAP PENYALURAN) ==================== -->
-    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+    <main class="flex-1 flex flex-col min-w-0 overflow-y-auto role-admin-main">
         <!-- Topbar Sederhana -->
         <div class="bg-white border-b border-[#EAECF0] px-6 py-4 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-10 shadow-xs">
             <div>
-                <nav class="flex items-center gap-2 text-xs text-[#667085] mb-1">
-                    <span>Portal BPBD</span>
-                    <i class="fa-solid fa-chevron-right text-[9px]"></i>
-                    <span class="text-[#00629B] font-semibold">Laporan & Rekapitulasi</span>
-                </nav>
-                <h1 class="text-xl font-bold text-[#101828]">Rekap Penyaluran Air Bersih</h1>
+<h1 class="text-xl font-bold text-[#101828]">Rekap Penyaluran Air Bersih</h1>
             </div>
 
             <!-- Tombol Aksi Ekspor (PBI-024) -->
