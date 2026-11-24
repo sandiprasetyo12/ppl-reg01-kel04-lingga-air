@@ -17,44 +17,46 @@
 @endphp
 
 @section('header')
-{{-- 1. NAVBAR (HEADER IDDS STANDARD - REVEAL ON SCROLL) --}}
-<header id="main-navbar" class="w-full bg-white/95 backdrop-blur-md border-b border-[#EAECF0] fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform -translate-y-full opacity-0 pointer-events-none">
+{{-- 1. NAVBAR (HEADER IDDS STANDARD - TRANSPARENT AT TOP, WHITE ON SCROLL) --}}
+<header id="main-navbar" class="w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent border-b border-transparent">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
         {{-- Logo IDDS LinggaAir --}}
         <a href="{{ url('/') }}" class="flex items-center gap-3 min-h-[44px]">
-            <div class="w-9 h-9 rounded-lg bg-[#00629B] flex items-center justify-center text-white shadow-xs" aria-hidden="true">
+            <div id="nav-logo-icon" class="w-9 h-9 rounded-lg bg-[#00629B] flex items-center justify-center text-white shadow-xs" aria-hidden="true">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v18M3 12h18"/>
                 </svg>
             </div>
-            <span class="font-semibold text-lg tracking-tight">
-                <span class="text-[#101828]">Lingga</span><span class="text-[#00629B]">Air</span>
+            <span id="nav-logo-text" class="font-semibold text-lg tracking-tight text-white transition-colors">
+                <span>Lingga</span><span class="text-[#38BDF8]">Air</span>
             </span>
         </a>
 
         {{-- Nav Links --}}
         <nav aria-label="Navigasi Utama" class="hidden md:flex items-center gap-8 text-sm font-medium">
-            <a href="#hero" class="text-[#00629B] font-semibold border-b-2 border-[#00629B] py-1 transition">Beranda</a>
-            <a href="{{ route('cek-kelayakan.index') }}" class="text-[#475467] hover:text-[#00629B] transition">Cek Kelayakan</a>
-            <a href="{{ route('admin.pemetaan.index') }}" class="text-[#475467] hover:text-[#00629B] transition">Peta GIS</a>
-            <a href="#tentang" class="text-[#475467] hover:text-[#00629B] transition">Tentang Layanan</a>
-            <a href="#program" class="text-[#475467] hover:text-[#00629B] transition">Program</a>
-            <a href="#faq" class="text-[#475467] hover:text-[#00629B] transition">FAQ</a>
+            <a href="#hero" class="nav-link text-white font-semibold border-b-2 border-white py-1 transition-colors">Beranda</a>
+            <a href="{{ route('cek-kelayakan.index') }}" class="nav-link text-white/90 hover:text-white transition-colors">Cek Kelayakan</a>
+            <a href="{{ route('admin.pemetaan.index') }}" class="nav-link text-white/90 hover:text-white transition-colors">Peta GIS</a>
+            <a href="#tentang" class="nav-link text-white/90 hover:text-white transition-colors">Tentang Layanan</a>
+            <a href="#program" class="nav-link text-white/90 hover:text-white transition-colors">Program</a>
+            <a href="#faq" class="nav-link text-white/90 hover:text-white transition-colors">FAQ</a>
         </nav>
 
         {{-- Auth Action --}}
         <div class="flex items-center gap-3">
             @auth
                 <a
+                    id="nav-auth-btn"
                     href="{{ route($dashboardRouteName) }}"
-                    class="min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-[#00629B] hover:bg-[#004F7D] text-white text-sm font-semibold rounded-lg shadow-sm shadow-[#00629B]/20 transition"
+                    class="min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-white/20 hover:bg-white/30 border border-white/40 text-white text-sm font-semibold rounded-lg backdrop-blur-xs transition"
                 >
                     Dashboard
                 </a>
             @else
                 <a
+                    id="nav-auth-btn"
                     href="{{ route('login') }}"
-                    class="min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-[#00629B] hover:bg-[#004F7D] text-white text-sm font-semibold rounded-lg shadow-sm shadow-[#00629B]/20 transition"
+                    class="min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-white/20 hover:bg-white/30 border border-white/40 text-white text-sm font-semibold rounded-lg backdrop-blur-xs transition"
                 >
                     Masuk Petugas
                 </a>
@@ -68,7 +70,7 @@
 <main class="w-full bg-white text-[#101828] flex-1">
 
     {{-- 2. HERO SECTION (SKEMA FULL FOTO & TEKS DI TENGAH - NATURAL NO BLUE OVERLAY) --}}
-    <section id="hero" class="relative w-full min-h-[540px] lg:min-h-[660px] flex items-center justify-center bg-neutral-900 text-white overflow-hidden">
+    <section id="hero" class="relative w-full min-h-[560px] lg:min-h-[680px] flex items-center justify-center bg-neutral-900 text-white overflow-hidden pt-20">
         {{-- Background Real Photo Layer (Natural Image) --}}
         <img 
             src="{{ asset('images/hero.jpg') }}" 
@@ -80,13 +82,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/75 pointer-events-none"></div>
 
         {{-- Centered Content --}}
-        <div class="relative z-10 max-w-4xl mx-auto px-6 py-24 lg:py-32 text-center space-y-6">
-            {{-- Category Tag --}}
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-xs text-xs font-semibold uppercase tracking-wider text-neutral-200">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
-                BPBD Kabupaten Purbalingga
-            </div>
-
+        <div class="relative z-10 max-w-4xl mx-auto px-6 py-20 lg:py-28 text-center space-y-6">
             {{-- Centered H1 (Font Semibold - Softer & Elegant) --}}
             <h1 class="text-3xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.25] max-w-3xl mx-auto drop-shadow-xs">
                 Penyaluran Bantuan Air Bersih Kabupaten Purbalingga
@@ -613,15 +609,45 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const navbar = document.getElementById('main-navbar');
+        const logoText = document.getElementById('nav-logo-text');
+        const authBtn = document.getElementById('nav-auth-btn');
+        const navLinks = document.querySelectorAll('.nav-link');
         if (!navbar) return;
 
         function handleScroll() {
-            if (window.scrollY > 80) {
-                navbar.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
-                navbar.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto', 'shadow-xs');
+            const scrolled = window.scrollY > 40;
+            if (scrolled) {
+                navbar.classList.remove('bg-transparent', 'border-transparent');
+                navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'border-[#EAECF0]', 'shadow-xs');
+                if (logoText) {
+                    logoText.innerHTML = '<span class="text-[#101828]">Lingga</span><span class="text-[#00629B]">Air</span>';
+                }
+                navLinks.forEach((link, idx) => {
+                    if (idx === 0) {
+                        link.className = 'nav-link text-[#00629B] font-semibold border-b-2 border-[#00629B] py-1 transition-colors';
+                    } else {
+                        link.className = 'nav-link text-[#475467] hover:text-[#00629B] transition-colors';
+                    }
+                });
+                if (authBtn) {
+                    authBtn.className = 'min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-[#00629B] hover:bg-[#004F7D] text-white text-sm font-semibold rounded-lg shadow-sm shadow-[#00629B]/20 transition';
+                }
             } else {
-                navbar.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
-                navbar.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto', 'shadow-xs');
+                navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'border-[#EAECF0]', 'shadow-xs');
+                navbar.classList.add('bg-transparent', 'border-transparent');
+                if (logoText) {
+                    logoText.innerHTML = '<span class="text-white">Lingga</span><span class="text-[#38BDF8]">Air</span>';
+                }
+                navLinks.forEach((link, idx) => {
+                    if (idx === 0) {
+                        link.className = 'nav-link text-white font-semibold border-b-2 border-white py-1 transition-colors';
+                    } else {
+                        link.className = 'nav-link text-white/90 hover:text-white transition-colors';
+                    }
+                });
+                if (authBtn) {
+                    authBtn.className = 'min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 bg-white/20 hover:bg-white/30 border border-white/40 text-white text-sm font-semibold rounded-lg backdrop-blur-xs transition';
+                }
             }
         }
 
