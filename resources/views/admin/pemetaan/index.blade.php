@@ -945,6 +945,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fitMapToVisible() {
+        map.invalidateSize(); // pastikan ukuran container sudah benar sebelum fitBounds
         const coords = state.markers.map((m) => [m.latitude, m.longitude]);
         if (coords.length === 1) {
             map.setView(coords[0], 14, { animate: !CONFIG.reduceMotion });
@@ -1416,9 +1417,7 @@ document.addEventListener('DOMContentLoaded', () => {
     el.inputLongitude.addEventListener('input', syncInputsToPicker);
     el.formKoordinat.addEventListener('submit', handleSaveKoordinat);
 
-    // Load awal
-    loadGeojson();
-    loadMapData({ fit: true });
+    // startMap() dan readyState check sudah ada di atas (baris ~802)
 });
 </script>
 @endpush
