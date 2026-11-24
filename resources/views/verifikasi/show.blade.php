@@ -79,8 +79,11 @@
         <header class="bg-white/95 backdrop-blur-md border-b border-[#EAECF0] px-4 sm:px-6 py-3.5 sticky top-0 z-10 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
                 <nav class="text-xs text-[#667085] mb-0.5 flex items-center gap-1.5 font-medium">
-                    <a href="{{ route('verifikasi.index') }}" class="hover:underline flex items-center gap-1 text-[#00629B] font-bold">
-                        <i class="fa-solid fa-arrow-left text-[10px]"></i> Antrean Verifikasi
+                    <a href="{{ route('verifikasi.index') }}" class="hover:underline flex items-center gap-1.5 text-[#00629B] font-bold">
+                        <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+                        </svg>
+                        <span>Antrean Verifikasi</span>
                     </a>
                     <span class="text-[#D0D5DD]">/</span>
                     <span class="text-[#101828] font-semibold font-mono">{{ $permohonan->nomor_tiket }}</span>
@@ -160,7 +163,9 @@
                 
                 <div class="flex items-center gap-2">
                     <a href="{{ route('verifikasi.index') }}" class="px-3.5 py-2 bg-white border border-[#D0D5DD] rounded-xl text-xs font-bold text-[#344054] hover:bg-[#F2F4F7] transition shadow-xs flex items-center gap-1.5">
-                        <i class="fa-solid fa-arrow-left"></i>
+                        <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+                        </svg>
                         <span>Kembali ke Antrean</span>
                     </a>
                 </div>

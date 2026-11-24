@@ -46,8 +46,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-        *, html, body, input, button, select, textarea {
-            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        html, body, input, button, select, textarea {
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Prevent FontAwesome icons from being overridden by generic font families */
+        i.fa-solid, i.fa-regular, i.fa-brands, i.fas, i.far, i.fab, [class*="fa-"], [class^="fa-"] {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", "FontAwesome" !important;
+            font-style: normal;
         }
 
         body {

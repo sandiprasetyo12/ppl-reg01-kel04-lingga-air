@@ -9,16 +9,20 @@ use App\Http\Controllers\CekKelayakanController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\BerandaDesaController;
 
 // Route Public
 Route::get('/', function () {
     if (auth()->check()) {
         $user = auth()->user();
-        return match ($user->role) {
-            'bpbd' => redirect()->route('admin.dashboard'),
-            'penyalur' => redirect()->route('penyalur.dashboard'),
-            default => redirect()->route('desa.dashboard'),
-        };
+        // Hanya redirect ke dashboard jika pengguna sudah menyelesaikan onboarding
+        if ($user->hasCompletedOnboarding()) {
+            return match ($user->role) {
+                'bpbd' => redirect()->route('admin.dashboard'),
+                'penyalur' => redirect()->route('penyalur.dashboard'),
+                default => redirect()->route('desa.dashboard'),
+            };
+        }
     }
     return view('welcome');
 })->name('home');
@@ -69,14 +73,15 @@ Route::middleware('auth')->prefix('onboarding')->name('onboarding.')->group(func
 
 // Fitur F-03: Pengajuan Bantuan Air Bersih (Publik / Alur Integrasi Cek Kelayakan)
 Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
+Route::get('/pengajuan/lacak', [PengajuanController::class, 'lacak'])->name('pengajuan.lacak');
 Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create');
 
 // Route Dashboard & Fitur Peran Desa (F-01, F-02, & F-03)
 Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
     Route::prefix('desa')->name('desa.')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('desa.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [BerandaDesaController::class, 'index'])->name('dashboard');
+        Route::get('/profil', [BerandaDesaController::class, 'editProfile'])->name('profile.edit');
+        Route::put('/profil', [BerandaDesaController::class, 'updateProfile'])->name('profile.update');
     });
 
     // Fitur F-02: Cek Kelayakan Mandiri (AHP - SAW)

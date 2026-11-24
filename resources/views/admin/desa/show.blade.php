@@ -15,7 +15,9 @@
             href="{{ route('admin.desa.index') }}"
             class="h-8 inline-flex items-center gap-1.5 px-3 bg-white border border-[#D0D5DD] rounded-lg text-[11px] font-semibold text-[#344054] hover:bg-[#F2F4F7] transition shadow-xs cursor-pointer"
         >
-            <i class="fa-solid fa-arrow-left text-[9px]"></i>
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+            </svg>
             <span>Kembali ke Daftar</span>
         </a>
         <a

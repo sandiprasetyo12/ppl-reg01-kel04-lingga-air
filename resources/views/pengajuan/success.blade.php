@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.desa')
 
 @section('title', 'Pengajuan Berhasil Dikirim | Lingga Air')
 

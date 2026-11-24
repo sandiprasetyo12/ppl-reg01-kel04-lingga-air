@@ -3,21 +3,33 @@
 @section('title', 'Lengkapi Profil Desa - Onboarding LinggaAir')
 
 @section('header')
-<header class="w-full border-b border-[#F2F4F7] py-3.5 px-6 sm:px-10 flex items-center justify-between bg-white shrink-0">
-    <div class="text-[14px] text-[#737373] flex items-center">
-        <a href="{{ url('/') }}" class="hover:text-[#00629B] transition">Beranda</a>
-        <span class="text-[#a1a8b1] mx-1">/</span>
-        <a href="{{ route('onboarding.role') }}" class="hover:text-[#00629B] transition">Onboarding</a>
-        <span class="text-[#a1a8b1] mx-1">/</span>
-        <span class="text-[#2b2b2b] font-medium">Profil Desa</span>
-    </div>
+<header class="w-full border-b border-[#EAECF0] py-3.5 px-6 sm:px-10 flex items-center justify-between bg-white shrink-0">
+    <a href="{{ route('onboarding.role') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-[#475467] hover:text-[#00629B] transition py-1 px-2.5 rounded-lg hover:bg-[#F2F4F7]">
+        <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+        </svg>
+        <span>Kembali ke Pilih Peran</span>
+    </a>
 
-    <div class="flex items-center gap-3 text-[13px] text-[#737373]">
-        <span class="hidden sm:inline">Akun: <strong class="text-[#2b2b2b] font-medium">{{ auth()->user()?->username ?? 'Pengguna' }}</strong></span>
+    <div class="flex items-center gap-2.5">
+        {{-- Badge Profil Akun --}}
+        <div class="hidden sm:flex items-center gap-2 pl-1 pr-2.5 py-1 bg-[#F8FAFC] border border-[#EAECF0] rounded-full text-xs">
+            <span class="w-5 h-5 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] text-[#00629B] font-bold text-[10px] flex items-center justify-center">
+                {{ strtoupper(substr(auth()->user()?->username ?? 'P', 0, 1)) }}
+            </span>
+            <span class="font-medium text-[#344054] max-w-[130px] truncate">
+                {{ auth()->user()?->username ?? 'Pengguna' }}
+            </span>
+        </div>
+
+        {{-- Tombol Keluar Ringkas --}}
         <form action="{{ route('logout') }}" method="POST" class="inline">
             @csrf
-            <button type="submit" class="text-[#ce1f31] hover:underline font-medium text-[13px]">
-                Keluar
+            <button type="submit" class="inline-flex items-center gap-1.5 h-7 px-2.5 bg-white border border-[#FECDCA] hover:bg-[#FEF3F2] active:bg-[#FEE4E2] text-[#B42318] text-[11px] font-semibold rounded-lg transition shadow-xs cursor-pointer" title="Keluar dari akun">
+                <svg class="w-3 h-3 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
+                </svg>
+                <span>Keluar</span>
             </button>
         </form>
     </div>
@@ -25,8 +37,10 @@
 @endsection
 
 @section('content')
-<div class="flex-1 flex flex-col justify-center items-center px-4 py-4 sm:py-6 bg-white">
-    <div class="w-full max-w-[620px] mx-auto space-y-4">
+<div class="flex-1 flex flex-col justify-center items-center px-4 py-8 bg-[#F8FAFC]">
+    <div class="w-full max-w-[620px] mx-auto">
+        {{-- Card putih --}}
+        <div class="bg-white rounded-2xl border border-[#EAECF0] shadow-sm p-6 sm:p-8 space-y-5">
         
         {{-- Visual Stepper Ringkas --}}
         <div class="max-w-xs mx-auto">
@@ -94,38 +108,74 @@
             <form id="profile-desa-form" action="{{ route('onboarding.profile.desa') }}" method="POST" class="space-y-3.5">
                 @csrf
 
-                {{-- Pilihan Desa --}}
-                <div class="text-left space-y-1">
-                    <label for="kode_desa" class="block text-xs font-semibold text-[#344054]">
-                        Wilayah Desa / Kelurahan <span class="text-[#ce1f31]">*</span>
-                    </label>
-                    <select
-                        id="kode_desa"
-                        name="kode_desa"
-                        required
-                        @disabled($desaTertaut !== null)
-                        class="w-full h-10 px-3 bg-white border border-[#D0D5DD] rounded-lg text-xs sm:text-sm text-[#101828] focus:outline-none focus:border-[#00629B] focus:ring-1 focus:ring-[#00629B]/20 transition"
-                    >
-                        <option value="">Pilih Desa atau Kelurahan</option>
-                        @php $currentKec = ''; @endphp
-                        @foreach ($desaTersedia as $d)
-                            @if ($currentKec !== $d->kecamatan)
-                                @if ($currentKec !== '') </optgroup> @endif
-                                <optgroup label="Kecamatan {{ $d->kecamatan }}">
-                                @php $currentKec = $d->kecamatan; @endphp
+                @php
+                    $selectedKodeDesa = (string) old('kode_desa', $desaTertaut?->kode_desa ?? '');
+                    $selectedDesaObj = $desaTersedia->firstWhere('kode_desa', $selectedKodeDesa);
+                    $selectedKecamatan = (string) old('kecamatan', $selectedDesaObj?->kecamatan ?? ($desaTertaut?->kecamatan ?? ''));
+                    $kecamatanList = $kecamatanList ?? $desaTersedia->pluck('kecamatan')->unique()->filter()->sort()->values();
+                    $desaListJson = $desaTersedia->map(fn($d) => [
+                        'kode' => (string) $d->kode_desa,
+                        'nama' => (string) $d->nama_desa,
+                        'kecamatan' => (string) $d->kecamatan,
+                    ])->values();
+                @endphp
+
+                {{-- Pilihan Wilayah: Kecamatan & Desa (Filter Bertingkat) --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                    {{-- Dropdown Kecamatan --}}
+                    <div class="space-y-1">
+                        <label for="select_kecamatan" class="block text-xs font-semibold text-[#344054]">
+                            Kecamatan <span class="text-[#ce1f31]">*</span>
+                        </label>
+                        <select
+                            id="select_kecamatan"
+                            name="kecamatan"
+                            required
+                            @disabled($desaTertaut !== null)
+                            class="w-full h-10 px-3 bg-white border border-[#D0D5DD] rounded-lg text-xs sm:text-sm text-[#101828] focus:outline-none focus:border-[#00629B] focus:ring-1 focus:ring-[#00629B]/20 transition disabled:bg-[#F2F4F7] disabled:text-[#667085] disabled:cursor-not-allowed disabled:border-[#E4E7EC]"
+                        >
+                            <option value="">Pilih Kecamatan</option>
+                            @foreach ($kecamatanList as $kec)
+                                <option value="{{ $kec }}" {{ $selectedKecamatan === (string) $kec ? 'selected' : '' }}>
+                                    {{ $kec }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('kecamatan')
+                            <p role="alert" class="mt-0.5 text-xs text-[#ce1f31]">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Dropdown Desa --}}
+                    <div class="space-y-1">
+                        <label for="kode_desa" class="block text-xs font-semibold text-[#344054]">
+                            Wilayah Desa / Kelurahan <span class="text-[#ce1f31]">*</span>
+                        </label>
+                        <select
+                            id="kode_desa"
+                            name="kode_desa"
+                            required
+                            @disabled($desaTertaut !== null || empty($selectedKecamatan))
+                            class="w-full h-10 px-3 bg-white border border-[#D0D5DD] rounded-lg text-xs sm:text-sm text-[#101828] focus:outline-none focus:border-[#00629B] focus:ring-1 focus:ring-[#00629B]/20 transition disabled:bg-[#F2F4F7] disabled:text-[#667085] disabled:cursor-not-allowed disabled:border-[#E4E7EC]"
+                        >
+                            @if (empty($selectedKecamatan))
+                                <option value="">Pilih Kecamatan terlebih dahulu</option>
+                            @else
+                                <option value="">Pilih Desa atau Kelurahan</option>
+                                @foreach ($desaTersedia->where('kecamatan', $selectedKecamatan) as $d)
+                                    <option value="{{ $d->kode_desa }}" {{ $selectedKodeDesa === (string) $d->kode_desa ? 'selected' : '' }}>
+                                        {{ $d->nama_desa }} ({{ $d->kode_desa }})
+                                    </option>
+                                @endforeach
                             @endif
-                            <option value="{{ $d->kode_desa }}" {{ old('kode_desa', $desaTertaut?->kode_desa) == $d->kode_desa ? 'selected' : '' }}>
-                                {{ $d->nama_desa }} ({{ $d->kode_desa }})
-                            </option>
-                        @endforeach
-                        @if ($currentKec !== '') </optgroup> @endif
-                    </select>
-                    @if ($desaTertaut !== null)
-                        <input type="hidden" name="kode_desa" value="{{ $desaTertaut->kode_desa }}">
-                    @endif
-                    @error('kode_desa')
-                        <p role="alert" class="mt-0.5 text-xs text-[#ce1f31]">{{ $message }}</p>
-                    @enderror
+                        </select>
+                        @if ($desaTertaut !== null)
+                            <input type="hidden" name="kode_desa" value="{{ $desaTertaut->kode_desa }}">
+                        @endif
+                        @error('kode_desa')
+                            <p role="alert" class="mt-0.5 text-xs text-[#ce1f31]">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
 
                 {{-- KK dan Jiwa Total --}}
@@ -287,6 +337,60 @@
                 </div>
             </form>
         @endif
-    </div>
+        </div>{{-- end card --}}
+    </div>{{-- end max-w --}}
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const kecamatanSelect = document.getElementById('select_kecamatan');
+    const desaSelect = document.getElementById('kode_desa');
+    if (!kecamatanSelect || !desaSelect) return;
+
+    // Master data desa yang tersedia untuk filter client-side
+    const desaList = @json($desaListJson);
+
+    const isLocked = {{ $desaTertaut !== null ? 'true' : 'false' }};
+    if (isLocked) return;
+
+    function renderDesaOptions(selectedKec, targetKode = '') {
+        desaSelect.innerHTML = '';
+
+        if (!selectedKec) {
+            const defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.textContent = 'Pilih Kecamatan terlebih dahulu';
+            desaSelect.appendChild(defaultOpt);
+            desaSelect.disabled = true;
+            return;
+        }
+
+        desaSelect.disabled = false;
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = '';
+        defaultOpt.textContent = 'Pilih Desa atau Kelurahan';
+        desaSelect.appendChild(defaultOpt);
+
+        const filtered = desaList.filter(function (item) {
+            return item.kecamatan === selectedKec;
+        });
+
+        filtered.forEach(function (item) {
+            const opt = document.createElement('option');
+            opt.value = item.kode;
+            opt.textContent = item.nama + ' (' + item.kode + ')';
+            if (targetKode && item.kode === targetKode) {
+                opt.selected = true;
+            }
+            desaSelect.appendChild(opt);
+        });
+    }
+
+    kecamatanSelect.addEventListener('change', function () {
+        renderDesaOptions(this.value, '');
+    });
+});
+</script>
+@endpush

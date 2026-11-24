@@ -30,11 +30,7 @@ class OnboardingController extends Controller
             return $this->redirectToDashboard();
         }
 
-        // Kalau sudah pilih role, langsung ke profil
-        if (! is_null($user->role)) {
-            return redirect()->route('onboarding.profile');
-        }
-
+        // Izinkan user melihat form pilih role (bisa untuk ganti role jika kembali dari step profil)
         return view('onboarding.role');
     }
 
@@ -83,7 +79,9 @@ class OnboardingController extends Controller
                 ->orderBy('nama_desa')
                 ->get();
 
-            return view('onboarding.profile-desa', compact('desaTersedia', 'desaTertaut'));
+            $kecamatanList = $desaTersedia->pluck('kecamatan')->unique()->filter()->sort()->values();
+
+            return view('onboarding.profile-desa', compact('desaTersedia', 'desaTertaut', 'kecamatanList'));
         }
 
         return view('onboarding.profile-penyalur');
@@ -104,6 +102,7 @@ class OnboardingController extends Controller
 
         // A village can only be claimed if it is unlinked or already belongs to this user.
         $validated = $request->validate([
+            'kecamatan' => 'nullable|string',
             'kode_desa' => [
                 'required',
                 'string',

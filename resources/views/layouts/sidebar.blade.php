@@ -18,6 +18,11 @@
         $resolvedRole = 'desa';
     }
 
+    // Perwakilan Desa tidak menggunakan sidebar (menggunakan topbar navigasi)
+    if ($resolvedRole === 'desa') {
+        return;
+    }
+
     // Konfigurasi per role: brand route, label, dan daftar menu
     $sidebarConfig = match($resolvedRole) {
         'admin' => [
@@ -42,7 +47,8 @@
                 ['Beranda', 'fa-house', 'desa.dashboard', request()->routeIs('desa.dashboard')],
                 ['Cek Kelayakan', 'fa-circle-check', 'cek-kelayakan.index', request()->routeIs('cek-kelayakan.*')],
                 ['Pengajuan Bantuan', 'fa-file-circle-plus', 'pengajuan.create', request()->routeIs('pengajuan.create')],
-                ['Lacak Pengajuan', 'fa-location-dot', 'pengajuan.index', request()->routeIs('pengajuan.index')],
+                ['Riwayat Pengajuan', 'fa-file-lines', 'pengajuan.index', request()->routeIs('pengajuan.index') || request()->routeIs('pengajuan.show')],
+                ['Lacak Pengajuan', 'fa-location-dot', null, false],
                 ['Feedback', 'fa-comment-dots', null, false],
             ],
         ],

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.desa')
 
 @section('title', 'Detail Pengajuan | Lingga Air')
 
@@ -10,7 +10,7 @@
         <div>
             <div class="eyebrow">Layanan Desa</div>
             <div class="flex items-center gap-3">
-                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight font-mono m-0">
+                <h1 class="text-lg sm:text-xl font-bold text-[#101828] tracking-tight font-mono m-0">
                     {{ $pengajuan->isDraft() ? 'Draf #' . str_pad($pengajuan->id, 4, '0', STR_PAD_LEFT) : $pengajuan->nomor_tiket }}
                 </h1>
                 @php
