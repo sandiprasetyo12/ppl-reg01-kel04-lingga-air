@@ -78,7 +78,7 @@
                 <button
                     type="button"
                     id="btn-refresh-map"
-                    class="min-h-[44px] inline-flex items-center justify-center px-4 py-2 bg-[#1b1b18] hover:bg-black text-white text-sm font-medium rounded-md gis-transition"
+                    class="min-h-[44px] inline-flex items-center justify-center px-4 py-2 bg-[#00629B] hover:bg-[#004F7D] text-white text-sm font-medium rounded-md gis-transition"
                 >
                     Muat Ulang Peta
                 </button>
@@ -163,7 +163,7 @@
                 <select
                     id="filter-kecamatan"
                     name="kecamatan"
-                    class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-sm text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
+                    class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-sm text-[#1b1b18] focus:outline-none focus:border-[#00629B]"
                 >
                     <option value="">Semua Kecamatan ({{ $kecamatans->count() }} Kecamatan)</option>
                     @foreach ($kecamatans as $kec)
@@ -179,7 +179,7 @@
                 <select
                     id="filter-status"
                     name="status"
-                    class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-sm text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
+                    class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-sm text-[#1b1b18] focus:outline-none focus:border-[#00629B]"
                 >
                     <option value="">Semua Status Warna</option>
                     <option value="merah">Merah: Perlu Penanganan</option>
@@ -198,14 +198,14 @@
                     type="text"
                     name="search"
                     placeholder="Contoh: Serang atau 33.03.10..."
-                    class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-sm text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
+                    class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-sm text-[#1b1b18] focus:outline-none focus:border-[#00629B]"
                 >
             </div>
 
             <div class="md:col-span-2 flex items-center gap-2">
                 <button
                     type="submit"
-                    class="flex-1 min-h-[44px] inline-flex items-center justify-center px-4 py-2 bg-[#1b1b18] hover:bg-black text-white text-sm font-medium rounded-md gis-transition"
+                    class="flex-1 min-h-[44px] inline-flex items-center justify-center px-4 py-2 bg-[#00629B] hover:bg-[#004F7D] text-white text-sm font-medium rounded-md gis-transition"
                 >
                     Terapkan
                 </button>
@@ -225,7 +225,7 @@
                     id="toggle-polygon-layer"
                     type="checkbox"
                     checked
-                    class="w-4 h-4 rounded border-[#d1d5db] text-[#1b1b18] focus:ring-[#1b1b18]"
+                    class="w-4 h-4 rounded border-[#d1d5db] text-[#00629B] focus:ring-[#00629B]"
                 >
                 <span>Tampilkan batas wilayah poligon 239 desa</span>
             </label>
@@ -264,7 +264,7 @@
 
                 <!-- Loading State -->
                 <div id="map-loading" class="hidden absolute inset-0 z-10 bg-white/85 flex flex-col items-center justify-center p-6 text-center">
-                    <div class="w-8 h-8 rounded-full border-2 border-[#1b1b18] border-t-transparent animate-spin mb-3" aria-hidden="true"></div>
+                    <div class="w-8 h-8 rounded-full border-2 border-[#00629B] border-t-transparent animate-spin mb-3" aria-hidden="true"></div>
                     <p class="text-sm font-medium text-[#1b1b18]">Memuat data spasial desa...</p>
                 </div>
 
@@ -277,7 +277,7 @@
                     <button
                         type="button"
                         id="btn-empty-reset"
-                        class="mt-4 min-h-[44px] inline-flex items-center px-4 py-2 bg-[#1b1b18] text-white text-sm font-medium rounded-md hover:bg-black gis-transition"
+                        class="mt-4 min-h-[44px] inline-flex items-center px-4 py-2 bg-[#00629B] text-white text-sm font-medium rounded-md hover:bg-[#004F7D] gis-transition"
                     >
                         Reset Filter Peta
                     </button>
@@ -292,7 +292,7 @@
                     <button
                         type="button"
                         id="btn-retry-map"
-                        class="mt-4 min-h-[44px] inline-flex items-center px-4 py-2 bg-[#1b1b18] text-white text-sm font-medium rounded-md hover:bg-black gis-transition"
+                        class="mt-4 min-h-[44px] inline-flex items-center px-4 py-2 bg-[#00629B] text-white text-sm font-medium rounded-md hover:bg-[#004F7D] gis-transition"
                     >
                         Coba Muat Ulang
                     </button>
@@ -318,7 +318,7 @@
 
                 <!-- Detail Loading -->
                 <div id="detail-loading" class="hidden py-10 text-center space-y-2">
-                    <div class="w-6 h-6 rounded-full border-2 border-[#1b1b18] border-t-transparent animate-spin mx-auto" aria-hidden="true"></div>
+                    <div class="w-6 h-6 rounded-full border-2 border-[#00629B] border-t-transparent animate-spin mx-auto" aria-hidden="true"></div>
                     <p class="text-sm text-[#52525b]">Mengambil detail desa...</p>
                 </div>
 
@@ -562,7 +562,7 @@
                     type="text"
                     maxlength="150"
                     placeholder="Contoh: Bak Penampungan Sentral RT 04 RW 02"
-                    class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-sm text-[#1b1b18] focus:outline-none focus:border-[#1b1b18]"
+                    class="w-full min-h-[44px] px-3 py-2 bg-white border border-[#d1d5db] rounded-md text-sm text-[#1b1b18] focus:outline-none focus:border-[#00629B]"
                 >
             </div>
 
@@ -828,9 +828,9 @@ document.addEventListener('DOMContentLoaded', () => {
         el.statusQuickBtns.forEach((btn) => {
             const isActive = btn.dataset.statusFilter === currentStatus;
             btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-            btn.classList.toggle('border-[#1b1b18]', isActive);
+            btn.classList.toggle('border-[#00629B]', isActive);
             btn.classList.toggle('ring-1', isActive);
-            btn.classList.toggle('ring-[#1b1b18]', isActive);
+            btn.classList.toggle('ring-[#00629B]', isActive);
         });
     }
 
@@ -996,7 +996,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tdAksi.className = 'px-4 py-3 text-right whitespace-nowrap';
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = 'min-h-[44px] inline-flex items-center px-3 py-1.5 bg-[#1b1b18] hover:bg-black text-white rounded-md text-xs font-medium gis-transition';
+            btn.className = 'min-h-[44px] inline-flex items-center px-3 py-1.5 bg-[#00629B] hover:bg-[#004F7D] text-white rounded-md text-xs font-medium gis-transition';
             btn.textContent = `Tetapkan Koordinat (${item.nama_desa})`;
             btn.addEventListener('click', (evt) => {
                 openKoordinatModalFromObject({
