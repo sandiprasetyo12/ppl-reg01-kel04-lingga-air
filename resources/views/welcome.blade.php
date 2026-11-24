@@ -17,8 +17,8 @@
 @endphp
 
 @section('header')
-{{-- 1. NAVBAR (HEADER IDDS STANDARD) --}}
-<header class="w-full bg-white/95 backdrop-blur-md border-b border-[#EAECF0] sticky top-0 z-40 transition-colors">
+{{-- 1. NAVBAR (HEADER IDDS STANDARD - REVEAL ON SCROLL) --}}
+<header id="main-navbar" class="w-full bg-white/95 backdrop-blur-md border-b border-[#EAECF0] fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform -translate-y-full opacity-0 pointer-events-none">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
         {{-- Logo IDDS LinggaAir --}}
         <a href="{{ url('/') }}" class="flex items-center gap-3 min-h-[44px]">
@@ -27,7 +27,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v18M3 12h18"/>
                 </svg>
             </div>
-            <span class="font-bold text-lg tracking-tight">
+            <span class="font-semibold text-lg tracking-tight">
                 <span class="text-[#101828]">Lingga</span><span class="text-[#00629B]">Air</span>
             </span>
         </a>
@@ -67,28 +67,28 @@
 @section('content')
 <main class="w-full bg-white text-[#101828] flex-1">
 
-    {{-- 2. HERO SECTION (SKEMA FULL FOTO & TEKS DI TENGAH BERIDENTITAS IDDS) --}}
-    <section id="hero" class="relative w-full min-h-[520px] lg:min-h-[640px] flex items-center justify-center bg-[#0B192C] text-white overflow-hidden">
-        {{-- Background Real Photo Layer --}}
+    {{-- 2. HERO SECTION (SKEMA FULL FOTO & TEKS DI TENGAH - NATURAL NO BLUE OVERLAY) --}}
+    <section id="hero" class="relative w-full min-h-[540px] lg:min-h-[660px] flex items-center justify-center bg-neutral-900 text-white overflow-hidden">
+        {{-- Background Real Photo Layer (Natural Image) --}}
         <img 
             src="{{ asset('images/hero.jpg') }}" 
             alt="Masyarakat Desa Mengambil Bantuan Air Bersih di Purbalingga" 
             class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         >
 
-        {{-- Dark Civic Navy Gradient Overlay for High-Contrast Readability --}}
-        <div class="absolute inset-0 bg-gradient-to-t from-[#0B192C] via-[#0B192C]/80 to-[#0B192C]/85 pointer-events-none"></div>
+        {{-- Natural Dark Neutral Overlay (Zero Blue Tint) --}}
+        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/75 pointer-events-none"></div>
 
         {{-- Centered Content --}}
-        <div class="relative z-10 max-w-4xl mx-auto px-6 py-20 lg:py-28 text-center space-y-6">
-            {{-- Category Tag IDDS --}}
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#BAE3F5]/30 bg-[#00629B]/40 backdrop-blur-xs text-xs font-semibold uppercase tracking-wider text-[#BAE3F5]">
-                <span class="w-2 h-2 rounded-full bg-[#38BDF8] animate-pulse" aria-hidden="true"></span>
+        <div class="relative z-10 max-w-4xl mx-auto px-6 py-24 lg:py-32 text-center space-y-6">
+            {{-- Category Tag --}}
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-xs text-xs font-semibold uppercase tracking-wider text-neutral-200">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
                 BPBD Kabupaten Purbalingga
             </div>
 
-            {{-- Centered H1 --}}
-            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.2] max-w-3xl mx-auto drop-shadow-xs">
+            {{-- Centered H1 (Font Semibold - Softer & Elegant) --}}
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.25] max-w-3xl mx-auto drop-shadow-xs">
                 Penyaluran Bantuan Air Bersih Kabupaten Purbalingga
             </h1>
 
@@ -120,8 +120,8 @@
         <div class="max-w-7xl mx-auto px-6">
             {{-- Centered Header --}}
             <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
-                <div class="text-xs font-bold uppercase tracking-wider text-[#00629B]">Kesiapsiagaan Krisis Air</div>
-                <h2 class="text-3xl font-bold text-[#101828] tracking-tight">
+                <div class="text-xs font-semibold uppercase tracking-wider text-[#00629B]">Kesiapsiagaan Krisis Air</div>
+                <h2 class="text-3xl font-semibold text-[#101828] tracking-tight">
                     Kenapa Sistem Ini Dibutuhkan
                 </h2>
                 <p class="text-[#475467] text-sm sm:text-base leading-relaxed">
@@ -174,7 +174,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                             </div>
                             <div>
-                                <h3 class="font-bold text-[#101828] text-base">Penilaian Objektif Berbasis AHP-SAW</h3>
+                                <h3 class="font-semibold text-[#101828] text-base">Penilaian Objektif Berbasis AHP-SAW</h3>
                                 <p class="text-[#475467] text-sm mt-0.5">Penentuan urutan prioritas dihitung matematis berdasarkan kepadatan balita, lansia, dan ketiadaan air.</p>
                             </div>
                         </li>
@@ -184,7 +184,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                             </div>
                             <div>
-                                <h3 class="font-bold text-[#101828] text-base">Kapasitas Armada Standar 5.000 Liter</h3>
+                                <h3 class="font-semibold text-[#101828] text-base">Kapasitas Armada Standar 5.000 Liter</h3>
                                 <p class="text-[#475467] text-sm mt-0.5">Setiap rit truk tangki membawa 5.000 liter air bersih higienis siap pakai untuk tandon komunal.</p>
                             </div>
                         </li>
@@ -194,7 +194,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                             </div>
                             <div>
-                                <h3 class="font-bold text-[#101828] text-base">Pemetaan Wilayah Terintegrasi GIS</h3>
+                                <h3 class="font-semibold text-[#101828] text-base">Pemetaan Wilayah Terintegrasi GIS</h3>
                                 <p class="text-[#475467] text-sm mt-0.5">Pantauan spasial titik lokasi kekeringan di 18 kecamatan menggunakan poligon batas GeoJSON resmi.</p>
                             </div>
                         </li>
@@ -204,7 +204,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                             </div>
                             <div>
-                                <h3 class="font-bold text-[#101828] text-base">Layanan Bebas Biaya Retribusi (Gratis)</h3>
+                                <h3 class="font-semibold text-[#101828] text-base">Layanan Bebas Biaya Retribusi (Gratis)</h3>
                                 <p class="text-[#475467] text-sm mt-0.5">Seluruh distribusi air bersih dari BPBD Kabupaten Purbalingga tidak dipungut biaya apa pun.</p>
                             </div>
                         </li>
@@ -227,8 +227,8 @@
     <section id="gis" class="py-20 border-t border-[#EAECF0] bg-white">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
-                <div class="text-xs font-bold uppercase tracking-wider text-[#00629B]">Pantauan Data Spasial</div>
-                <h2 class="text-3xl font-bold text-[#101828] tracking-tight">
+                <div class="text-xs font-semibold uppercase tracking-wider text-[#00629B]">Pantauan Data Spasial</div>
+                <h2 class="text-3xl font-semibold text-[#101828] tracking-tight">
                     Cakupan Layanan & Pemetaan Spasial
                 </h2>
                 <p class="text-[#475467] text-sm sm:text-base leading-relaxed">
@@ -239,20 +239,20 @@
             {{-- 4-Column Metric Counters IDDS Styled --}}
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center mb-12">
                 <div class="p-6 bg-[#F8FAFC] rounded-xl border border-[#EAECF0] hover:border-[#BAE3F5] transition">
-                    <div class="text-4xl font-bold text-[#00629B] tracking-tight">18</div>
-                    <div class="text-xs font-bold uppercase tracking-wider text-[#475467] mt-2">Kecamatan Terjangkau</div>
+                    <div class="text-4xl font-semibold text-[#00629B] tracking-tight">18</div>
+                    <div class="text-xs font-semibold uppercase tracking-wider text-[#475467] mt-2">Kecamatan Terjangkau</div>
                 </div>
                 <div class="p-6 bg-[#F8FAFC] rounded-xl border border-[#EAECF0] hover:border-[#BAE3F5] transition">
-                    <div class="text-4xl font-bold text-[#00629B] tracking-tight">239</div>
-                    <div class="text-xs font-bold uppercase tracking-wider text-[#475467] mt-2">Desa & Kelurahan</div>
+                    <div class="text-4xl font-semibold text-[#00629B] tracking-tight">239</div>
+                    <div class="text-xs font-semibold uppercase tracking-wider text-[#475467] mt-2">Desa & Kelurahan</div>
                 </div>
                 <div class="p-6 bg-[#F8FAFC] rounded-xl border border-[#EAECF0] hover:border-[#BAE3F5] transition">
-                    <div class="text-4xl font-bold text-[#00629B] tracking-tight">5.000 L</div>
-                    <div class="text-xs font-bold uppercase tracking-wider text-[#475467] mt-2">Standar per Tangki</div>
+                    <div class="text-4xl font-semibold text-[#00629B] tracking-tight">5.000 L</div>
+                    <div class="text-xs font-semibold uppercase tracking-wider text-[#475467] mt-2">Standar per Tangki</div>
                 </div>
                 <div class="p-6 bg-[#F8FAFC] rounded-xl border border-[#EAECF0] hover:border-[#BAE3F5] transition">
-                    <div class="text-4xl font-bold text-[#00629B] tracking-tight">100%</div>
-                    <div class="text-xs font-bold uppercase tracking-wider text-[#475467] mt-2">Penilaian Terbuka</div>
+                    <div class="text-4xl font-semibold text-[#00629B] tracking-tight">100%</div>
+                    <div class="text-xs font-semibold uppercase tracking-wider text-[#475467] mt-2">Penilaian Terbuka</div>
                 </div>
             </div>
 
@@ -263,12 +263,12 @@
                     <line x1="0" y1="100" x2="100" y2="0" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"/>
                 </svg>
                 <div class="relative z-10 text-center space-y-2 bg-white/95 backdrop-blur-xs p-6 rounded-xl border border-[#BAE3F5] shadow-sm max-w-md mx-4">
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EBF5FB] text-[11px] font-bold text-[#00629B] uppercase tracking-wider">
+                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EBF5FB] text-[11px] font-semibold text-[#00629B] uppercase tracking-wider">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#00629B]"></span>
                         Wadah Peta Interaktif GIS (Leaflet)
                     </div>
                     <p class="text-xs text-[#475467] leading-relaxed">Menampilkan layer GeoJSON 18 kecamatan dan sebaran titik penampungan air desa.</p>
-                    <a href="{{ route('admin.pemetaan.index') }}" class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-[#00629B] hover:text-[#004F7D] transition">
+                    <a href="{{ route('admin.pemetaan.index') }}" class="inline-flex items-center gap-1 mt-2 text-xs font-semibold text-[#00629B] hover:text-[#004F7D] transition">
                         <span>Buka Peta GIS Lengkap</span>
                         <span>&rarr;</span>
                     </a>
@@ -280,15 +280,15 @@
     {{-- 5. SECTION: PARTNERS / MITRA TERKAIT --}}
     <section class="py-14 border-t border-[#EAECF0] bg-[#F8FAFC]">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-[#667085] mb-8">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-[#667085] mb-8">
                 Mitra & Lembaga Terkait
             </h3>
             <div class="flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-75">
-                <span class="font-bold text-[#475467] hover:text-[#00629B] text-sm transition">PEMKAB PURBALINGGA</span>
-                <span class="font-bold text-[#475467] hover:text-[#00629B] text-sm transition">BPBD JAWA TENGAH</span>
-                <span class="font-bold text-[#475467] hover:text-[#00629B] text-sm transition">BMKG STASIUN METEOROLOGI</span>
-                <span class="font-bold text-[#475467] hover:text-[#00629B] text-sm transition">PMI PURBALINGGA</span>
-                <span class="font-bold text-[#475467] hover:text-[#00629B] text-sm transition">PDAM TIRTA PERWIRA</span>
+                <span class="font-semibold text-[#475467] hover:text-[#00629B] text-sm transition">PEMKAB PURBALINGGA</span>
+                <span class="font-semibold text-[#475467] hover:text-[#00629B] text-sm transition">BPBD JAWA TENGAH</span>
+                <span class="font-semibold text-[#475467] hover:text-[#00629B] text-sm transition">BMKG STASIUN METEOROLOGI</span>
+                <span class="font-semibold text-[#475467] hover:text-[#00629B] text-sm transition">PMI PURBALINGGA</span>
+                <span class="font-semibold text-[#475467] hover:text-[#00629B] text-sm transition">PDAM TIRTA PERWIRA</span>
             </div>
         </div>
     </section>
@@ -297,8 +297,8 @@
     <section id="program" class="py-20 border-t border-[#EAECF0] bg-white">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
-                <div class="text-xs font-bold uppercase tracking-wider text-[#00629B]">Laporan Lapangan</div>
-                <h2 class="text-3xl font-bold text-[#101828] tracking-tight">
+                <div class="text-xs font-semibold uppercase tracking-wider text-[#00629B]">Laporan Lapangan</div>
+                <h2 class="text-3xl font-semibold text-[#101828] tracking-tight">
                     Dokumentasi Penyaluran Terkini
                 </h2>
                 <p class="text-[#475467] text-sm sm:text-base leading-relaxed">
@@ -322,14 +322,14 @@
                             </span>
                         </div>
                         <div class="p-6 space-y-2">
-                            <h3 class="font-bold text-lg text-[#101828] group-hover:text-[#00629B] transition">Distribusi Tangki Air Desa Serang</h3>
+                            <h3 class="font-semibold text-lg text-[#101828] group-hover:text-[#00629B] transition">Distribusi Tangki Air Desa Serang</h3>
                             <p class="text-xs text-[#475467] leading-relaxed">
                                 Penyaluran 15.000 liter air bersih untuk 240 Kepala Keluarga di Dusun 3 yang terdampak penurunan debit mata air.
                             </p>
                         </div>
                     </div>
                     <div class="px-6 pb-6">
-                        <a href="#kontak" class="text-xs font-bold text-[#00629B] hover:text-[#004F7D] inline-flex items-center gap-1 transition">
+                        <a href="#kontak" class="text-xs font-semibold text-[#00629B] hover:text-[#004F7D] inline-flex items-center gap-1 transition">
                             <span>Selengkapnya</span>
                             <span>&rarr;</span>
                         </a>
@@ -350,14 +350,14 @@
                             </span>
                         </div>
                         <div class="p-6 space-y-2">
-                            <h3 class="font-bold text-lg text-[#101828] group-hover:text-[#00629B] transition">Pasokan Tandon Komunal Kertanegara</h3>
+                            <h3 class="font-semibold text-lg text-[#101828] group-hover:text-[#00629B] transition">Pasokan Tandon Komunal Kertanegara</h3>
                             <p class="text-xs text-[#475467] leading-relaxed">
                                 Pengisian 2 tangki armada ke tandon penampungan umum guna memenuhi kebutuhan sanitasi dan konsumsi warga.
                             </p>
                         </div>
                     </div>
                     <div class="px-6 pb-6">
-                        <a href="#kontak" class="text-xs font-bold text-[#00629B] hover:text-[#004F7D] inline-flex items-center gap-1 transition">
+                        <a href="#kontak" class="text-xs font-semibold text-[#00629B] hover:text-[#004F7D] inline-flex items-center gap-1 transition">
                             <span>Selengkapnya</span>
                             <span>&rarr;</span>
                         </a>
@@ -378,14 +378,14 @@
                             </span>
                         </div>
                         <div class="p-6 space-y-2">
-                            <h3 class="font-bold text-lg text-[#101828] group-hover:text-[#00629B] transition">Bantuan Air Bersih Fasilitas Bobotsari</h3>
+                            <h3 class="font-semibold text-lg text-[#101828] group-hover:text-[#00629B] transition">Bantuan Air Bersih Fasilitas Bobotsari</h3>
                             <p class="text-xs text-[#475467] leading-relaxed">
                                 Respon tanggap darurat pasokan air bersih bagi fasilitas asrama pondok pesantren dan layanan masyarakat sekitar.
                             </p>
                         </div>
                     </div>
                     <div class="px-6 pb-6">
-                        <a href="#kontak" class="text-xs font-bold text-[#00629B] hover:text-[#004F7D] inline-flex items-center gap-1 transition">
+                        <a href="#kontak" class="text-xs font-semibold text-[#00629B] hover:text-[#004F7D] inline-flex items-center gap-1 transition">
                             <span>Selengkapnya</span>
                             <span>&rarr;</span>
                         </a>
@@ -408,8 +408,8 @@
     <section class="py-20 border-t border-[#EAECF0] bg-[#F8FAFC]">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
-                <div class="text-xs font-bold uppercase tracking-wider text-[#00629B]">Suara Penerima Manfaat</div>
-                <h2 class="text-3xl font-bold text-[#101828] tracking-tight">
+                <div class="text-xs font-semibold uppercase tracking-wider text-[#00629B]">Suara Penerima Manfaat</div>
+                <h2 class="text-3xl font-semibold text-[#101828] tracking-tight">
                     Aspirasi & Laporan Penerima Manfaat
                 </h2>
                 <p class="text-[#475467] text-sm sm:text-base leading-relaxed">
@@ -424,11 +424,11 @@
                         "Dengan sistem penilaian objektif ini, desa kami yang posisinya di perbukitan tinggi bisa mendapatkan alokasi armada tangki secara pasti tanpa harus bolak-balik mengajukan proposal manual."
                     </p>
                     <div class="flex items-center gap-3 pt-2 border-t border-[#EAECF0]">
-                        <div class="w-10 h-10 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-xs font-bold text-[#00629B]">
+                        <div class="w-10 h-10 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-xs font-semibold text-[#00629B]">
                             ST
                         </div>
                         <div>
-                            <div class="text-sm font-bold text-[#101828]">Sutrisno</div>
+                            <div class="text-sm font-semibold text-[#101828]">Sutrisno</div>
                             <div class="text-xs text-[#667085]">Kepala Desa Serang, Karangreja</div>
                         </div>
                     </div>
@@ -440,11 +440,11 @@
                         "Penyaluran air tepat waktu dan koordinasi pengemudi tangki ke tandon komunal RT sangat jelas. Warga dapat memantau kapan armada tiba melalui pengumuman perangkat desa."
                     </p>
                     <div class="flex items-center gap-3 pt-2 border-t border-[#EAECF0]">
-                        <div class="w-10 h-10 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-xs font-bold text-[#00629B]">
+                        <div class="w-10 h-10 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-xs font-semibold text-[#00629B]">
                             WA
                         </div>
                         <div>
-                            <div class="text-sm font-bold text-[#101828]">Wahyudi Ansori</div>
+                            <div class="text-sm font-semibold text-[#101828]">Wahyudi Ansori</div>
                             <div class="text-xs text-[#667085]">Perangkat Desa Kertanegara</div>
                         </div>
                     </div>
@@ -471,8 +471,8 @@
                 {{-- Right: Accordion FAQ Items --}}
                 <div class="lg:col-span-7 space-y-6">
                     <div>
-                        <div class="text-xs font-bold uppercase tracking-wider text-[#00629B]">Informasi Publik</div>
-                        <h2 class="text-3xl font-bold text-[#101828] tracking-tight">
+                        <div class="text-xs font-semibold uppercase tracking-wider text-[#00629B]">Informasi Publik</div>
+                        <h2 class="text-3xl font-semibold text-[#101828] tracking-tight">
                             Pertanyaan yang Sering Diajukan
                         </h2>
                         <p class="text-[#475467] text-sm mt-2">
@@ -482,21 +482,21 @@
 
                     <div class="space-y-3 pt-2">
                         <div class="border border-[#EAECF0] hover:border-[#BAE3F5] rounded-xl p-5 bg-[#F8FAFC] hover:bg-white transition">
-                            <h3 class="font-bold text-[#101828] text-sm">Siapa yang berhak mengajukan bantuan air bersih?</h3>
+                            <h3 class="font-semibold text-[#101828] text-sm">Siapa yang berhak mengajukan bantuan air bersih?</h3>
                             <p class="text-xs text-[#475467] mt-2 leading-relaxed">
                                 Permohonan diajukan resmi oleh Pemerintah Desa atas nama warga yang mengalami krisis air melalui surat permohonan Kepala Desa yang diketahui Camat setempat.
                             </p>
                         </div>
 
                         <div class="border border-[#EAECF0] hover:border-[#BAE3F5] rounded-xl p-5 bg-[#F8FAFC] hover:bg-white transition">
-                            <h3 class="font-bold text-[#101828] text-sm">Bagaimana urutan prioritas ditentukan?</h3>
+                            <h3 class="font-semibold text-[#101828] text-sm">Bagaimana urutan prioritas ditentukan?</h3>
                             <p class="text-xs text-[#475467] mt-2 leading-relaxed">
                                 Sistem menggunakan metode AHP-SAW untuk menilai tingkat keparahan krisis, kepadatan jiwa terdampak, serta proporsi kelompok rentan (balita, lansia, dan disabilitas).
                             </p>
                         </div>
 
                         <div class="border border-[#EAECF0] hover:border-[#BAE3F5] rounded-xl p-5 bg-[#F8FAFC] hover:bg-white transition">
-                            <h3 class="font-bold text-[#101828] text-sm">Apakah ada biaya pengiriman atau uang bensin?</h3>
+                            <h3 class="font-semibold text-[#101828] text-sm">Apakah ada biaya pengiriman atau uang bensin?</h3>
                             <p class="text-xs text-[#475467] mt-2 leading-relaxed">
                                 Tidak ada. Seluruh bantuan air bersih beserta operasional armada truk tangki BPBD Kabupaten Purbalingga diberikan gratis 100% tanpa pungutan apa pun.
                             </p>
@@ -512,7 +512,7 @@
         <div class="max-w-7xl mx-auto px-6">
             <div class="bg-gradient-to-r from-[#004F7D] via-[#00629B] to-[#004F7D] text-white rounded-2xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg shadow-[#00629B]/20">
                 <div class="space-y-2 max-w-xl text-center md:text-left">
-                    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">
+                    <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight">
                         Desa Anda Membutuhkan Bantuan Air Segera?
                     </h2>
                     <p class="text-blue-100 text-sm leading-relaxed">
@@ -522,7 +522,7 @@
                 <div class="flex-shrink-0">
                     <a
                         href="tel:0281891234"
-                        class="min-h-[44px] inline-flex items-center justify-center px-6 py-3.5 bg-white hover:bg-[#EBF5FB] text-[#00629B] text-sm font-bold rounded-lg shadow-sm transition"
+                        class="min-h-[44px] inline-flex items-center justify-center px-6 py-3.5 bg-white hover:bg-[#EBF5FB] text-[#00629B] text-sm font-semibold rounded-lg shadow-sm transition"
                     >
                         Hubungi Posko: (0281) 891-234
                     </a>
@@ -545,7 +545,7 @@
                     <div class="w-7 h-7 rounded-lg bg-[#00629B] flex items-center justify-center text-white shadow-xs" aria-hidden="true">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v18M3 12h18"/></svg>
                     </div>
-                    <span class="font-bold text-base">
+                    <span class="font-semibold text-base">
                         <span class="text-[#101828]">Lingga</span><span class="text-[#00629B]">Air</span>
                     </span>
                 </div>
@@ -559,7 +559,7 @@
 
             {{-- Col 2: Layanan --}}
             <div class="space-y-3">
-                <h4 class="font-bold text-[#101828] uppercase tracking-wider text-[11px]">Layanan</h4>
+                <h4 class="font-semibold text-[#101828] uppercase tracking-wider text-[11px]">Layanan</h4>
                 <ul class="space-y-2">
                     <li><a href="{{ route('cek-kelayakan.index') }}" class="hover:text-[#00629B] transition">Cek Kelayakan</a></li>
                     <li><a href="{{ route('admin.pemetaan.index') }}" class="hover:text-[#00629B] transition">Peta Sebaran GIS</a></li>
@@ -570,7 +570,7 @@
 
             {{-- Col 3: Portal --}}
             <div class="space-y-3">
-                <h4 class="font-bold text-[#101828] uppercase tracking-wider text-[11px]">Akses</h4>
+                <h4 class="font-semibold text-[#101828] uppercase tracking-wider text-[11px]">Akses</h4>
                 <ul class="space-y-2">
                     <li><a href="{{ route('login') }}" class="hover:text-[#00629B] transition">Login Verifikator</a></li>
                     <li><a href="{{ route('login') }}" class="hover:text-[#00629B] transition">Login Pengemudi</a></li>
@@ -581,14 +581,14 @@
 
             {{-- Col 4: Posko Siaga --}}
             <div class="space-y-3">
-                <h4 class="font-bold text-[#101828] uppercase tracking-wider text-[11px]">Posko Siaga</h4>
+                <h4 class="font-semibold text-[#101828] uppercase tracking-wider text-[11px]">Posko Siaga</h4>
                 <p class="text-[#667085]">Hotline: (0281) 891-234</p>
                 <p class="text-[#667085]">WA: 0812-3456-7890</p>
                 <div class="flex items-center gap-2 pt-2">
-                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-bold">X</span>
-                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-bold">FB</span>
-                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-bold">IG</span>
-                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-bold">YT</span>
+                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-semibold">X</span>
+                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-semibold">FB</span>
+                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-semibold">IG</span>
+                    <span class="w-6 h-6 rounded-full bg-[#EBF5FB] border border-[#BAE3F5] flex items-center justify-center text-[10px] text-[#00629B] font-semibold">YT</span>
                 </div>
             </div>
         </div>
@@ -608,3 +608,25 @@
     </div>
 </footer>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const navbar = document.getElementById('main-navbar');
+        if (!navbar) return;
+
+        function handleScroll() {
+            if (window.scrollY > 80) {
+                navbar.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                navbar.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto', 'shadow-xs');
+            } else {
+                navbar.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+                navbar.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto', 'shadow-xs');
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+    });
+</script>
+@endpush
