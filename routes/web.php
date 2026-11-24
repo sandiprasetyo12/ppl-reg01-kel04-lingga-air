@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DesaController;
 use App\Http\Controllers\CekKelayakanController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\LaporanController;
 
 // Route Public
 Route::get('/', function () {
@@ -29,6 +30,12 @@ Route::middleware(['auth', 'role:bpbd'])->prefix('verifikasi')->name('verifikasi
     Route::get('/{id}', [VerifikasiController::class, 'show'])->name('show');
     // PBI-011 & PBI-012: Penetapan Keputusan (Disetujui, Ditolak, Revisi) + Audit Trail Log
     Route::post('/{id}/keputusan', [VerifikasiController::class, 'prosesKeputusan'])->name('keputusan');
+});
+
+// Fitur F-08: Laporan Penyaluran Air Bersih (BPBD Purbalingga - PBI-022 & PBI-024)
+Route::middleware(['auth', 'role:bpbd'])->prefix('laporan')->name('laporan.')->group(function () {
+    Route::get('/', [LaporanController::class, 'indexBPBD'])->name('index');
+    Route::get('/ekspor', [LaporanController::class, 'export'])->name('export');
 });
 
 // Route Auth (Guest Only)
@@ -96,4 +103,10 @@ Route::middleware(['auth', 'onboarding', 'role:penyalur'])->prefix('penyalur')->
     Route::get('/dashboard', function () {
         return view('penyalur.dashboard');
     })->name('dashboard');
+
+    // Fitur F-08: Laporan Penyaluran Milik Penyalur (PBI-023 & PBI-024)
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [LaporanController::class, 'indexPenyalur'])->name('index');
+        Route::get('/ekspor', [LaporanController::class, 'export'])->name('export');
+    });
 });

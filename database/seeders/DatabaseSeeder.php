@@ -197,5 +197,8 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now()->subHours(2),
             ]
         );
+
+        // 6. Panggil seeder rekap penyaluran F-08 (PBI-022, PBI-023, PBI-024)
+        $this->call([PenyaluranSeeder::class]);
     }
 }
