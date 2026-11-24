@@ -4,7 +4,7 @@
        ========================================================================= */
     .role-sidebar-shell {
         display: grid;
-        grid-template-columns: 220px minmax(0, 1fr) !important;
+        grid-template-columns: 205px minmax(0, 1fr) !important;
         grid-template-rows: 58px minmax(0, 1fr);
         min-width: 0;
         min-height: 100vh;
@@ -23,7 +23,7 @@
         display: flex;
         min-width: 0;
         flex-direction: column;
-        padding: 0 14px 16px;
+        padding: 0 12px 16px;
         border-right: 1px solid #EAECF0;
         background: #fff;
     }
@@ -44,9 +44,9 @@
     }
     .role-sidebar-brand img {
         display: block;
-        width: 150px;
+        width: 140px;
         max-width: 100%;
-        max-height: 38px;
+        max-height: 36px;
         object-fit: contain;
         object-position: left center;
     }
@@ -70,34 +70,34 @@
     }
     .role-sidebar-toggle:hover { color: #00629B; }
     .role-sidebar-section {
-        margin: 10px 0 7px 10px;
+        margin: 10px 0 6px 8px;
         color: #667085;
-        font-size: .62rem;
+        font-size: .60rem;
         font-weight: 800;
         letter-spacing: .08em;
         text-transform: uppercase;
     }
-    .role-sidebar-nav { display: grid; gap: 4px; }
+    .role-sidebar-nav { display: grid; gap: 3px; }
     .role-sidebar-link {
         display: flex;
         min-width: 0;
-        min-height: 36px;
+        min-height: 34px;
         align-items: center;
-        gap: 10px;
-        padding: 0 10px;
-        border-radius: 9px;
+        gap: 8px;
+        padding: 0 8px;
+        border-radius: 8px;
         color: #344054;
-        font-size: .69rem;
+        font-size: .68rem;
         font-weight: 500;
         text-decoration: none;
         transition: background .14s ease, color .14s ease;
     }
     .role-sidebar-link > i {
         display: grid;
-        flex: 0 0 16px;
+        flex: 0 0 15px;
         place-items: center;
         color: #667085;
-        font-size: .78rem;
+        font-size: .75rem;
     }
     .role-sidebar-link:hover:not(.active):not(.disabled) { background: #F2F4F7; color: #00629B; }
     .role-sidebar-link.active { background: #00629B; color: #fff; font-weight: 700; }
@@ -143,10 +143,6 @@
         border-bottom: 1px solid #EAECF0;
         background: #fff;
     }
-    .role-header-search { display: flex; min-width: 80px; max-width: 520px; height: 36px; flex: 1 1 280px; align-items: center; gap: 9px; padding: 0 11px; border: 1px solid #EAECF0; border-radius: 8px; background: #F8FAFC; color: #98A2B3; }
-    .role-header-search i { font-size: .75rem; }
-    .role-header-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: #344054; font: inherit; font-size: .68rem; }
-    .role-header-search input::placeholder { color: #98A2B3; }
     .role-header-actions { display: flex; align-items: center; gap: 14px; margin-left: auto; }
     .role-header-notifications { position: relative; display: grid; width: 30px; height: 34px; place-items: center; border: 0; background: transparent; color: #475467; font-size: .95rem; }
     .role-header-notification-dot { position: absolute; top: 4px; right: 2px; width: 7px; height: 7px; border: 1px solid #fff; border-radius: 50%; background: #F04438; }
@@ -197,13 +193,10 @@
         .role-sidebar-shell.is-sidebar-collapsed .role-sidebar-link { justify-content: flex-start; }
 
         .role-header { min-height: 54px; gap: 12px; padding: 7px 14px; }
-        .role-header-search { height: 33px; }
-        .role-header-search input { font-size: .64rem; }
         .role-header-actions { gap: 8px; }
         .role-header-account-copy { display: none; }
     }
     @media (max-width: 430px) {
         .role-header { gap: 8px; padding-right: 10px; padding-left: 10px; }
-        .role-header-search { flex-basis: 90px; padding: 0 8px; }
     }
 </style>

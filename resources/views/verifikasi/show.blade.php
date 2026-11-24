@@ -89,12 +89,12 @@
             </div>
 
             <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-<!-- Tombol Kembali ke Antrean -->
+                <!-- Tombol Kembali ke Antrean -->
                 <a 
                     href="{{ route('verifikasi.index') }}" 
-                    class="px-3 py-1.5 bg-[#00629B] text-white hover:bg-[#004F7D] rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-xs"
+                    class="min-h-[38px] px-3.5 py-1.5 bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] active:scale-[0.99] text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-xs"
                 >
-                    <i class="fa-solid fa-list-check"></i>
+                    <i class="fa-solid fa-list-check text-xs"></i>
                     <span>Daftar Antrean</span>
                 </a>
             </div>
@@ -712,11 +712,11 @@
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="mt-auto py-3 border-t border-[#00629B] text-center text-[10.5px] text-[#98A2B3] bg-[#101828]">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-1">
-                <p>BPBD Kabupaten Purbalingga &middot; Sistem Informasi Pendukung Keputusan Distribusi Air Bersih Darurat</p>
-                <p>&copy; {{ date('Y') }} Lingga Air &middot; Proyek Perangkat Lunak Kelompok 4</p>
+        <!-- Footer Institusional Bersih -->
+        <footer class="mt-auto py-4 border-t border-[#EAECF0] bg-white text-xs text-[#667085]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+                <p>Badan Penanggulangan Bencana Daerah (BPBD) Kabupaten Purbalingga &middot; SPK Distribusi Air Bersih Darurat</p>
+                <p>&copy; {{ date('Y') }} LinggaAir &middot; INA Digital Design System Standard</p>
             </div>
         </footer>
 

@@ -33,7 +33,6 @@
                 ['Master Data Desa', 'fa-database', 'admin.desa.index', request()->routeIs('admin.desa.*')],
                 ['Feedback', 'fa-comment-dots', null, false],
             ],
-            'hasUtility' => true,
         ],
         'desa' => [
             'aria' => 'Sidebar Perwakilan Desa',
@@ -46,7 +45,6 @@
                 ['Lacak Pengajuan', 'fa-location-dot', 'pengajuan.index', request()->routeIs('pengajuan.index')],
                 ['Feedback', 'fa-comment-dots', null, false],
             ],
-            'hasUtility' => true,
         ],
         'penyalur' => [
             'aria' => 'Sidebar Mitra Penyalur',
@@ -56,7 +54,6 @@
                 ['Dashboard Penyalur', 'fa-table-cells-large', 'penyalur.dashboard', request()->routeIs('penyalur.dashboard')],
                 ['Laporan Penyaluran', 'fa-chart-column', 'penyalur.laporan.index', request()->routeIs('penyalur.laporan.*')],
             ],
-            'hasUtility' => false,
         ],
         default => [
             'aria' => 'Menu Lingga Air',
@@ -66,7 +63,6 @@
                 ['Beranda', 'fa-house', 'home', request()->routeIs('home')],
                 ['Masuk', 'fa-arrow-right-to-bracket', 'login', request()->routeIs('login')],
             ],
-            'hasUtility' => false,
         ],
     };
 
@@ -84,11 +80,6 @@
 {{-- ==================== TOPBAR HEADER ==================== --}}
 @if ($renderHeader)
     <header class="role-header">
-        <label class="role-header-search">
-            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-            <input type="search" placeholder="Cari pengajuan atau bantuan" aria-label="Cari pengajuan atau bantuan">
-        </label>
-
         <div class="role-header-actions">
             <button type="button" class="role-header-notifications" aria-label="Notifikasi">
                 <i class="fa-regular fa-bell" aria-hidden="true"></i>
@@ -158,21 +149,6 @@
             @endforeach
         </div>
     </nav>
-
-    {{-- Menu Pendukung / Utility (hanya untuk Admin & Desa) --}}
-    @if ($sidebarConfig['hasUtility'])
-        <hr class="role-sidebar-divider">
-        <nav aria-label="Menu pendukung">
-            <div class="role-sidebar-utility">
-                @foreach ([['Notifikasi', 'fa-bell'], ['Pengaturan', 'fa-gear'], ['Bantuan', 'fa-circle-question']] as [$label, $icon])
-                    <span class="role-sidebar-link disabled" aria-disabled="true" title="Menu belum tersedia">
-                        <i class="fa-solid {{ $icon }}" aria-hidden="true"></i>
-                        <span class="role-sidebar-link-label">{{ $label }}</span>
-                    </span>
-                @endforeach
-            </div>
-        </nav>
-    @endif
 
     {{-- Footer Sidebar --}}
     <p class="role-sidebar-footer">&copy; {{ date('Y') }} Lingga Air<br>Pemerintah Kabupaten Purbalingga</p>

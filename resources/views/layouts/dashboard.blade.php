@@ -36,13 +36,13 @@
 
     <style>
         *, html, body, input, button, select, textarea { font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif; }
-        body { background: #F8FAFC; color: #101828; }
+        body { background: #F8FAFC; color: #101828; font-size: 0.75rem; /* 12px compact base */ }
         :focus-visible { outline: 2px solid #00629B; outline-offset: 2px; }
         button, a[href] { cursor: pointer; }
         button:disabled { cursor: not-allowed; }
 
-        .dashboard-app { display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: 100vh; transition: grid-template-columns .18s ease; }
-        .dashboard-sidebar { display: flex; min-width: 0; flex-direction: column; padding: 12px 14px 16px; border-right: 1px solid #EAECF0; background: #fff; }
+        .dashboard-app { display: grid; grid-template-columns: 205px minmax(0, 1fr); min-height: 100vh; transition: grid-template-columns .18s ease; }
+        .dashboard-sidebar { display: flex; min-width: 0; flex-direction: column; padding: 10px 12px 14px; border-right: 1px solid #EAECF0; background: #fff; }
         .sidebar-brand-row { position: relative; display: flex; align-items: center; justify-content: flex-start; gap: 8px; min-height: 54px; padding: 0 4px 10px; border-bottom: 1px solid #EAECF0; }
         .sidebar-collapse { position: absolute; right: -22px; bottom: -15px; z-index: 2; display: grid; flex: 0 0 30px; place-items: center; width: 30px; height: 30px; border: 0; border-radius: 0; background: transparent; color: #667085; }
         .sidebar-collapse:hover { color: #00629B; background: transparent; }
@@ -66,16 +66,16 @@
         .sidebar-footer { margin-top: auto; padding: 18px 7px 0; color: #98A2B3; font-size: .62rem; line-height: 1.5; }
 
         .dashboard-main { display: flex; min-width: 0; flex-direction: column; }
-        .dashboard-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; padding: 10px 26px; border-bottom: 1px solid #EAECF0; background: #fff; }
+        .dashboard-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 54px; padding: 8px 20px; border-bottom: 1px solid #EAECF0; background: #fff; }
         .dashboard-header-title { color: #344054; font-size: .78rem; font-weight: 700; }
         .dashboard-account { display: flex; align-items: center; gap: 10px; color: #344054; font-size: .7rem; }
         .dashboard-account-role { color: #667085; font-size: .64rem; }
-        .dashboard-logout { display: inline-flex; align-items: center; justify-content: center; min-height: 34px; padding: 0 11px; border: 1px solid #D0D5DD; border-radius: 8px; background: #fff; color: #344054; font-size: .67rem; font-weight: 600; }
+        .dashboard-logout { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 0 10px; border: 1px solid #D0D5DD; border-radius: 8px; background: #fff; color: #344054; font-size: .67rem; font-weight: 600; }
         .dashboard-logout:hover { background: #F2F4F7; }
-        .dashboard-page-heading { padding: 18px 28px 0; }
-        .dashboard-page-heading h1 { margin: 0; color: #101828; font-size: 1.16rem; font-weight: 800; }
-        .dashboard-content { width: 100%; max-width: 1440px; margin: 0 auto; padding: 18px 28px 36px; }
-        .dashboard-footer { margin-top: auto; padding: 13px 28px; border-top: 1px solid #EAECF0; background: #fff; color: #667085; font-size: .64rem; }
+        .dashboard-page-heading { padding: 12px 20px 0; }
+        .dashboard-page-heading h1 { margin: 0; color: #101828; font-size: 0.875rem; /* 14px */ font-weight: 700; }
+        .dashboard-content { width: 100%; max-width: 1440px; margin: 0 auto; padding: 12px 20px 24px; }
+        .dashboard-footer { margin-top: auto; padding: 10px 20px; border-top: 1px solid #EAECF0; background: #fff; color: #667085; font-size: .625rem; }
         .dashboard-app.is-collapsed { grid-template-columns: 76px minmax(0, 1fr); }
         .dashboard-app.is-collapsed .sidebar-profile-copy,
         .dashboard-app.is-collapsed .sidebar-section,
