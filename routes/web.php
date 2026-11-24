@@ -23,6 +23,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('/peta-gis/data', [PetaGisController::class, 'data'])->name('peta.data');
+
 // Fitur F-04: Verifikasi Pengajuan (BPBD Purbalingga)
 Route::middleware(['auth', 'role:bpbd'])->prefix('verifikasi')->name('verifikasi.')->group(function () {
     // PBI-010: Antrean pengajuan terurut skor AHP-SAW

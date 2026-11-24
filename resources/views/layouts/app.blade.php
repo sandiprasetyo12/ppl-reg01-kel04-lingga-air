@@ -1,6 +1,6 @@
 @hasSection('header')
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="font-sans">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,8 +44,13 @@
     @endif
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        *, html, body, input, button, select, textarea {
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        }
+
         body {
-            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, sans-serif;
             background-color: #F8FAFC;
             color: #101828;
         }

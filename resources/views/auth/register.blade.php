@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="font-sans">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Daftar Akun Baru - Lingga Air | Penyaluran Air Bersih BPBD Purbalingga</title>
+    <title>Daftar Akun Baru - LinggaAir</title>
     
-    <!-- Google Fonts: Poppins -->
+    <!-- Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,33 +16,8 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        idds: {
-                            blue: {
-                                DEFAULT: '#00629B',
-                                hover: '#004F7D',
-                                dark: '#003B5C',
-                                tint: '#EBF5FB',
-                                stroke: '#BAE3F5',
-                            },
-                            neutral: {
-                                25: '#FCFDFD',
-                                50: '#F8FAFC',
-                                100: '#F2F4F7',
-                                200: '#E4E7EC',
-                                300: '#D0D5DD',
-                                500: '#667085',
-                                600: '#475467',
-                                700: '#344054',
-                                900: '#101828',
-                            },
-                        },
-                    },
-                    boxShadow: {
-                        'xs': '0 1px 2px 0 rgba(16, 24, 40, 0.05)',
-                    },
                     fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
+                        sans: ['Poppins', 'ui-sans-serif', 'sans-serif'],
                     }
                 }
             }
@@ -53,280 +25,192 @@
     </script>
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #F8FAFC;
-            color: #101828;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        *, html, body, input, button, select, textarea {
+            font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
         }
-        .hero-register-bg {
-            background: linear-gradient(145deg, #101828 0%, #003B5C 60%, #004F7D 100%);
+
+        body {
+            background-color: #FFFFFF;
+            color: #101828;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Disable native Edge/IE password reveal button so it doesn't overlap or clip */
+        input::-ms-reveal,
+        input::-ms-clear {
+            display: none !important;
+        }
+
+        /* Autofill style to keep background clean white */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+            -webkit-text-fill-color: #101828;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-[#F8FAFC] text-[#101828]">
+<body class="font-sans min-h-screen relative flex flex-col justify-center items-center px-4 py-8 bg-white text-[#101828] antialiased">
 
-    <!-- ==================== TOPBAR NAVIGASI (GAMBAR 3) ==================== -->
-    <header class="bg-white/95 backdrop-blur-md border-b border-[#EAECF0] sticky top-0 z-50 shadow-xs">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 sm:h-14 flex items-center justify-between gap-4">
-            
-            <!-- Logo Lingga Air (Besar & Jelas) -->
-            <a href="{{ url('/') }}" class="flex items-center gap-2 group py-1">
-                <img 
-                    src="{{ asset('images/logo-lingga.png') }}" 
-                    alt="Lingga Air" 
-                    class="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
-                    onerror="this.onerror=null; this.src='https://placehold.co/220x70/00629B/FFFFFF?text=Lingga+Air';"
+    {{-- Breadcrumb 'Beranda/Register' di samping kiri atas --}}
+    <div class="absolute top-5 left-5 sm:top-8 sm:left-10 text-[14px] text-[#475467] flex items-center">
+        <a href="{{ url('/') }}" class="hover:text-[#00629B] transition">Beranda</a>
+        <span class="text-[#D0D5DD] mx-1">/</span>
+        <span class="text-[#101828] font-semibold">Register</span>
+    </div>
+
+    <div class="w-full max-w-[420px] mx-auto my-auto space-y-6">
+        
+        {{-- Header Teks Selaras dengan Onboarding & Login --}}
+        <div class="text-center space-y-1.5">
+            <h1 class="text-2xl sm:text-3xl font-semibold text-[#101828] tracking-tight leading-tight">
+                Daftar Akun Baru
+            </h1>
+            <p class="text-xs sm:text-sm text-[#475467] leading-relaxed font-normal">
+                Isi form berikut untuk membuat akun perwakilan desa atau mitra.
+            </p>
+        </div>
+
+        {{-- Pesan Status / Error Validasi Laravel --}}
+        @if ($errors->any())
+            <div role="alert" class="p-3 rounded-lg bg-[#fff0f0] border border-[#ffd2d2] text-xs text-[#ce1f31]">
+                {{ $errors->first() }}
+            </div>
+        @endif
+
+        {{-- Form Register --}}
+        <form action="{{ route('register') }}" method="POST" id="registerForm" class="space-y-4">
+            @csrf
+
+            {{-- Input Username --}}
+            <div class="space-y-1.5 text-left">
+                <label for="username" class="block text-xs font-semibold text-[#344054]">
+                    Username
+                </label>
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    value="{{ old('username') }}"
+                    maxlength="50"
+                    required
+                    autofocus
+                    autocomplete="username"
+                    placeholder="Contoh: desa_karangreja"
+                    class="w-full h-11 px-3.5 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#101828] placeholder-[#98A2B3] focus:outline-none focus:border-[#00629B] focus:ring-2 focus:ring-[#00629B]/20 transition shadow-xs"
                 >
-            </a>
+            </div>
 
-            <!-- Navigasi Cepat -->
-            <div class="flex items-center gap-3 text-xs font-bold uppercase tracking-wider">
-                <a href="{{ url('/') }}" class="text-[#475467] hover:text-[#00629B] transition flex items-center gap-1.5 text-[11px]">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    <span>Kembali ke Beranda</span>
+            {{-- Input Sandi --}}
+            <div class="space-y-1.5 text-left">
+                <label for="password" class="block text-xs font-semibold text-[#344054]">
+                    Sandi
+                </label>
+                <div class="relative">
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        minlength="8"
+                        required
+                        autocomplete="new-password"
+                        placeholder="Minimal 8 karakter"
+                        class="w-full h-11 pl-3.5 pr-12 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#101828] placeholder-[#98A2B3] focus:outline-none focus:border-[#00629B] focus:ring-2 focus:ring-[#00629B]/20 transition shadow-xs"
+                    >
+                    <button
+                        type="button"
+                        onclick="togglePasswordVisibility('password', 'togglePasswordIcon')"
+                        class="absolute inset-y-0 right-0 w-11 h-11 flex items-center justify-center text-[#667085] hover:text-[#101828] focus:outline-none cursor-pointer transition"
+                        title="Tampilkan atau sembunyikan kata sandi"
+                        aria-label="Tampilkan atau sembunyikan kata sandi"
+                    >
+                        <svg id="togglePasswordIcon" class="w-5 h-5 text-[#667085] hover:text-[#101828] transition shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                            <line x1="2" y1="2" x2="22" y2="22" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {{-- Input Konfirmasi Sandi --}}
+            <div class="space-y-1.5 text-left">
+                <label for="password_confirmation" class="block text-xs font-semibold text-[#344054]">
+                    Ulangi Sandi
+                </label>
+                <div class="relative">
+                    <input
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        type="password"
+                        minlength="8"
+                        required
+                        autocomplete="new-password"
+                        placeholder="Ulangi kata sandi"
+                        class="w-full h-11 pl-3.5 pr-12 bg-white border border-[#D0D5DD] rounded-lg text-sm text-[#101828] placeholder-[#98A2B3] focus:outline-none focus:border-[#00629B] focus:ring-2 focus:ring-[#00629B]/20 transition shadow-xs"
+                    >
+                    <button
+                        type="button"
+                        onclick="togglePasswordVisibility('password_confirmation', 'togglePasswordConfirmIcon')"
+                        class="absolute inset-y-0 right-0 w-11 h-11 flex items-center justify-center text-[#667085] hover:text-[#101828] focus:outline-none cursor-pointer transition"
+                        title="Tampilkan atau sembunyikan konfirmasi sandi"
+                        aria-label="Tampilkan atau sembunyikan konfirmasi sandi"
+                    >
+                        <svg id="togglePasswordConfirmIcon" class="w-5 h-5 text-[#667085] hover:text-[#101828] transition shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                            <line x1="2" y1="2" x2="22" y2="22" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {{-- Tombol Register --}}
+            <div class="pt-1">
+                <button
+                    type="submit"
+                    class="w-full h-11 rounded-lg bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white font-medium text-sm flex items-center justify-center cursor-pointer transition shadow-xs"
+                >
+                    Register
+                </button>
+            </div>
+
+            {{-- Teks Masuk Akun di Bawah Tombol --}}
+            <div class="text-center text-xs sm:text-sm text-[#475467] pt-2">
+                <span>Sudah memiliki akun?</span>
+                <a href="{{ route('login') }}" class="font-semibold text-[#00629B] hover:text-[#004F7D] hover:underline ml-1">
+                    Log In
                 </a>
-                <a href="{{ route('login') }}" class="px-3.5 py-1.5 rounded-lg border border-[#D0D5DD] bg-white text-[#344054] hover:bg-[#F2F4F7] text-[11px] font-bold transition shadow-xs">
-                    Masuk Akun
-                </a>
             </div>
+        </form>
 
-        </div>
-    </header>
-
-    <!-- ==================== KONTEN REGISTER UTAMA (GAMBAR 3, 4, 5) ==================== -->
-    <main class="flex-1 flex items-center justify-center py-2 px-4 sm:px-6">
-        <div class="max-w-4xl w-full bg-white rounded-2xl border border-[#E4E7EC] shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-12 my-auto">
-            
-            <!-- KOLOM KIRI: KONSEP PENYALURAN AIR BERSIH (GAMBAR 3 & 4) -->
-            <div class="hero-register-bg lg:col-span-5 p-4 sm:p-5 text-white flex flex-col justify-center relative">
-                <div class="space-y-2.5 relative z-10">
-                    
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EBF5FB] text-[#00629B] text-[9.5px] font-extrabold uppercase tracking-wider shadow-xs">
-                        <i class="fa-solid fa-id-card-clip text-[#00629B]"></i>
-                        <span>PENDAFTARAN AKUN RESMI</span>
-                    </div>
-
-                    <h2 class="text-base sm:text-lg font-extrabold leading-snug tracking-tight text-white drop-shadow-xs">
-                        Bergabung Dalam Jaringan Tanggap Darurat Air Bersih
-                    </h2>
-
-                    <p class="text-[10.5px] text-slate-200 leading-relaxed font-normal">
-                        Daftarkan akun perwakilan desa atau mitra penyalur untuk simulasi kelayakan krisis air, pengajuan armada tangki, dan distribusi bantuan resmi BPBD Purbalingga.
-                    </p>
-
-                    <!-- Langkah Pendaftaran -->
-                    <div class="space-y-1.5 pt-0.5">
-                        <div class="flex items-center gap-2 p-1.5 px-2.5 rounded-lg bg-white/10 backdrop-blur-xs border border-white/15">
-                            <div class="w-6 h-6 rounded-full bg-[#BAE3F5] text-[#003B5C] flex items-center justify-center font-bold text-[9.5px] shrink-0">
-                                1
-                            </div>
-                            <div class="text-[9.5px]">
-                                <p class="font-bold text-white leading-tight">Buat Kredensial Akun</p>
-                                <p class="text-slate-300 text-[8.5px] leading-tight">Daftarkan username dan kata sandi aparatur desa.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2 p-1.5 px-2.5 rounded-lg bg-white/10 backdrop-blur-xs border border-white/15">
-                            <div class="w-6 h-6 rounded-full bg-[#BAE3F5] text-[#003B5C] flex items-center justify-center font-bold text-[9.5px] shrink-0">
-                                2
-                            </div>
-                            <div class="text-[9.5px]">
-                                <p class="font-bold text-white leading-tight">Pilih Peran &amp; Tautkan Desa</p>
-                                <p class="text-slate-300 text-[8.5px] leading-tight">Pilih nama desa dan konfirmasi data kependudukan.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2 p-1.5 px-2.5 rounded-lg bg-white/10 backdrop-blur-xs border border-white/15">
-                            <div class="w-6 h-6 rounded-full bg-[#00629B] text-white flex items-center justify-center font-bold text-[9.5px] shrink-0">
-                                3
-                            </div>
-                            <div class="text-[9.5px]">
-                                <p class="font-bold text-white leading-tight">Siap Ajukan Bantuan Pasokan Air</p>
-                                <p class="text-slate-300 text-[8.5px] leading-tight">Akses Cek Kelayakan Mandiri dan tiket distribusi.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- KOLOM KANAN: FORMULIR REGISTER -->
-            <div class="lg:col-span-7 p-4 sm:p-5 bg-white flex flex-col justify-center space-y-2.5">
-                
-                <div>
-                    <span class="text-[9.5px] font-bold uppercase tracking-wider text-[#00629B]">REGISTRASI PENGGUNA BARU</span>
-                    <h1 class="text-base sm:text-lg font-extrabold text-[#101828] tracking-tight mt-0.5">Daftar Akun Baru</h1>
-                    <p class="text-[10.5px] text-[#475467]">Akun perwakilan aparatur desa atau mitra penyalur air bersih.</p>
-                </div>
-
-                <!-- Pesan Error -->
-                @if ($errors->any())
-                    <div role="alert" class="p-2 rounded-lg bg-[#FEF3F2] border border-[#FECDCA] text-[10.5px] text-[#B42318] flex items-start gap-2">
-                        <i class="fa-solid fa-circle-exclamation text-[#B42318] text-xs mt-0.5"></i>
-                        <span>{{ $errors->first() }}</span>
-                    </div>
-                @endif
-
-                <!-- Form Register -->
-                <form action="{{ route('register') }}" method="POST" class="space-y-2">
-                    @csrf
-
-                    <!-- Input Username -->
-                    <div>
-                        <label for="username" class="block text-[10px] font-bold text-[#344054] uppercase tracking-wide mb-0.5">
-                            Username
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-[#667085]">
-                                <i class="fa-solid fa-user text-[10px]"></i>
-                            </span>
-                            <input
-                                id="username"
-                                name="username"
-                                type="text"
-                                value="{{ old('username') }}"
-                                maxlength="50"
-                                required
-                                autofocus
-                                autocomplete="username"
-                                placeholder="Contoh: desa_karangreja"
-                                class="w-full pl-7 pr-3 py-1.5 bg-white border border-[#D0D5DD] rounded-lg text-xs text-[#101828] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#00629B]/20 focus:border-[#00629B] transition shadow-xs"
-                            >
-                        </div>
-                        <p class="mt-0.5 text-[9px] text-[#667085]">Gunakan nama desa atau identitas aparatur resmi.</p>
-                        @error('username')
-                            <p role="alert" class="mt-0.5 text-[10px] text-[#B42318] font-medium">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Input Password -->
-                    <div>
-                        <div class="flex items-center justify-between mb-0.5">
-                            <label for="password" class="block text-[10px] font-bold text-[#344054] uppercase tracking-wide">
-                                Kata Sandi
-                            </label>
-                            <span class="text-[9px] text-[#667085]">Min. 8 karakter</span>
-                        </div>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-[#667085]">
-                                <i class="fa-solid fa-lock text-[10px]"></i>
-                            </span>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                minlength="8"
-                                required
-                                autocomplete="new-password"
-                                placeholder="••••••••"
-                                class="w-full pl-7 pr-8 py-1.5 bg-white border border-[#D0D5DD] rounded-lg text-xs text-[#101828] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#00629B]/20 focus:border-[#00629B] transition shadow-xs"
-                            >
-                            <button
-                                type="button"
-                                onclick="togglePasswordVisibility('password', 'togglePasswordIcon')"
-                                class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-[#667085] hover:text-[#00629B] focus:outline-none cursor-pointer transition"
-                                title="Lihat kata sandi"
-                                aria-label="Lihat atau sembunyikan kata sandi"
-                            >
-                                <i id="togglePasswordIcon" class="fa-solid fa-eye text-xs"></i>
-                            </button>
-                        </div>
-                        @error('password')
-                            <p role="alert" class="mt-0.5 text-[10px] text-[#B42318] font-medium">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Input Konfirmasi Password -->
-                    <div>
-                        <label for="password_confirmation" class="block text-[10px] font-bold text-[#344054] uppercase tracking-wide mb-0.5">
-                            Ulangi Kata Sandi
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-[#667085]">
-                                <i class="fa-solid fa-check-double text-[10px]"></i>
-                            </span>
-                            <input
-                                id="password_confirmation"
-                                name="password_confirmation"
-                                type="password"
-                                minlength="8"
-                                required
-                                autocomplete="new-password"
-                                placeholder="••••••••"
-                                class="w-full pl-7 pr-8 py-1.5 bg-white border border-[#D0D5DD] rounded-lg text-xs text-[#101828] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#00629B]/20 focus:border-[#00629B] transition shadow-xs"
-                            >
-                            <button
-                                type="button"
-                                onclick="togglePasswordVisibility('password_confirmation', 'togglePasswordConfirmIcon')"
-                                class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-[#667085] hover:text-[#00629B] focus:outline-none cursor-pointer transition"
-                                title="Lihat konfirmasi kata sandi"
-                                aria-label="Lihat atau sembunyikan konfirmasi kata sandi"
-                            >
-                                <i id="togglePasswordConfirmIcon" class="fa-solid fa-eye text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Tombol Daftar -->
-                    <div class="pt-0.5">
-                        <button
-                            type="submit"
-                            class="w-full py-2.5 px-4 rounded-lg bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white font-bold text-xs uppercase tracking-wider shadow-sm shadow-[#00629B]/20 transition flex items-center justify-center gap-2 cursor-pointer"
-                        >
-                            <i class="fa-solid fa-user-plus text-[11px]"></i>
-                            <span>Daftar Akun Baru</span>
-                        </button>
-                    </div>
-
-                </form>
-
-                <!-- Link Masuk & Info Role Admin -->
-                <div class="pt-2 border-t border-[#EAECF0] text-[10.5px] text-[#475467] space-y-0.5">
-                    <p class="leading-relaxed">
-                        Sudah memiliki akun resmi? Silakan 
-                        <a href="{{ route('login') }}" class="font-bold text-[#00629B] hover:text-[#004F7D] hover:underline inline-flex items-center gap-0.5">
-                            <span>Masuk di Sini</span>
-                            <i class="fa-solid fa-arrow-right text-[8.5px]"></i>
-                        </a>
-                    </p>
-                    <p class="text-[9.5px] text-[#667085] leading-tight">
-                        Bagi <strong>Petugas BPBD (Admin)</strong>, akun dikelola langsung oleh administrator sistem.
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-    </main>
-
-    <!-- ==================== FOOTER KECIL (GAMBAR 5 BAWAH) ==================== -->
-    <footer class="bg-[#101828] text-white py-2 sm:py-2.5 border-t-2 border-[#00629B] text-center text-[#667085]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-1 text-[10px]">
-            <p>
-                BPBD Kabupaten Purbalingga &middot; Sistem Distribusi Bantuan Air Bersih Darurat
-            </p>
-            <p class="text-[#667085]">
-                &copy; {{ date('Y') }} Lingga Air &middot; INA Digital Design System
-            </p>
-        </div>
-    </footer>
+    </div>
 
     <script>
         function togglePasswordVisibility(inputId, iconId) {
             const input = document.getElementById(inputId);
-            const icon = document.getElementById(iconId);
-            if (!input || !icon) return;
+            const iconSvg = document.getElementById(iconId);
+            if (!input || !iconSvg) return;
             
             if (input.type === 'password') {
                 input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-                icon.classList.add('text-[#619DC6]');
+                iconSvg.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                `;
             } else {
                 input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.remove('text-[#619DC6]');
-                icon.classList.add('fa-eye');
+                iconSvg.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                    <line x1="2" y1="2" x2="22" y2="22" stroke-linecap="round" stroke-linejoin="round"/>
+                `;
             }
         }
     </script>

@@ -1,154 +1,178 @@
 @extends('layouts.app')
 
-@section('title', 'Pilih Peran - Lingga Air')
+@section('title', 'Pilih Peran Akun - Onboarding LinggaAir')
 
 @section('header')
-<header class="bg-white border-b border-[#EAECF0] sticky top-0 z-30 shadow-xs">
-    <nav aria-label="Menu onboarding" class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-        <a href="{{ url('/') }}" class="min-h-[44px] inline-flex items-center group">
-            <img 
-                src="{{ asset('images/logo-lingga.png') }}" 
-                alt="Lingga Air" 
-                class="h-9 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
-                onerror="this.onerror=null; this.src='https://placehold.co/180x60/00629B/FFFFFF?text=Lingga+Air';"
-            >
-        </a>
+<header class="w-full border-b border-[#F2F4F7] py-3.5 px-6 sm:px-10 flex items-center justify-between bg-white shrink-0">
+    <div class="text-[14px] text-[#737373] flex items-center">
+        <a href="{{ url('/') }}" class="hover:text-[#00629B] transition">Beranda</a>
+        <span class="text-[#a1a8b1] mx-1">/</span>
+        <a href="{{ route('onboarding.welcome') }}" class="hover:text-[#00629B] transition">Onboarding</a>
+        <span class="text-[#a1a8b1] mx-1">/</span>
+        <span class="text-[#2b2b2b] font-medium">Pilih Peran</span>
+    </div>
 
-        <div class="flex items-center gap-4">
-            <span class="hidden sm:inline text-xs text-[#667085]">
-                Akun: <strong class="font-bold text-[#101828]">{{ auth()->user()?->username ?? 'Pengguna' }}</strong>
-            </span>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button
-                    type="submit"
-                    class="min-h-[38px] inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-[#B42318] bg-[#FEF3F2] border border-[#FECDCA] rounded-xl hover:bg-red-100 transition shadow-xs"
-                >
-                    <i class="fa-solid fa-arrow-right-from-bracket text-[11px]"></i>
-                    <span>Keluar</span>
-                </button>
-            </form>
-        </div>
-    </nav>
+    <div class="flex items-center gap-3 text-[13px] text-[#737373]">
+        <span class="hidden sm:inline">Akun: <strong class="text-[#2b2b2b] font-medium">{{ auth()->user()?->username ?? 'Pengguna' }}</strong></span>
+        <form action="{{ route('logout') }}" method="POST" class="inline">
+            @csrf
+            <button type="submit" class="text-[#ce1f31] hover:underline font-medium text-[13px]">
+                Keluar
+            </button>
+        </form>
+    </div>
 </header>
 @endsection
 
 @section('content')
-<div class="flex-1 flex items-center justify-center px-4 py-12 bg-[#F8FAFC]">
-    <div class="w-full max-w-2xl bg-white border border-[#E4E7EC] rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
-        <div class="space-y-3">
-            <div>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#EBF5FB] text-[#00629B] border border-[#BAE3F5]">
-                    Langkah 2 dari 3: Pilih Peran
-                </span>
+<div class="flex-1 flex flex-col justify-center items-center px-4 py-4 sm:py-6 bg-white">
+    <div class="w-full max-w-[580px] mx-auto space-y-5">
+        
+        {{-- Visual Stepper Ringkas --}}
+        <div class="max-w-xs mx-auto">
+            <div class="flex items-center justify-between relative">
+                <div class="absolute left-4 right-4 top-3.5 h-0.5 bg-[#EAECF0] -z-0"></div>
+                <div class="absolute left-4 top-3.5 h-0.5 bg-[#00629B] transition-all -z-0" style="width: 50%;"></div>
+                
+                {{-- Step 1 --}}
+                <div class="flex flex-col items-center relative z-10 bg-white px-1.5">
+                    <div class="w-7 h-7 rounded-full bg-[#00629B] text-white text-[11px] font-semibold flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <span class="text-[10.5px] font-medium text-[#101828] mt-1">Pengenalan</span>
+                </div>
+
+                {{-- Step 2 --}}
+                <div class="flex flex-col items-center relative z-10 bg-white px-1.5">
+                    <div class="w-7 h-7 rounded-full bg-[#00629B] text-white text-[11px] font-semibold flex items-center justify-center ring-4 ring-[#EBF5FB]">
+                        2
+                    </div>
+                    <span class="text-[10.5px] font-semibold text-[#00629B] mt-1">Pilih Peran</span>
+                </div>
+
+                {{-- Step 3 --}}
+                <div class="flex flex-col items-center relative z-10 bg-white px-1.5">
+                    <div class="w-7 h-7 rounded-full bg-[#F2F4F7] text-[#667085] text-[11px] font-semibold flex items-center justify-center border border-[#EAECF0]">
+                        3
+                    </div>
+                    <span class="text-[10.5px] font-normal text-[#667085] mt-1">Profil</span>
+                </div>
             </div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-[#101828]">
+        </div>
+
+        {{-- Header Teks --}}
+        <div class="text-center space-y-1">
+            <h1 class="text-xl sm:text-2xl font-semibold text-[#101828] tracking-tight">
                 Pilih Peran Akun Anda
             </h1>
-            <p class="text-sm text-[#475467]">
-                Pilihan peran ini menentukan formulir profil dan akses modul operasional dashboard Anda.
+            <p class="text-xs text-[#475467] leading-relaxed">
+                Tentukan peran akun Anda untuk menyesuaikan formulir profil dan akses layanan.
             </p>
         </div>
 
         @if ($errors->any())
-            <div role="alert" class="p-3.5 rounded-xl bg-[#FEF3F2] border border-[#FECDCA] text-xs font-semibold text-[#B42318] flex items-center gap-2">
-                <i class="fa-solid fa-circle-exclamation text-sm"></i>
-                <span>Silakan pilih salah satu peran yang tersedia sebelum melanjutkan.</span>
+            <div role="alert" class="p-2.5 rounded-md bg-[#fff0f0] border border-[#ffd2d2] text-xs text-[#ce1f31] text-center">
+                Silakan pilih salah satu peran yang tersedia sebelum melanjutkan.
             </div>
         @endif
 
-        <form id="role-form" action="{{ route('onboarding.role') }}" method="POST" class="space-y-6">
+        <form id="role-form" action="{{ route('onboarding.role') }}" method="POST" class="space-y-4">
             @csrf
 
-            <fieldset class="space-y-3">
-                <legend class="text-xs font-bold uppercase tracking-wider text-[#667085] mb-2">
-                    Daftar peran yang tersedia <span class="text-[#B42318]" aria-hidden="true">*</span>
-                </legend>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {{-- Opsi 1: Perwakilan Desa --}}
+                <label
+                    for="role_desa"
+                    class="relative flex flex-col justify-between p-4 border border-[#D0D5DD] rounded-xl bg-white hover:border-[#00629B] hover:bg-[#F8FAFC] transition cursor-pointer group has-[:checked]:border-[#00629B] has-[:checked]:ring-2 has-[:checked]:ring-[#00629B]/20 has-[:checked]:bg-[#EBF5FB]/30"
+                >
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="w-8 h-8 rounded-lg bg-[#EBF5FB] text-[#00629B] flex items-center justify-center text-xs font-semibold">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                            </span>
+                            <input
+                                id="role_desa"
+                                type="radio"
+                                name="role"
+                                value="desa"
+                                {{ old('role') === 'desa' ? 'checked' : '' }}
+                                required
+                                class="w-4 h-4 text-[#00629B] accent-[#00629B] cursor-pointer"
+                            >
+                        </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Opsi 1: Perwakilan Desa -->
-                    <label
-                        for="role_desa"
-                        class="relative flex items-start gap-3.5 p-4 sm:p-5 border border-[#D0D5DD] rounded-2xl bg-white hover:border-[#00629B] hover:bg-[#EBF5FB]/30 transition cursor-pointer group shadow-xs has-[:checked]:border-[#00629B] has-[:checked]:bg-[#EBF5FB]/40 has-[:checked]:ring-2 has-[:checked]:ring-[#00629B]"
-                    >
-                        <input
-                            id="role_desa"
-                            type="radio"
-                            name="role"
-                            value="desa"
-                            {{ old('role') === 'desa' ? 'checked' : '' }}
-                            required
-                            class="mt-1 w-4 h-4 accent-[#00629B] shrink-0"
-                        >
-                        <span class="space-y-1.5 text-xs">
-                            <span class="flex items-center gap-2 font-bold text-sm text-[#101828] group-hover:text-[#00629B] transition">
-                                <i class="fa-solid fa-tree-city text-[#00629B]"></i>
+                        <div class="space-y-0.5 text-left">
+                            <h3 class="text-sm font-semibold text-[#101828] group-hover:text-[#00629B] transition">
                                 Perwakilan Desa
-                            </span>
-                            <span class="block text-[#475467] leading-relaxed">
-                                Perangkat atau perwakilan desa yang mengajukan bantuan air bersih, mengecek kelayakan, dan menentukan titik tandon desa.
-                            </span>
-                        </span>
-                    </label>
+                            </h3>
+                            <p class="text-[11.5px] text-[#667085] leading-relaxed">
+                                Aparatur desa yang mengajukan bantuan air darurat, cek kelayakan SPK, dan titik tandon air.
+                            </p>
+                        </div>
+                    </div>
+                </label>
 
-                    <!-- Opsi 2: Mitra Penyalur -->
-                    <label
-                        for="role_penyalur"
-                        class="relative flex items-start gap-3.5 p-4 sm:p-5 border border-[#D0D5DD] rounded-2xl bg-white hover:border-[#00629B] hover:bg-[#EBF5FB]/30 transition cursor-pointer group shadow-xs has-[:checked]:border-[#00629B] has-[:checked]:bg-[#EBF5FB]/40 has-[:checked]:ring-2 has-[:checked]:ring-[#00629B]"
-                    >
-                        <input
-                            id="role_penyalur"
-                            type="radio"
-                            name="role"
-                            value="penyalur"
-                            {{ old('role') === 'penyalur' ? 'checked' : '' }}
-                            required
-                            class="mt-1 w-4 h-4 accent-[#00629B] shrink-0"
-                        >
-                        <span class="space-y-1.5 text-xs">
-                            <span class="flex items-center gap-2 font-bold text-sm text-[#101828] group-hover:text-[#00629B] transition">
-                                <i class="fa-solid fa-truck-droplet text-[#00629B]"></i>
+                {{-- Opsi 2: Mitra Penyalur --}}
+                <label
+                    for="role_penyalur"
+                    class="relative flex flex-col justify-between p-4 border border-[#D0D5DD] rounded-xl bg-white hover:border-[#00629B] hover:bg-[#F8FAFC] transition cursor-pointer group has-[:checked]:border-[#00629B] has-[:checked]:ring-2 has-[:checked]:ring-[#00629B]/20 has-[:checked]:bg-[#EBF5FB]/30"
+                >
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="w-8 h-8 rounded-lg bg-[#EBF5FB] text-[#00629B] flex items-center justify-center text-xs font-semibold">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+                                </svg>
+                            </span>
+                            <input
+                                id="role_penyalur"
+                                type="radio"
+                                name="role"
+                                value="penyalur"
+                                {{ old('role') === 'penyalur' ? 'checked' : '' }}
+                                required
+                                class="w-4 h-4 text-[#00629B] accent-[#00629B] cursor-pointer"
+                            >
+                        </div>
+
+                        <div class="space-y-0.5 text-left">
+                            <h3 class="text-sm font-semibold text-[#101828] group-hover:text-[#00629B] transition">
                                 Mitra Penyalur
-                            </span>
-                            <span class="block text-[#475467] leading-relaxed">
-                                Petugas atau pengelola armada tangki bantuan (PMI, PDAM, atau BPBD) yang mendistribusikan pasokan air bersih.
-                            </span>
-                        </span>
-                    </label>
-                </div>
-            </fieldset>
+                            </h3>
+                            <p class="text-[11.5px] text-[#667085] leading-relaxed">
+                                Petugas/pengelola armada tangki air (PMI, PDAM, atau BPBD) yang mendistribusikan air bersih.
+                            </p>
+                        </div>
+                    </div>
+                </label>
+            </div>
 
             @error('role')
-                <p role="alert" class="text-xs text-[#B42318] font-medium">{{ $message }}</p>
+                <p role="alert" class="text-xs text-[#ce1f31] font-medium text-center">{{ $message }}</p>
             @enderror
 
-            <div class="pt-4 border-t border-[#EAECF0] flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-3">
+            {{-- Tombol Navigasi --}}
+            <div class="pt-3 border-t border-[#F2F4F7] flex items-center justify-between gap-3">
                 <a
                     href="{{ route('onboarding.welcome') }}"
-                    class="min-h-[42px] inline-flex items-center justify-center gap-2 px-4 py-2 bg-white border border-[#D0D5DD] text-xs font-semibold text-[#344054] rounded-xl hover:bg-[#F8FAFC] transition shadow-xs"
+                    class="min-h-[40px] px-4 rounded-lg bg-white border border-[#D0D5DD] text-[#344054] hover:bg-[#F8FAFC] font-medium text-xs sm:text-sm inline-flex items-center justify-center transition"
                 >
-                    <i class="fa-solid fa-arrow-left text-[11px]"></i>
-                    <span>Kembali</span>
+                    &larr; Kembali
                 </a>
                 <button
                     type="submit"
                     id="role-submit"
-                    class="min-h-[42px] inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white text-xs font-semibold rounded-xl transition shadow-xs"
+                    class="min-h-[40px] px-6 rounded-lg bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white font-medium text-xs sm:text-sm inline-flex items-center justify-center transition cursor-pointer shadow-xs"
                 >
-                    <span>Lanjut ke Formulir Profil</span>
-                    <i class="fa-solid fa-arrow-right text-[11px]"></i>
+                    Lanjut ke Profil &rarr;
                 </button>
             </div>
         </form>
+
     </div>
 </div>
-@endsection
-
-@section('footer')
-<footer class="bg-white border-t border-[#EAECF0] py-4">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-xs text-[#667085] flex flex-wrap items-center justify-between gap-2">
-        <span>&copy; {{ date('Y') }} Lingga Air - BPBD Kabupaten Purbalingga.</span>
-        <span>Sistem Distribusi Bantuan Air Bersih Darurat</span>
-    </div>
-</footer>
 @endsection
