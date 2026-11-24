@@ -17,6 +17,11 @@
                 'active' => request()->routeIs('verifikasi.*'),
             ],
             [
+                'label' => 'Peta GIS Wilayah',
+                'route' => route('admin.pemetaan.index'),
+                'active' => request()->routeIs('admin.pemetaan.*'),
+            ],
+            [
                 'label' => 'Laporan Penyaluran',
                 'route' => route('laporan.index'),
                 'active' => request()->routeIs('laporan.*'),

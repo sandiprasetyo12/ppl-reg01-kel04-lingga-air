@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\Admin\DesaController;
+use App\Http\Controllers\Admin\PetaGisController;
 use App\Http\Controllers\CekKelayakanController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\VerifikasiController;
@@ -14,13 +15,15 @@ Route::get('/', function () {
     if (auth()->check()) {
         $user = auth()->user();
         return match ($user->role) {
-            'bpbd' => redirect()->route('verifikasi.index'),
+            'bpbd' => redirect()->route('admin.dashboard'),
             'penyalur' => redirect()->route('penyalur.dashboard'),
             default => redirect()->route('desa.dashboard'),
         };
     }
     return view('welcome');
 })->name('home');
+
+Route::get('/peta-gis/data', [PetaGisController::class, 'data'])->name('peta.data');
 
 // Fitur F-04: Verifikasi Pengajuan (BPBD Purbalingga)
 Route::middleware(['auth', 'role:bpbd'])->prefix('verifikasi')->name('verifikasi.')->group(function () {
@@ -64,6 +67,10 @@ Route::middleware('auth')->prefix('onboarding')->name('onboarding.')->group(func
     Route::post('/profile/penyalur', [OnboardingController::class, 'storeProfilePenyalur'])->name('profile.penyalur');
 });
 
+// Fitur F-03: Pengajuan Bantuan Air Bersih (Publik / Alur Integrasi Cek Kelayakan)
+Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
+Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create');
+
 // Route Dashboard & Fitur Peran Desa (F-01, F-02, & F-03)
 Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
     Route::prefix('desa')->name('desa.')->group(function () {
@@ -76,9 +83,7 @@ Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
     Route::get('/cek-kelayakan', [CekKelayakanController::class, 'index'])->name('cek-kelayakan.index');
     Route::post('/cek-kelayakan', [CekKelayakanController::class, 'calculate'])->name('cek-kelayakan.calculate');
 
-    // Fitur F-03: Pengajuan Bantuan Air Bersih Desa
-    Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
-    Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('pengajuan.create');
+    // Fitur F-03: Kelola Pengajuan Bantuan Air Bersih Desa (Tindakan Terproteksi Akun Desa)
     Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
     Route::get('/pengajuan/{pengajuan}/berhasil', [PengajuanController::class, 'success'])->name('pengajuan.success');
     Route::get('/pengajuan/{pengajuan}', [PengajuanController::class, 'show'])->name('pengajuan.show');
@@ -94,6 +99,12 @@ Route::middleware(['auth', 'onboarding', 'role:bpbd'])->prefix('admin')->name('a
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
+
+    // Fitur F-09: Pemetaan Desa (GIS)
+    Route::get('/pemetaan', [PetaGisController::class, 'index'])->name('pemetaan.index');
+    Route::get('/pemetaan/data', [PetaGisController::class, 'data'])->name('pemetaan.data');
+    Route::get('/pemetaan/{kode_desa}', [PetaGisController::class, 'show'])->name('pemetaan.show');
+    Route::patch('/pemetaan/{kode_desa}/koordinat', [PetaGisController::class, 'updateKoordinat'])->name('pemetaan.koordinat');
 
     Route::resource('desa', DesaController::class)->only(['index', 'show', 'edit', 'update']);
 });

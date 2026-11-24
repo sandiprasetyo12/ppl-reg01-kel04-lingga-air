@@ -106,19 +106,19 @@ class Pengajuan extends Model
     }
 
     /**
-     * Estimasi kebutuhan air (liter), estimasi 100 liter per KK (sesuai mockup: 120 KK = 12.000 Liter)
+     * Estimasi kebutuhan air (liter), estimasi 100 liter per KK (minimum 5.000 L / 1 armada tangki)
      */
     public function estimasiLiter(): int
     {
-        return max(4000, ($this->jumlah_kk ?? 0) * 100);
+        return max(5000, ($this->jumlah_kk ?? 0) * 100);
     }
 
     /**
-     * Estimasi jumlah armada tangki (kapasitas standar 4.000 L / tangki)
+     * Estimasi jumlah armada tangki (kapasitas standar 5.000 L / tangki)
      */
     public function estimasiTangki(): int
     {
-        return (int) ceil($this->estimasiLiter() / 4000);
+        return (int) ceil($this->estimasiLiter() / 5000);
     }
 
     /**

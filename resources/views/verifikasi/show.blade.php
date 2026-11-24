@@ -144,6 +144,12 @@
                     </span>
                     <ul class="space-y-1 text-xs font-semibold">
                         <li>
+                            <a href="{{ route('admin.pemetaan.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
+                                <i class="fa-solid fa-map-location-dot w-4 text-center text-[#00629B]"></i>
+                                <span>Peta GIS Pemetaan</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('admin.desa.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
                                 <i class="fa-solid fa-building-columns w-4 text-center text-[#00629B]"></i>
                                 <span>Data Acuan Desa</span>
@@ -408,11 +414,21 @@
                                     </div>
                                     <p class="text-[11px] text-[#667085]">Dokumen surat keterangan resmi yang telah ditandatangani dan dicap stempel desa.</p>
                                 </div>
+                                @php
+                                    $suratPath = $permohonan->surat_kades;
+                                    $suratIsUrl = $suratPath && \Illuminate\Support\Str::startsWith($suratPath, ['http://', 'https://']);
+                                    $suratExists = $suratPath && !$suratIsUrl && \Illuminate\Support\Facades\Storage::disk('public')->exists($suratPath);
+                                    $suratUrl = $suratIsUrl ? $suratPath : ($suratExists ? \Illuminate\Support\Facades\Storage::url($suratPath) : null);
+                                @endphp
                                 <div class="mt-4 pt-3 border-t border-[#EAECF0] flex items-center justify-between">
-                                    <span class="text-[10px] text-[#667085] font-mono">{{ $permohonan->surat_kades ?? 'surat_resmi.pdf' }}</span>
-                                    <span class="px-2.5 py-1 bg-white border border-[#D0D5DD] rounded text-xs font-semibold text-[#344054] hover:bg-[#F2F4F7] cursor-pointer shadow-xs">
-                                        <i class="fa-solid fa-eye mr-1 text-[#00629B]"></i> Periksa Surat
-                                    </span>
+                                    <span class="text-[10px] text-[#667085] font-mono truncate max-w-[150px]">{{ $suratPath ? basename($suratPath) : 'Belum diunggah' }}</span>
+                                    @if($suratUrl)
+                                        <a href="{{ $suratUrl }}" target="_blank" class="px-2.5 py-1 bg-white border border-[#D0D5DD] rounded text-xs font-semibold text-[#344054] hover:bg-[#F2F4F7] shadow-xs">
+                                            <i class="fa-solid fa-eye mr-1 text-[#00629B]"></i> Periksa Surat
+                                        </a>
+                                    @else
+                                        <span class="text-xs text-[#667085]">Belum diunggah</span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -519,10 +535,10 @@
                         <div class="flex items-center justify-between mb-4">
                             <div>
                                 <span class="text-xs uppercase font-bold tracking-wider text-[#BAE3F5] block">Hasil Penilaian SPK</span>
-                                <span class="text-[10px] text-cyan-200 font-medium"><i class="fa-solid fa-circle-check mr-1"></i>Lolos Skrining F-02 (&ge; 40.00)</span>
+                                <span class="text-[10px] text-cyan-200 font-medium"><i class="fa-solid fa-circle-check mr-1"></i>Lolos Skrining F-02 (&ge; 30.00)</span>
                             </div>
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold {{ $permohonan->skor_ahp_saw >= 70 ? 'bg-[#B42318] text-white' : ($permohonan->skor_ahp_saw >= 40 ? 'bg-[#FEDF89] text-[#B54708]' : 'bg-[#A6F4C5] text-[#027A48]') }}">
-                                {{ $permohonan->skor_ahp_saw >= 70 ? 'KRITIS' : ($permohonan->skor_ahp_saw >= 40 ? 'WASPADA' : 'AMAN') }}
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold {{ $permohonan->skor_ahp_saw >= 60 ? 'bg-[#B42318] text-white' : ($permohonan->skor_ahp_saw >= 30 ? 'bg-[#FEDF89] text-[#B54708]' : 'bg-[#A6F4C5] text-[#027A48]') }}">
+                                {{ $permohonan->skor_ahp_saw >= 60 ? 'KRITIS' : ($permohonan->skor_ahp_saw >= 30 ? 'WASPADA' : 'AMAN') }}
                             </span>
                         </div>
 
@@ -579,10 +595,10 @@
 
                         <div class="mt-5 p-3 rounded-xl bg-white/10 border border-white/15 text-xs text-slate-200">
                             <i class="fa-solid fa-lightbulb text-amber-300 mr-1.5"></i>
-                            @if($permohonan->skor_ahp_saw >= 70)
-                                <strong>Rekomendasi SPK (70 - 100):</strong> Segera disetujui untuk alokasi pengiriman truk tangki darurat (KRITIS).
+                            @if($permohonan->skor_ahp_saw >= 60)
+                                <strong>Rekomendasi SPK (60 - 100):</strong> Segera disetujui untuk alokasi pengiriman truk tangki darurat (KRITIS).
                             @else
-                                <strong>Rekomendasi SPK (40 - 69.99):</strong> Dijadwalkan untuk pengiriman tahap kedua setelah telaah berkas (WASPADA).
+                                <strong>Rekomendasi SPK (30 - 59.99):</strong> Dijadwalkan untuk pengiriman tahap kedua setelah telaah berkas (WASPADA).
                             @endif
                         </div>
                     </div>

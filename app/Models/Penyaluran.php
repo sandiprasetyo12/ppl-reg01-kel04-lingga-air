@@ -48,14 +48,6 @@ class Penyaluran extends Model
                 $table->timestamps();
             });
         }
-
-        try {
-            if (self::count() === 0) {
-                (new \Database\Seeders\PenyaluranSeeder())->run();
-            }
-        } catch (\Throwable $e) {
-            // Silently fail if dependencies are not yet ready
-        }
     }
 
     /**

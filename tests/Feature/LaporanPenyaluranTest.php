@@ -72,7 +72,6 @@ class LaporanPenyaluranTest extends TestCase
             [
                 'nama_desa' => 'Serang',
                 'kecamatan' => 'Karangreja',
-                'status' => 'Aktif',
             ]
         );
         $this->desa2 = Desa::firstOrCreate(
@@ -80,7 +79,6 @@ class LaporanPenyaluranTest extends TestCase
             [
                 'nama_desa' => 'Selakambang',
                 'kecamatan' => 'Kaligondang',
-                'status' => 'Aktif',
             ]
         );
 

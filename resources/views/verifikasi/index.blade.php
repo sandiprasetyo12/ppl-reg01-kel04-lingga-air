@@ -144,6 +144,12 @@
                     </span>
                     <ul class="space-y-1 text-xs font-semibold">
                         <li>
+                            <a href="{{ route('admin.pemetaan.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
+                                <i class="fa-solid fa-map-location-dot w-4 text-center text-[#00629B]"></i>
+                                <span>Peta GIS Pemetaan</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('admin.desa.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-[#344054] hover:text-[#00629B] hover:bg-[#EBF5FB] transition">
                                 <i class="fa-solid fa-building-columns w-4 text-center text-[#00629B]"></i>
                                 <span>Data Acuan Desa</span>
@@ -338,15 +344,16 @@
                         <div class="flex flex-wrap items-center gap-2 text-xs">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FEF3F2] text-[#B42318] border border-[#FECDCA] font-bold">
                                 <span class="w-2 h-2 rounded-full bg-[#B42318]"></span>
-                                Kritis (&ge; 70.00)
+                                Kritis (&ge; 60.00)
                             </span>
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FFFAEB] text-[#B54708] border border-[#FEDF89] font-bold">
                                 <span class="w-2 h-2 rounded-full bg-[#B54708]"></span>
-                                Waspada (40.00 – 69.99)
+                                Waspada (30.00 - 59.99)
                             </span>
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#ECFDF3] text-[#027A48] border border-[#A6F4C5] font-semibold">
                                 <span class="w-2 h-2 rounded-full bg-[#027A48]"></span>
-                                Aman (&lt; 40.00)
+                                Aman (&lt; 30.00)
+                            </span>
                             </span>
                         </div>
                     </div>
@@ -451,7 +458,7 @@
                                     <!-- Skor AHP-SAW (PBI-010) -->
                                     <td class="px-4 py-4 text-center">
                                         <div class="inline-block">
-                                            <span class="text-base font-extrabold {{ $item->skor_ahp_saw >= 70 ? 'text-[#B42318]' : ($item->skor_ahp_saw >= 40 ? 'text-[#B54708]' : 'text-[#027A48]') }}">
+                                            <span class="text-base font-extrabold {{ $item->skor_ahp_saw >= 60 ? 'text-[#B42318]' : ($item->skor_ahp_saw >= 30 ? 'text-[#B54708]' : 'text-[#027A48]') }}">
                                                 {{ number_format($item->skor_ahp_saw, 2) }}
                                             </span>
                                             <span class="text-[10px] text-[#667085] block">/ 100</span>
@@ -460,13 +467,14 @@
 
                                     <!-- Kategori Kelayakan -->
                                     <td class="px-4 py-4 text-center">
-                                        @if($item->skor_ahp_saw >= 70)
+                                        @if($item->skor_ahp_saw >= 60)
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#FEF3F2] text-[#B42318] border border-[#FECDCA]">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-[#B42318] mr-1.5 animate-pulse"></span> Kritis
                                             </span>
-                                        @elseif($item->skor_ahp_saw >= 40)
+                                        @elseif($item->skor_ahp_saw >= 30)
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#FFFAEB] text-[#B54708] border border-[#FEDF89]">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-[#B54708] mr-1.5"></span> Waspada
+                                            </span>
                                             </span>
                                         @else
                                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-[#ECFDF3] text-[#027A48] border border-[#A6F4C5]">

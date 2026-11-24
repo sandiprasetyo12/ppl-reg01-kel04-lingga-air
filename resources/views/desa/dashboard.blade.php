@@ -17,7 +17,7 @@
                 <span class="w-2 h-2 rounded-full bg-[#00629B]"></span>
                 <span>Alur Pengajuan Air Bersih</span>
             </div>
-            <h2 class="text-xl font-extrabold text-[#101828]">Periksa Kelayakan Kedaruratan Air Bersih</h2>
+            <h2 class="text-xl font-extrabold text-[#101828]">Periksa kelayakan bantuan air bersih</h2>
             <p class="text-sm text-[#475467] leading-relaxed">
                 Lakukan <strong>Cek Kelayakan Mandiri (F-02)</strong> terlebih dahulu untuk mengetahui tingkat kedaruratan desa Anda. Jika hasil bernilai Waspada atau Kritis, sistem akan langsung membuka akses formulir <strong>Pengajuan Bantuan Air Bersih (F-03)</strong>.
             </p>

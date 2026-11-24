@@ -163,7 +163,7 @@
             <a href="{{ url('/') }}" class="brand">
                 <img src="{{ asset('images/logo-lingga.png') }}" alt="Lingga Air" class="h-14 w-auto object-contain bg-white rounded-xl px-2.5 py-1.5 shadow-xs" onerror="this.onerror=null; this.src='https://placehold.co/180x60/619DC6/FFFFFF?text=Lingga+Air';">
             </a>
-            <span class="topbar-label">Portal Pelayanan Desa</span>
+            <span class="topbar-label">Portal pelayanan desa</span>
         </div>
         <div class="account">
             <span class="account-copy">
