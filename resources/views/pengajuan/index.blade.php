@@ -9,7 +9,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-[#EAECF0]">
         <div>
             <div class="eyebrow">Layanan Desa &middot; Arsip Permohonan</div>
-            <h1 class="text-lg sm:text-xl font-bold text-[#101828] tracking-tight mt-0.5">Riwayat &amp; Draf Pengajuan</h1>
+            <h1 class="text-lg sm:text-xl font-bold text-[#101828] tracking-tight mt-0.5">Draf & Status Pengajuan</h1>
             <p class="intro">Kelola draf permohonan yang belum dikirim serta riwayat tiket bantuan air bersih Desa {{ $desa->nama_desa }}.</p>
         </div>
 
