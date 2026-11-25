@@ -15,7 +15,7 @@
     .leaflet-container {
         z-index: 1 !important;
         isolation: isolate;
-        font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+        font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, sans-serif !important;
     }
     .leaflet-pane,
     .leaflet-tile-pane {
@@ -35,6 +35,17 @@
     .leaflet-bottom {
         z-index: 6 !important;
     }
+    .leaflet-popup-content-wrapper {
+        border-radius: 12px !important;
+        box-shadow: 0 4px 16px rgba(16, 24, 40, 0.12) !important;
+        border: 1px solid #EAECF0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+    .leaflet-popup-content {
+        margin: 0 !important;
+        font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif !important;
+    }
     @media (prefers-reduced-motion: reduce) {
         .gis-transition {
             transition: none !important;
@@ -45,7 +56,14 @@
 
 @section('content')
 <div class="space-y-5">
-<!-- Notifikasi Sukses Pembaruan Koordinat (Tanpa Reload) -->
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="text-xs text-[#667085] flex flex-wrap items-center gap-1.5 pb-1">
+        <a href="{{ route('admin.dashboard') }}" class="hover:text-[#00629B] transition">Dashboard</a>
+        <span class="text-[#D0D5DD]">/</span>
+        <span class="text-[#101828] font-semibold">Pemetaan Desa (GIS)</span>
+    </nav>
+
+    <!-- Notifikasi Sukses Pembaruan Koordinat (Tanpa Reload) -->
     <div id="gis-status-banner" role="status" aria-live="polite" class="hidden p-3.5 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center justify-between gap-3">
         <span id="gis-status-banner-text"></span>
         <button type="button" id="gis-status-banner-close" class="min-h-[44px] px-3 text-xs font-medium text-emerald-900 underline">
@@ -55,32 +73,33 @@
 
     <!-- Ringkasan Status Wilayah & Legenda Warna PBI-025 -->
     <section aria-label="Ringkasan status pemetaan dan filter cepat" class="bg-white border border-[#e3e3e0] rounded-lg p-5 shadow-sm space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[#e3e3e0] pb-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-[#EAECF0] pb-4">
             <div>
-                <h2 class="text-base font-semibold text-[#1b1b18]">
+                <h2 class="text-base font-semibold text-[#101828]">
                     Sebaran Status Bantuan Air Bersih Kabupaten Purbalingga
                 </h2>
-                <p class="text-sm text-[#52525b] mt-0.5">
-                    Menampilkan <strong id="count-ditampilkan" class="text-[#1b1b18]">{{ number_format($summary['ditampilkan'] ?? 0) }}</strong>
-                    dari <strong id="count-terpetakan" class="text-[#1b1b18]">{{ number_format($summary['total_terpetakan'] ?? 0) }}</strong> desa berkoordinat
+                <p class="text-xs text-[#667085] mt-0.5">
+                    Menampilkan <strong id="count-ditampilkan" class="text-[#101828]">{{ number_format($summary['ditampilkan'] ?? 0) }}</strong>
+                    dari <strong id="count-terpetakan" class="text-[#101828]">{{ number_format($summary['total_terpetakan'] ?? 0) }}</strong> desa berkoordinat
                     ({{ $kecamatans->count() }} kecamatan). Klik kategori untuk menyaring penanda peta.
                 </p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center gap-2.5 shrink-0 whitespace-nowrap">
                 <a
                     href="#section-unmapped"
-                    class="min-h-[44px] inline-flex items-center gap-2 px-3.5 py-2 rounded-md border border-[#d1d5db] bg-[#F9FAFB] hover:bg-[#f3f4f6] text-xs font-medium text-[#1b1b18] gis-transition"
+                    class="min-h-[40px] px-3.5 py-2 inline-flex items-center gap-2 rounded-lg border border-[#D0D5DD] bg-white hover:bg-[#F9FAFB] text-xs font-medium text-[#344054] transition shadow-xs"
                 >
                     <span>Tanpa Koordinat:</span>
-                    <span id="count-unmapped" class="font-semibold">{{ number_format($summary['tanpa_koordinat'] ?? 0) }}</span>
+                    <span id="count-unmapped" class="font-bold text-[#101828]">{{ number_format($summary['tanpa_koordinat'] ?? 0) }}</span>
                 </a>
                 <button
                     type="button"
                     id="btn-refresh-map"
-                    class="min-h-[44px] inline-flex items-center justify-center px-4 py-2 bg-[#1b1b18] hover:bg-black text-white text-sm font-medium rounded-md gis-transition"
+                    class="min-h-[40px] px-4 py-2 inline-flex items-center justify-center gap-1.5 bg-[#00629B] hover:bg-[#004F7D] active:bg-[#003B5C] text-white text-xs font-semibold rounded-lg shadow-xs transition cursor-pointer"
                 >
-                    Muat Ulang Peta
+                    <i class="fa-solid fa-arrows-rotate text-xs" aria-hidden="true"></i>
+                    <span>Muat Ulang Peta</span>
                 </button>
             </div>
         </div>
@@ -247,8 +266,9 @@
                 <button
                     type="button"
                     id="btn-fit-bounds"
-                    class="min-h-[44px] inline-flex items-center px-3 py-1.5 text-xs font-medium text-[#1b1b18] bg-white border border-[#d1d5db] rounded-md hover:bg-[#f5f5f4] gis-transition"
+                    class="min-h-[44px] inline-flex items-center px-3.5 py-1.5 text-xs font-semibold text-[#00629B] bg-[#EBF5FB] border border-[#BAE3F5] rounded-lg hover:bg-[#d8edf8] transition"
                 >
+                    <i class="fa-solid fa-crosshairs mr-1.5" aria-hidden="true"></i>
                     Pusatkan Peta
                 </button>
             </div>
@@ -863,25 +883,25 @@ document.addEventListener('DOMContentLoaded', () => {
                </div>`;
 
         return `
-            <div style="min-width:220px;font-family:inherit;color:#1b1b18;">
-                <div style="font-weight:700;font-size:14px;">Desa ${nama}</div>
-                <div style="font-size:12px;color:#52525b;margin-bottom:6px;">Kec. ${kec} (${kode})</div>
-                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
-                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;background:#F3F4F6;border:1px solid #d1d5db;">
+            <div style="min-width:240px;font-family:inherit;color:#101828;padding:12px 14px;">
+                <div style="font-weight:700;font-size:14px;color:#101828;">Desa ${nama}</div>
+                <div style="font-size:11.5px;color:#667085;margin-bottom:8px;">Kecamatan ${kec} (${kode})</div>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;">
+                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:6px;background:#F2F4F7;border:1px solid #D0D5DD;">
                         <span style="width:7px;height:7px;border-radius:999px;background:${escapeHtml(marker.status_gis?.kode_warna || '#6B7280')};"></span>
                         ${statusLabel}
                     </span>
-                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;background:#F3F4F6;border:1px solid #d1d5db;">
+                    <span style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:6px;background:#F2F4F7;border:1px solid #D0D5DD;">
                         SPK: ${kelayakanLabel}
                     </span>
                 </div>
-                <div style="font-size:12px;"><strong>Titik Drop:</strong> ${dropAir}</div>
+                <div style="font-size:11.5px;color:#344054;"><strong>Titik Drop:</strong> ${dropAir}</div>
                 ${tiketHtml}
                 <div style="display:flex;gap:6px;margin-top:10px;">
-                    <button type="button" class="popup-action-detail" data-kode="${kode}" style="flex:1;min-height:36px;padding:4px 8px;border-radius:5px;border:1px solid #d1d5db;background:#fff;color:#1b1b18;font-size:12px;font-weight:600;cursor:pointer;">
+                    <button type="button" class="popup-action-detail" data-kode="${kode}" style="flex:1;min-height:34px;padding:4px 8px;border-radius:7px;border:1px solid #BAE3F5;background:#EBF5FB;color:#00629B;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;">
                         Detail
                     </button>
-                    <button type="button" class="popup-action-edit" data-kode="${kode}" style="flex:1;min-height:36px;padding:4px 8px;border-radius:5px;border:1px solid #1b1b18;background:#1b1b18;color:#fff;font-size:12px;font-weight:600;cursor:pointer;">
+                    <button type="button" class="popup-action-edit" data-kode="${kode}" style="flex:1;min-height:34px;padding:4px 8px;border-radius:7px;border:1px solid #00629B;background:#00629B;color:#fff;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;">
                         Ubah Titik
                     </button>
                 </div>
@@ -1419,6 +1439,29 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load awal
     loadGeojson();
     loadMapData({ fit: true });
+
+    // Pastikan Leaflet mengukur dimensi kontainer penuh setelah DOM layout selesai
+    window.setTimeout(() => {
+        map.invalidateSize();
+    }, 150);
+    window.setTimeout(() => {
+        map.invalidateSize();
+    }, 500);
+
+    // Tangani saat sidebar diciutkan / dilebarkan oleh layout admin agar peta tidak terpotong
+    document.addEventListener('click', (event) => {
+        if (event.target.closest('[data-role-sidebar-toggle]')) {
+            window.setTimeout(() => {
+                map.invalidateSize();
+                pickerMap?.invalidateSize();
+            }, 220);
+        }
+    });
+
+    // Tangani perubahan ukuran jendela browser
+    window.addEventListener('resize', () => {
+        map.invalidateSize();
+    });
 });
 </script>
 @endpush

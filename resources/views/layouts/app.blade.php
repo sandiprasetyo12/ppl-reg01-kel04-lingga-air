@@ -72,6 +72,7 @@
         }
     </style>
     @include('layouts.sidebar-styles')
+    @stack('styles')
 </head>
 <body class="bg-[#F8FAFC] text-[#101828] antialiased min-h-screen flex flex-col font-sans">
     @yield('header')
