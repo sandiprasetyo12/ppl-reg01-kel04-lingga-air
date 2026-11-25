@@ -201,7 +201,11 @@
                 </p>
             </div>
 
-            <!-- Titik Pengantaran Tandon & Mini Peta [DI-HIDE SEMENTARA] -->
+            <!-- ========================================================================================================= -->
+            <!-- // [DI-HIDE SEMENTARA: AWAL] BAGIAN TITIK DROP POINT PENGANTARAN TANDON & MINI PETA                           -->
+            <!-- // Kodingan di bawah ini di-hide sementara dengan class "hidden" dan style="display: none;"              -->
+            <!-- // Jika nanti ingin menampilkan kembali tandon air & peta, hapus class "hidden" dan style="display: none;" -->
+            <!-- ========================================================================================================= -->
             <div class="card p-5 space-y-3 hidden" style="display: none;">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-xs text-slate-800 uppercase tracking-wider m-0">Titik Drop Point Pengantaran</h3>
@@ -220,6 +224,9 @@
 
                 <div id="detailMap" class="h-44 rounded-xl border border-slate-300 overflow-hidden" style="position: relative; z-index: 1; isolation: isolate;"></div>
             </div>
+            <!-- ========================================================================================================= -->
+            <!-- // [DI-HIDE SEMENTARA: AKHIR] BAGIAN TITIK DROP POINT PENGANTARAN TANDON & MINI PETA                         -->
+            <!-- ========================================================================================================= -->
 
             <!-- Kontak Penanggung Jawab -->
             <div class="card p-5 space-y-2 text-xs">

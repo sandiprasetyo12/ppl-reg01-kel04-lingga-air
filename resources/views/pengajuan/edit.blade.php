@@ -177,7 +177,11 @@
                 <input type="file" name="surat_kepala_desa" accept="application/pdf, image/png, image/jpeg, image/jpg" class="text-xs text-slate-600 file:mr-4 file:py-2 file:px-3 file:rounded-lg file:border file:border-slate-300 file:text-xs file:font-bold file:bg-slate-50 file:text-slate-700 hover:file:bg-slate-100">
             </div>
 
-            <!-- Lokasi Pengantaran [DI-HIDE SEMENTARA] -->
+            <!-- ========================================================================================================= -->
+            <!-- // [DI-HIDE SEMENTARA: AWAL] BAGIAN LOKASI PENGANTARAN / TITIK DROP POINT TANDON & PETA                     -->
+            <!-- // Kodingan di bawah ini di-hide sementara dengan class "hidden" dan style="display: none;"              -->
+            <!-- // Jika nanti ingin menampilkan kembali tandon air & peta, hapus class "hidden" dan style="display: none;" -->
+            <!-- ========================================================================================================= -->
             <div class="border-t border-slate-100 pt-5 space-y-3 hidden" style="display: none;">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <label class="mb-0">
@@ -205,6 +209,9 @@
                 <input type="hidden" name="latitude" id="edit_latitude" value="{{ $pengajuan->latitude ?? $desa->latitude }}">
                 <input type="hidden" name="longitude" id="edit_longitude" value="{{ $pengajuan->longitude ?? $desa->longitude }}">
             </div>
+            <!-- ========================================================================================================= -->
+            <!-- // [DI-HIDE SEMENTARA: AKHIR] BAGIAN LOKASI PENGANTARAN / TITIK DROP POINT TANDON & PETA                   -->
+            <!-- ========================================================================================================= -->
 
             <!-- Catatan Tambahan -->
             <div class="border-t border-slate-100 pt-5">

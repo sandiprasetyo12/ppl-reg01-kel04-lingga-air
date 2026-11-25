@@ -289,7 +289,11 @@
                 </div>
             </div>
 
-            <!-- Field 6: Titik Lokasi Pengantaran & Peta Mini (Google Maps Asli) [DI-HIDE SEMENTARA] -->
+            <!-- ========================================================================================================= -->
+            <!-- // [DI-HIDE SEMENTARA: AWAL] BAGIAN LOKASI TANDON AIR / DROP POINT & PETA MINI GOOGLE MAPS                  -->
+            <!-- // Kodingan di bawah ini di-hide sementara dengan class "hidden" dan style="display: none;"              -->
+            <!-- // Jika nanti ingin menampilkan kembali tandon air & peta, hapus class "hidden" dan style="display: none;" -->
+            <!-- ========================================================================================================= -->
             <div class="border-t border-slate-100 pt-5 space-y-3 hidden" style="display: none;">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <div>
@@ -334,6 +338,9 @@
                 <input type="hidden" name="latitude" id="input_latitude" value="{{ $desa->latitude ?? -7.2845100 }}">
                 <input type="hidden" name="longitude" id="input_longitude" value="{{ $desa->longitude ?? 109.4321000 }}">
             </div>
+            <!-- ========================================================================================================= -->
+            <!-- // [DI-HIDE SEMENTARA: AKHIR] BAGIAN LOKASI TANDON AIR & PETA MINI GOOGLE MAPS                            -->
+            <!-- ========================================================================================================= -->
 
             <!-- Field 7: Catatan Tambahan (Opsional) -->
             <div class="border-t border-slate-100 pt-5">
@@ -467,11 +474,17 @@
                 <p id="modal-disp-alasan" class="text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 leading-relaxed m-0"></p>
             </div>
 
-            <!-- Lokasi Drop Point [DI-HIDE SEMENTARA] -->
+            <!-- ========================================================================================================= -->
+            <!-- // [DI-HIDE SEMENTARA: AWAL] RINGKASAN LOKASI PENGANTARAN DI MODAL KONFIRMASI                                -->
+            <!-- // Kodingan di bawah ini di-hide sementara dengan class "hidden" dan style="display: none;"              -->
+            <!-- ========================================================================================================= -->
             <div class="hidden" style="display: none;">
                 <span class="font-bold text-slate-700 block mb-0.5">Lokasi Pengantaran:</span>
                 <p id="modal-disp-lokasi" class="text-slate-600 m-0"></p>
             </div>
+            <!-- ========================================================================================================= -->
+            <!-- // [DI-HIDE SEMENTARA: AKHIR] RINGKASAN LOKASI PENGANTARAN DI MODAL KONFIRMASI                               -->
+            <!-- ========================================================================================================= -->
 
             <!-- Catatan Tambahan -->
             <div id="modal-wrapper-catatan" class="hidden">
