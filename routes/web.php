@@ -10,6 +10,9 @@ use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\BerandaDesaController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardChartController;
+use App\Http\Controllers\Admin\PengumumanController;
 
 // Route Public
 Route::get('/', function () {
@@ -101,9 +104,8 @@ Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
 
 // Route Dashboard & Kelola Data BPBD (Admin BPBD)
 Route::middleware(['auth', 'onboarding', 'role:bpbd'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard');
 
     // Fitur F-09: Pemetaan Desa (GIS)
     Route::get('/pemetaan', [PetaGisController::class, 'index'])->name('pemetaan.index');
@@ -112,6 +114,14 @@ Route::middleware(['auth', 'onboarding', 'role:bpbd'])->prefix('admin')->name('a
     Route::patch('/pemetaan/{kode_desa}/koordinat', [PetaGisController::class, 'updateKoordinat'])->name('pemetaan.koordinat');
 
     Route::resource('desa', DesaController::class)->only(['index', 'show', 'edit', 'update']);
+    Route::get('/dashboard/chart-data', [DashboardChartController::class, 'index'])
+        ->name('dashboard.chart-data');
+    Route::resource('pengumuman', PengumumanController::class)
+    ->only(['index', 'create', 'store', 'edit', 'update']);
+    Route::patch(
+        'pengumuman/{pengumuman}/toggle-aktif',
+        [PengumumanController::class, 'toggleAktif']
+    )->name('pengumuman.toggle-aktif');
 });
 
 // Route Dashboard Mitra Penyalur
