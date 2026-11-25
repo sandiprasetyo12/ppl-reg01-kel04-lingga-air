@@ -108,6 +108,7 @@
         }
     </style>
     @include('layouts.sidebar-styles')
+    @stack('styles')
 </head>
 <body>
     <div class="dashboard-app role-sidebar-shell" id="dashboard-app">
