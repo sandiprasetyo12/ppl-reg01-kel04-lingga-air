@@ -177,8 +177,8 @@
                 <input type="file" name="surat_kepala_desa" accept="application/pdf, image/png, image/jpeg, image/jpg" class="text-xs text-slate-600 file:mr-4 file:py-2 file:px-3 file:rounded-lg file:border file:border-slate-300 file:text-xs file:font-bold file:bg-slate-50 file:text-slate-700 hover:file:bg-slate-100">
             </div>
 
-            <!-- Lokasi Pengantaran -->
-            <div class="border-t border-slate-100 pt-5 space-y-3">
+            <!-- Lokasi Pengantaran [DI-HIDE SEMENTARA] -->
+            <div class="border-t border-slate-100 pt-5 space-y-3 hidden" style="display: none;">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <label class="mb-0">
                         Lokasi Pengantaran / Titik Drop Point

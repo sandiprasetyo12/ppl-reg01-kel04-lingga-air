@@ -201,8 +201,8 @@
                 </p>
             </div>
 
-            <!-- Titik Pengantaran Tandon & Mini Peta -->
-            <div class="card p-5 space-y-3">
+            <!-- Titik Pengantaran Tandon & Mini Peta [DI-HIDE SEMENTARA] -->
+            <div class="card p-5 space-y-3 hidden" style="display: none;">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-xs text-slate-800 uppercase tracking-wider m-0">Titik Drop Point Pengantaran</h3>
                     <a 

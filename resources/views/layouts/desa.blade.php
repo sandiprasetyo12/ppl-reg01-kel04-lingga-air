@@ -397,6 +397,56 @@
         });
     </script>
 
+    <!-- MODAL POP-UP KELAYAKAN STATUS AMAN -->
+    @if(session('modal_kelayakan_aman'))
+        @php
+            $modalAman = session('modal_kelayakan_aman');
+        @endphp
+        <div id="modalKelayakanAman" class="fixed inset-0 z-[99999] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in duration-200 relative z-[100000]">
+                <div class="p-6 text-center text-white" style="background: #00629B;">
+                    <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mx-auto mb-3 text-2xl">
+                        💧
+                    </div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-white/20 text-white mb-1">
+                        Status Cek Kelayakan: AMAN
+                    </span>
+                    <h3 class="text-xl font-extrabold">Pengajuan Tidak Dapat Diproses</h3>
+                    <p class="text-xs text-sky-100 mt-1">Desa {{ $modalAman['desa'] ?? (Auth::user()?->desa?->nama_desa ?? '') }}</p>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    <div class="border border-emerald-200 bg-emerald-50 rounded-xl p-4 flex items-center justify-between">
+                        <div>
+                            <span class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider block">Skor Prioritas SPK (AHP-SAW)</span>
+                            <span class="text-2xl font-extrabold text-emerald-700">{{ number_format($modalAman['skor'] ?? 48.1, 1) }}</span>
+                            <span class="text-xs font-semibold text-emerald-600">/ 100 (Kategori Aman)</span>
+                        </div>
+                        <span class="status-badge status-aman">
+                            Kondisi Terkendali
+                        </span>
+                    </div>
+
+                    <div class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                        <p class="font-medium text-slate-800">
+                            {{ $modalAman['pesan'] ?? 'Berdasarkan hasil Cek Kelayakan Mandiri (F-02), kondisi ketersediaan air di desa Anda dinyatakan dalam kondisi AMAN.' }}
+                        </p>
+                        <div class="border border-slate-200 rounded-xl p-3 bg-slate-50 text-[11px] text-slate-600">
+                            <span class="font-bold text-slate-800 block mb-0.5">Ketentuan SOP Bantuan Air BPBD:</span>
+                            Armada tangki distribusi air bersih hanya diprioritaskan bagi desa yang berada pada status <strong class="text-rose-700">KRITIS</strong> atau <strong class="text-amber-700">WASPADA</strong>. Desa dengan status <strong>AMAN</strong> tidak dapat mengakses formulir pengajuan bantuan.
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="button" onclick="document.getElementById('modalKelayakanAman').classList.add('hidden')" class="w-full h-10 px-4 rounded-xl bg-[#00629B] hover:bg-[#004F7D] text-white text-xs sm:text-sm font-bold inline-flex items-center justify-center transition">
+                            Mengerti & Kembali
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @stack('scripts')
 </body>
 </html>

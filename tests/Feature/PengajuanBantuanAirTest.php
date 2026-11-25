@@ -555,7 +555,7 @@ class PengajuanBantuanAirTest extends TestCase
             'jarak_sumber_meter' => 1500,
         ]);
         $responseCek->assertStatus(200);
-        $responseCek->assertSee('Ajukan Pengajuan');
+        $responseCek->assertSee('Pengajuan Bantuan Air');
         $responseCek->assertSee(route('pengajuan.create'));
     }
 }
