@@ -78,6 +78,7 @@
         text-transform: uppercase;
     }
     .role-sidebar-nav { display: grid; gap: 3px; }
+    .role-sidebar-nav.role-sidebar-admin-group { gap: 0; }
     .role-sidebar-link {
         display: flex;
         min-width: 0;
@@ -105,7 +106,7 @@
     .role-sidebar-link.disabled { color: #475467; }
     .role-sidebar-link.disabled > i { color: #667085; }
     .role-sidebar-link-label { min-width: 0; }
-    .role-sidebar-divider { height: 1px; margin: 13px 4px; border: 0; background: #EAECF0; }
+    .role-sidebar-divider { height: 1px; margin: 1rem 0; border: 0; border-top: 1px solid #F3F4F6; background: transparent; }
     .role-sidebar-utility { display: grid; gap: 4px; }
     .role-sidebar-footer {
         margin: auto 4px 0;
@@ -127,6 +128,7 @@
     .role-sidebar-shell.is-sidebar-collapsed .role-sidebar-brand-row,
     .role-sidebar-shell.is-sidebar-collapsed .role-sidebar-link { justify-content: center; }
     .role-sidebar-shell.is-sidebar-collapsed .role-sidebar-link { padding: 0; }
+    .role-sidebar-shell.is-sidebar-collapsed .role-sidebar-divider { width: 28px; margin-right: auto; margin-left: auto; }
 
     /* =========================================================================
        HEADER STYLES
@@ -184,9 +186,10 @@
         .role-sidebar-nav,
         .role-sidebar-utility { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 3px; }
         .role-sidebar-link { flex: 0 0 auto; min-height: 36px; white-space: nowrap; }
-        .role-sidebar-divider,
         .role-sidebar-section,
         .role-sidebar-footer { display: none; }
+        .role-sidebar-nav.role-sidebar-admin-group { display: grid; flex: none; gap: 0; overflow: visible; padding: 0; }
+        .role-sidebar-divider { display: block; width: 100%; flex: none; margin: 1rem 0; }
         .role-sidebar-shell.is-sidebar-collapsed .role-sidebar-link-label { display: initial; }
         .role-sidebar-shell.is-sidebar-collapsed .role-sidebar-brand-full { display: block; }
         .role-sidebar-shell.is-sidebar-collapsed .role-sidebar-brand-icon { display: none !important; }

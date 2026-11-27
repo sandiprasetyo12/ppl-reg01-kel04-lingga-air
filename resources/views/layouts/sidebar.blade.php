@@ -32,10 +32,10 @@
             'menus' => [
                 ['Dashboard', 'fa-table-cells-large', 'admin.dashboard', request()->routeIs('admin.dashboard')],
                 ['Verifikasi Pengajuan', 'fa-circle-check', 'verifikasi.index', request()->routeIs('verifikasi.*')],
-                ['Pengumuman', 'fa-bullhorn', 'admin.pengumuman.index', request()->routeIs('admin.pengumuman.*')],
                 ['Penugasan Penyalur', 'fa-user-group', null, false],
                 ['Peta Distribusi', 'fa-map', 'admin.pemetaan.index', request()->routeIs('admin.pemetaan.*')],
                 ['Laporan Penyaluran', 'fa-chart-column', 'laporan.index', request()->routeIs('laporan.*')],
+                ['Pengumuman', 'fa-bullhorn', 'admin.pengumuman.index', request()->routeIs('admin.pengumuman.*')],
                 ['Master Data Desa', 'fa-database', 'admin.desa.index', request()->routeIs('admin.desa.*')],
                 ['Feedback', 'fa-comment-dots', null, false],
             ],
@@ -140,21 +140,31 @@
     {{-- Menu Navigasi Utama --}}
     <nav aria-label="{{ $sidebarConfig['aria'] }}">
         <p class="role-sidebar-section">{{ $sidebarConfig['section'] }}</p>
-        <div class="role-sidebar-nav">
-            @foreach ($sidebarConfig['menus'] as [$label, $icon, $routeName, $active])
-                @if ($routeName && Route::has($routeName))
-                    <a href="{{ route($routeName) }}" @if ($active) aria-current="page" @endif class="role-sidebar-link {{ $active ? 'active' : '' }}">
-                        <i class="fa-solid {{ $icon }}" aria-hidden="true"></i>
-                        <span class="role-sidebar-link-label">{{ $label }}</span>
-                    </a>
-                @else
-                    <span class="role-sidebar-link disabled" aria-disabled="true" title="Menu belum tersedia">
-                        <i class="fa-solid {{ $icon }}" aria-hidden="true"></i>
-                        <span class="role-sidebar-link-label">{{ $label }}</span>
-                    </span>
-                @endif
-            @endforeach
-        </div>
+        @php
+            $menuGroups = $resolvedRole === 'admin'
+                ? [array_slice($sidebarConfig['menus'], 0, 1), array_slice($sidebarConfig['menus'], 1, 4), array_slice($sidebarConfig['menus'], 5, 3)]
+                : [$sidebarConfig['menus']];
+        @endphp
+        @foreach ($menuGroups as $groupIndex => $menuGroup)
+            @if ($groupIndex > 0)
+                <div class="role-sidebar-divider" aria-hidden="true"></div>
+            @endif
+            <div class="role-sidebar-nav {{ $resolvedRole === 'admin' ? 'role-sidebar-admin-group space-y-1' : '' }}">
+                @foreach ($menuGroup as [$label, $icon, $routeName, $active])
+                    @if ($routeName && Route::has($routeName))
+                        <a href="{{ route($routeName) }}" @if ($active) aria-current="page" @endif class="role-sidebar-link {{ $active ? 'active' : '' }}">
+                            <i class="fa-solid {{ $icon }}" aria-hidden="true"></i>
+                            <span class="role-sidebar-link-label">{{ $label }}</span>
+                        </a>
+                    @else
+                        <span class="role-sidebar-link disabled" aria-disabled="true" title="Menu belum tersedia">
+                            <i class="fa-solid {{ $icon }}" aria-hidden="true"></i>
+                            <span class="role-sidebar-link-label">{{ $label }}</span>
+                        </span>
+                    @endif
+                @endforeach
+            </div>
+        @endforeach
     </nav>
 
     {{-- Footer Sidebar --}}
