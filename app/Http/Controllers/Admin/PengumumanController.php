@@ -16,13 +16,18 @@ class PengumumanController extends Controller
      */
     public function index(Request $request): View
     {
-        $status = $request->query('status');
+        $statusInput = $request->query('status');
+        $status = is_string($statusInput) ? strtolower(trim($statusInput)) : null;
         $search = $request->query('q');
+
+        if (! in_array($status, ['kritis', 'waspada', 'aman'], true)) {
+            $status = null;
+        }
 
         $query = Pengumuman::with('creator')->orderByDesc('published_at');
 
-        if ($status && in_array($status, ['kritis', 'waspada', 'aman'], true)) {
-            $query->where('tingkat_kelayakan', $status);
+        if ($status) {
+            $query->whereRaw('LOWER(tingkat_kelayakan) = ?', [$status]);
         }
 
         if ($search) {
@@ -33,8 +38,19 @@ class PengumumanController extends Controller
         }
 
         $pengumumans = $query->paginate(10)->withQueryString();
+        $statusCounts = Pengumuman::query()
+            ->selectRaw('LOWER(tingkat_kelayakan) as tingkat, COUNT(*) as jumlah')
+            ->groupByRaw('LOWER(tingkat_kelayakan)')
+            ->pluck('jumlah', 'tingkat');
+        $totalCount = (int) $statusCounts->sum();
         
-        return view('admin.pengumuman.index', compact('pengumumans', 'status', 'search'));
+        return view('admin.pengumuman.index', compact(
+            'pengumumans',
+            'status',
+            'search',
+            'statusCounts',
+            'totalCount',
+        ));
     }
 
     /**

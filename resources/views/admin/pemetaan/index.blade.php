@@ -439,7 +439,7 @@
                             </div>
                         </div>
                         <div>
-                            <dt class="text-[#52525b]">Penanggung Jawab &amp; WhatsApp</dt>
+                            <dt class="text-[#52525b]">Perwakilan Desa &amp; WhatsApp</dt>
                             <dd id="detail-kontak" class="font-medium text-[#1b1b18] mt-0.5"></dd>
                         </div>
                     </dl>

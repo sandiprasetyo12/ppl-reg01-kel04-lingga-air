@@ -1,4 +1,4 @@
-{{-- Kartu Ringkasan Desa (Data Demografi, Peta Tandon, PJ WhatsApp, & Kelengkapan Profil) --}}
+{{-- Kartu Ringkasan Desa (Data Demografi, Peta Tandon, Kontak Perwakilan, & Kelengkapan Profil) --}}
 <div class="bg-white rounded-xl border border-[#D0D5DD] p-5 shadow-xs space-y-4">
     
     <!-- Header Kartu & Kelengkapan Profil -->
@@ -92,33 +92,19 @@
         </div>
     </div>
 
-    <!-- Kontak Penanggung Jawab Darurat & Tombol WhatsApp -->
-    <div class="p-3 rounded-lg bg-[#F8FAFC] border border-[#EAECF0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <!-- Kontak Perwakilan Desa -->
+    <div class="p-3 rounded-lg bg-[#F8FAFC] border border-[#EAECF0] flex items-center gap-2.5">
         <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-md bg-white border border-[#D0D5DD] text-[#667085] flex items-center justify-center font-bold text-xs shrink-0">
                 <i class="fa-regular fa-user"></i>
             </div>
             <div>
-                <span class="text-[10px] text-[#667085] block font-medium">PJ Kedaruratan Air:</span>
+                <span class="text-[10px] text-[#667085] block font-medium">Kontak Perwakilan Desa:</span>
                 <strong class="text-xs text-[#101828] block">{{ $ringkasan['nama_pj'] }}</strong>
                 <span class="text-[11px] text-[#475467] font-mono">{{ $ringkasan['no_wa'] }}</span>
             </div>
         </div>
 
-        @if ($ringkasan['wa_url'] !== '#')
-            <a 
-                href="{{ $ringkasan['wa_url'] }}" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="h-8 inline-flex items-center justify-center gap-1.5 px-3 bg-white hover:bg-[#F2F4F7] border border-[#D0D5DD] text-[#344054] text-xs font-semibold rounded-md shadow-2xs transition shrink-0"
-                aria-label="Hubungi Penanggung Jawab via WhatsApp"
-            >
-                <i class="fa-brands fa-whatsapp text-xs text-[#475467]"></i>
-                <span>Hubungi via WhatsApp</span>
-            </a>
-        @else
-            <span class="text-xs text-[#98A2B3] italic">No. WhatsApp belum diisi</span>
-        @endif
     </div>
 
 </div>

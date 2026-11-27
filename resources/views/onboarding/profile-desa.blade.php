@@ -273,11 +273,11 @@
                     </div>
                 </div>
 
-                {{-- Kontak PJ Darurat --}}
+                {{-- Kontak Perwakilan Desa --}}
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
                     <div class="space-y-1">
                         <label for="nama_pj_darurat" class="block text-xs font-semibold text-[#344054]">
-                            Nama PJ Darurat
+                            Nama Perwakilan Desa
                         </label>
                         <input
                             id="nama_pj_darurat"
@@ -292,7 +292,7 @@
 
                     <div class="space-y-1">
                         <label for="no_wa_darurat" class="block text-xs font-semibold text-[#344054]">
-                            No. WhatsApp PJ
+                            No. WhatsApp Perwakilan Desa
                         </label>
                         <input
                             id="no_wa_darurat"

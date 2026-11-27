@@ -180,7 +180,7 @@
                     <!-- 1. Data Acuan Desa (Sinkron F-01 & F-02) -->
                     <div class="bg-white rounded-2xl border border-[#E4E7EC] shadow-xs p-5 sm:p-6">
                         <h3 class="text-xs font-bold uppercase tracking-wider text-[#101828] border-b border-[#EAECF0] pb-3 mb-4 flex items-center gap-2">
-                            <i class="fa-solid fa-location-dot text-[#00629B]"></i> Data Acuan Desa & Kontak Penanggung Jawab
+                            <i class="fa-solid fa-location-dot text-[#00629B]"></i> Data Acuan Desa & Kontak Perwakilan Desa
                         </h3>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs mb-4">

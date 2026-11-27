@@ -23,6 +23,7 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4 items-stretch">
     {{-- PBI-018: Banner Peringatan Kedaruratan Aktif BPBD Purbalingga --}}
     @if (!empty($pengumumanDarurat))
         @php
@@ -32,7 +33,7 @@
                 default => ['bg-[#FEF0C7] border-[#FEDF89] text-[#7A2E0E]', 'bg-[#FDE293] text-[#B54708]', 'fa-triangle-exclamation'],
             };
         @endphp
-        <div class="p-4 rounded-xl border {{ $announcementTone[0] }} flex items-start gap-3 shadow-xs">
+        <div class="h-full p-4 rounded-xl border {{ $announcementTone[0] }} flex items-start gap-3 shadow-xs">
             <div class="w-8 h-8 rounded-lg {{ $announcementTone[1] }} flex items-center justify-center shrink-0 text-sm mt-0.5">
                 <i class="fa-solid {{ $announcementTone[2] }}"></i>
             </div>
@@ -57,18 +58,24 @@
 
     {{-- Prakiraan cuaca BMKG untuk wilayah desa --}}
     @if ($desa)
-        <section id="weather-card" data-url="{{ route('desa.weather') }}" class="rounded-xl border border-[#D0D5DD] bg-white p-4 shadow-xs" aria-live="polite">
+        <section id="weather-card" data-url="{{ route('desa.weather') }}" class="h-full flex flex-col rounded-xl border border-sky-200 bg-sky-50 p-4 shadow-xs {{ empty($pengumumanDarurat) ? 'lg:col-span-2' : '' }}" aria-live="polite">
             <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-wider text-[#667085]">Prakiraan Cuaca Desa</p>
-                    <h2 id="weather-location" class="mt-1 text-sm font-bold text-[#101828]">Memuat prakiraan cuaca…</h2>
-                    <p id="weather-description" class="mt-1 text-xs text-[#475467]">Mengambil data dari BMKG</p>
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-sky-800">Prakiraan Cuaca Desa</p>
+                    <h2 id="weather-location" class="mt-1 text-sm font-bold text-sky-950">Memuat prakiraan cuaca…</h2>
                 </div>
-                <i class="fa-solid fa-cloud-sun text-xl text-[#00629B]" aria-hidden="true"></i>
+                <i class="fa-solid fa-cloud-sun text-xl text-sky-700" aria-hidden="true"></i>
             </div>
-            <div id="weather-details" class="mt-3 hidden flex-wrap gap-x-4 gap-y-1 text-xs text-[#475467]"></div>
-            <p id="weather-updated" class="mt-3 text-[10px] text-[#667085]"></p>
-            <p class="mt-1 text-[10px] text-[#667085]">Sumber: <a href="https://data.bmkg.go.id/prakiraan-cuaca/" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#00629B] underline">BMKG</a> · Data prakiraan, bukan penetapan status kekeringan.</p>
+            <div class="mt-4 flex items-end gap-2">
+                <p id="weather-temperature" class="m-0 text-4xl font-bold leading-none tracking-tight text-sky-950">--°</p>
+                <p id="weather-description" class="m-0 pb-0.5 text-xs text-sky-900">Mengambil data dari BMKG</p>
+            </div>
+            <div class="mt-auto grid grid-cols-2 gap-3 pt-4 text-xs text-sky-900">
+                <p class="m-0"><span class="block text-[10px] text-sky-700">Kelembapan</span><span id="weather-humidity" class="font-semibold">—</span></p>
+                <p class="m-0"><span class="block text-[10px] text-sky-700">Kecepatan angin</span><span id="weather-wind" class="font-semibold">—</span></p>
+            </div>
+            <p id="weather-updated" class="mt-3 mb-0 text-[10px] text-sky-700"></p>
+            <p class="mt-1 text-[10px] text-sky-700">Sumber: <a href="https://data.bmkg.go.id/prakiraan-cuaca/" target="_blank" rel="noopener noreferrer" class="font-semibold text-sky-800 underline">BMKG</a> · Data prakiraan, bukan penetapan status kekeringan.</p>
         </section>
         <script>
             (() => {
@@ -83,14 +90,9 @@
                     .then((data) => {
                         document.getElementById('weather-location').textContent = data.location || @json($desa->nama_desa);
                         document.getElementById('weather-description').textContent = data.weather || 'Kondisi cuaca belum tersedia';
-
-                        const details = document.getElementById('weather-details');
-                        const values = [];
-                        if (data.temperature !== null) values.push(`Suhu ${data.temperature}°C`);
-                        if (data.humidity !== null) values.push(`Kelembapan ${data.humidity}%`);
-                        if (data.wind_speed !== null) values.push(`Angin ${data.wind_speed} km/jam`);
-                        details.textContent = values.join(' · ');
-                        details.classList.remove('hidden');
+                        document.getElementById('weather-temperature').textContent = data.temperature !== null ? `${data.temperature}°C` : '—';
+                        document.getElementById('weather-humidity').textContent = data.humidity !== null ? `${data.humidity}%` : '—';
+                        document.getElementById('weather-wind').textContent = data.wind_speed !== null ? `${data.wind_speed} km/jam` : '—';
 
                         const updated = data.local_datetime || data.analysis_date;
                         document.getElementById('weather-updated').textContent = updated ? `Waktu prakiraan: ${updated}` : '';
@@ -101,6 +103,7 @@
             })();
         </script>
     @endif
+    </div>
 
     <!-- 2. HERO STATUS CARD (F-02 Realtime Status & One Primary Action) -->
     @include('desa.components.hero-status')

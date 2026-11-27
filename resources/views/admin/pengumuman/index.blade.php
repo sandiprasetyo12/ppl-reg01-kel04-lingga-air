@@ -28,28 +28,35 @@
     {{-- Filter & Search Toolbar --}}
     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-xs">
         <form action="{{ route('admin.pengumuman.index') }}" method="GET" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-xs font-medium text-[#475467]">Filter Status:</span>
-                <a href="{{ route('admin.pengumuman.index', array_filter(['q' => $search])) }}"
-                   class="px-2.5 py-1 rounded-md text-xs font-medium transition-colors {{ empty($status) ? 'bg-[#00629B] text-white' : 'bg-[#F2F4F7] text-[#344054] hover:bg-[#E4E7EC]' }}">
-                    Semua
-                </a>
-                <a href="{{ route('admin.pengumuman.index', array_filter(['status' => 'kritis', 'q' => $search])) }}"
-                   class="px-2.5 py-1 rounded-md text-xs font-medium transition-colors {{ $status === 'kritis' ? 'bg-[#D92D20] text-white' : 'bg-[#FEF3F2] text-[#B42318] hover:bg-[#FEE4E2]' }}">
-                    Kritis
-                </a>
-                <a href="{{ route('admin.pengumuman.index', array_filter(['status' => 'waspada', 'q' => $search])) }}"
-                   class="px-2.5 py-1 rounded-md text-xs font-medium transition-colors {{ $status === 'waspada' ? 'bg-[#B54708] text-white' : 'bg-[#FEF0C7] text-[#B54708] hover:bg-[#FEDF89]' }}">
-                    Waspada
-                </a>
-                <a href="{{ route('admin.pengumuman.index', array_filter(['status' => 'aman', 'q' => $search])) }}"
-                   class="px-2.5 py-1 rounded-md text-xs font-medium transition-colors {{ $status === 'aman' ? 'bg-[#027A48] text-white' : 'bg-[#ECFDF3] text-[#027A48] hover:bg-[#D1FADF]' }}">
-                    Aman
-                </a>
+            <div class="flex min-w-0 items-center gap-2">
+                <span class="shrink-0 text-xs font-medium text-[#475467]">Filter Status:</span>
+                <div class="min-w-0 max-w-full flex-1 overflow-x-auto">
+                    <div class="flex w-max items-center gap-2 whitespace-nowrap">
+                        <a href="{{ route('admin.pengumuman.index', array_filter(['q' => $search])) }}"
+                           class="shrink-0 px-2.5 py-1 rounded-md text-xs font-medium transition-colors {{ empty($status) ? 'bg-[#00629B] text-white' : 'bg-[#F2F4F7] text-[#344054] hover:bg-[#E4E7EC]' }}">
+                            Semua ({{ $totalCount }})
+                        </a>
+                        <a href="{{ route('admin.pengumuman.index', array_filter(['status' => 'kritis', 'q' => $search])) }}"
+                           class="shrink-0 px-2.5 py-1 rounded-md text-xs font-medium transition-colors {{ $status === 'kritis' ? 'bg-[#D92D20] text-white' : 'bg-[#FEF3F2] text-[#B42318] hover:bg-[#FEE4E2]' }}">
+                            Kritis ({{ $statusCounts->get('kritis', 0) }})
+                        </a>
+                        <a href="{{ route('admin.pengumuman.index', array_filter(['status' => 'waspada', 'q' => $search])) }}"
+                           class="shrink-0 px-2.5 py-1 rounded-md text-xs font-medium transition-colors {{ $status === 'waspada' ? 'bg-[#B54708] text-white' : 'bg-[#FEF0C7] text-[#B54708] hover:bg-[#FEDF89]' }}">
+                            Waspada ({{ $statusCounts->get('waspada', 0) }})
+                        </a>
+                        <a href="{{ route('admin.pengumuman.index', array_filter(['status' => 'aman', 'q' => $search])) }}"
+                           class="shrink-0 px-2.5 py-1 rounded-md text-xs font-medium transition-colors {{ $status === 'aman' ? 'bg-[#027A48] text-white' : 'bg-[#ECFDF3] text-[#027A48] hover:bg-[#D1FADF]' }}">
+                            Aman ({{ $statusCounts->get('aman', 0) }})
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="flex items-center gap-2">
                 <div class="relative w-full sm:w-64">
+                    @if ($status)
+                        <input type="hidden" name="status" value="{{ $status }}">
+                    @endif
                     <input
                         type="text"
                         name="q"
@@ -75,7 +82,11 @@
                 </div>
                 <h3 class="text-sm font-bold text-[#101828]">Belum ada pengumuman</h3>
                 <p class="text-xs text-[#667085] mt-1 max-w-sm">
-                    Belum ada pengumuman kedaruratan yang diterbitkan atau sesuai kriteria pencarian.
+                    @if ($status)
+                        Belum ada pengumuman dengan status {{ ucfirst($status) }}
+                    @else
+                        Belum ada pengumuman kedaruratan yang diterbitkan atau sesuai kriteria pencarian.
+                    @endif
                 </p>
                 <a href="{{ route('admin.pengumuman.create') }}" class="mt-4 px-3.5 py-2 inline-flex items-center gap-1.5 rounded-lg bg-[#00629B] hover:bg-[#005180] text-white text-xs font-semibold shadow-xs transition-colors">
                     <i class="fa-solid fa-plus text-[11px]"></i>
@@ -83,15 +94,15 @@
                 </a>
             </div>
         @else
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs">
+            <div class="overflow-x-auto px-2 sm:px-4">
+                <table class="w-full min-w-[820px] text-left text-xs">
                     <thead class="bg-[#F8FAFC] border-b border-[#EAECF0] text-[#475467] font-semibold">
                         <tr>
                             <th class="py-3 px-4">Judul & Ringkasan</th>
                             <th class="py-3 px-4 w-32">Kedaruratan</th>
                             <th class="py-3 px-4 w-36">Waktu Terbit</th>
-                            <th class="py-3 px-4 w-32">Status Publikasi</th>
-                            <th class="py-3 px-4 w-32 text-right">Aksi</th>
+                            <th class="py-3 px-4 w-36 whitespace-nowrap">Status Publikasi</th>
+                            <th class="py-3 pl-4 pr-6 w-36 text-right whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#EAECF0] text-[#344054]">
@@ -125,7 +136,7 @@
                                     <div>{{ $item->published_at ? $item->published_at->translatedFormat('d M Y') : '-' }}</div>
                                     <div class="text-[11px] text-[#98A2B3]">{{ $item->published_at ? $item->published_at->format('H:i') . ' WIB' : '' }}</div>
                                 </td>
-                                <td class="py-3.5 px-4 whitespace-nowrap">
+                                <td class="py-3.5 px-4 w-36 whitespace-nowrap">
                                     <form action="{{ route('admin.pengumuman.toggle-aktif', $item) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
@@ -139,8 +150,8 @@
                                         </button>
                                     </form>
                                 </td>
-                                <td class="py-3.5 px-4 text-right whitespace-nowrap">
-                                    <div class="flex items-center justify-end gap-1.5">
+                                <td class="py-3.5 pl-4 pr-6 text-right whitespace-nowrap">
+                                    <div class="flex items-center justify-end gap-2">
                                         <a
                                             href="{{ route('admin.pengumuman.edit', $item) }}"
                                             class="h-7 px-2.5 rounded-md border border-[#D0D5DD] bg-white hover:bg-[#F2F4F7] text-[#344054] inline-flex items-center gap-1 transition-colors text-xs font-medium"

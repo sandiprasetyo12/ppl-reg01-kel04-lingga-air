@@ -236,7 +236,7 @@
                 </div>
 
                 <div class="p-4 rounded-xl bg-[#F8FAFC] border border-[#EAECF0] space-y-1">
-                    <span class="text-[11px] font-bold text-[#667085] uppercase tracking-wider block">Kontak Penanggung Jawab</span>
+                    <span class="text-[11px] font-bold text-[#667085] uppercase tracking-wider block">Kontak Perwakilan Desa</span>
                     <p class="text-sm font-semibold text-[#101828]">
                         {{ $desa->nama_pj_darurat ?: 'Perwakilan Desa ' . $desa->nama_desa }}
                     </p>
