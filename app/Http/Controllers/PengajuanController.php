@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -279,7 +280,7 @@ class PengajuanController extends Controller
             if ($request->hasFile('foto_lapangan')) {
                 foreach ($request->file('foto_lapangan') as $index => $foto) {
                     if ($index >= 3) break;
-                    $path = $foto->store('pengajuan/foto', 'public');
+                    $path = $this->storeFotoKondisi($foto, $pengajuan, $index + 1);
                     BerkasPengajuan::create([
                         'pengajuan_id' => $pengajuan->id,
                         'jenis_berkas' => 'foto_kondisi',
@@ -433,7 +434,7 @@ class PengajuanController extends Controller
                 $currentCount = $pengajuan->fotoKondisi()->count();
                 foreach ($request->file('foto_lapangan') as $foto) {
                     if ($currentCount >= 3) break;
-                    $path = $foto->store('pengajuan/foto', 'public');
+                    $path = $this->storeFotoKondisi($foto, $pengajuan, $currentCount + 1);
                     BerkasPengajuan::create([
                         'pengajuan_id' => $pengajuan->id,
                         'jenis_berkas' => 'foto_kondisi',
@@ -613,5 +614,19 @@ class PengajuanController extends Controller
                 'foto_lapangan' => $pengajuan->fotoKondisi->first()?->path_file,
             ]
         );
+    }
+
+    private function storeFotoKondisi(UploadedFile $foto, Pengajuan $pengajuan, int $nomorFoto): string
+    {
+        $nomorAman = preg_replace('/[^A-Za-z0-9_-]/', '_', $pengajuan->nomor_tiket ?: 'DRAF-' . $pengajuan->id);
+        $extension = strtolower($foto->guessExtension() ?: 'jpg');
+        $filename = sprintf('%s_foto-%d.%s', $nomorAman, $nomorFoto, $extension);
+        $path = 'pengajuan/foto/' . $filename;
+
+        if (Storage::disk('public')->exists($path)) {
+            $filename = sprintf('%s_foto-%d-%s.%s', $nomorAman, $nomorFoto, bin2hex(random_bytes(4)), $extension);
+        }
+
+        return $foto->storeAs('pengajuan/foto', $filename, 'public');
     }
 }

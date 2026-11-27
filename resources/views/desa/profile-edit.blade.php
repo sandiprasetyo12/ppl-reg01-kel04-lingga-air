@@ -4,20 +4,18 @@
 @section('page-title', 'Profil Desa')
 
 @section('content')
-<div class="max-w-3xl space-y-6 pb-20 md:pb-6">
+<div class="-mt-2 w-full space-y-4 pb-20 sm:-mt-3 md:pb-6">
     <div class="flex items-center justify-between">
         <a 
             href="{{ route('desa.dashboard') }}" 
             class="h-9 inline-flex items-center gap-2 px-3.5 bg-white border border-[#EAECF0] hover:bg-[#F8FAFC] active:bg-[#EAECF0] text-[#344054] text-xs font-semibold rounded-xl transition shadow-xs"
         >
-            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
-            </svg>
+            <i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i>
             <span>Kembali ke Beranda</span>
         </a>
     </div>
 
-    <section class="bg-white border border-[#E4E7EC] rounded-2xl p-6 sm:p-8 shadow-xs space-y-6">
+    <section class="bg-white border border-[#E4E7EC] rounded-2xl p-6 sm:px-8 sm:pt-6 sm:pb-8 shadow-xs space-y-6">
         <div class="border-b border-[#EAECF0] pb-4">
             <h2 class="text-lg sm:text-xl font-extrabold text-[#101828]">
                 Lengkapi Data: Desa {{ $desa->nama_desa }}
@@ -41,17 +39,17 @@
             </div>
         @endif
 
-        <form action="{{ route('desa.profile.update') }}" method="POST" class="space-y-6">
+        <form action="{{ route('desa.profile.update') }}" method="POST" class="w-full space-y-4">
             @csrf
             @method('PUT')
 
             <!-- Bagian 1: Data Kependudukan -->
-            <div class="space-y-4">
+            <div class="space-y-3">
                 <h3 class="text-xs font-bold text-[#101828] uppercase tracking-wider flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-[#0066A1]"></span>
+                    <i class="fa-solid fa-users text-[#0066A1]" aria-hidden="true"></i>
                     Data Kependudukan Total
                 </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <div>
                         <label for="jumlah_kk_total" class="block text-xs font-semibold text-[#344054] mb-1">
                             Jumlah KK Total
@@ -62,7 +60,7 @@
                             id="jumlah_kk_total" 
                             value="{{ old('jumlah_kk_total', $desa->jumlah_kk_total) }}"
                             min="0"
-                            class="min-h-[48px] w-full px-3.5 py-2.5 rounded-xl border border-[#D0D5DD] text-sm text-[#101828] focus:border-[#0066A1] focus:ring-2 focus:ring-[#E6F2FA] outline-none transition"
+                            class="!h-10 !px-3 !py-2 !rounded-lg w-full border border-[#D0D5DD] text-sm text-[#101828] focus:!border-[#0066A1] focus:!ring-2 focus:!ring-[#E6F2FA] focus:!outline-none transition"
                             placeholder="Contoh: 450"
                         >
                     </div>
@@ -77,7 +75,7 @@
                             id="jumlah_jiwa_total" 
                             value="{{ old('jumlah_jiwa_total', $desa->jumlah_jiwa_total) }}"
                             min="0"
-                            class="min-h-[48px] w-full px-3.5 py-2.5 rounded-xl border border-[#D0D5DD] text-sm text-[#101828] focus:border-[#0066A1] focus:ring-2 focus:ring-[#E6F2FA] outline-none transition"
+                            class="!h-10 !px-3 !py-2 !rounded-lg w-full border border-[#D0D5DD] text-sm text-[#101828] focus:!border-[#0066A1] focus:!ring-2 focus:!ring-[#E6F2FA] focus:!outline-none transition"
                             placeholder="Contoh: 1800"
                         >
                     </div>
@@ -85,15 +83,15 @@
             </div>
 
             <!-- Bagian 2: Kelompok Rentan -->
-            <div class="space-y-4 pt-2 border-t border-[#EAECF0]">
+            <div class="space-y-3 pt-2 border-t border-[#EAECF0]">
                 <h3 class="text-xs font-bold text-[#101828] uppercase tracking-wider flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-[#0066A1]"></span>
+                    <i class="fa-solid fa-people-group text-[#0066A1]" aria-hidden="true"></i>
                     Kelompok Rentan (Prioritas Darurat)
                 </h3>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <div>
                         <label for="jumlah_balita" class="block text-xs font-semibold text-[#344054] mb-1">
-                            👶 Jumlah Balita
+                            <i class="fa-solid fa-child text-[#0066A1] mr-1.5" aria-hidden="true"></i>Jumlah Balita
                         </label>
                         <input 
                             type="number" 
@@ -101,14 +99,14 @@
                             id="jumlah_balita" 
                             value="{{ old('jumlah_balita', $desa->jumlah_balita) }}"
                             min="0"
-                            class="min-h-[48px] w-full px-3.5 py-2.5 rounded-xl border border-[#D0D5DD] text-sm text-[#101828] focus:border-[#0066A1] focus:ring-2 focus:ring-[#E6F2FA] outline-none transition"
+                            class="!h-10 !px-3 !py-2 !rounded-lg w-full border border-[#D0D5DD] text-sm text-[#101828] focus:!border-[#0066A1] focus:!ring-2 focus:!ring-[#E6F2FA] focus:!outline-none transition"
                             placeholder="0"
                         >
                     </div>
 
                     <div>
                         <label for="jumlah_lansia" class="block text-xs font-semibold text-[#344054] mb-1">
-                            👴 Jumlah Lansia
+                            <i class="fa-solid fa-person-cane text-[#0066A1] mr-1.5" aria-hidden="true"></i>Jumlah Lansia
                         </label>
                         <input 
                             type="number" 
@@ -116,14 +114,14 @@
                             id="jumlah_lansia" 
                             value="{{ old('jumlah_lansia', $desa->jumlah_lansia) }}"
                             min="0"
-                            class="min-h-[48px] w-full px-3.5 py-2.5 rounded-xl border border-[#D0D5DD] text-sm text-[#101828] focus:border-[#0066A1] focus:ring-2 focus:ring-[#E6F2FA] outline-none transition"
+                            class="!h-10 !px-3 !py-2 !rounded-lg w-full border border-[#D0D5DD] text-sm text-[#101828] focus:!border-[#0066A1] focus:!ring-2 focus:!ring-[#E6F2FA] focus:!outline-none transition"
                             placeholder="0"
                         >
                     </div>
 
                     <div>
                         <label for="jumlah_disabilitas" class="block text-xs font-semibold text-[#344054] mb-1">
-                            ♿ Jumlah Disabilitas
+                            <i class="fa-solid fa-wheelchair text-[#0066A1] mr-1.5" aria-hidden="true"></i>Jumlah Disabilitas
                         </label>
                         <input 
                             type="number" 
@@ -131,7 +129,7 @@
                             id="jumlah_disabilitas" 
                             value="{{ old('jumlah_disabilitas', $desa->jumlah_disabilitas) }}"
                             min="0"
-                            class="min-h-[48px] w-full px-3.5 py-2.5 rounded-xl border border-[#D0D5DD] text-sm text-[#101828] focus:border-[#0066A1] focus:ring-2 focus:ring-[#E6F2FA] outline-none transition"
+                            class="!h-10 !px-3 !py-2 !rounded-lg w-full border border-[#D0D5DD] text-sm text-[#101828] focus:!border-[#0066A1] focus:!ring-2 focus:!ring-[#E6F2FA] focus:!outline-none transition"
                             placeholder="0"
                         >
                     </div>
@@ -139,9 +137,9 @@
             </div>
 
             <!-- Bagian 3: Titik Drop Air & Titik Koordinat -->
-            <div class="space-y-4 pt-2 border-t border-[#EAECF0]">
+            <div class="space-y-3 pt-2 border-t border-[#EAECF0]">
                 <h3 class="text-xs font-bold text-[#101828] uppercase tracking-wider flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-[#0066A1]"></span>
+                    <i class="fa-solid fa-location-dot text-[#0066A1]" aria-hidden="true"></i>
                     Titik Drop & Koordinat Tandon Air
                 </h3>
                 <div>
@@ -153,22 +151,25 @@
                         name="titik_drop_air" 
                         id="titik_drop_air" 
                         value="{{ old('titik_drop_air', $desa->titik_drop_air) }}"
-                        class="min-h-[48px] w-full px-3.5 py-2.5 rounded-xl border border-[#D0D5DD] text-sm text-[#101828] focus:border-[#0066A1] focus:ring-2 focus:ring-[#E6F2FA] outline-none transition"
+                        class="!h-10 !px-3 !py-2 !rounded-lg w-full border border-[#D0D5DD] text-sm text-[#101828] focus:!border-[#0066A1] focus:!ring-2 focus:!ring-[#E6F2FA] focus:!outline-none transition"
                         placeholder="Contoh: Depan Balai Desa / Lapangan RT 02"
                     >
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label for="latitude" class="block text-xs font-semibold text-[#344054] mb-1">
                             Latitude (GPS)
                         </label>
                         <input 
-                            type="text" 
+                            type="number" 
                             name="latitude" 
                             id="latitude" 
                             value="{{ old('latitude', $desa->latitude) }}"
-                            class="min-h-[48px] w-full px-3.5 py-2.5 rounded-xl border border-[#D0D5DD] text-sm text-[#101828] focus:border-[#0066A1] focus:ring-2 focus:ring-[#E6F2FA] outline-none transition font-mono text-xs"
+                            min="-90"
+                            max="90"
+                            step="any"
+                            class="!h-10 !px-3 !py-2 !rounded-lg w-full border border-[#D0D5DD] text-sm text-[#101828] focus:!border-[#0066A1] focus:!ring-2 focus:!ring-[#E6F2FA] focus:!outline-none transition font-mono text-xs"
                             placeholder="-7.3920"
                         >
                     </div>
@@ -178,27 +179,30 @@
                             Longitude (GPS)
                         </label>
                         <input 
-                            type="text" 
+                            type="number" 
                             name="longitude" 
                             id="longitude" 
                             value="{{ old('longitude', $desa->longitude) }}"
-                            class="min-h-[48px] w-full px-3.5 py-2.5 rounded-xl border border-[#D0D5DD] text-sm text-[#101828] focus:border-[#0066A1] focus:ring-2 focus:ring-[#E6F2FA] outline-none transition font-mono text-xs"
+                            min="-180"
+                            max="180"
+                            step="any"
+                            class="!h-10 !px-3 !py-2 !rounded-lg w-full border border-[#D0D5DD] text-sm text-[#101828] focus:!border-[#0066A1] focus:!ring-2 focus:!ring-[#E6F2FA] focus:!outline-none transition font-mono text-xs"
                             placeholder="109.3638"
                         >
                     </div>
                 </div>
             </div>
 
-            <!-- Bagian 4: Penanggung Jawab Darurat -->
+            <!-- Bagian 4: Kontak Perwakilan Desa -->
             <div class="space-y-4 pt-2 border-t border-[#EAECF0]">
                 <h3 class="text-xs font-bold text-[#101828] uppercase tracking-wider flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-[#0066A1]"></span>
-                    Kontak Penanggung Jawab Darurat Desa
+                    <i class="fa-solid fa-address-card text-[#0066A1]" aria-hidden="true"></i>
+                    Kontak Perwakilan Desa
                 </h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label for="nama_pj_darurat" class="block text-xs font-semibold text-[#344054] mb-1">
-                            Nama Penanggung Jawab
+                            Nama Perwakilan Desa
                         </label>
                         <input 
                             type="text" 
@@ -212,7 +216,7 @@
 
                     <div>
                         <label for="no_wa_darurat" class="block text-xs font-semibold text-[#344054] mb-1">
-                            Nomor WhatsApp Darurat
+                            Nomor WhatsApp Perwakilan Desa
                         </label>
                         <input 
                             type="text" 

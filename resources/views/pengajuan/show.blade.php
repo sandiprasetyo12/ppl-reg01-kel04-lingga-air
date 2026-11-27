@@ -228,12 +228,12 @@
             <!-- // [DI-HIDE SEMENTARA: AKHIR] BAGIAN TITIK DROP POINT PENGANTARAN TANDON & MINI PETA                         -->
             <!-- ========================================================================================================= -->
 
-            <!-- Kontak Penanggung Jawab -->
+            <!-- Kontak Perwakilan Desa -->
             <div class="card p-5 space-y-2 text-xs">
-                <h3 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] m-0">Kontak Penanggung Jawab</h3>
+                <h3 class="font-bold text-slate-800 uppercase tracking-wider text-[11px] m-0">Kontak Perwakilan Desa</h3>
                 <div class="space-y-1.5 text-slate-600">
                     <div class="flex justify-between">
-                        <span class="text-slate-400">Nama PJ:</span>
+                        <span class="text-slate-400">Nama:</span>
                         <span class="font-bold text-slate-800">{{ $desa->nama_pj }}</span>
                     </div>
                     <div class="flex justify-between">

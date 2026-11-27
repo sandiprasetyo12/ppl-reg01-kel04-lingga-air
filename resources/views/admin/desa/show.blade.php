@@ -88,14 +88,14 @@
             </div>
 
             <div>
-                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">Penanggung Jawab Darurat</dt>
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">Perwakilan Desa</dt>
                 <dd class="mt-0.5 text-[#101828] font-medium">
                     {{ $desa->nama_pj_darurat ?: '-' }}
                 </dd>
             </div>
 
             <div>
-                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">No. WhatsApp Darurat</dt>
+                <dt class="text-[9.5px] font-bold text-[#667085] uppercase tracking-wider">No. WhatsApp Perwakilan Desa</dt>
                 <dd class="mt-0.5 text-[#101828] font-medium flex items-center gap-1.5">
                     @if($desa->no_wa_darurat)
                         <i class="fa-brands fa-whatsapp text-emerald-500"></i>

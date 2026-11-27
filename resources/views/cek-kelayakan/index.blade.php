@@ -101,7 +101,7 @@
     <div class="pb-3 border-b border-[#EAECF0]">
         <span class="inline-flex items-center gap-1.5 text-xs font-bold text-[#00629B] uppercase tracking-wider">
             <i class="fa-solid fa-calculator text-[10px]"></i>
-            Layanan Desa &middot; SPK AHP-SAW
+            Layanan Desa
         </span>
         <h1 class="text-lg sm:text-xl font-bold text-[#101828] mt-1 tracking-tight">
             Cek Kelayakan Bantuan Air Bersih
@@ -124,10 +124,6 @@
                         Isi kondisi lapangan aktual untuk menghitung skor prioritas bantuan.
                     </p>
                 </div>
-                <span class="h-6 px-2.5 rounded-md bg-[#F8FAFC] border border-[#D0D5DD] text-xs font-medium text-[#344054] inline-flex items-center gap-1">
-                    <i class="fa-solid fa-shield-halved text-[10px] text-[#667085]"></i>
-                    F-02 Engine
-                </span>
             </div>
 
             <form method="POST" action="{{ route('cek-kelayakan.calculate') }}" class="space-y-4">
@@ -366,7 +362,7 @@
                 <div class="flex items-center justify-between pb-3 border-b border-[#EAECF0]">
                     <span class="text-xs sm:text-sm font-bold text-[#101828] flex items-center gap-1.5">
                         <i class="fa-solid fa-chart-simple text-[#00629B]"></i>
-                        Hasil Evaluasi SPK AHP-SAW
+                        Hasil Evaluasi
                     </span>
                     <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-xs font-bold {{ $statusConfig['badge'] }}">
                         <i class="fa-solid {{ $statusConfig['icon'] }} text-xs"></i>

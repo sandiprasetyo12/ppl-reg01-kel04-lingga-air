@@ -33,6 +33,7 @@
         {{-- Nav Links --}}
         <nav aria-label="Navigasi Utama" class="hidden md:flex items-center gap-8 text-sm font-medium">
             <a href="#hero" class="nav-link text-white font-semibold border-b-2 border-white py-1 transition-colors">Beranda</a>
+            <a href="{{ route('pengumuman.public') }}" class="nav-link text-white/90 hover:text-white transition-colors">Pengumuman</a>
             <a href="{{ route('cek-kelayakan.index') }}" class="nav-link text-white/90 hover:text-white transition-colors">Cek Kelayakan</a>
             <a href="#gis" class="nav-link text-white/90 hover:text-white transition-colors">Peta GIS</a>
             <a href="#tentang" class="nav-link text-white/90 hover:text-white transition-colors">Tentang Layanan</a>

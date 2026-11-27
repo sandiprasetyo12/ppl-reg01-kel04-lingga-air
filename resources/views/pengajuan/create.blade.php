@@ -14,10 +14,10 @@
 
     <!-- PBI-009: Peringatan Tiket Aktif jika desa sudah punya tiket berjalan -->
     @if($hasActiveTicket && $activeTicket)
-        <div class="card p-3.5 border-amber-300 bg-amber-50 text-amber-900 flex items-start gap-3">
-            <i class="fa-solid fa-triangle-exclamation text-amber-700 text-base mt-0.5 shrink-0"></i>
+        <div class="card p-3.5 border-slate-200 bg-slate-50 text-slate-700 flex items-start gap-3">
+            <i class="fa-solid fa-triangle-exclamation text-slate-500 text-base mt-0.5 shrink-0"></i>
             <div class="text-xs">
-                <p class="font-bold text-xs text-amber-950">Desa Anda Memiliki Tiket Bantuan Aktif</p>
+                <p class="font-bold text-xs text-slate-800">Desa Anda Memiliki Tiket Bantuan Aktif</p>
                 <p class="mt-0.5 text-[#475467]">
                     Permohonan aktif dengan Nomor Tiket <strong>{{ $activeTicket->nomor_tiket }}</strong> saat ini berstatus <strong>{{ $activeTicket->status }}</strong>.
                     Sistem membatasi satu desa hanya boleh memiliki 1 tiket aktif. Anda tetap dapat menyimpan isian berikut sebagai <strong>Draf</strong>, namun tombol kirim ke antrean admin akan dikunci hingga tiket aktif diselesaikan.
@@ -28,10 +28,10 @@
 
     <!-- PERINGATAN BILA BELUM CEK KELAYAKAN -->
     @if(!$simulasi)
-        <div class="card p-3.5 border-amber-300 bg-amber-50 text-amber-900 flex items-start gap-3">
-            <i class="fa-solid fa-circle-info text-amber-700 text-base mt-0.5 shrink-0"></i>
+        <div class="card p-3.5 border-slate-200 bg-slate-50 text-slate-700 flex items-start gap-3">
+            <i class="fa-solid fa-circle-info text-slate-500 text-base mt-0.5 shrink-0"></i>
             <div class="text-xs">
-                <p class="font-bold text-xs text-amber-950">Data Cek Kelayakan Belum Diisi</p>
+                <p class="font-bold text-xs text-slate-800">Data Cek Kelayakan Belum Diisi</p>
                 <p class="mt-0.5 text-[#475467]">
                     Formulir pengajuan bantuan air membutuhkan data dari hasil <strong>Cek Kelayakan Mandiri (F-02)</strong>. Nilai parameter kebutuhan akan terkunci dan terisi otomatis setelah Anda menjalankan simulasi kelayakan untuk desa Anda.
                 </p>
@@ -121,8 +121,9 @@
                         type="text" 
                         value="{{ $desa->nama_desa }} (Kecamatan {{ $desa->kecamatan }}) - Kode: {{ $desa->kode_desa }}" 
                         disabled 
+                        class="cursor-not-allowed"
                     >
-                    <span class="unit">🔒</span>
+                    <span class="unit"><i class="fa-solid fa-lock text-gray-400" aria-hidden="true"></i></span>
                 </div>
                 <p class="hint">Data desa terkunci otomatis berdasarkan akun aparatur desa yang terdaftar resmi.</p>
             </div>
@@ -131,10 +132,10 @@
             <div class="space-y-3 pt-2">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                        <span>🔒</span>
+                        <i class="fa-solid fa-lock text-gray-500" aria-hidden="true"></i>
                         <span>Parameter Kebutuhan (Terkunci dari Cek Kelayakan F-02)</span>
                     </span>
-                    <span class="text-[11px] font-bold text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
+                    <span class="text-[11px] font-bold text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full">
                         Nilai Terkunci Otomatis
                     </span>
                 </div>
@@ -151,10 +152,10 @@
                                 value="{{ $simulasi?->kk_terdampak ?? '' }}" 
                                 placeholder="Belum ada data"
                                 readonly 
-                                class="font-bold text-slate-900"
+                                class="font-bold text-slate-900 cursor-not-allowed"
                             >
                             <input type="hidden" name="jumlah_kk" id="jumlah_kk" value="{{ $simulasi?->kk_terdampak ?? '' }}">
-                            <span class="unit">KK 🔒</span>
+                            <span class="unit inline-flex items-center gap-1.5">KK <i class="fa-solid fa-lock text-gray-400 shrink-0" aria-hidden="true"></i></span>
                         </div>
                         <p class="hint">Tersinkron dari Cek Kelayakan (total {{ $desa->jumlah_kk }} KK)</p>
                     </div>
@@ -169,10 +170,10 @@
                                 value="{{ $simulasi?->hari_tanpa_air ?? '' }}" 
                                 placeholder="Belum ada data"
                                 readonly 
-                                class="font-bold text-slate-900"
+                                class="font-bold text-slate-900 cursor-not-allowed"
                             >
                             <input type="hidden" name="hari_tanpa_air" id="hari_tanpa_air" value="{{ $simulasi?->hari_tanpa_air ?? '' }}">
-                            <span class="unit">Hari 🔒</span>
+                            <span class="unit inline-flex items-center gap-1.5">Hari <i class="fa-solid fa-lock text-gray-400 shrink-0" aria-hidden="true"></i></span>
                         </div>
                         <p class="hint">Durasi ketiadaan suplai air hasil simulasi</p>
                     </div>
@@ -187,10 +188,10 @@
                                 value="{{ $simulasi?->jarak_sumber_air ?? '' }}" 
                                 placeholder="Belum ada data"
                                 readonly 
-                                class="font-bold text-slate-900"
+                                class="font-bold text-slate-900 cursor-not-allowed"
                             >
                             <input type="hidden" name="jarak_sumber_air" id="jarak_sumber_air" value="{{ $simulasi?->jarak_sumber_air ?? '' }}">
-                            <span class="unit">Meter 🔒</span>
+                            <span class="unit inline-flex items-center gap-1.5">Meter <i class="fa-solid fa-lock text-gray-400 shrink-0" aria-hidden="true"></i></span>
                         </div>
                         <p class="hint">Jarak tempuh warga ke sumber alternatif</p>
                     </div>
@@ -238,7 +239,7 @@
                 </div>
 
                 <!-- Dropzone / Picker -->
-                <div class="border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-xl p-5 text-center bg-slate-50 hover:bg-sky-50/30 transition cursor-pointer" onclick="document.getElementById('foto_lapangan').click()">
+                <div class="group border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-xl p-5 text-center bg-slate-50 hover:bg-sky-50/30 transition cursor-pointer" onclick="document.getElementById('foto_lapangan').click()">
                     <input 
                         type="file" 
                         name="foto_lapangan[]" 
@@ -249,9 +250,7 @@
                         onchange="handleFotoSelection(event)"
                     >
                     <div class="flex flex-col items-center justify-center gap-1.5">
-                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg" style="background: #eef4f8; color: #619DC6;">
-                            📷
-                        </div>
+                        <i class="fa-solid fa-camera text-xl text-slate-500 transition-colors group-hover:text-slate-600" aria-hidden="true"></i>
                         <p class="text-xs font-bold text-slate-800 m-0">
                             <span class="underline" style="color: #619DC6;">Klik untuk memilih foto</span> atau seret foto ke area ini
                         </p>
@@ -271,21 +270,33 @@
                     <label class="mb-0">
                         Surat Permohonan Resmi Kepala Desa
                     </label>
-                    <p class="hint mt-0.5">
+                    <p class="hint mt-0.5 whitespace-normal break-words">
                         Unggah pindaian (scan) surat pengantar Kepala Desa berstempel basah (PDF / JPG / PNG, maks 5 MB).
                     </p>
                 </div>
 
-                <div class="flex items-center gap-3">
+                <div
+                    id="suratDropzone"
+                    role="button"
+                    tabindex="0"
+                    aria-controls="surat_kepala_desa"
+                    class="rounded-xl border-2 border-dashed border-gray-300 bg-white p-5 text-center transition-colors hover:border-sky-400 hover:bg-sky-50/40 cursor-pointer"
+                    onclick="if (event.target.id !== 'surat_kepala_desa') document.getElementById('surat_kepala_desa').click()"
+                >
                     <input 
                         type="file" 
                         name="surat_kepala_desa" 
                         id="surat_kepala_desa" 
                         accept="application/pdf, image/png, image/jpeg, image/jpg"
-                        class="text-xs text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-slate-300 file:text-xs file:font-bold file:bg-slate-50 file:text-slate-700 hover:file:bg-slate-100"
+                        class="hidden"
                         onchange="handleSuratSelection(event)"
                     >
-                    <div id="suratPreviewName" class="text-xs text-slate-600 font-medium hidden"></div>
+                    <div id="suratDropzonePrompt" class="flex flex-col items-center gap-1.5 font-sans">
+                        <i class="fa-solid fa-cloud-arrow-up text-lg text-slate-500" aria-hidden="true"></i>
+                        <p class="m-0 text-xs font-semibold text-slate-700">Klik untuk unggah atau seret file ke sini</p>
+                        <p class="m-0 text-[11px] text-slate-500">PDF, JPG, PNG, maksimal 5 MB</p>
+                    </div>
+                    <div id="suratPreviewName" class="mt-3 hidden"></div>
                 </div>
             </div>
 
@@ -350,8 +361,9 @@
                 <textarea 
                     name="catatan_tambahan" 
                     id="catatan_tambahan" 
-                    rows="2" 
-                    placeholder="Contoh: Akses mobil tangki muat melalui gerbang utama balai desa. Jalan aspal lebar 4 meter."
+                    rows="3" 
+                    class="!px-4 !py-3 !min-h-0 !rounded-lg !border !border-[#D0D5DD] focus:!border-[#00629B] focus:!ring-2 focus:!ring-[#00629B]/20 outline-none !text-xs sm:!text-sm text-[#101828] placeholder:text-gray-400 !leading-relaxed shadow-xs resize-y"
+                    placeholder="Contoh: Akses mobil tangki lewat gerbang utama balai desa"
                 >{{ old('catatan_tambahan') }}</textarea>
             </div>
 
@@ -492,8 +504,8 @@
                 <p id="modal-disp-catatan" class="text-slate-600 m-0"></p>
             </div>
 
-            <div class="border border-amber-200 rounded-xl p-3 bg-amber-50 text-amber-900 text-xs flex items-start gap-2">
-                <span>⚠</span>
+            <div class="border border-sky-200 rounded-xl p-3 bg-sky-50 text-sky-900 text-xs flex items-start gap-2">
+                <i class="fa-solid fa-circle-info text-sky-700" aria-hidden="true"></i>
                 <span>Pengajuan akan dimasukkan ke antrean verifikasi petugas BPBD. Pastikan jadwal kebutuhan dan titik drop tandon dalam kondisi siap tampung.</span>
             </div>
 
@@ -643,15 +655,85 @@
     function handleSuratSelection(event) {
         const file = event.target.files[0];
         const preview = document.getElementById('suratPreviewName');
-        if (file) {
-            preview.classList.remove('hidden');
-            preview.innerHTML = `
-                <span class="inline-flex items-center gap-1.5 border border-sky-200 bg-sky-50 text-sky-800 px-3 py-1 rounded-lg">
-                    📄 <span class="font-bold">${file.name}</span>
-                    <span class="text-[10px] text-slate-500">(${(file.size / (1024*1024)).toFixed(2)} MB)</span>
-                </span>
-            `;
+        const prompt = document.getElementById('suratDropzonePrompt');
+        if (!file) {
+            clearSuratSelection();
+            return;
         }
+
+        preview.replaceChildren();
+        preview.classList.remove('hidden');
+        prompt.classList.add('hidden');
+
+        const row = document.createElement('div');
+        row.className = 'mx-auto flex max-w-lg items-center gap-3 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-left font-sans';
+
+        const icon = document.createElement('i');
+        icon.className = 'fa-regular fa-file-lines text-sky-700';
+        icon.setAttribute('aria-hidden', 'true');
+
+        const fileInfo = document.createElement('div');
+        fileInfo.className = 'min-w-0 flex-1';
+
+        const fileName = document.createElement('p');
+        fileName.className = 'm-0 truncate text-xs font-semibold text-slate-800';
+        fileName.textContent = file.name;
+
+        const fileSize = document.createElement('p');
+        fileSize.className = 'm-0 mt-0.5 text-[11px] text-slate-500';
+        fileSize.textContent = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'shrink-0 rounded-md px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-white hover:text-slate-900';
+        removeButton.textContent = 'Hapus';
+        removeButton.addEventListener('click', (clickEvent) => {
+            clickEvent.stopPropagation();
+            clearSuratSelection();
+        });
+
+        fileInfo.append(fileName, fileSize);
+        row.append(icon, fileInfo, removeButton);
+        preview.appendChild(row);
+    }
+
+    function clearSuratSelection() {
+        const input = document.getElementById('surat_kepala_desa');
+        const preview = document.getElementById('suratPreviewName');
+        input.value = '';
+        preview.replaceChildren();
+        preview.classList.add('hidden');
+        document.getElementById('suratDropzonePrompt').classList.remove('hidden');
+    }
+
+    const suratDropzone = document.getElementById('suratDropzone');
+    if (suratDropzone) {
+        const input = document.getElementById('surat_kepala_desa');
+        const activeDropClasses = ['border-sky-500', 'bg-sky-50'];
+
+        suratDropzone.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                input.click();
+            }
+        });
+        suratDropzone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            suratDropzone.classList.add(...activeDropClasses);
+        });
+        suratDropzone.addEventListener('dragleave', () => {
+            suratDropzone.classList.remove(...activeDropClasses);
+        });
+        suratDropzone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            suratDropzone.classList.remove(...activeDropClasses);
+            if (!event.dataTransfer.files.length) return;
+
+            const transfer = new DataTransfer();
+            transfer.items.add(event.dataTransfer.files[0]);
+            input.files = transfer.files;
+            handleSuratSelection({ target: input });
+        });
     }
 
     // Submission triggers

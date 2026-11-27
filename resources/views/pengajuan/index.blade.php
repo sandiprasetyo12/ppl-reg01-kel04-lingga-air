@@ -30,14 +30,14 @@
     </div>
 
     <!-- SUMMARY METRICS CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-stretch">
         
         <!-- Card 1: Draf Tersimpan -->
-        <div class="card p-4 flex items-center gap-3.5">
+        <div class="card p-4 flex flex-col gap-2 h-full min-h-[124px]">
             <div class="w-9 h-9 rounded-lg bg-[#F8FAFC] border border-[#D0D5DD] flex items-center justify-center shrink-0 text-[#667085]">
-                <i class="fa-regular fa-file-lines text-sm"></i>
+                <i class="fa-solid fa-file-pen text-sm text-[#00629B]"></i>
             </div>
-            <div>
+            <div class="min-w-0">
                 <span class="text-[11px] font-semibold text-[#667085] uppercase tracking-wide block">Draf Tersimpan</span>
                 <span class="text-xl font-bold text-[#101828] block" style="font-variant-numeric: tabular-nums;">
                     {{ $drafList->total() }}
@@ -47,39 +47,33 @@
         </div>
 
         <!-- Card 2: Tiket Aktif -->
-        <div class="card p-4 flex items-center gap-3.5">
+        <div class="card p-4 flex flex-col gap-2 h-full min-h-[124px]">
             <div class="w-9 h-9 rounded-lg bg-[#F8FAFC] border border-[#D0D5DD] flex items-center justify-center shrink-0 text-[#667085]">
-                <i class="fa-solid fa-ticket text-sm"></i>
+                <i class="fa-solid fa-ticket text-sm text-[#00629B]"></i>
             </div>
-            <div>
-                <span class="text-[11px] font-semibold text-[#667085] uppercase tracking-wide block">Status Tiket Aktif</span>
+            <div class="min-w-0">
+                <span class="text-[11px] font-semibold text-[#667085] uppercase tracking-wide block">Tiket Aktif</span>
                 @if($hasActiveTicket)
-                    <span class="text-sm font-bold text-[#B54708] block truncate font-mono">{{ $activeTicket->nomor_tiket }}</span>
-                    <span class="status-badge status-waspada text-[10px] mt-0.5">{{ $activeTicket->status }}</span>
+                    <span class="text-xl font-bold text-[#B54708] block truncate font-mono">{{ $activeTicket->nomor_tiket }}</span>
+                    <span class="text-[11px] text-[#667085]">{{ $activeTicket->status }}</span>
                 @else
-                    <span class="text-sm font-bold text-[#027A48] block">Tidak Ada Tiket Aktif</span>
+                    <span class="text-xl font-bold text-[#027A48] block">Tidak Ada Tiket Aktif</span>
                     <span class="text-[11px] text-[#667085]">Siap mengajukan baru</span>
                 @endif
             </div>
         </div>
 
         <!-- Card 3: Riwayat Terkirim -->
-        <div class="card p-4 flex items-center gap-3.5">
+        <div class="card p-4 flex flex-col gap-2 h-full min-h-[124px]">
             <div class="w-9 h-9 rounded-lg bg-[#F8FAFC] border border-[#D0D5DD] flex items-center justify-center shrink-0 text-[#667085]">
-                <i class="fa-solid fa-check text-sm"></i>
+                <i class="fa-solid fa-hourglass-half text-sm text-[#00629B]"></i>
             </div>
-            <div>
-                <span class="text-[11px] font-semibold text-[#667085] uppercase tracking-wide block">Riwayat Terkirim</span>
+            <div class="min-w-0">
+                <span class="text-[11px] font-semibold text-[#667085] uppercase tracking-wide block">Dalam Antrean</span>
                 <span class="text-xl font-bold text-[#101828] block" style="font-variant-numeric: tabular-nums;">
                     {{ $riwayatList->total() }}
                 </span>
-                <span class="text-[11px] text-[#667085]">Terkunci dalam antrean</span>
-            </div>
-        </div>
-
-    </div>
-                </span>
-                <span class="text-xs text-[#667085]">Terkunci dalam antrean</span>
+                <span class="text-[11px] text-[#667085]">Pengajuan yang telah dikirim</span>
             </div>
         </div>
 
@@ -189,16 +183,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="p-4 border-t border-slate-100">
+            <div class="px-4 pt-3 pb-2 border-t border-slate-100">
                 {{ $drafList->links() }}
             </div>
         @else
-            <div class="p-8 text-center text-slate-500">
+            <div class="px-4 py-5 text-center text-slate-500">
                 <p class="text-sm font-bold text-slate-700">Belum ada draf pengajuan tersimpan</p>
                 <p class="text-xs text-slate-500 mt-1">Mulai menyusun draf baru untuk mencatat kebutuhan air desa.</p>
-                <a href="{{ route('pengajuan.create') }}" class="submit mt-3 text-xs">
-                    ＋ Buat Draf Pengajuan Baru
-                </a>
             </div>
         @endif
     </div>
@@ -223,7 +214,7 @@
                             <th class="py-3 px-4">Kebutuhan Air</th>
                             <th class="py-3 px-4">Estimasi Tangki</th>
                             <th class="py-3 px-4 text-center">Status Tiket</th>
-                            <th class="py-3 px-4 text-right">Detail</th>
+                            <th class="py-3 pl-4 pr-6 text-right">Detail</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-700">
@@ -255,8 +246,8 @@
                                         {{ $item->status }}
                                     </span>
                                 </td>
-                                <td class="py-3.5 px-4 text-right">
-                                    <a href="{{ route('pengajuan.show', $item->id) }}" class="reset py-1 px-3 min-h-0 text-xs">
+                                <td class="py-3.5 pl-4 pr-6 text-right">
+                                    <a href="{{ route('pengajuan.show', $item->id) }}" class="reset inline-flex items-center justify-end py-1 px-3 min-h-0 text-xs">
                                         Lihat →
                                     </a>
                                 </td>
@@ -265,7 +256,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="p-4 border-t border-slate-100">
+            <div class="px-4 pt-3 pb-2 border-t border-slate-100">
                 {{ $riwayatList->links() }}
             </div>
         @else
@@ -321,3 +312,4 @@
 </script>
 @endpush
 @endsection
+

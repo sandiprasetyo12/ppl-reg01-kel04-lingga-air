@@ -208,7 +208,7 @@
 <body class="bg-[#F8FAFC] text-[#101828] min-h-screen flex flex-col antialiased font-sans">
 
     {{-- TOP NAVBAR (NAVIGASI ATAS TANPA SIDEBAR) --}}
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#EAECF0] shadow-xs">
+    <header class="sticky top-0 z-40 bg-white border-b border-[#EAECF0] shadow-xs">
         <div class="w-full px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
             
             <!-- Kiri: Brand Logo -->
@@ -344,7 +344,7 @@
 
     {{-- KONTEN UTAMA --}}
     <main class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
-        @if (session('success'))
+        @if (session('success') && !request()->routeIs('pengajuan.success'))
             <div role="status" class="p-4 rounded-2xl bg-[#ECFDF3] border border-[#A6F4C5] text-[#027A48] text-xs sm:text-sm font-semibold flex items-center gap-2.5 shadow-xs">
                 <i class="fa-solid fa-circle-check text-base"></i>
                 <span>{{ session('success') }}</span>

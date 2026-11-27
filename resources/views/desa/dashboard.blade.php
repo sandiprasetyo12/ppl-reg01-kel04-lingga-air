@@ -23,6 +23,88 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4 items-stretch">
+    {{-- PBI-018: Banner Peringatan Kedaruratan Aktif BPBD Purbalingga --}}
+    @if (!empty($pengumumanDarurat))
+        @php
+            $announcementTone = match ($pengumumanDarurat->tingkat_kelayakan) {
+                'kritis' => ['bg-[#FEF3F2] border-[#FECDCA] text-[#7A271A]', 'bg-[#FEE4E2] text-[#D92D20]', 'fa-triangle-exclamation'],
+                'aman' => ['bg-[#ECFDF3] border-[#A6F4C5] text-[#05603A]', 'bg-[#D1FADF] text-[#027A48]', 'fa-circle-check'],
+                default => ['bg-[#FEF0C7] border-[#FEDF89] text-[#7A2E0E]', 'bg-[#FDE293] text-[#B54708]', 'fa-triangle-exclamation'],
+            };
+        @endphp
+        <div class="h-full p-4 rounded-xl border {{ $announcementTone[0] }} flex items-start gap-3 shadow-xs">
+            <div class="w-8 h-8 rounded-lg {{ $announcementTone[1] }} flex items-center justify-center shrink-0 text-sm mt-0.5">
+                <i class="fa-solid {{ $announcementTone[2] }}"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full text-[10px] {{ $pengumumanDarurat->badge_class }}">
+                        Status {{ $pengumumanDarurat->tingkat_label }}
+                    </span>
+                    <span class="text-[11px] text-[#667085]">
+                        Diterbitkan: {{ $pengumumanDarurat->published_at ? $pengumumanDarurat->published_at->translatedFormat('d F Y, H:i') : '' }} WIB
+                    </span>
+                </div>
+                <h3 class="text-sm font-bold mt-1 text-[#101828]">
+                    {{ $pengumumanDarurat->judul }}
+                </h3>
+                <p class="text-xs mt-1 text-[#344054] leading-relaxed">
+                    {{ $pengumumanDarurat->isi }}
+                </p>
+            </div>
+        </div>
+    @endif
+
+    {{-- Prakiraan cuaca BMKG untuk wilayah desa --}}
+    @if ($desa)
+        <section id="weather-card" data-url="{{ route('desa.weather') }}" class="h-full flex flex-col rounded-xl border border-sky-200 bg-sky-50 p-4 shadow-xs {{ empty($pengumumanDarurat) ? 'lg:col-span-2' : '' }}" aria-live="polite">
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-wider text-sky-800">Prakiraan Cuaca Desa</p>
+                    <h2 id="weather-location" class="mt-1 text-sm font-bold text-sky-950">Memuat prakiraan cuaca…</h2>
+                </div>
+                <i class="fa-solid fa-cloud-sun text-xl text-sky-700" aria-hidden="true"></i>
+            </div>
+            <div class="mt-4 flex items-end gap-2">
+                <p id="weather-temperature" class="m-0 text-4xl font-bold leading-none tracking-tight text-sky-950">--°</p>
+                <p id="weather-description" class="m-0 pb-0.5 text-xs text-sky-900">Mengambil data dari BMKG</p>
+            </div>
+            <div class="mt-auto grid grid-cols-2 gap-3 pt-4 text-xs text-sky-900">
+                <p class="m-0"><span class="block text-[10px] text-sky-700">Kelembapan</span><span id="weather-humidity" class="font-semibold">—</span></p>
+                <p class="m-0"><span class="block text-[10px] text-sky-700">Kecepatan angin</span><span id="weather-wind" class="font-semibold">—</span></p>
+            </div>
+            <p id="weather-updated" class="mt-3 mb-0 text-[10px] text-sky-700"></p>
+            <p class="mt-1 text-[10px] text-sky-700">Sumber: <a href="https://data.bmkg.go.id/prakiraan-cuaca/" target="_blank" rel="noopener noreferrer" class="font-semibold text-sky-800 underline">BMKG</a> · Data prakiraan, bukan penetapan status kekeringan.</p>
+        </section>
+        <script>
+            (() => {
+                const card = document.getElementById('weather-card');
+                if (!card) return;
+
+                fetch(card.dataset.url, { headers: { Accept: 'application/json' } })
+                    .then((response) => {
+                        if (!response.ok) throw new Error('Cuaca tidak tersedia');
+                        return response.json();
+                    })
+                    .then((data) => {
+                        document.getElementById('weather-location').textContent = data.location || @json($desa->nama_desa);
+                        document.getElementById('weather-description').textContent = data.weather || 'Kondisi cuaca belum tersedia';
+                        document.getElementById('weather-temperature').textContent = data.temperature !== null ? `${data.temperature}°C` : '—';
+                        document.getElementById('weather-humidity').textContent = data.humidity !== null ? `${data.humidity}%` : '—';
+                        document.getElementById('weather-wind').textContent = data.wind_speed !== null ? `${data.wind_speed} km/jam` : '—';
+
+                        const updated = data.local_datetime || data.analysis_date;
+                        document.getElementById('weather-updated').textContent = updated ? `Waktu prakiraan: ${updated}` : '';
+                    })
+                    .catch(() => {
+                        document.getElementById('weather-description').textContent = 'Prakiraan cuaca belum dapat dimuat. Coba muat ulang halaman.';
+                    });
+            })();
+        </script>
+    @endif
+    </div>
+
     <!-- 2. HERO STATUS CARD (F-02 Realtime Status & One Primary Action) -->
     @include('desa.components.hero-status')
 

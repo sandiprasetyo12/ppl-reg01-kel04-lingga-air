@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Desa;
 use App\Models\Pengajuan;
+use App\Models\Pengumuman;
 use App\Models\RiwayatCekKelayakan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -54,6 +55,9 @@ class BerandaDesaController extends Controller
         // 7. Aktivitas Terbaru (3 data riwayat / notifikasi)
         $aktivitas = $this->getRecentActivities($desa, $latestKelayakan, $latestPengajuan);
 
+        // 8. Pengumuman Kedaruratan Aktif Terbaru dari BPBD (PBI-018)
+        $pengumumanDarurat = Pengumuman::activePublished()->first();
+
         return view('desa.dashboard', compact(
             'desa',
             'latestKelayakan',
@@ -64,7 +68,8 @@ class BerandaDesaController extends Controller
             'stepper',
             'timeline',
             'ringkasan',
-            'aktivitas'
+            'aktivitas',
+            'pengumumanDarurat'
         ));
     }
 

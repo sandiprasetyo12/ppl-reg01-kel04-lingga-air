@@ -32,6 +32,7 @@
             'menus' => [
                 ['Dashboard', 'fa-table-cells-large', 'admin.dashboard', request()->routeIs('admin.dashboard')],
                 ['Verifikasi Pengajuan', 'fa-circle-check', 'verifikasi.index', request()->routeIs('verifikasi.*')],
+                ['Pengumuman', 'fa-bullhorn', 'admin.pengumuman.index', request()->routeIs('admin.pengumuman.*')],
                 ['Penugasan Penyalur', 'fa-user-group', null, false],
                 ['Peta Distribusi', 'fa-map', 'admin.pemetaan.index', request()->routeIs('admin.pemetaan.*')],
                 ['Laporan Penyaluran', 'fa-chart-column', 'laporan.index', request()->routeIs('laporan.*')],

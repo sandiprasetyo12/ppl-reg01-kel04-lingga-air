@@ -160,7 +160,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
                     <label for="nama_pj_darurat" class="block text-[10px] font-semibold text-[#475467] mb-1">
-                        Nama PJ Darurat
+                        Nama Perwakilan Desa
                     </label>
                     <input
                         id="nama_pj_darurat"
@@ -178,7 +178,7 @@
 
                 <div>
                     <label for="no_wa_darurat" class="block text-[10px] font-semibold text-[#475467] mb-1">
-                        No. WhatsApp Darurat
+                        No. WhatsApp Perwakilan Desa
                     </label>
                     <input
                         id="no_wa_darurat"

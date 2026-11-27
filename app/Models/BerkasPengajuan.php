@@ -37,7 +37,7 @@ class BerkasPengajuan extends Model
 
     public function getUrlAttribute(): string
     {
-        return Storage::url($this->path_file);
+        return url('/storage/' . ltrim($this->path_file, '/'));
     }
 
     public function humanFileSize(): string
