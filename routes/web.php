@@ -7,9 +7,11 @@ use App\Http\Controllers\Admin\DesaController;
 use App\Http\Controllers\Admin\PetaGisController;
 use App\Http\Controllers\CekKelayakanController;
 use App\Http\Controllers\PengajuanController;
+use App\Http\Controllers\PengumumanFeedController;
 use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\BerandaDesaController;
+use App\Http\Controllers\DesaWeatherController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DashboardChartController;
 use App\Http\Controllers\Admin\PengumumanController;
@@ -31,6 +33,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/peta-gis/data', [PetaGisController::class, 'data'])->name('peta.data');
+Route::get('/pengumuman', [PengumumanFeedController::class, 'index'])->name('pengumuman.public');
 
 // Fitur F-04: Verifikasi Pengajuan (BPBD Purbalingga)
 Route::middleware(['auth', 'role:bpbd'])->prefix('verifikasi')->name('verifikasi.')->group(function () {
@@ -83,6 +86,7 @@ Route::get('/pengajuan/create', [PengajuanController::class, 'create'])->name('p
 Route::middleware(['auth', 'onboarding', 'role:desa'])->group(function () {
     Route::prefix('desa')->name('desa.')->group(function () {
         Route::get('/dashboard', [BerandaDesaController::class, 'index'])->name('dashboard');
+        Route::get('/cuaca', DesaWeatherController::class)->name('weather');
         Route::get('/profil', [BerandaDesaController::class, 'editProfile'])->name('profile.edit');
         Route::put('/profil', [BerandaDesaController::class, 'updateProfile'])->name('profile.update');
     });
@@ -116,8 +120,10 @@ Route::middleware(['auth', 'onboarding', 'role:bpbd'])->prefix('admin')->name('a
     Route::resource('desa', DesaController::class)->only(['index', 'show', 'edit', 'update']);
     Route::get('/dashboard/chart-data', [DashboardChartController::class, 'index'])
         ->name('dashboard.chart-data');
+    Route::get('/dashboard/chart-trend', [DashboardChartController::class, 'trend'])
+        ->name('dashboard.chart-trend');
     Route::resource('pengumuman', PengumumanController::class)
-    ->only(['index', 'create', 'store', 'edit', 'update']);
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     Route::patch(
         'pengumuman/{pengumuman}/toggle-aktif',
         [PengumumanController::class, 'toggleAktif']
